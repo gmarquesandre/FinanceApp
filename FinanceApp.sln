@@ -5,13 +5,17 @@ VisualStudioVersion = 17.1.32421.90
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinanceApp.Api", "FinanceApp\FinanceApp.Api.csproj", "{39ED58ED-733D-4D52-8985-592D8277B5FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceApp.EntityFramework", "FinanceApp.EntityFramework\FinanceApp.EntityFramework.csproj", "{3488E517-1A54-48BD-82A6-D75B0B053687}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinanceApp.EntityFramework", "FinanceApp.EntityFramework\FinanceApp.EntityFramework.csproj", "{3488E517-1A54-48BD-82A6-D75B0B053687}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceApp.Shared", "FinanceApp.Shared\FinanceApp.Shared.csproj", "{289D4B2F-BD14-46C9-892D-5C1D11436E40}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinanceApp.Shared", "FinanceApp.Shared\FinanceApp.Shared.csproj", "{289D4B2F-BD14-46C9-892D-5C1D11436E40}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceApp.Worker", "FinanceApp.Worker\FinanceApp.Worker.csproj", "{287F14D8-E182-4613-AE6E-FA7D360E4777}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinanceApp.Worker", "FinanceApp.Worker\FinanceApp.Worker.csproj", "{287F14D8-E182-4613-AE6E-FA7D360E4777}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceApp.Core", "FinanceApp.Core\FinanceApp.Core.csproj", "{7FDF2909-62AE-44AF-A5E0-E68D72B5E9D6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinanceApp.Core", "FinanceApp.Core\FinanceApp.Core.csproj", "{7FDF2909-62AE-44AF-A5E0-E68D72B5E9D6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceApp.Tests", "TestProject1\FinanceApp.Tests.csproj", "{FE2FEF14-AE9F-4782-8D8E-344FC2441175}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{CBD2DBC3-E7E2-4A91-ADCE-1304A7ADD04A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,9 +43,16 @@ Global
 		{7FDF2909-62AE-44AF-A5E0-E68D72B5E9D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7FDF2909-62AE-44AF-A5E0-E68D72B5E9D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7FDF2909-62AE-44AF-A5E0-E68D72B5E9D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE2FEF14-AE9F-4782-8D8E-344FC2441175}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE2FEF14-AE9F-4782-8D8E-344FC2441175}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE2FEF14-AE9F-4782-8D8E-344FC2441175}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE2FEF14-AE9F-4782-8D8E-344FC2441175}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FE2FEF14-AE9F-4782-8D8E-344FC2441175} = {CBD2DBC3-E7E2-4A91-ADCE-1304A7ADD04A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {58BAD347-29EE-4771-93E4-2728146CD09E}
