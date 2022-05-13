@@ -5,6 +5,14 @@ VisualStudioVersion = 17.1.32421.90
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinanceApp.Api", "FinanceApp\FinanceApp.Api.csproj", "{39ED58ED-733D-4D52-8985-592D8277B5FA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceApp.EntityFramework", "FinanceApp.EntityFramework\FinanceApp.EntityFramework.csproj", "{3488E517-1A54-48BD-82A6-D75B0B053687}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceApp.Shared", "FinanceApp.Shared\FinanceApp.Shared.csproj", "{289D4B2F-BD14-46C9-892D-5C1D11436E40}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceApp.Worker", "FinanceApp.Worker\FinanceApp.Worker.csproj", "{287F14D8-E182-4613-AE6E-FA7D360E4777}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceApp.Core", "FinanceApp.Core\FinanceApp.Core.csproj", "{7FDF2909-62AE-44AF-A5E0-E68D72B5E9D6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +23,22 @@ Global
 		{39ED58ED-733D-4D52-8985-592D8277B5FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{39ED58ED-733D-4D52-8985-592D8277B5FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{39ED58ED-733D-4D52-8985-592D8277B5FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3488E517-1A54-48BD-82A6-D75B0B053687}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3488E517-1A54-48BD-82A6-D75B0B053687}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3488E517-1A54-48BD-82A6-D75B0B053687}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3488E517-1A54-48BD-82A6-D75B0B053687}.Release|Any CPU.Build.0 = Release|Any CPU
+		{289D4B2F-BD14-46C9-892D-5C1D11436E40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{289D4B2F-BD14-46C9-892D-5C1D11436E40}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{289D4B2F-BD14-46C9-892D-5C1D11436E40}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{289D4B2F-BD14-46C9-892D-5C1D11436E40}.Release|Any CPU.Build.0 = Release|Any CPU
+		{287F14D8-E182-4613-AE6E-FA7D360E4777}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{287F14D8-E182-4613-AE6E-FA7D360E4777}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{287F14D8-E182-4613-AE6E-FA7D360E4777}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{287F14D8-E182-4613-AE6E-FA7D360E4777}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FDF2909-62AE-44AF-A5E0-E68D72B5E9D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FDF2909-62AE-44AF-A5E0-E68D72B5E9D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FDF2909-62AE-44AF-A5E0-E68D72B5E9D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FDF2909-62AE-44AF-A5E0-E68D72B5E9D6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

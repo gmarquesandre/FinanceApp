@@ -1,0 +1,2 @@
+"C:\Users\gmarq\AppData\Local\Programs\Python\Python39\python.exe" "C:\Users\gmarq\Desktop\Finance_app\financial_app\data\arquivo_acoes.py"
+pause
