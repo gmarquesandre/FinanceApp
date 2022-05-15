@@ -10,6 +10,10 @@ namespace FinancialApi.WebAPI.Data
         {
 
         }
+        public FinanceContext()
+        {
+
+        }
 
         public DbSet<IndexValue> IndexValues { get; set; }
         public DbSet<InvestmentFundValue> InvestmentFundValues { get; set; }
@@ -66,9 +70,14 @@ namespace FinancialApi.WebAPI.Data
                 .HasIndex(p => new { p.CodeISIN, p.Date })
                 .IsUnique(true);
 
+        }
 
 
-        }     
+        protected override void OnConfiguring(DbContextOptionsBuilder options)
+        {
+
+            options.UseSqlServer("Server=localhost;Initial Catalog=FinanceDb;Trusted_Connection=True;");
+        }
 
     }
 }
