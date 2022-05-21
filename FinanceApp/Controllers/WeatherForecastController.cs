@@ -85,12 +85,12 @@ namespace FinancialAPI.Controllers
             return Ok(values);
         }
 
-        [HttpGet("mvp/GetIndex")]
-        public ActionResult GetIndex(string indexName, DateTime minDate, DateTime maxDate)
-        {
-            var values = _context.IndexValues.Where(a => a.IndexName == indexName && a.Date >= minDate && a.Date <= maxDate).ToList();
-            return Ok(values);
-        }
+        //[HttpGet("mvp/GetIndex")]
+        //public ActionResult GetIndex(string indexName, DateTime minDate, DateTime maxDate)
+        //{
+        //    var values = _context.IndexValues.Where(a => a.IndexName == indexName && a.Date >= minDate && a.Date <= maxDate).ToList();
+        //    return Ok(values);
+        //}
 
         [HttpGet("mvp/GetHolidays")]
         public ActionResult GetHolidays(DateTime? lastUpdateDate)

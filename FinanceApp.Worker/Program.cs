@@ -5,5 +5,9 @@ Console.WriteLine("Hello, World!");
 
 
 
-var test = new AssetImporter();
-await test.GetAssets(new DateTime(2022,05,12));
+//var test = new AssetImporter();
+//await test.GetAssets(new DateTime(2022,05,13));
+
+var teste = new IndexImporter();
+await teste.ImportIndexes();
+

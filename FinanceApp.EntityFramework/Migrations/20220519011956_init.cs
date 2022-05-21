@@ -13,15 +13,19 @@ namespace FinanceApp.EntityFramework.Migrations
                 name: "Assets",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     AssetCodeISIN = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    AssetCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AssetCode = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    TypeAsset = table.Column<int>(type: "int", nullable: false),
                     CompanyName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UnitPrice = table.Column<double>(type: "float", nullable: false),
-                    DateLastUpdate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    UnitPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    OpeningPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Assets", x => x.AssetCodeISIN);
+                    table.PrimaryKey("PK_Assets", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -63,8 +67,9 @@ namespace FinanceApp.EntityFramework.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    IndexName = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Index = table.Column<int>(type: "int", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateEnd = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Value = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
@@ -193,7 +198,7 @@ namespace FinanceApp.EntityFramework.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    AssetCodeISIN = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    AssetId = table.Column<int>(type: "int", nullable: false),
                     Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DeclarationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ExDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -206,10 +211,10 @@ namespace FinanceApp.EntityFramework.Migrations
                 {
                     table.PrimaryKey("PK_AssetChanges", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AssetChanges_Assets_AssetCodeISIN",
-                        column: x => x.AssetCodeISIN,
+                        name: "FK_AssetChanges_Assets_AssetId",
+                        column: x => x.AssetId,
                         principalTable: "Assets",
-                        principalColumn: "AssetCodeISIN",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -219,7 +224,7 @@ namespace FinanceApp.EntityFramework.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    AssetCodeISIN = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    AssetId = table.Column<int>(type: "int", nullable: false),
                     Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DeclarationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ExDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -233,17 +238,17 @@ namespace FinanceApp.EntityFramework.Migrations
                 {
                     table.PrimaryKey("PK_AssetEarnings", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AssetEarnings_Assets_AssetCodeISIN",
-                        column: x => x.AssetCodeISIN,
+                        name: "FK_AssetEarnings_Assets_AssetId",
+                        column: x => x.AssetId,
                         principalTable: "Assets",
-                        principalColumn: "AssetCodeISIN",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_AssetChanges_AssetCodeISIN",
+                name: "IX_AssetChanges_AssetId",
                 table: "AssetChanges",
-                column: "AssetCodeISIN");
+                column: "AssetId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AssetChanges_Hash",
@@ -252,9 +257,9 @@ namespace FinanceApp.EntityFramework.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_AssetEarnings_AssetCodeISIN",
+                name: "IX_AssetEarnings_AssetId",
                 table: "AssetEarnings",
-                column: "AssetCodeISIN");
+                column: "AssetId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AssetEarnings_Hash",
@@ -263,9 +268,9 @@ namespace FinanceApp.EntityFramework.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Assets_AssetCodeISIN",
+                name: "IX_Assets_AssetCodeISIN_Date_AssetCode",
                 table: "Assets",
-                column: "AssetCodeISIN",
+                columns: new[] { "AssetCodeISIN", "Date", "AssetCode" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -281,9 +286,9 @@ namespace FinanceApp.EntityFramework.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_IndexValues_Date_IndexName",
+                name: "IX_IndexValues_Date_DateEnd_Index",
                 table: "IndexValues",
-                columns: new[] { "Date", "IndexName" },
+                columns: new[] { "Date", "DateEnd", "Index" },
                 unique: true);
 
             migrationBuilder.CreateIndex(

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinanceApp.EntityFramework.Migrations
 {
     [DbContext(typeof(FinanceContext))]
-    [Migration("20220514005332_init")]
+    [Migration("20220519011956_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,26 +26,39 @@ namespace FinanceApp.EntityFramework.Migrations
 
             modelBuilder.Entity("FinancialAPI.Data.Asset", b =>
                 {
-                    b.Property<string>("AssetCodeISIN")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("AssetCode")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("AssetCodeISIN")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("CompanyName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("DateLastUpdate")
+                    b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<double>("UnitPrice")
-                        .HasColumnType("float");
+                    b.Property<decimal>("OpeningPrice")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.HasKey("AssetCodeISIN");
+                    b.Property<int>("TypeAsset")
+                        .HasColumnType("int");
 
-                    b.HasIndex("AssetCodeISIN")
+                    b.Property<decimal>("UnitPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AssetCodeISIN", "Date", "AssetCode")
                         .IsUnique();
 
                     b.ToTable("Assets");
@@ -59,9 +72,8 @@ namespace FinanceApp.EntityFramework.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("AssetCodeISIN")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("AssetId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("DeclarationDate")
                         .HasColumnType("datetime2");
@@ -90,7 +102,7 @@ namespace FinanceApp.EntityFramework.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AssetCodeISIN");
+                    b.HasIndex("AssetId");
 
                     b.HasIndex("Hash")
                         .IsUnique();
@@ -106,9 +118,8 @@ namespace FinanceApp.EntityFramework.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("AssetCodeISIN")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("AssetId")
+                        .HasColumnType("int");
 
                     b.Property<double>("CashAmount")
                         .HasColumnType("float");
@@ -140,7 +151,7 @@ namespace FinanceApp.EntityFramework.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AssetCodeISIN");
+                    b.HasIndex("AssetId");
 
                     b.HasIndex("Hash")
                         .IsUnique();
@@ -223,16 +234,18 @@ namespace FinanceApp.EntityFramework.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("IndexName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<DateTime>("DateEnd")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Index")
+                        .HasColumnType("int");
 
                     b.Property<double>("Value")
                         .HasColumnType("float");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Date", "IndexName")
+                    b.HasIndex("Date", "DateEnd", "Index")
                         .IsUnique();
 
                     b.ToTable("IndexValues");
@@ -471,7 +484,7 @@ namespace FinanceApp.EntityFramework.Migrations
                 {
                     b.HasOne("FinancialAPI.Data.Asset", "Asset")
                         .WithMany()
-                        .HasForeignKey("AssetCodeISIN")
+                        .HasForeignKey("AssetId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -482,7 +495,7 @@ namespace FinanceApp.EntityFramework.Migrations
                 {
                     b.HasOne("FinancialAPI.Data.Asset", "Asset")
                         .WithMany()
-                        .HasForeignKey("AssetCodeISIN")
+                        .HasForeignKey("AssetId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

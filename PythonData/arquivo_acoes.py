@@ -60,6 +60,8 @@ elif datetime.today().weekday() == 6:
 
 today = (datetime.today()- timedelta(days = deltaDays)).strftime('%d%m%Y')
 
+today = '13052022'
+
 
 file = requests.get(f"https://bvmf.bmfbovespa.com.br/InstDados/SerHist/COTAHIST_D{today}.ZIP", stream = True, verify=False)
 
@@ -72,10 +74,13 @@ else:
     df = pd.read_csv(io.BytesIO(file.content), compression = 'zip', encoding ='Latin-1')
     df = extrai_dados_bovespa(df)
     #Tabela do ultimo preço negociado
-    df = df[(df['tipo_mercado'] == '010')][['data','cod_negociacao_papel','preco_ultimo_negocio','codigo_acao_isin','especificacao_papel','nome_resumido_empresa']]
+    # df = df[['data','cod_negociacao_papel','preco_ultimo_negocio','codigo_acao_isin','especificacao_papel','nome_resumido_empresa']]
+    # df = df[(df['tipo_mercado'] == '010')][['data','cod_negociacao_papel','preco_ultimo_negocio','codigo_acao_isin','especificacao_papel','nome_resumido_empresa']]
     status = True
 
-
+print(df.shape)
+print(df.drop_duplicates().shape)
+print(df["codigo_acao_isin"].drop_duplicates().shape)
 if(status):
     df= df.rename(columns={"data":"DateLastUpdate", 
                             "cod_negociacao_papel": "AssetCode",
