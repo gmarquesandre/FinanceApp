@@ -17,7 +17,7 @@ namespace FinanceApp.Shared.Enum
         [EIndex(EIndex.IPCA)]
         NTNB = 2,
         
-        [Display(Name = "Tesouro IGPM")]
+        [Display(Name = "Tesouro IGPM+ Com Juros Semestrais")]
         [EIndex(EIndex.IGPM)]
         NTNC = 3,
         

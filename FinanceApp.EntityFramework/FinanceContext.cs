@@ -19,7 +19,7 @@ namespace FinancialApi.WebAPI.Data
         //public DbSet<InvestmentFundValue> InvestmentFundValues { get; set; }
         //public DbSet<InvestmentFundValueHistoric> InvestmentFundValueHistoric { get; set; }
         //public DbSet<Asset> Assets { get; set; }
-        //public DbSet<TreasuryBondValue> TreasuryBondValues { get; set; }
+        public DbSet<TreasuryBondValue> TreasuryBondValues { get; set; }
         //public DbSet<TreasuryBondValueHistoric> TreasuryBondValueHistoric { get; set; }
         public DbSet<ProspectIndexValue> ProspectIndexValues { get; set; }
         //public DbSet<AssetChange> AssetChanges { get; set; }
@@ -39,10 +39,16 @@ namespace FinancialApi.WebAPI.Data
                  .HasIndex(p => new { p.Year })
                  .IsUnique(true);
 
-            modelBuilder.Entity<TreasuryBondValue>()
-                 .HasIndex(p => new { p.Date, p.CodeISIN })
+
+            modelBuilder.Entity<Holiday>()
+                 .HasIndex(p => new { p.Date })
                  .IsUnique(true);
 
+
+
+            modelBuilder.Entity<TreasuryBondValue>()
+                 .HasIndex(p => new { p.Date, p.ExpirationDate, p.Type })
+                 .IsUnique(true);
 
         }
 

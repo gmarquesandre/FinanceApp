@@ -21,6 +21,12 @@ namespace FinanceApp.Core.Importers
             return httpClientHandler;
         }
 
+        public static int CheckIfFound(int value)
+        {
+            if (value < 0)
+                throw new Exception("Indice não encontrado");
+            return value;
+        }
 
         public byte[] StreamToByte(Stream input)
         {

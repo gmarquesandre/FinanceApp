@@ -7,7 +7,7 @@ import connectionSqlServer
 
 
 df_total= pd.DataFrame()
-for ano in range(2021, 2022):
+for ano in range(2020, 2022):
     for type in range(1,7):
         try:
             excel_file = pd.ExcelFile(f"https://apiapex.tesouro.gov.br/aria/v1/sistd/custom/historico?ano={ano}&idSigla={type}")  

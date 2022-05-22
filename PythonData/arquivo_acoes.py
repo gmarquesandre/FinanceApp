@@ -65,6 +65,8 @@ today = '13052022'
 
 file = requests.get(f"https://bvmf.bmfbovespa.com.br/InstDados/SerHist/COTAHIST_D{today}.ZIP", stream = True, verify=False)
 
+um teste rolando   
+aaaaaaafaaaaaaaaaaa
 
 if file.content == b'The resource you are looking for has been removed, had its name changed, or is temporarily unavailable.':
     print('Data Indisponivel')
