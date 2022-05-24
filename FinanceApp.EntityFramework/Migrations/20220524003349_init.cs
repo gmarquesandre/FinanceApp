@@ -45,7 +45,7 @@ namespace FinanceApp.EntityFramework.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    IndexName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Index = table.Column<int>(type: "int", nullable: false),
                     DateResearch = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DateStart = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DateEnd = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -106,6 +106,12 @@ namespace FinanceApp.EntityFramework.Migrations
                 name: "IX_IndexValues_Date_DateEnd_Index",
                 table: "IndexValues",
                 columns: new[] { "Date", "DateEnd", "Index" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProspectIndexValues_DateStart_DateEnd_Index_BaseCalculo",
+                table: "ProspectIndexValues",
+                columns: new[] { "DateStart", "DateEnd", "Index", "BaseCalculo" },
                 unique: true);
 
             migrationBuilder.CreateIndex(

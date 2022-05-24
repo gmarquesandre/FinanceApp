@@ -34,6 +34,10 @@ namespace FinancialApi.WebAPI.Data
                .HasIndex(p => new { p.Date, p.DateEnd, p.Index})
                .IsUnique(true);
 
+            modelBuilder.Entity<ProspectIndexValue>()
+               .HasIndex(p => new { p.DateStart, p.DateEnd, p.Index, p.BaseCalculo })
+               .IsUnique(true);
+
 
             modelBuilder.Entity<WorkingDaysByYear>()
                  .HasIndex(p => new { p.Year })

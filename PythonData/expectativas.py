@@ -1,6 +1,6 @@
 import urllib.request, json 
 import pandas as pd
-import numpy as np
+# import numpy as np
 from pandas.io.json import json_normalize
 from datetime import datetime
 import connectionSqlServer
@@ -135,24 +135,24 @@ monthly_data_df["DateEnd"] = monthly_data_df["DateEnd"].fillna(datetime(today.ye
 
 ###############################################################################################################################
 
-import pypyodbc 
-import connectionSqlServer
-conn = pypyodbc.connect(connectionSqlServer.getConnectionString())
+# import pypyodbc 
+# import connectionSqlServer
+# conn = pypyodbc.connect(connectionSqlServer.getConnectionString())
 
-cursor = conn.cursor()
+# cursor = conn.cursor()
 
-cursor.execute('DELETE FROM dbo.ProspectIndexValues')
-conn.commit()
+# cursor.execute('DELETE FROM dbo.ProspectIndexValues')
+# conn.commit()
 
-for index, row in monthly_data_df.iterrows():
+# for index, row in monthly_data_df.iterrows():
 
-    query = f'''INSERT INTO 
-                dbo.ProspectIndexValues(IndexName, DateResearch, DateStart, DateEnd, Median, Average, Min, Max, ResearchAnswers, BaseCalculo, DateLastUpdate )
-                VALUES ('{row['IndexName']}', '{row['DateResearch']}','{row['DateStart']}','{row['DateEnd']}',{row['Median']},{row['Average']},{row['Min']},{row['Max']},{row['ResearchAnswers']},{row['BaseCalculo']}, '{row['DateLastUpdate']}');'''
+#     query = f'''INSERT INTO 
+#                 dbo.ProspectIndexValues(IndexName, DateResearch, DateStart, DateEnd, Median, Average, Min, Max, ResearchAnswers, BaseCalculo, DateLastUpdate )
+#                 VALUES ('{row['IndexName']}', '{row['DateResearch']}','{row['DateStart']}','{row['DateEnd']}',{row['Median']},{row['Average']},{row['Min']},{row['Max']},{row['ResearchAnswers']},{row['BaseCalculo']}, '{row['DateLastUpdate']}');'''
 
-    cursor.execute(query)
+#     cursor.execute(query)
 
-conn.commit()
+# conn.commit()
     
 
 print("Fim atualização tabela de expectativas")

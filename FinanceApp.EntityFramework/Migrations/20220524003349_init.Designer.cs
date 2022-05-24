@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinanceApp.EntityFramework.Migrations
 {
     [DbContext(typeof(FinanceContext))]
-    [Migration("20220522125114_init")]
+    [Migration("20220524003349_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -100,9 +100,8 @@ namespace FinanceApp.EntityFramework.Migrations
                     b.Property<DateTime>("DateStart")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("IndexName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Index")
+                        .HasColumnType("int");
 
                     b.Property<double>("Max")
                         .HasColumnType("float");
@@ -117,6 +116,9 @@ namespace FinanceApp.EntityFramework.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DateStart", "DateEnd", "Index", "BaseCalculo")
+                        .IsUnique();
 
                     b.ToTable("ProspectIndexValues");
                 });

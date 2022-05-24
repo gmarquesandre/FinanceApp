@@ -7,5 +7,5 @@ using FinanceApp.Core.Importers;
 //var teste = new IndexImporter();
 //await teste.ImportIndexes();
 
-var teste = new TreasuryBondImporter();
-await teste.GetTreasury();
+var teste = new IndexProspectImporter();
+await teste.ImportIndexes();

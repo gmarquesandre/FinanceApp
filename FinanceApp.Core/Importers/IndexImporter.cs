@@ -50,8 +50,6 @@ namespace FinanceApp.Core.Importers
 
         private async Task InsertOrUpdateIndex(List<IndexValue> itens)
         {
-
-            itens = itens.Where(a => a.Date >= new DateTime(2010, 1, 1)).ToList();
             EIndex index = itens.First().Index;
 
             var allValuesThisIndex = _context.IndexValues.Where(a => a.Index == index).ToList();

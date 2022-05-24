@@ -98,9 +98,8 @@ namespace FinanceApp.EntityFramework.Migrations
                     b.Property<DateTime>("DateStart")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("IndexName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Index")
+                        .HasColumnType("int");
 
                     b.Property<double>("Max")
                         .HasColumnType("float");
@@ -115,6 +114,9 @@ namespace FinanceApp.EntityFramework.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DateStart", "DateEnd", "Index", "BaseCalculo")
+                        .IsUnique();
 
                     b.ToTable("ProspectIndexValues");
                 });

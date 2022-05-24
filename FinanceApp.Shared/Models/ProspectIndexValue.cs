@@ -1,4 +1,6 @@
-﻿using System;
+﻿using FinanceApp.Shared.Enum;
+using Newtonsoft.Json;
+using System;
 using System.ComponentModel.DataAnnotations;
 namespace FinancialAPI.Data
 {
@@ -6,7 +8,7 @@ namespace FinancialAPI.Data
     {
         [Key]
         public int Id { get; set; }
-        public string IndexName { get; set; }
+        public EIndex Index { get; set; }
         public DateTime DateResearch { get; set; }
         public DateTime DateStart { get; set; }
         public DateTime DateEnd{ get; set; }
@@ -18,4 +20,5 @@ namespace FinancialAPI.Data
         public int BaseCalculo { get; set; }
         public DateTime DateLastUpdate { get; set; }
     }
+
 }
