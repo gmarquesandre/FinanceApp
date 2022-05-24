@@ -7,5 +7,5 @@ using FinanceApp.Core.Importers;
 //var teste = new IndexImporter();
 //await teste.ImportIndexes();
 
-var teste = new HolidaysImporter();
-await teste.ImportHolidays();
+var teste = new WorkingDaysImporter();
+await teste.ImportWorkingDays();

@@ -47,6 +47,10 @@ namespace FinanceApp.Core.Importers
                             Date = DateTime.ParseExact(match.Value.ToString(), "d/M/yy", CultureInfo.InvariantCulture),
                             DateLastUpdate = dateUpdate
                         };
+                        //o ParseExact converte ano de 2 digitos apenas para para anos anteriores a 2029
+                        if (newHoliday.Date.Year < 2000)
+                            newHoliday.Date = new DateTime(newHoliday.Date.Year + 100, newHoliday.Date.Month, newHoliday.Date.Day);
+
                         holidays.Add(newHoliday);
                     }
 
