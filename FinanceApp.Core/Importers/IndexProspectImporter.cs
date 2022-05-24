@@ -13,16 +13,7 @@ namespace FinanceApp.Core.Importers
         private HttpClient _client;
 
         private HttpClientHandler _handler;
-
-        private Dictionary<EIndex, string> Indexes = new()
-        {
-            { EIndex.IPCA, "433" },
-            { EIndex.IGPM, "189" },
-            { EIndex.Selic, "11" },
-            { EIndex.CDI, "12" },
-            { EIndex.Poupanca, "196" },
-            { EIndex.TR, "226" },
-        };
+     
         public async Task ImportIndexes()
         {
             _handler = SetDefaultHttpHandler();
