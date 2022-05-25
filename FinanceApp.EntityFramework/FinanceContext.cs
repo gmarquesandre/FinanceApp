@@ -16,17 +16,10 @@ namespace FinancialApi.WebAPI.Data
         }
 
         public DbSet<IndexValue> IndexValues { get; set; }
-        //public DbSet<InvestmentFundValue> InvestmentFundValues { get; set; }
-        //public DbSet<InvestmentFundValueHistoric> InvestmentFundValueHistoric { get; set; }
-        //public DbSet<Asset> Assets { get; set; }
         public DbSet<TreasuryBondValue> TreasuryBondValues { get; set; }
-        //public DbSet<TreasuryBondValueHistoric> TreasuryBondValueHistoric { get; set; }
         public DbSet<ProspectIndexValue> ProspectIndexValues { get; set; }
-        //public DbSet<AssetChange> AssetChanges { get; set; }
-        //public DbSet<AssetEarning> AssetEarnings { get; set; }
         public DbSet<Holiday> Holidays{ get; set; }
         public DbSet<WorkingDaysByYear> WorkingDaysByYear { get; set; }
-        //public DbSet<IndexLastValue> IndexLastValues { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {                       
