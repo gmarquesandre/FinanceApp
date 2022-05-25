@@ -1,6 +1,4 @@
 ﻿using FinanceApp.Shared.Enum;
-using Newtonsoft.Json;
-using System;
 using System.ComponentModel.DataAnnotations;
 namespace FinancialAPI.Data
 {

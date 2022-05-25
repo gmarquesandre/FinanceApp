@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace UsuariosApi.Models
+﻿namespace FinanceApp.Shared.Models
 {
     public class Usuario
     {

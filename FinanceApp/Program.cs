@@ -1,11 +1,14 @@
 
+using FinanceApp.Core.Services;
 using FinanceApp.EntityFramework.Auth;
 using FinancialApi.WebAPI.Data;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Text;
 using UsuariosApi.Models;
-using UsuariosApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +16,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 builder.Services.AddScoped<CadastroService, CadastroService>();
+builder.Services.AddScoped<LoginService, LoginService>();
+builder.Services.AddScoped<TokenService, TokenService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddControllersWithViews()
@@ -36,6 +41,26 @@ builder.Services.AddIdentity<CustomIdentityUser, IdentityRole<int>>(opt =>
     })
     .AddEntityFrameworkStores<UserDbContext>()
     .AddDefaultTokenProviders();
+
+builder.Services.AddAuthentication(auth =>
+{
+    auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    auth.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+           .AddJwtBearer(token =>
+           {
+               token.RequireHttpsMetadata = false;
+               token.SaveToken = true;
+               token.TokenValidationParameters = new TokenValidationParameters
+               {
+                   ValidateIssuerSigningKey = true,
+                   IssuerSigningKey = new SymmetricSecurityKey(
+               Encoding.UTF8.GetBytes("0asdjas09djsa09djasdjsadajsd09asjd09sajcnzxn")),
+                   ValidateIssuer = false,
+                   ValidateAudience = false,
+                   ClockSkew = TimeSpan.Zero
+               };
+           });
 
 
 

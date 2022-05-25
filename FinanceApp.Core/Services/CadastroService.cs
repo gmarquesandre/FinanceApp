@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
+using FinanceApp.Shared.Models;
 using FluentResults;
 using Microsoft.AspNetCore.Identity;
 using UsuariosApi.Data.Dtos.Usuario;
 using UsuariosApi.Models;
 
-namespace UsuariosApi.Services
+namespace FinanceApp.Core.Services
 {
     public class CadastroService
     {
@@ -26,10 +27,15 @@ namespace UsuariosApi.Services
         public async Task<Result> CadastraUsuario(CreateUsuarioDto createDto)
         {
             Usuario usuario = _mapper.Map<Usuario>(createDto);
+
             CustomIdentityUser usuarioIdentity = _mapper.Map<CustomIdentityUser>(usuario);
+
             IdentityResult resultadoIdentity = await _userManager
                 .CreateAsync(usuarioIdentity, createDto.Password);
-            _userManager.AddToRoleAsync(usuarioIdentity, "regular");
+
+            await _userManager.AddToRoleAsync(usuarioIdentity, "regular");
+
+
             if (resultadoIdentity.Succeeded)
             {
                 var code = await _userManager

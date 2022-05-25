@@ -1,9 +1,9 @@
-﻿using FluentResults;
+﻿using FinanceApp.Core.Services;
+using FluentResults;
 using Microsoft.AspNetCore.Mvc;
 using UsuariosApi.Data.Dtos.Usuario;
-using UsuariosApi.Services;
 
-namespace UsuariosApi.Controllers
+namespace FinanceApp.Api.Controllers
 {
     [Route("[controller]")]
     [ApiController]

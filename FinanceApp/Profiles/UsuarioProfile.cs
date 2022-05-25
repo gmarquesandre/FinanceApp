@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FinanceApp.Shared.Models;
 using Microsoft.AspNetCore.Identity;
 using UsuariosApi.Data.Dtos.Usuario;
 using UsuariosApi.Models;
