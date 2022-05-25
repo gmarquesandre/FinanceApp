@@ -50,14 +50,14 @@ namespace FinanceApp.Core.Services
             return Result.Fail("Houve um erro na opera��o");
         }
 
-        public Result SolicitaResetSenhaUsuario(SolicitaResetDto request)
+        public async Task<Result> SolicitaResetSenhaUsuarioAsync(SolicitaResetDto request)
         {
             CustomIdentityUser identityUser = RecuperaUsuarioPorEmail(request.Email);
 
             if (identityUser != null)
             {
-                string codigoDeRecuperacao = _signInManager
-                    .UserManager.GeneratePasswordResetTokenAsync(identityUser).Result;
+                string codigoDeRecuperacao = await _signInManager
+                    .UserManager.GeneratePasswordResetTokenAsync(identityUser);
                 return Result.Ok().WithSuccess(codigoDeRecuperacao);
             }
 
