@@ -1,4 +1,5 @@
-﻿using FinancialAPI.Data;
+﻿using FinancialApi.WebAPI.Data;
+using FinancialAPI.Data;
 using System.Globalization;
 using System.Net;
 using System.Text.RegularExpressions;
@@ -13,6 +14,10 @@ namespace FinanceApp.Core.Importers
 
         private Regex _dateRegex = new("[0-9]{1,2}/[0-9]{1,2}/[0-9]{2}");
 
+        public HolidaysImporter(FinanceContext context) : base(context)
+        {
+
+        }
 
         public async Task ImportHolidays()
         {

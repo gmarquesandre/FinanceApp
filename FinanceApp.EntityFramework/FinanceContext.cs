@@ -9,11 +9,7 @@ namespace FinancialApi.WebAPI.Data
         public FinanceContext(DbContextOptions<FinanceContext> options) : base(options)
         {
 
-        }
-        public FinanceContext()
-        {
-
-        }
+        }       
 
         public DbSet<IndexValue> IndexValues { get; set; }
         public DbSet<TreasuryBondValue> TreasuryBondValues { get; set; }
@@ -47,14 +43,7 @@ namespace FinancialApi.WebAPI.Data
                  .HasIndex(p => new { p.Date, p.ExpirationDate, p.Type })
                  .IsUnique(true);
 
-        }
-
-
-        protected override void OnConfiguring(DbContextOptionsBuilder options)
-        {
-
-            options.UseSqlServer("Server=localhost;Initial Catalog=FinanceDb;Trusted_Connection=True;");
-        }
+        }        
 
     }
 }

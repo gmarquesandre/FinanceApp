@@ -1,5 +1,6 @@
 ﻿using FinanceApp.Shared;
 using FinanceApp.Shared.Enum;
+using FinancialApi.WebAPI.Data;
 using FinancialAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
@@ -13,7 +14,12 @@ namespace FinanceApp.Core.Importers
         private HttpClient _client;
 
         private HttpClientHandler _handler;
-     
+
+        public IndexProspectImporter(FinanceContext context) : base(context)
+        {
+
+        }
+
         public async Task ImportIndexes()
         {
             _handler = SetDefaultHttpHandler();

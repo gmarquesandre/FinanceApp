@@ -1,11 +1,19 @@
-﻿using FinancialAPI.Data;
+﻿using FinancialApi.WebAPI.Data;
+using FinancialAPI.Data;
 
 namespace FinanceApp.Core.Importers
 {
     public class WorkingDaysImporter : ImporterBase
     {
 
-        public HolidaysImporter holidaysImporter = new();
+
+
+        public WorkingDaysImporter(FinanceContext context) : base(context)
+        {
+
+        }
+
+
         public int GetWorkingDays(DateTime from, DateTime to)
         {
             var dayDifference = (int)to.Subtract(from).TotalDays;
@@ -23,8 +31,11 @@ namespace FinanceApp.Core.Importers
 
             List<DateTime> holidays = _context.Holidays.ToList().Select(a => a.Date).ToList();
 
-            if(!holidays.Any())  
+            if(!holidays.Any())
+            {
+                HolidaysImporter holidaysImporter = new(_context);
                 await holidaysImporter.ImportHolidays();
+            }
 
             List<int> years = holidays.Select(a => a.Year).Distinct().ToList();
 

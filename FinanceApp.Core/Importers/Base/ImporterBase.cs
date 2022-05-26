@@ -7,9 +7,14 @@ namespace FinanceApp.Core.Importers
     public class ImporterBase
     {
 
-        public FinanceContext _context = new();
+        public FinanceContext _context;
 
         public CultureInfo _cultureInfoPtBr = new("pt-br");
+
+        public ImporterBase(FinanceContext context)
+        {
+            _context = context;
+        }
 
         public static HttpClientHandler SetDefaultHttpHandler(bool useProxy = false)
         {

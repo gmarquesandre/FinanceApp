@@ -1,4 +1,5 @@
 ﻿using FinanceApp.Shared.Enum;
+using FinancialApi.WebAPI.Data;
 using FinancialAPI.Data;
 using System.Text;
 
@@ -10,7 +11,7 @@ namespace FinanceApp.Core.Importers
 
         private HttpClientHandler _handler;
 
-        private Dictionary<EIndex, string> Indexes = new()
+        public Dictionary<EIndex, string> Indexes = new()
         {
             { EIndex.IPCA, "433" },
             { EIndex.IGPM, "189" },
@@ -19,6 +20,9 @@ namespace FinanceApp.Core.Importers
             { EIndex.Poupanca, "196" },
             { EIndex.TR, "226" },
         };
+
+        public IndexImporter(FinanceContext context) : base(context) { }
+        
         public async Task ImportIndexes()
         {
             foreach (var index in Indexes)
@@ -88,8 +92,11 @@ namespace FinanceApp.Core.Importers
             List<string> header = itens.FirstOrDefault()!.Select(a => a.ToLower()).ToList();
 
             int dateIndex = CheckIfFound(header.IndexOf("\"data\""));
-            int dateEndIndex = CheckIfFound(header.IndexOf("\"datafim\""));
+            int dateEndIndex = header.IndexOf("\"datafim\"");
             int valueIndex = CheckIfFound(header.IndexOf("\"valor\""));
+
+            if (dateEndIndex < 0)
+                dateEndIndex = dateIndex;
 
             List<IndexValue> fundValueList = new();
 

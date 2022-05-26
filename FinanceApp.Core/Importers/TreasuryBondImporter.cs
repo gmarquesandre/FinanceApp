@@ -1,5 +1,6 @@
 ﻿using FinanceApp.Shared;
 using FinanceApp.Shared.Enum;
+using FinancialApi.WebAPI.Data;
 using FinancialAPI.Data;
 using System.Text;
 
@@ -9,6 +10,10 @@ namespace FinanceApp.Core.Importers
     {
         public HttpClient _client = new();
 
+        public TreasuryBondImporter(FinanceContext context): base(context)
+        {
+
+        }
 
         public async Task GetTreasury()
         {
