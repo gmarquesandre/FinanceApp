@@ -20,7 +20,7 @@ namespace FinanceApp.Tests
             var values = await dataContext.IndexValues.ToListAsync();
 
             Assert.True(values.Any());
-            Assert.True(values.Select(a=> a.Index).Distinct().Count() == indexImporter.Indexes.Count);
-        dataContext f}
+            Assert.True(values.Select(a=> a.Index).Distinct().Count() == indexImporter.Indexes.Count());
+        }
     }
 }
