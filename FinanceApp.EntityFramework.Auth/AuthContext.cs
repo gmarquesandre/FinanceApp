@@ -12,6 +12,11 @@ namespace FinanceApp.EntityFramework.Auth
         public UserDbContext(DbContextOptions<UserDbContext> opt) : base(opt)
         {
         }
+        public UserDbContext()
+        {
+        }
+
+        public DbSet<Teste> Testes { get; set; }
 
 
 

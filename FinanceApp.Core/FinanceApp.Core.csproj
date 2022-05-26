@@ -26,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FinanceApp.EntityFramework.Auth\FinanceApp.EntityFramework.Auth.csproj" />
     <ProjectReference Include="..\FinanceApp.EntityFramework\FinanceApp.EntityFramework.Data.csproj" />
   </ItemGroup>
 

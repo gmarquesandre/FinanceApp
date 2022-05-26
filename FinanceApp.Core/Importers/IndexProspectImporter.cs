@@ -119,14 +119,16 @@ namespace FinanceApp.Core.Importers
                 int reuniaoAno = Convert.ToInt16(reuniao.Substring(3, 4));
 
                 //Aproximação grosseira da data
-                DateTime dataReferencia = new DateTime(reuniaoAno, 1, 1).AddDays(reuniaoNumero * 45);
+                DateTime dateReferencia = new DateTime(reuniaoAno, 1, 1).AddDays(reuniaoNumero * 45);
+                DateTime dateEndReferencia = new DateTime(reuniaoAno, 1, 1).AddDays((reuniaoNumero+1) * 45 - 1);
 
                 try
                 {
                     listValues.Add(new ProspectIndexValue
                     {
-                        DateStart = dataReferencia,
+                        DateStart = dateReferencia,
                         DateResearch = DateTime.ParseExact(data, "yyyy-MM-dd", CultureInfo.InvariantCulture),
+                        DateEnd = dateEndReferencia,
                         DateLastUpdate = DateTime.Now,
                         Average = Convert.ToDouble(average, CultureInfo.InvariantCulture),
                         Max = Convert.ToDouble(max, CultureInfo.InvariantCulture),

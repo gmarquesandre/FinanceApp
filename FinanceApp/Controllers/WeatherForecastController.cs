@@ -22,7 +22,7 @@ namespace FinancialAPI.Controllers
             _context = context;
         }
 
-
+        [Authorize]
         [HttpGet("mvp/GetProspect")]
         public ActionResult GetProspect()
         {
