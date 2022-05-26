@@ -33,5 +33,6 @@ namespace FinanceApp.Core.Services
             var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
             return new Token(tokenString);
         }
+
     }
 }

@@ -15,6 +15,7 @@ namespace FinanceApp.Api.Controllers
         {
             _cadastroService = cadastroService;
         }
+      
 
         [HttpPost]
         public async Task<IActionResult> CadastraUsuarioAsync(CreateUsuarioDto createDto)

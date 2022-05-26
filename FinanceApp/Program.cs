@@ -39,6 +39,8 @@ builder.Services.AddIdentity<CustomIdentityUser, IdentityRole<int>>(opt =>
         //opt.SignIn.RequireConfirmedEmail = true;
         opt.User.RequireUniqueEmail = true;
     })
+    .AddSignInManager()
+  
     .AddEntityFrameworkStores<UserDbContext>()
     .AddDefaultTokenProviders();
 
@@ -54,15 +56,12 @@ builder.Services.AddAuthentication(auth =>
                token.TokenValidationParameters = new TokenValidationParameters
                {
                    ValidateIssuerSigningKey = true,
-                   IssuerSigningKey = new SymmetricSecurityKey(
-               Encoding.UTF8.GetBytes("0asdjas09djsa09djasdjsadajsd09asjd09sajcnzxn")),
+                   IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("0asdjas09djsa09djasdjsadajsd09asjd09sajcnzxn")),
                    ValidateIssuer = false,
                    ValidateAudience = false,
-                   ClockSkew = TimeSpan.Zero
+                   ClockSkew = TimeSpan.Zero,
                };
            });
-
-
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -90,6 +89,7 @@ app.UseSwagger();
 app.UseSwaggerUI();
 //}
 
+app.UseAuthentication(); 
 app.UseAuthorization();
 
 app.MapControllers();
