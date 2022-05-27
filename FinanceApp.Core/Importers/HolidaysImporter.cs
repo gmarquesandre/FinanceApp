@@ -71,7 +71,7 @@ namespace FinanceApp.Core.Importers
             //Remove duplicatas
             holidays = holidays.GroupBy(x => x.Date).Select(y => y.First()).ToList();
 
-            _context.Holidays.AddRange(holidays);
+            await _context.Holidays.AddRangeAsync(holidays);
 
             
             await _context.SaveChangesAsync();
