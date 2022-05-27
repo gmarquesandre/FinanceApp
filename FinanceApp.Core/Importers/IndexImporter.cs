@@ -23,7 +23,7 @@ namespace FinanceApp.Core.Importers
 
         public IndexImporter(FinanceContext context) : base(context) { }
         
-        public async Task ImportIndexes()
+        public async Task GetIndexes()
         {
             foreach (var index in Indexes)
             {

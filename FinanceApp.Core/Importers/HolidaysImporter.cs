@@ -19,7 +19,7 @@ namespace FinanceApp.Core.Importers
 
         }
 
-        public async Task ImportHolidays()
+        public async Task GetHolidays()
         {
             _handler = SetDefaultHttpHandler();
 
@@ -73,6 +73,7 @@ namespace FinanceApp.Core.Importers
 
             _context.Holidays.AddRange(holidays);
 
+            
             await _context.SaveChangesAsync();
         }
 

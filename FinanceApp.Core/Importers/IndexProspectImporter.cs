@@ -20,7 +20,7 @@ namespace FinanceApp.Core.Importers
 
         }
 
-        public async Task ImportIndexes()
+        public async Task GetProspectIndexes()
         {
             _handler = SetDefaultHttpHandler();
 

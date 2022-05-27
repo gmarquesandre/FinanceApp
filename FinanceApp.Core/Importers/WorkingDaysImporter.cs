@@ -14,7 +14,7 @@ namespace FinanceApp.Core.Importers
         }
 
 
-        public int GetWorkingDays(DateTime from, DateTime to)
+        public int GetWorkingDaysBetweenDates(DateTime from, DateTime to)
         {
             var dayDifference = (int)to.Subtract(from).TotalDays;
             return Enumerable
@@ -23,7 +23,7 @@ namespace FinanceApp.Core.Importers
                 .Count(x => x.DayOfWeek != DayOfWeek.Saturday && x.DayOfWeek != DayOfWeek.Sunday);
         }
 
-        public async Task ImportWorkingDays()
+        public async Task GetWorkingDays()
         {
 
 
@@ -34,7 +34,9 @@ namespace FinanceApp.Core.Importers
             if(!holidays.Any())
             {
                 HolidaysImporter holidaysImporter = new(_context);
-                await holidaysImporter.ImportHolidays();
+                await holidaysImporter.GetHolidays();
+                holidays = _context.Holidays.ToList().Select(a => a.Date).ToList();
+
             }
 
             List<int> years = holidays.Select(a => a.Year).Distinct().ToList();
@@ -52,7 +54,7 @@ namespace FinanceApp.Core.Importers
                 var firstDay = new DateTime(year, 1, 1);
                 var lastDay = new DateTime(year + 1, 1, 1).AddDays(-1);
 
-                int workingDays = GetWorkingDays(firstDay, lastDay) - validHolidaysYearCount;
+                int workingDays = GetWorkingDaysBetweenDates(firstDay, lastDay) - validHolidaysYearCount;
 
                 workingDaysByYearList.Add(new()
                 {
