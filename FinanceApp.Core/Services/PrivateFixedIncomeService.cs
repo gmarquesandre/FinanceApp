@@ -24,6 +24,8 @@ namespace FinanceApp.Core.Services
         {
             PrivateFixedIncome model = _mapper.Map<PrivateFixedIncome>(input);
 
+            CheckInvestment(model);
+
             if (model.PreFixedInvestment && model.Index != EIndex.Prefixado)
                 model.Index = EIndex.Prefixado;
 
@@ -45,6 +47,10 @@ namespace FinanceApp.Core.Services
             var model = _mapper.Map<PrivateFixedIncome>(input);
 
             model.User = user;
+            model.CreationDateTime = oldModel.CreationDateTime;
+            
+
+            CheckInvestment(model);
 
             if (model.PreFixedInvestment && model.Index != EIndex.Prefixado)
                 model.Index = EIndex.Prefixado;
@@ -53,6 +59,25 @@ namespace FinanceApp.Core.Services
             await _context.SaveChangesAsync();
             return Result.Ok().WithSuccess("Investimento atualizado com sucesso");
         }
+
+        private void CheckInvestment(PrivateFixedIncome model)
+        {
+            if (model.InvestmentDate > DateTime.Now.Date)
+            {
+                throw new Exception("A data de investimento não pode ser maior do que hoje");
+            }
+            else if (model.InvestmentDate >= model.ExpirationDate)
+            {
+                throw new Exception("A data de vencimento deve ser maior do que a de investimento ");
+            }
+            else if (model.ExpirationDate <= DateTime.Now.Date)
+            {
+                throw new Exception("A data de vencimento deve ser maior do que hoje");
+            }
+            
+
+        }
+
         public async Task<List<PrivateFixedIncomeDto>> GetAllFixedIncomeAsync(CustomIdentityUser user)
         {
             var values = await _context.PrivateFixedIncomes.Where(a => a.User.Id == user.Id).ToListAsync();

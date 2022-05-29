@@ -17,13 +17,14 @@ namespace FinanceApp.Shared.Dto
         [Required]
         public decimal IndexPercentage { get; set; }
         [Required]
-        public decimal? AdditionalFixedInterest { get; set; }
+        public decimal AdditionalFixedInterest { get; set; }
         [Required]
         public DateTime InvestmentDate { get; set; }
         [Required]
         public DateTime ExpirationDate { get; set; }
         [Required]
         public bool LiquidityOnExpiration { get; set; }
+        public DateTime CreationDateTime => DateTime.Now;
 
     }
 }

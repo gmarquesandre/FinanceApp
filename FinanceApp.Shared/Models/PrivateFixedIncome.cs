@@ -20,7 +20,8 @@ namespace FinanceApp.Shared.Models
         public bool PreFixedInvestment { get; set; }
         [Required]
         public decimal IndexPercentage { get; set; }
-        public decimal? AdditionalFixedInterest { get; set; }
+        [Required]
+        public decimal AdditionalFixedInterest { get; set; }
         [Required]
         public DateTime InvestmentDate { get; set; }
         [Required]
@@ -30,5 +31,7 @@ namespace FinanceApp.Shared.Models
         [Required]
         public int UserId { get; set; }
         public CustomIdentityUser User { get; set; }
+        public DateTime CreationDateTime { get; set; }
+        public DateTime? UpdateDateTime { get; set; }
     }
 }
