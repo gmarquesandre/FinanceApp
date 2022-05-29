@@ -30,4 +30,8 @@
     <ProjectReference Include="..\FinanceApp.EntityFramework\FinanceApp.EntityFramework.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\NewFolder\" />
+  </ItemGroup>
+
 </Project>

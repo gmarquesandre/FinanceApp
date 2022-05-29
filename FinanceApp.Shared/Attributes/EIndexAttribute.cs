@@ -4,10 +4,10 @@ using System;
 namespace FinanceApp.Shared.Attributes
 {
     [AttributeUsage(AttributeTargets.Field)]
-    public class EIndexAttribute : Attribute
+    public class IndexAttribute : Attribute
     {
         public EIndex Index;
-        public EIndexAttribute(EIndex index)
+        public IndexAttribute(EIndex index)
         {
             Index = index;
         }

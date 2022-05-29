@@ -7,26 +7,19 @@ namespace FinanceApp.Api.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class CadastroController : ControllerBase
+    public class UserRegisterController : ControllerBase
     {
-        private CadastroService _cadastroService;
+        private UserRegisterService _cadastroService;
 
-        public CadastroController(CadastroService cadastroService)
+        public UserRegisterController(UserRegisterService cadastroService)
         {
             _cadastroService = cadastroService;
         }
       
-        [HttpGet("/teste")]
-        public async Task<IActionResult> GetTeste()
-        {
-            
-            return Ok(await _cadastroService.GetTeste());
-
-        }
         [HttpPost]
         public async Task<IActionResult> CadastraUsuarioAsync(CreateUsuarioDto createDto)
         {
-            Result resultado = await _cadastroService.CadastraUsuario(createDto);
+            Result resultado = await _cadastroService.UserRegister(createDto);
             if (resultado.IsFailed) return StatusCode(500);
             return Ok(resultado.Successes);
         }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FinanceApp.EntityFramework.Auth;
+using FinanceApp.Shared.Enum;
 using FinanceApp.Shared.Models;
 using FluentResults;
 using Microsoft.AspNetCore.Identity;
@@ -8,43 +9,25 @@ using UsuariosApi.Models;
 
 namespace FinanceApp.Core.Services
 {
-    public class CadastroService
+    public class UserRegisterService
     {
 
         private IMapper _mapper;
         private UserManager<CustomIdentityUser> _userManager;
-        UserDbContext _teste;
+        private UserDbContext _teste;
         //private EmailService _emailService;
 
-        public CadastroService(IMapper mapper,
+        public UserRegisterService(IMapper mapper,
             UserManager<CustomIdentityUser> userManager,
-            UserDbContext teste,
-            //EmailService emailService, 
-            RoleManager<IdentityRole<int>> roleManager)
+            UserDbContext teste)
         {
             _mapper = mapper;
             _teste = teste;
             _userManager = userManager;
             //_emailService = emailService;
         }
-        public async Task<Teste> GetTeste()
-        {
-            var boa = _teste.Users.First();
-            var bla = new Teste
-            {
-                Usuario = boa,
-                Bla = "boa2"
-            };
-
-            await _teste.Testes.AddAsync(bla);
-
-            await _teste.SaveChangesAsync();
-
-            var teste = _teste.Testes.First();
-
-            return teste;
-        }
-        public async Task<Result> CadastraUsuario(CreateUsuarioDto createDto)
+       
+        public async Task<Result> UserRegister(CreateUsuarioDto createDto)
         {
             Usuario usuario = _mapper.Map<Usuario>(createDto);
 

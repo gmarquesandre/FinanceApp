@@ -22,7 +22,7 @@ namespace FinanceApp.EntityFramework.Auth.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("FinanceApp.EntityFramework.Auth.Teste", b =>
+            modelBuilder.Entity("FinanceApp.EntityFramework.Auth.FixedInterestInvestment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -30,18 +30,45 @@ namespace FinanceApp.EntityFramework.Auth.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Bla")
+                    b.Property<decimal>("AdditionalFixedInterest")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("ExpirationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Index")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("IndexPercentage")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("InvestmentDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("LiquidityOnExpiration")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UsuarioId")
+                    b.Property<bool>("PreFixedInvestment")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UsuarioId");
+                    b.HasIndex("UserId");
 
-                    b.ToTable("Testes");
+                    b.ToTable("FixedInterestInvestments");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<int>", b =>
@@ -72,6 +99,22 @@ namespace FinanceApp.EntityFramework.Auth.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 99999,
+                            ConcurrencyStamp = "6a09813e-3cd3-4f62-bcce-b9522db0018d",
+                            Name = "admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = 99997,
+                            ConcurrencyStamp = "0e4a83ae-bc6a-4c6b-8796-b9996862a5e2",
+                            Name = "regular",
+                            NormalizedName = "REGULAR"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -156,6 +199,13 @@ namespace FinanceApp.EntityFramework.Auth.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = 99999,
+                            RoleId = 99999
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
@@ -243,17 +293,35 @@ namespace FinanceApp.EntityFramework.Auth.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 99999,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "8c63f673-e93c-4ff7-b12e-6a04d327bbfa",
+                            Email = "admin@admin.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@ADMIN.COM",
+                            NormalizedUserName = "ADMIN",
+                            PasswordHash = "AQAAAAEAACcQAAAAEL45I3Uwka7qPb5a4KucXk3QnWK5ViKAJOWMFwzuaPHpvds5yry8VUe+q0xqr04qjQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "54578a1d-3b17-44dd-9532-d6d82821d161",
+                            TwoFactorEnabled = false,
+                            UserName = "admin"
+                        });
                 });
 
-            modelBuilder.Entity("FinanceApp.EntityFramework.Auth.Teste", b =>
+            modelBuilder.Entity("FinanceApp.EntityFramework.Auth.FixedInterestInvestment", b =>
                 {
-                    b.HasOne("UsuariosApi.Models.CustomIdentityUser", "Usuario")
+                    b.HasOne("UsuariosApi.Models.CustomIdentityUser", "User")
                         .WithMany()
-                        .HasForeignKey("UsuarioId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Usuario");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>

@@ -1,6 +1,8 @@
 ﻿//// See https://aka.ms/new-console-template for more information
-//using FinanceApp.Core.Importers;
-//using FinancialApi.WebAPI.Data;
+using FinanceApp.Core.Importers;
+using FinancialApi.WebAPI.Data;
+
+Console.WriteLine("boa");
 
 ////var test = new AssetImporter();
 ////await test.GetAssets(new DateTime(2022,05,13));

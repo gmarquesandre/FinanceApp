@@ -7,7 +7,7 @@ using Xunit;
 
 namespace FinanceApp.Tests
 {
-    public class TestImporters : DbTests
+    public class TestImporters : CreateDbBase
     {
         [Fact]
         public async Task TestIndexImporter()
@@ -21,7 +21,7 @@ namespace FinanceApp.Tests
             var values = await dataContext.IndexValues.ToListAsync();
 
             Assert.True(values.Any());
-            Assert.True(values.Select(a=> a.Index).Distinct().Count() == importer.Indexes.Count);
+            Assert.True(values.Select(a => a.Index).Distinct().Count() == importer.Indexes.Count);
 
             await DeleteDataDb(dataContext);
         }
@@ -38,7 +38,7 @@ namespace FinanceApp.Tests
             var values = await dataContext.TreasuryBondValues.ToListAsync();
 
             Assert.True(values.Any());
-            
+
             await DeleteDataDb(dataContext);
         }
 

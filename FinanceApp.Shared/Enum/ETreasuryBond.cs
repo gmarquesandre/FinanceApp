@@ -6,27 +6,27 @@ namespace FinanceApp.Shared.Enum
     public enum ETreasuryBond
     {
         [Display(Name = "Tesouro Prefixado com Juros Semestrais")]
-        [EIndex(EIndex.Prefixado)]
+        [Index(EIndex.Prefixado)]
         NTNF = 0,
 
         [Display(Name = "Tesouro IPCA+")]
-        [EIndex(EIndex.IPCA)]
+        [Index(EIndex.IPCA)]
         NTNBPrinc = 1,
         
         [Display(Name = "Tesouro IPCA+ Com Juros Semestrais")]
-        [EIndex(EIndex.IPCA)]
+        [Index(EIndex.IPCA)]
         NTNB = 2,
         
         [Display(Name = "Tesouro IGPM+ Com Juros Semestrais")]
-        [EIndex(EIndex.IGPM)]
+        [Index(EIndex.IGPM)]
         NTNC = 3,
         
         [Display(Name = "Tesouro Prefixado")]
-        [EIndex(EIndex.Prefixado)]
+        [Index(EIndex.Prefixado)]
         LTN = 4,
         
         [Display(Name = "Tesouro Selic")]
-        [EIndex(EIndex.Selic)]
+        [Index(EIndex.Selic)]
         LFT = 5,        
     }
 }

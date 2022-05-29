@@ -3,16 +3,17 @@ using System.Threading.Tasks;
 using FinanceApp.EntityFramework.Auth;
 using FinancialApi.WebAPI.Data;
 using System;
+using Microsoft.Extensions.Configuration;
 
 namespace FinanceApp.Tests
 {
-    public class DbTests
+    public class CreateDbBase
     {
 
         public async Task<UserDbContext> CreateUserDbContext()
         {
             var options = new DbContextOptionsBuilder<UserDbContext>()
-               .UseInMemoryDatabase("VxTelDbContext")
+               .UseInMemoryDatabase("UserDbContext")
                .Options;
 
             var context = new UserDbContext(options);
@@ -29,7 +30,7 @@ namespace FinanceApp.Tests
 
             var context = new FinanceContext(options);
             await context.Database.EnsureCreatedAsync();
-            
+
 
             return context;
         }
