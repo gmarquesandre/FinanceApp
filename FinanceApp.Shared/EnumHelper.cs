@@ -1,6 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Reflection;
-using System;
 
 namespace FinanceApp.Shared
 {
@@ -31,8 +29,7 @@ namespace FinanceApp.Shared
 
             throw new ArgumentOutOfRangeException(name);
         }
-
-
+      
         //public static T Parse(string value)
         //{
         //    return (T)Enum.Parse(typeof(T), value, true);

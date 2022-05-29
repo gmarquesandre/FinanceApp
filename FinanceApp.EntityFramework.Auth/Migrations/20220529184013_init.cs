@@ -157,7 +157,7 @@ namespace FinanceApp.EntityFramework.Auth.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "FixedInterestInvestments",
+                name: "PrivateFixedIncomes",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -168,7 +168,7 @@ namespace FinanceApp.EntityFramework.Auth.Migrations
                     Index = table.Column<int>(type: "int", nullable: false),
                     PreFixedInvestment = table.Column<bool>(type: "bit", nullable: false),
                     IndexPercentage = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    AdditionalFixedInterest = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    AdditionalFixedInterest = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     InvestmentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ExpirationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LiquidityOnExpiration = table.Column<bool>(type: "bit", nullable: false),
@@ -176,9 +176,9 @@ namespace FinanceApp.EntityFramework.Auth.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_FixedInterestInvestments", x => x.Id);
+                    table.PrimaryKey("PK_PrivateFixedIncomes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_FixedInterestInvestments_AspNetUsers_UserId",
+                        name: "FK_PrivateFixedIncomes_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -188,17 +188,17 @@ namespace FinanceApp.EntityFramework.Auth.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { 99997, "0e4a83ae-bc6a-4c6b-8796-b9996862a5e2", "regular", "REGULAR" });
+                values: new object[] { 99997, "0f864938-8d77-42f7-9a6c-4d441d9dbb65", "regular", "REGULAR" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { 99999, "6a09813e-3cd3-4f62-bcce-b9522db0018d", "admin", "ADMIN" });
+                values: new object[] { 99999, "542ffeaf-d033-4048-894f-b52124699162", "admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { 99999, 0, "8c63f673-e93c-4ff7-b12e-6a04d327bbfa", "admin@admin.com", true, false, null, "ADMIN@ADMIN.COM", "ADMIN", "AQAAAAEAACcQAAAAEL45I3Uwka7qPb5a4KucXk3QnWK5ViKAJOWMFwzuaPHpvds5yry8VUe+q0xqr04qjQ==", null, false, "54578a1d-3b17-44dd-9532-d6d82821d161", false, "admin" });
+                values: new object[] { 99999, 0, "e9f24604-f2d8-4b48-bf3c-15bd4b5cc419", "admin@admin.com", true, false, null, "ADMIN@ADMIN.COM", "ADMIN", "AQAAAAEAACcQAAAAEEKDrSdBJvXsL+La+rVwNtf16RHXnGM9ZZYSlx1Tcz8AuJT0K/gftECHpOF9oEJjkQ==", null, false, "f810af26-56e6-4baf-b4b3-dbe97126753d", false, "admin" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
@@ -245,8 +245,8 @@ namespace FinanceApp.EntityFramework.Auth.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FixedInterestInvestments_UserId",
-                table: "FixedInterestInvestments",
+                name: "IX_PrivateFixedIncomes_UserId",
+                table: "PrivateFixedIncomes",
                 column: "UserId");
         }
 
@@ -268,7 +268,7 @@ namespace FinanceApp.EntityFramework.Auth.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "FixedInterestInvestments");
+                name: "PrivateFixedIncomes");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

@@ -22,7 +22,7 @@ namespace FinanceApp.EntityFramework.Auth.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("FinanceApp.EntityFramework.Auth.FixedInterestInvestment", b =>
+            modelBuilder.Entity("FinanceApp.Shared.Models.PrivateFixedIncome", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -30,7 +30,7 @@ namespace FinanceApp.EntityFramework.Auth.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<decimal>("AdditionalFixedInterest")
+                    b.Property<decimal?>("AdditionalFixedInterest")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("Amount")
@@ -68,7 +68,7 @@ namespace FinanceApp.EntityFramework.Auth.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("FixedInterestInvestments");
+                    b.ToTable("PrivateFixedIncomes");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<int>", b =>
@@ -104,14 +104,14 @@ namespace FinanceApp.EntityFramework.Auth.Migrations
                         new
                         {
                             Id = 99999,
-                            ConcurrencyStamp = "6a09813e-3cd3-4f62-bcce-b9522db0018d",
+                            ConcurrencyStamp = "542ffeaf-d033-4048-894f-b52124699162",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 99997,
-                            ConcurrencyStamp = "0e4a83ae-bc6a-4c6b-8796-b9996862a5e2",
+                            ConcurrencyStamp = "0f864938-8d77-42f7-9a6c-4d441d9dbb65",
                             Name = "regular",
                             NormalizedName = "REGULAR"
                         });
@@ -299,21 +299,21 @@ namespace FinanceApp.EntityFramework.Auth.Migrations
                         {
                             Id = 99999,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8c63f673-e93c-4ff7-b12e-6a04d327bbfa",
+                            ConcurrencyStamp = "e9f24604-f2d8-4b48-bf3c-15bd4b5cc419",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEL45I3Uwka7qPb5a4KucXk3QnWK5ViKAJOWMFwzuaPHpvds5yry8VUe+q0xqr04qjQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEKDrSdBJvXsL+La+rVwNtf16RHXnGM9ZZYSlx1Tcz8AuJT0K/gftECHpOF9oEJjkQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "54578a1d-3b17-44dd-9532-d6d82821d161",
+                            SecurityStamp = "f810af26-56e6-4baf-b4b3-dbe97126753d",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
                 });
 
-            modelBuilder.Entity("FinanceApp.EntityFramework.Auth.FixedInterestInvestment", b =>
+            modelBuilder.Entity("FinanceApp.Shared.Models.PrivateFixedIncome", b =>
                 {
                     b.HasOne("UsuariosApi.Models.CustomIdentityUser", "User")
                         .WithMany()

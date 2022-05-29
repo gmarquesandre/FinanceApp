@@ -3,9 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FinanceApp.Shared.Enum
 {
-    public enum ETypeFixedInterestInvestment
+    public enum ETypePrivateFixedIncome
     {
-        [Display(Name = "CDB - ")]
+        [Display(Name = "CDB - Certificado de Depósito Bancário")]
         [TypeInvestmentTax(ETypeInvestmentTax.DefaultInvestmentTax)]
         CDB = 1,
 

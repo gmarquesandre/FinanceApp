@@ -1,25 +1,22 @@
-﻿using FinanceApp.Shared.Enum;
-using System.ComponentModel.DataAnnotations;
-using UsuariosApi.Models;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace FinanceApp.Shared.Models
+namespace FinanceApp.Shared.Dto
 {
-    public class FixedInterestInvestment
+    public class CreatePrivateFixedIncome
     {
-        [Key]
-        public int Id { get; set; }
         [Required]
         public string Name { get; set; }
         [Required]
-        public ETypeFixedInterestInvestment Type { get; set; }
+        public int Type { get; set; }
         [Required]
         public decimal Amount { get; set; }
         [Required]
-        public EIndex Index { get; set; }
+        public int Index { get; set; }
         [Required]
         public bool PreFixedInvestment { get; set; }
         [Required]
         public decimal IndexPercentage { get; set; }
+        [Required]
         public decimal? AdditionalFixedInterest { get; set; }
         [Required]
         public DateTime InvestmentDate { get; set; }
@@ -27,8 +24,6 @@ namespace FinanceApp.Shared.Models
         public DateTime ExpirationDate { get; set; }
         [Required]
         public bool LiquidityOnExpiration { get; set; }
-        [Required]
-        public int UserId { get; set; }
-        public CustomIdentityUser User { get; set; }
+
     }
 }

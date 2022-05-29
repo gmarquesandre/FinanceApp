@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using UsuariosApi.Models;
 
 namespace FinanceApp.EntityFramework.Auth
@@ -14,7 +13,7 @@ namespace FinanceApp.EntityFramework.Auth
         {
         }
 
-        public DbSet<FixedInterestInvestment> FixedInterestInvestments { get; set; }
+        public DbSet<PrivateFixedIncome> PrivateFixedIncomes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -23,6 +22,7 @@ namespace FinanceApp.EntityFramework.Auth
             CustomIdentityUser admin = new CustomIdentityUser
             {
                 UserName = "admin",
+              
                 NormalizedUserName = "ADMIN",
                 Email = "admin@admin.com",
                 NormalizedEmail = "ADMIN@ADMIN.COM",

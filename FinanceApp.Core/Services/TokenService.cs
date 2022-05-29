@@ -13,8 +13,8 @@ namespace FinanceApp.Core.Services
         {
             Claim[] direitosUsuario = new Claim[]
             {
-                new Claim("username", usuario.UserName),
-                new Claim("id", usuario.Id.ToString()),
+                new Claim(ClaimTypes.Name, usuario.UserName),
+                new Claim(ClaimTypes.NameIdentifier, usuario.Id.ToString()),
                 //new Claim(ClaimTypes.Role, role),
                 //new Claim(ClaimTypes.DateOfBirth, usuario.DataNascimento.ToString())
             };
