@@ -1,18 +1,15 @@
 ﻿using AutoMapper;
+using FinanceApp.Shared.Dto;
 using FinanceApp.Shared.Models;
-using Microsoft.AspNetCore.Identity;
-using UsuariosApi.Data.Dtos.Usuario;
-using UsuariosApi.Models;
 
 namespace UsuariosApi.Profiles
 {
-    public class UsuarioProfile : Profile
+    public class FixedInterestInvestmentProfile : Profile
     {
-        public UsuarioProfile()
+        public FixedInterestInvestmentProfile()
         {
-            CreateMap<CreateUsuarioDto, Usuario>();
-            CreateMap<Usuario, IdentityUser<int>>();
-            CreateMap<Usuario, CustomIdentityUser>();
+            CreateMap<FixedInterestInvestment, FixedInterestInvestmentDto>();
+            CreateMap<FixedInterestInvestmentDto, FixedInterestInvestment>();
         }
     }
 }

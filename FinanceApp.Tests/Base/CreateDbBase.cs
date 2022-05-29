@@ -2,8 +2,6 @@
 using System.Threading.Tasks;
 using FinanceApp.EntityFramework.Auth;
 using FinancialApi.WebAPI.Data;
-using System;
-using Microsoft.Extensions.Configuration;
 
 namespace FinanceApp.Tests
 {
@@ -17,6 +15,7 @@ namespace FinanceApp.Tests
                .Options;
 
             var context = new UserDbContext(options);
+
 
             await context.Database.EnsureCreatedAsync();
 

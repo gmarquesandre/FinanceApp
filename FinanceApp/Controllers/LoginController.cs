@@ -25,7 +25,7 @@ namespace FinanceApp.Api.Controllers
             if (resultado.IsFailed) return Unauthorized(resultado.Errors);
             return Ok(resultado.Successes);
         }
-        [Authorize]
+
         [HttpPost("/solicita-reset")]
         public async Task<IActionResult> SolicitaResetSenhaUsuario(SolicitaResetDto request)
         {

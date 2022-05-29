@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
+using FinanceApp.EntityFramework.Auth;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Threading.Tasks;
+using UsuariosApi.Models;
 using UsuariosApi.Profiles;
 using Xunit;
 
@@ -8,18 +11,21 @@ namespace FinanceApp.Tests
 {
     public class AuthenticateTests : CreateDbBase
     {
+
+        public async Task<CustomIdentityUser> ReturnDefaultUser(UserDbContext userContext)
+        {
+            
+            var users = await userContext.Users.ToListAsync();
+
+            return users.First();
+        }
+
         [Fact]
         public async Task DefaultUserMustBeCreatedOnCreateContext()
         {
-            var myProfile = new UsuarioProfile();
-            var configuration = new MapperConfiguration(cfg => cfg.AddProfile(myProfile));
-            IMapper mapper = new Mapper(configuration);
-
             var userContext = await CreateUserDbContext();
-
-            var users = await userContext.Users.ToListAsync();
-
-            Assert.True(users.Count == 1);
+            var user = ReturnDefaultUser(userContext);
+            Assert.True(user != null);
 
         }      
     }
