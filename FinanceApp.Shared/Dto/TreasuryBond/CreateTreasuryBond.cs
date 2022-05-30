@@ -1,6 +1,4 @@
-﻿using FinanceApp.Shared.Enum;
-
-namespace FinanceApp.Shared.Models
+﻿namespace FinanceApp.Shared.Models
 {
     public class CreateTreasuryBond
     {

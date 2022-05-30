@@ -4,7 +4,7 @@ using UsuariosApi.Models;
 
 namespace FinanceApp.Shared.Models
 {
-    public class PrivateFixedIncome
+    public class PrivateFixedIncome : UserTable
     {
         [Key]
         public int Id { get; set; }
@@ -28,10 +28,6 @@ namespace FinanceApp.Shared.Models
         public DateTime ExpirationDate { get; set; }
         [Required]
         public bool LiquidityOnExpiration { get; set; }
-        [Required]
-        public int UserId { get; set; }
-        public CustomIdentityUser User { get; set; }
-        public DateTime CreationDateTime { get; set; }
-        public DateTime? UpdateDateTime { get; set; }
+
     }
 }

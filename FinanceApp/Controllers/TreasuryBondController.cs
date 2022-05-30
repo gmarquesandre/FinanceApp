@@ -44,7 +44,7 @@ namespace FinanceApp.Api.Controllers
 
         [HttpPost("Create")]
         [Authorize]
-        public async Task<IActionResult> AddInvestment(CreateTreasuryBond input)
+        public async Task<IActionResult> AddInvestment(CreateIncome input)
         {
             var user = await _userManager.GetUserAsync(User);
             var result = await _service.AddAsync(input, user);
@@ -65,7 +65,7 @@ namespace FinanceApp.Api.Controllers
 
         [HttpPut("Update")]
         [Authorize]
-        public async Task<IActionResult> UpdateInvestment(UpdateTreasuryBond input)
+        public async Task<IActionResult> UpdateInvestment(UpdateIncome input)
         {
             var user = await _userManager.GetUserAsync(User);
             var resultado = await _service.UpdateAsync(input, user);

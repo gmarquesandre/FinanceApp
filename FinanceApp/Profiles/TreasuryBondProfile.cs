@@ -8,11 +8,11 @@ namespace UsuariosApi.Profiles
     {
         public TreasuryBondProfile()
         {
-            CreateMap<CreateTreasuryBond, TreasuryBond>();
-            CreateMap<UpdateTreasuryBond, TreasuryBond>();
-            CreateMap<TreasuryBondDto, TreasuryBond>();
-            CreateMap<TreasuryBond, TreasuryBondDto>();
-            CreateMap<UpdateTreasuryBond, TreasuryBond>();
+            CreateMap<CreateIncome, TreasuryBond>();
+            CreateMap<UpdateIncome, TreasuryBond>();
+            CreateMap<IncomeDto, TreasuryBond>();
+            CreateMap<TreasuryBond, IncomeDto>();
+            CreateMap<UpdateIncome, TreasuryBond>();
         }
     }
 }
