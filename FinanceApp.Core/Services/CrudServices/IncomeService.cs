@@ -35,8 +35,7 @@ namespace FinanceApp.Core.Services
 
             var model = _mapper.Map<Income>(input);
 
-            model.User = user;
-            model.CreationDateTime = oldModel.CreationDateTime;              
+            model.User = user;          
 
             _context.Incomes.Update(model);
             await _context.SaveChangesAsync();

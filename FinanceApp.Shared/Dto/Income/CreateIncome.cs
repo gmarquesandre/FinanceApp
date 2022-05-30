@@ -1,6 +1,8 @@
-﻿namespace FinanceApp.Shared.Models
+﻿using FinanceApp.Shared.Dto.Base;
+
+namespace FinanceApp.Shared.Models
 {
-    public class CreateIncome
+    public class CreateIncome : CreateDto
     {
         public string Name { get; set; }
         public int Type { get; set; }
@@ -11,7 +13,6 @@
         public DateTime? EndDate { get; set; }
         public bool IsEndless { get; set; }
         public int? TimesRecurrence { get; set; }
-        public DateTime CreationDateTime => DateTime.Now;
 
     }
 }

@@ -16,7 +16,7 @@ namespace FinanceApp.Tests.Investments
 {
     public class TreasuryBondTests : AuthenticateTests
     {
-        private readonly CreateIncome DefaultNewInvestment = new()
+        private readonly CreateTreasuryBond DefaultNewInvestment = new()
         {
             ExpirationDate = new DateTime(2023,01,01),
             InvestmentDate = DateTime.Now.Date,
@@ -91,7 +91,7 @@ namespace FinanceApp.Tests.Investments
         {
             (FinanceContext userContext, CustomIdentityUser user, TreasuryBond investment) = await MustAddInvestment();
 
-            var updateInvestment = new UpdateIncome()
+            var updateInvestment = new UpdateTreasuryBond()
             {
                 ExpirationDate = investment.ExpirationDate,
                 InvestmentDate = investment.InvestmentDate,

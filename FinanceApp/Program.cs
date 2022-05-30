@@ -20,6 +20,7 @@ builder.Services.AddScoped<TokenService, TokenService>();
 
 builder.Services.AddScoped<TreasuryBondService, TreasuryBondService>();
 builder.Services.AddScoped<PrivateFixedIncomeService, PrivateFixedIncomeService>();
+builder.Services.AddScoped<IncomeService, IncomeService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 

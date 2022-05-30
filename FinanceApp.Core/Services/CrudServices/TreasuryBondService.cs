@@ -15,7 +15,7 @@ namespace FinanceApp.Core.Services
 
         public TreasuryBondService(FinanceContext context, IMapper mapper) : base(context, mapper) { }
 
-        public async Task<IncomeDto> AddAsync(CreateIncome input, CustomIdentityUser user)
+        public async Task<IncomeDto> AddAsync(CreateTreasuryBond input, CustomIdentityUser user)
         {
             TreasuryBond model = _mapper.Map<TreasuryBond>(input);
            
@@ -27,7 +27,7 @@ namespace FinanceApp.Core.Services
             return _mapper.Map<IncomeDto>(model);
             
         }
-        public async Task<Result> UpdateAsync(UpdateIncome input, CustomIdentityUser user)
+        public async Task<Result> UpdateAsync(UpdateTreasuryBond input, CustomIdentityUser user)
         {
             var oldModel = _context.TreasuryBonds.AsNoTracking().FirstOrDefault(x => x.Id == input.Id);
 
@@ -38,9 +38,7 @@ namespace FinanceApp.Core.Services
 
             var model = _mapper.Map<TreasuryBond>(input);
 
-            model.User = user;
-            model.CreationDateTime = oldModel.CreationDateTime;
-            
+            model.User = user;            
 
             CheckInvestment(model);    
 

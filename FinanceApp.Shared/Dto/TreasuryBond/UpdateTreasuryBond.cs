@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using FinanceApp.Shared.Dto.Base;
+using System.ComponentModel.DataAnnotations;
 
 namespace FinanceApp.Shared.Dto
 {
-    public class UpdateTreasuryBond
+    public class UpdateTreasuryBond : UpdateDto
     {
         [Key]
         public int Id { get; set; }
@@ -10,7 +11,6 @@ namespace FinanceApp.Shared.Dto
         public decimal UnitPrice { get; set; }
         public DateTime ExpirationDate { get; set; }
         public DateTime InvestmentDate { get; set; }
-        public DateTime UpdateDateTime => DateTime.Now;
         public int Operation { get; set; }
         public decimal Quantity { get; set; }
     }

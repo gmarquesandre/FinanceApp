@@ -1,12 +1,9 @@
 ﻿using FinanceApp.Shared.Enum;
-using System.ComponentModel.DataAnnotations;
 
 namespace FinanceApp.Shared.Models
 {
-    public class IndexValue
+    public class IndexValue : StandartTable
     {
-        [Key]
-        public int Id { get; set; }
         public EIndex Index { get; set; }
         public DateTime Date { get; set; }
         public DateTime DateEnd { get; set; }

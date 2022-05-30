@@ -1,12 +1,7 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-
-namespace FinanceApp.Shared.Models
+﻿namespace FinanceApp.Shared.Models
 {
-    public class AssetChange
-    { 
-        [Key]
-        public int Id { get; set; }
+    public class AssetChange : StandartTable
+    {
         public Asset Asset { get; set; }
         public string Type { get; set; }
         public DateTime DeclarationDate { get; set; }

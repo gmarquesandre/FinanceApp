@@ -1,11 +1,8 @@
 ﻿using FinanceApp.Shared.Enum;
-using System.ComponentModel.DataAnnotations;
 namespace FinanceApp.Shared.Models
 {
-    public class TreasuryBondTitle
-    {        
-        [Key]
-        public int Id { get; set; } 
+    public class TreasuryBondTitle : StandartTable
+    {
         public string Description { get; set; }
         public ETreasuryBond Type { get; set; }
         public double FixedInterestValueBuy { get; set; } 

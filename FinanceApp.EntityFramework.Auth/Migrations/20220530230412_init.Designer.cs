@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinanceApp.EntityFramework.Migrations
 {
     [DbContext(typeof(FinanceContext))]
-    [Migration("20220530035410_init")]
+    [Migration("20220530230412_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -44,6 +44,85 @@ namespace FinanceApp.EntityFramework.Migrations
                         .IsUnique();
 
                     b.ToTable("Holidays");
+                });
+
+            modelBuilder.Entity("FinanceApp.Shared.Models.Income", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreationDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("InitialDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsEndless")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("TimesRecurrence")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdateDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Incomes");
+                });
+
+            modelBuilder.Entity("FinanceApp.Shared.Models.IncomeCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("CreationDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdateDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("IncomeCategories");
                 });
 
             modelBuilder.Entity("FinanceApp.Shared.Models.IndexValue", b =>
@@ -178,6 +257,130 @@ namespace FinanceApp.EntityFramework.Migrations
                     b.ToTable("ProspectIndexValues");
                 });
 
+            modelBuilder.Entity("FinanceApp.Shared.Models.Spending", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreationDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("InitialDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsEndless")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsRequired")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("TimesRecurrence")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdateDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Spendings");
+                });
+
+            modelBuilder.Entity("FinanceApp.Shared.Models.SpendingCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("CreationDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdateDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("SpendingCategories");
+                });
+
+            modelBuilder.Entity("FinanceApp.Shared.Models.TreasuryBond", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("CreationDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ExpirationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("InvestmentDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Operation")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Quantity")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("UnitPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime?>("UpdateDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("TreasuryBonds");
+                });
+
             modelBuilder.Entity("FinanceApp.Shared.Models.TreasuryBondTitle", b =>
                 {
                     b.Property<int>("Id")
@@ -199,7 +402,7 @@ namespace FinanceApp.EntityFramework.Migrations
                     b.Property<double>("FixedInterestValueSell")
                         .HasColumnType("float");
 
-                    b.Property<DateTime>("LastUpdateDate")
+                    b.Property<DateTime>("LastUpdateDateTime")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("Type")
@@ -314,14 +517,14 @@ namespace FinanceApp.EntityFramework.Migrations
                         new
                         {
                             Id = 99999,
-                            ConcurrencyStamp = "70002952-69bb-4ecd-95cd-33144b337779",
+                            ConcurrencyStamp = "77f44ca2-b65c-460c-a756-d7924f25e51c",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 99997,
-                            ConcurrencyStamp = "b1899d63-2c1f-401e-9b43-cc1cbdc94315",
+                            ConcurrencyStamp = "86fefaeb-62da-481c-a110-d78f7468c8d5",
                             Name = "regular",
                             NormalizedName = "REGULAR"
                         });
@@ -509,21 +712,88 @@ namespace FinanceApp.EntityFramework.Migrations
                         {
                             Id = 99999,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "9935916a-5dfe-4300-a885-5afd682bde51",
+                            ConcurrencyStamp = "f1a985fa-84a8-4aa7-a739-bfb55dd24da4",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEENkGtFrT4fXEV1wWX864yT253hbnYn++jSZq5qi3h9t0iG4zN2ChT9IcPnmyUqGJQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEBuBOZfUHVeB/MMxQgHMCz+5lQ2li9u2VoXsud7qYfhXj2+VvAUQRg9zAVVGCCQEw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "794ce9d6-1ecd-47de-9349-5d5f9041d099",
+                            SecurityStamp = "c0b1b932-94d5-4089-8b76-20952b18b4f3",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
                 });
 
+            modelBuilder.Entity("FinanceApp.Shared.Models.Income", b =>
+                {
+                    b.HasOne("FinanceApp.Shared.Models.SpendingCategory", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId");
+
+                    b.HasOne("UsuariosApi.Models.CustomIdentityUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("FinanceApp.Shared.Models.IncomeCategory", b =>
+                {
+                    b.HasOne("UsuariosApi.Models.CustomIdentityUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("FinanceApp.Shared.Models.PrivateFixedIncome", b =>
+                {
+                    b.HasOne("UsuariosApi.Models.CustomIdentityUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("FinanceApp.Shared.Models.Spending", b =>
+                {
+                    b.HasOne("FinanceApp.Shared.Models.SpendingCategory", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId");
+
+                    b.HasOne("UsuariosApi.Models.CustomIdentityUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("FinanceApp.Shared.Models.SpendingCategory", b =>
+                {
+                    b.HasOne("UsuariosApi.Models.CustomIdentityUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("FinanceApp.Shared.Models.TreasuryBond", b =>
                 {
                     b.HasOne("UsuariosApi.Models.CustomIdentityUser", "User")
                         .WithMany()

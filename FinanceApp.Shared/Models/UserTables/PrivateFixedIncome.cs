@@ -1,13 +1,10 @@
 ﻿using FinanceApp.Shared.Enum;
 using System.ComponentModel.DataAnnotations;
-using UsuariosApi.Models;
 
 namespace FinanceApp.Shared.Models
 {
     public class PrivateFixedIncome : UserTable
     {
-        [Key]
-        public int Id { get; set; }
         [Required]
         public string Name { get; set; }
         [Required]

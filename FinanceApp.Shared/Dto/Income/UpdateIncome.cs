@@ -1,6 +1,8 @@
-﻿namespace FinanceApp.Shared.Dto
+﻿using FinanceApp.Shared.Dto.Base;
+
+namespace FinanceApp.Shared.Dto
 {
-    public class UpdateIncome
+    public class UpdateIncome : UpdateDto
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -11,6 +13,5 @@
         public DateTime? EndDate { get; set; }
         public bool IsEndless { get; set; }
         public int? TimesRecurrence { get; set; }
-        public DateTime? UpdateDateTime => DateTime.Now;
     }
 }

@@ -1,13 +1,7 @@
-﻿
-using System;
-using System.ComponentModel.DataAnnotations;
-
-namespace FinanceApp.Shared.Models
+﻿namespace FinanceApp.Shared.Models
 {
-    public class WorkingDaysByYear
-    { 
-        [Key]
-        public int Id { get; set; }
+    public class WorkingDaysByYear : StandartTable
+    {
         public int Year { get; set; }
         public int WorkingDays { get; set; }
         public DateTime DateLastUpdate { get; set; }

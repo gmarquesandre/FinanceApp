@@ -12,8 +12,6 @@ namespace FinanceApp.Shared.Models
         public decimal UnitPrice { get; set; }
         public DateTime ExpirationDate { get; set; }
         public DateTime InvestmentDate { get; set; }
-        public DateTime CreationDateTime { get; set; }
-        public DateTime UpdateDateTime { get; set; }
         public EOperation Operation { get; set; }
         private string OperationName => EnumHelper<EOperation>.GetDisplayValue(Operation);
         private string OperationNameShort => EnumHelper<EOperation>.GetDisplayShortValue(Operation);

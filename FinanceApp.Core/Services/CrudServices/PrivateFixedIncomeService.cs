@@ -42,7 +42,6 @@ namespace FinanceApp.Core.Services
             var model = _mapper.Map<PrivateFixedIncome>(input);
 
             model.User = user;
-            model.CreationDateTime = oldModel.CreationDateTime;
             
 
             CheckInvestment(model);

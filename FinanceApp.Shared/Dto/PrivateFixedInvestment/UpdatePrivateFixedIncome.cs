@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using FinanceApp.Shared.Dto.Base;
+using System.ComponentModel.DataAnnotations;
 
 namespace FinanceApp.Shared.Dto
 {
-    public class UpdatePrivateFixedIncome
+    public class UpdatePrivateFixedIncome : UpdateDto
     {
         [Required]
         public int Id { get; set; }
@@ -26,6 +27,5 @@ namespace FinanceApp.Shared.Dto
         public DateTime ExpirationDate { get; set; }
         [Required]
         public bool LiquidityOnExpiration { get; set; }
-        public DateTime UpdateDateTime => DateTime.Now;
     }
 }

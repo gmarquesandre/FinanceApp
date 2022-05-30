@@ -1,11 +1,8 @@
 ﻿using FinanceApp.Shared.Enum;
-using System.ComponentModel.DataAnnotations;
 namespace FinanceApp.Shared.Models
 {
-    public class ProspectIndexValue
+    public class ProspectIndexValue : StandartTable
     {
-        [Key]
-        public int Id { get; set; }
         public EIndex Index { get; set; }
         public DateTime DateResearch { get; set; }
         public DateTime DateStart { get; set; }

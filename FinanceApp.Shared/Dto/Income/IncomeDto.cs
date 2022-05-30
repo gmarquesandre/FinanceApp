@@ -1,5 +1,4 @@
 ﻿using FinanceApp.Shared.Enum;
-using System.ComponentModel.DataAnnotations;
 
 namespace FinanceApp.Shared.Models
 {

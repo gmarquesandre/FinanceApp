@@ -3,10 +3,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FinanceApp.Shared.Models
 {
-    public class AssetEarning
+    public class AssetEarning : StandartTable
     {
-        [Key]
-        public int Id { get; set; }
         [Required]
         public Asset Asset { get; set; }
         public string Type { get; set; }
