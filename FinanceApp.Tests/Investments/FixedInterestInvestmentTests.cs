@@ -94,7 +94,7 @@ namespace FinanceApp.Tests.Investments
         {
             (FinanceContext userContext, CustomIdentityUser user, PrivateFixedIncome investment) = await MustAddInvestment();
 
-            var updateInvestment = new UpdatePrivateFixedIncome()
+            var updateInvestment = new UpdateTreasuryBond()
             {
                 Id = investment.Id,
                 Name = investment.Name,

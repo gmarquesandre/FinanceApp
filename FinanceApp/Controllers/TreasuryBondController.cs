@@ -1,6 +1,5 @@
 ﻿using FinanceApp.Core.Services;
 using FinanceApp.Shared.Dto;
-using FinanceApp.Shared.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -10,12 +9,12 @@ namespace FinanceApp.Api.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class TreasuryBondController : ControllerBase
+    public class PrivateFixedIncomeController : ControllerBase
     {
-        private readonly TreasuryBondService _service;
+        private readonly PrivateFixedIncomeService _service;
         private readonly UserManager<CustomIdentityUser> _userManager;
 
-        public TreasuryBondController(TreasuryBondService service, UserManager<CustomIdentityUser> userManager)
+        public PrivateFixedIncomeController(PrivateFixedIncomeService service, UserManager<CustomIdentityUser> userManager)
         {
             _userManager = userManager;
             _service = service;
@@ -44,7 +43,7 @@ namespace FinanceApp.Api.Controllers
 
         [HttpPost("Create")]
         [Authorize]
-        public async Task<IActionResult> AddInvestment(CreateTreasuryBond input)
+        public async Task<IActionResult> AddInvestment(CreatePrivateFixedIncome input)
         {
             var user = await _userManager.GetUserAsync(User);
             var result = await _service.AddAsync(input, user);

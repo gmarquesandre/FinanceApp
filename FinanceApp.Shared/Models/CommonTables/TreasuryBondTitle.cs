@@ -13,7 +13,7 @@ namespace FinanceApp.Shared.Models
         public decimal UnitPriceBuy { get; set; }
         public decimal UnitPriceSell { get; set; }
         public DateTime ExpirationDate { get; set; }        
-        public DateTime LastUpdateDate { get; set; }
+        public DateTime LastUpdateDateTime { get; set; }
 
         public string KeyTitle()
         {

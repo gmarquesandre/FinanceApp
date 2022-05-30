@@ -17,6 +17,8 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<UserRegisterService, UserRegisterService>();
 builder.Services.AddScoped<LoginService, LoginService>();
 builder.Services.AddScoped<TokenService, TokenService>();
+
+builder.Services.AddScoped<TreasuryBondService, TreasuryBondService>();
 builder.Services.AddScoped<PrivateFixedIncomeService, PrivateFixedIncomeService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

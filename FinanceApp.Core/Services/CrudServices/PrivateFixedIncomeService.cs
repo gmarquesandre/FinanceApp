@@ -1,26 +1,21 @@
 ﻿using AutoMapper;
+using FinanceApp.Core.Services.Base;
 using FinanceApp.EntityFramework.Auth;
 using FinanceApp.Shared.Dto;
 using FinanceApp.Shared.Enum;
 using FinanceApp.Shared.Models;
 using FluentResults;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using UsuariosApi.Models;
 
 namespace FinanceApp.Core.Services
 {
-    public class PrivateFixedIncomeService
+    public class PrivateFixedIncomeService : CrudServiceBase
     {
-        private FinanceContext _context;
-        private IMapper _mapper;
-        public PrivateFixedIncomeService(FinanceContext context, IMapper mapper) 
-        {
-            _context = context;
-            _mapper = mapper;   
-        }
 
-        public async Task<PrivateFixedIncomeDto> AddInvestmentAsync(CreatePrivateFixedIncome input, CustomIdentityUser user)
+        public PrivateFixedIncomeService(FinanceContext context, IMapper mapper) : base(context, mapper) { }
+
+        public async Task<PrivateFixedIncomeDto> AddAsync(CreatePrivateFixedIncome input, CustomIdentityUser user)
         {
             PrivateFixedIncome model = _mapper.Map<PrivateFixedIncome>(input);
 
@@ -35,7 +30,7 @@ namespace FinanceApp.Core.Services
             return _mapper.Map<PrivateFixedIncomeDto>(model);
             
         }
-        public async Task<Result> UpdateInvestmentAsync(UpdatePrivateFixedIncome input, CustomIdentityUser user)
+        public async Task<Result> UpdateAsync(UpdateTreasuryBond input, CustomIdentityUser user)
         {
             var oldModel = _context.PrivateFixedIncomes.AsNoTracking().FirstOrDefault(x => x.Id == input.Id);
 
@@ -60,6 +55,17 @@ namespace FinanceApp.Core.Services
             return Result.Ok().WithSuccess("Investimento atualizado com sucesso");
         }
 
+        public async Task<PrivateFixedIncomeDto> GetSingleAsync(CustomIdentityUser user, int id)
+        {
+            var value = await _context.PrivateFixedIncomes.FirstOrDefaultAsync(a => a.User.Id == user.Id && a.Id == id);
+
+            if (value == null)
+                throw new Exception("Registro Não Encontrado");
+
+            return _mapper.Map<PrivateFixedIncomeDto>(value);
+
+        }
+
         private void CheckInvestment(PrivateFixedIncome model)
         {
             if (model.InvestmentDate > DateTime.Now.Date)
@@ -78,12 +84,12 @@ namespace FinanceApp.Core.Services
 
         }
 
-        public async Task<List<PrivateFixedIncomeDto>> GetAllFixedIncomeAsync(CustomIdentityUser user)
+        public async Task<List<PrivateFixedIncomeDto>> GetAllAsync(CustomIdentityUser user)
         {
             var values = await _context.PrivateFixedIncomes.Where(a => a.User.Id == user.Id).ToListAsync();
             return _mapper.Map<List<PrivateFixedIncomeDto>>(values);
         }
-        public async Task<Result> DeleteInvestmentAsync(int id, CustomIdentityUser user)
+        public async Task<Result> DeleteAsync(int id, CustomIdentityUser user)
         {
             var investment = await _context.PrivateFixedIncomes.FirstOrDefaultAsync(a => a.Id == id);
 

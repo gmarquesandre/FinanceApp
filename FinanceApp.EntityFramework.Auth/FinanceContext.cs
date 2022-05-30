@@ -19,6 +19,7 @@ namespace FinanceApp.EntityFramework.Auth
 
         //User Tables
         public DbSet<PrivateFixedIncome> PrivateFixedIncomes { get; set; }
+        public DbSet<TreasuryBond> TreasuryBonds { get; set; }
 
         //Common Tables
         public DbSet<IndexValue> IndexValues { get; set; }

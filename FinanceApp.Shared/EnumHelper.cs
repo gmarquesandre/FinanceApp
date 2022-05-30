@@ -98,6 +98,21 @@ namespace FinanceApp.Shared
             return value.ToString();
         }
 
+        public static string GetDisplayShortValue(T value)
+        {
+            var fieldInfo = value.GetType().GetField(value.ToString());
+            if (fieldInfo != null)
+            {
+                var descriptionAttributes = fieldInfo.GetCustomAttributes(
+                    typeof(DisplayAttribute), false) as DisplayAttribute[];
+
+                if (descriptionAttributes == null) return string.Empty;
+                return descriptionAttributes.Length > 0 ? descriptionAttributes[0].ShortName : value.ToString();
+            }
+
+            return value.ToString();
+        }
+
         //public static EDebitDocumentTypeClassification GetClassificationTypeValue(T value)
         //{
         //    var fieldInfo = value.GetType().GetField(value.ToString());
