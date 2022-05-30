@@ -10,7 +10,7 @@ using UsuariosApi.Models;
 
 namespace FinanceApp.Core.Services
 {
-    public class PrivateFixedIncomeService : CrudServiceBase
+    public class PrivateFixedIncomeService : CrudServiceBase, IPrivateFixedIncomeService
     {
 
         public PrivateFixedIncomeService(FinanceContext context, IMapper mapper) : base(context, mapper) { }
@@ -28,7 +28,7 @@ namespace FinanceApp.Core.Services
             await _context.PrivateFixedIncomes.AddAsync(model);
             await _context.SaveChangesAsync();
             return _mapper.Map<PrivateFixedIncomeDto>(model);
-            
+
         }
         public async Task<Result> UpdateAsync(UpdatePrivateFixedIncome input, CustomIdentityUser user)
         {
@@ -42,7 +42,7 @@ namespace FinanceApp.Core.Services
             var model = _mapper.Map<PrivateFixedIncome>(input);
 
             model.User = user;
-            
+
 
             CheckInvestment(model);
 
@@ -79,7 +79,7 @@ namespace FinanceApp.Core.Services
             {
                 throw new Exception("A data de vencimento deve ser maior do que hoje");
             }
-            
+
 
         }
 
@@ -92,12 +92,12 @@ namespace FinanceApp.Core.Services
         {
             var investment = await _context.PrivateFixedIncomes.FirstOrDefaultAsync(a => a.Id == id);
 
-            if(investment == null)
+            if (investment == null)
             {
                 return Result.Fail("Não Encontrado");
             }
 
-            if(investment.UserId != user.Id)
+            if (investment.UserId != user.Id)
             {
                 return Result.Fail("Usuário Inválido");
             }

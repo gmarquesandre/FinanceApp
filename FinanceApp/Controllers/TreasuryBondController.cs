@@ -12,10 +12,10 @@ namespace FinanceApp.Api.Controllers
     [ApiController]
     public class TreasuryBondController : ControllerBase
     {
-        private readonly TreasuryBondService _service;
+        private readonly ITreasuryBondService _service;
         private readonly UserManager<CustomIdentityUser> _userManager;
 
-        public TreasuryBondController(TreasuryBondService service, UserManager<CustomIdentityUser> userManager)
+        public TreasuryBondController(ITreasuryBondService service, UserManager<CustomIdentityUser> userManager)
         {
             _userManager = userManager;
             _service = service;

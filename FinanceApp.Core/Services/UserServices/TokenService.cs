@@ -7,7 +7,7 @@ using UsuariosApi.Models;
 
 namespace FinanceApp.Core.Services
 {
-    public class TokenService
+    public class TokenService : ITokenService
     {
         public Token CreateToken(CustomIdentityUser usuario, string role)
         {

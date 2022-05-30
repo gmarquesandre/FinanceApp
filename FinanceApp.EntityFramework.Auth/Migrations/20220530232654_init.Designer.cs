@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinanceApp.EntityFramework.Migrations
 {
     [DbContext(typeof(FinanceContext))]
-    [Migration("20220530230412_init")]
+    [Migration("20220530232654_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -517,14 +517,14 @@ namespace FinanceApp.EntityFramework.Migrations
                         new
                         {
                             Id = 99999,
-                            ConcurrencyStamp = "77f44ca2-b65c-460c-a756-d7924f25e51c",
+                            ConcurrencyStamp = "cdec639d-7369-4091-af78-67a41c6c330e",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 99997,
-                            ConcurrencyStamp = "86fefaeb-62da-481c-a110-d78f7468c8d5",
+                            ConcurrencyStamp = "a7ecc806-071c-4d8e-9220-3ae8825225f4",
                             Name = "regular",
                             NormalizedName = "REGULAR"
                         });
@@ -712,15 +712,15 @@ namespace FinanceApp.EntityFramework.Migrations
                         {
                             Id = 99999,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f1a985fa-84a8-4aa7-a739-bfb55dd24da4",
+                            ConcurrencyStamp = "8c88ef0d-4ae2-4605-adc4-9bd054214163",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEEBuBOZfUHVeB/MMxQgHMCz+5lQ2li9u2VoXsud7qYfhXj2+VvAUQRg9zAVVGCCQEw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPw0ZKAKHf/7bjeykoBPHUdJJeFl9tC96Z8sf7IaHaaaHZ56fMfRKpbJvUIU5dVIag==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "c0b1b932-94d5-4089-8b76-20952b18b4f3",
+                            SecurityStamp = "dafd630f-baea-4b46-ae03-306cf2f81509",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });

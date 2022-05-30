@@ -9,7 +9,7 @@ using UsuariosApi.Models;
 
 namespace FinanceApp.Core.Services
 {
-    public class IncomeService : CrudServiceBase
+    public class IncomeService : CrudServiceBase, IIncomeService
     {
 
         public IncomeService(FinanceContext context, IMapper mapper) : base(context, mapper) { }
@@ -17,12 +17,12 @@ namespace FinanceApp.Core.Services
         public async Task<IncomeDto> AddAsync(CreateIncome input, CustomIdentityUser user)
         {
             Income model = _mapper.Map<Income>(input);
-           
+
             model.UserId = user.Id;
             await _context.Incomes.AddAsync(model);
             await _context.SaveChangesAsync();
             return _mapper.Map<IncomeDto>(model);
-            
+
         }
         public async Task<Result> UpdateAsync(UpdateIncome input, CustomIdentityUser user)
         {
@@ -35,7 +35,7 @@ namespace FinanceApp.Core.Services
 
             var model = _mapper.Map<Income>(input);
 
-            model.User = user;          
+            model.User = user;
 
             _context.Incomes.Update(model);
             await _context.SaveChangesAsync();
@@ -63,12 +63,12 @@ namespace FinanceApp.Core.Services
         {
             var investment = await _context.Incomes.FirstOrDefaultAsync(a => a.Id == id);
 
-            if(investment == null)
+            if (investment == null)
             {
                 return Result.Fail("Não Encontrado");
             }
 
-            if(investment.UserId != user.Id)
+            if (investment.UserId != user.Id)
             {
                 return Result.Fail("Usuário Inválido");
             }

@@ -12,15 +12,16 @@ using UsuariosApi.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 
-builder.Services.AddControllers();
+builder.Services.AddControllersWithViews();
+builder.Services.AddSession();
 
-builder.Services.AddScoped<UserRegisterService, UserRegisterService>();
-builder.Services.AddScoped<LoginService, LoginService>();
-builder.Services.AddScoped<TokenService, TokenService>();
+builder.Services.AddTransient<ITreasuryBondService, TreasuryBondService>();
+builder.Services.AddTransient<IPrivateFixedIncomeService, PrivateFixedIncomeService>();
+builder.Services.AddTransient<IIncomeService, IncomeService>();
+builder.Services.AddTransient<ILoginService, LoginService>();
+builder.Services.AddTransient<ITokenService, TokenService>();
+builder.Services.AddTransient<IUserRegisterService, UserRegisterService>();
 
-builder.Services.AddScoped<TreasuryBondService, TreasuryBondService>();
-builder.Services.AddScoped<PrivateFixedIncomeService, PrivateFixedIncomeService>();
-builder.Services.AddScoped<IncomeService, IncomeService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 
@@ -75,6 +76,7 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddCors();
 
 
+builder.Services.AddMemoryCache();
 
 
 

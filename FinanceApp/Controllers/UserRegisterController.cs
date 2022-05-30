@@ -9,9 +9,9 @@ namespace FinanceApp.Api.Controllers
     [ApiController]
     public class UserRegisterController : ControllerBase
     {
-        private UserRegisterService _cadastroService;
+        private IUserRegisterService _cadastroService;
 
-        public UserRegisterController(UserRegisterService cadastroService)
+        public UserRegisterController(IUserRegisterService cadastroService)
         {
             _cadastroService = cadastroService;
         }

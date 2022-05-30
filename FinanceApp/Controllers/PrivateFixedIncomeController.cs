@@ -12,10 +12,10 @@ namespace FinanceApp.Api.Controllers
     [ApiController]
     public class PrivateFixedIncomeController : ControllerBase
     {
-        private readonly PrivateFixedIncomeService _service;
+        private readonly IPrivateFixedIncomeService _service;
         private readonly UserManager<CustomIdentityUser> _userManager;
 
-        public PrivateFixedIncomeController(PrivateFixedIncomeService service, UserManager<CustomIdentityUser> userManager)
+        public PrivateFixedIncomeController(IPrivateFixedIncomeService service, UserManager<CustomIdentityUser> userManager)
         {
             _userManager = userManager;
             _service = service;

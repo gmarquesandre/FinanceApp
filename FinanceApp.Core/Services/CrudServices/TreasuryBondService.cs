@@ -10,7 +10,7 @@ using UsuariosApi.Models;
 
 namespace FinanceApp.Core.Services
 {
-    public class TreasuryBondService : CrudServiceBase
+    public class TreasuryBondService : CrudServiceBase, ITreasuryBondService
     {
 
         public TreasuryBondService(FinanceContext context, IMapper mapper) : base(context, mapper) { }
@@ -18,14 +18,14 @@ namespace FinanceApp.Core.Services
         public async Task<IncomeDto> AddAsync(CreateTreasuryBond input, CustomIdentityUser user)
         {
             TreasuryBond model = _mapper.Map<TreasuryBond>(input);
-           
+
             CheckInvestment(model);
 
             model.UserId = user.Id;
             await _context.TreasuryBonds.AddAsync(model);
             await _context.SaveChangesAsync();
             return _mapper.Map<IncomeDto>(model);
-            
+
         }
         public async Task<Result> UpdateAsync(UpdateTreasuryBond input, CustomIdentityUser user)
         {
@@ -38,9 +38,9 @@ namespace FinanceApp.Core.Services
 
             var model = _mapper.Map<TreasuryBond>(input);
 
-            model.User = user;            
+            model.User = user;
 
-            CheckInvestment(model);    
+            CheckInvestment(model);
 
             _context.TreasuryBonds.Update(model);
             await _context.SaveChangesAsync();
@@ -88,12 +88,12 @@ namespace FinanceApp.Core.Services
         {
             var investment = await _context.TreasuryBonds.FirstOrDefaultAsync(a => a.Id == id);
 
-            if(investment == null)
+            if (investment == null)
             {
                 return Result.Fail("Não Encontrado");
             }
 
-            if(investment.UserId != user.Id)
+            if (investment.UserId != user.Id)
             {
                 return Result.Fail("Usuário Inválido");
             }

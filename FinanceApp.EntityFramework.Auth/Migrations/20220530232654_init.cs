@@ -437,17 +437,17 @@ namespace FinanceApp.EntityFramework.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { 99997, "86fefaeb-62da-481c-a110-d78f7468c8d5", "regular", "REGULAR" });
+                values: new object[] { 99997, "a7ecc806-071c-4d8e-9220-3ae8825225f4", "regular", "REGULAR" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { 99999, "77f44ca2-b65c-460c-a756-d7924f25e51c", "admin", "ADMIN" });
+                values: new object[] { 99999, "cdec639d-7369-4091-af78-67a41c6c330e", "admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { 99999, 0, "f1a985fa-84a8-4aa7-a739-bfb55dd24da4", "admin@admin.com", true, false, null, "ADMIN@ADMIN.COM", "ADMIN", "AQAAAAEAACcQAAAAEEBuBOZfUHVeB/MMxQgHMCz+5lQ2li9u2VoXsud7qYfhXj2+VvAUQRg9zAVVGCCQEw==", null, false, "c0b1b932-94d5-4089-8b76-20952b18b4f3", false, "admin" });
+                values: new object[] { 99999, 0, "8c88ef0d-4ae2-4605-adc4-9bd054214163", "admin@admin.com", true, false, null, "ADMIN@ADMIN.COM", "ADMIN", "AQAAAAEAACcQAAAAEPw0ZKAKHf/7bjeykoBPHUdJJeFl9tC96Z8sf7IaHaaaHZ56fMfRKpbJvUIU5dVIag==", null, false, "dafd630f-baea-4b46-ae03-306cf2f81509", false, "admin" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",

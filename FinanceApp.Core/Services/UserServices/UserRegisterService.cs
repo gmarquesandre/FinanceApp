@@ -9,7 +9,7 @@ using UsuariosApi.Models;
 
 namespace FinanceApp.Core.Services
 {
-    public class UserRegisterService
+    public class UserRegisterService : IUserRegisterService
     {
 
         private IMapper _mapper;
@@ -26,7 +26,7 @@ namespace FinanceApp.Core.Services
             _userManager = userManager;
             //_emailService = emailService;
         }
-       
+
         public async Task<Result> UserRegister(CreateUsuarioDto createDto)
         {
             Usuario usuario = _mapper.Map<Usuario>(createDto);

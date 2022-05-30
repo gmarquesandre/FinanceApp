@@ -11,9 +11,9 @@ namespace FinanceApp.Api.Controllers
     [Route("[controller]")]
     public class LoginController : ControllerBase
     {
-        private readonly LoginService _loginService;
+        private readonly ILoginService _loginService;
 
-        public LoginController(LoginService loginService)
+        public LoginController(ILoginService loginService)
         {
             _loginService = loginService;
         }
