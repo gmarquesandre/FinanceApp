@@ -40,7 +40,7 @@ namespace FinanceApp.Core.Importers
             foreach (var value in listValues)
             {
                 listValuesHistory.Add(new TreasuryBondValue(){
-                   Date = value.LastUpdateDate.Date,
+                   Date = value.LastUpdateDateTime.Date,
                    FixedInterestValueBuy = value.FixedInterestValueBuy,
                    FixedInterestValueSell = value.FixedInterestValueSell,
                    ExpirationDate = value.ExpirationDate,
@@ -108,7 +108,7 @@ namespace FinanceApp.Core.Importers
                     ExpirationDate = expirationDate,
                     FixedInterestValueBuy= Convert.ToDouble(fixedInterestValueBuy, _cultureInvariant),
                     FixedInterestValueSell= Convert.ToDouble(fixedInterestValueSell, _cultureInvariant),
-                    LastUpdateDate = dateLastUpdate,
+                    LastUpdateDateTime = dateLastUpdate,
                     Description = description,
                     Type = EnumHelper<ETreasuryBond>.GetValueFromName(titleName),
                     UnitPriceBuy = Convert.ToDecimal(unitPriceBuy, _cultureInvariant),

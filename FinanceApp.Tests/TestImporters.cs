@@ -41,6 +41,7 @@ namespace FinanceApp.Tests
 
             await DeleteDataDb(dataContext);
         }
+
         [Fact]
         public async Task TestTreasuryBondTitlesImporter()
         {

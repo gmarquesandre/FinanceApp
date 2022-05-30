@@ -30,7 +30,7 @@ namespace FinanceApp.Core.Services
             return _mapper.Map<PrivateFixedIncomeDto>(model);
             
         }
-        public async Task<Result> UpdateAsync(UpdateTreasuryBond input, CustomIdentityUser user)
+        public async Task<Result> UpdateAsync(UpdatePrivateFixedIncome input, CustomIdentityUser user)
         {
             var oldModel = _context.PrivateFixedIncomes.AsNoTracking().FirstOrDefault(x => x.Id == input.Id);
 

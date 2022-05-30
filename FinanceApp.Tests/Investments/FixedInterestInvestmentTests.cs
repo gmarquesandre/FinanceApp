@@ -57,9 +57,9 @@ namespace FinanceApp.Tests.Investments
 
             PrivateFixedIncomeService service = GetPrivateFixedIncomeService(userContext);
 
-            await service.AddInvestmentAsync(investment, user);
+            await service.AddAsync(investment, user);
 
-            var investments = await userContext.PrivateFixedIncomes.ToListAsync();
+            var investments = await userContext.PrivateFixedIncomes.AsNoTracking().ToListAsync();
 
             Assert.True(investments != null);
 
@@ -80,9 +80,9 @@ namespace FinanceApp.Tests.Investments
 
             PrivateFixedIncomeService service = GetPrivateFixedIncomeService(userContext);
 
-            await service.AddInvestmentAsync(investment, user);
+            await service.AddAsync(investment, user);
 
-            var investments = await userContext.PrivateFixedIncomes.ToListAsync();
+            var investments = await userContext.PrivateFixedIncomes.AsNoTracking().ToListAsync();
 
             Assert.True(investments != null);
 
@@ -94,7 +94,7 @@ namespace FinanceApp.Tests.Investments
         {
             (FinanceContext userContext, CustomIdentityUser user, PrivateFixedIncome investment) = await MustAddInvestment();
 
-            var updateInvestment = new UpdateTreasuryBond()
+            var updateInvestment = new UpdatePrivateFixedIncome()
             {
                 Id = investment.Id,
                 Name = investment.Name,
@@ -112,7 +112,7 @@ namespace FinanceApp.Tests.Investments
 
             var service = GetPrivateFixedIncomeService(userContext);
 
-            await service.UpdateInvestmentAsync(updateInvestment, user!);
+            await service.UpdateAsync(updateInvestment, user!);
 
             var newInvestment = await userContext.PrivateFixedIncomes.FirstOrDefaultAsync(a => a.Id == updateInvestment.Id);
 
@@ -131,7 +131,7 @@ namespace FinanceApp.Tests.Investments
 
             Assert.True(mustExistInvesment != null);
 
-            await service.DeleteInvestmentAsync(investment.Id, user!);
+            await service.DeleteAsync(investment.Id, user!);
 
             var mustBeNullInvestment = await userContext.PrivateFixedIncomes.FirstOrDefaultAsync(a => a.Id == investment.Id);
 

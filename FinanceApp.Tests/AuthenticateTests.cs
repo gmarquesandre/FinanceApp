@@ -24,7 +24,7 @@ namespace FinanceApp.Tests
         public async Task DefaultUserMustBeCreatedOnCreateContext()
         {
             var userContext = await CreateFinanceContext();
-            var user = ReturnDefaultUser(userContext);
+            var user = await ReturnDefaultUser(userContext);
             Assert.True(user != null);
 
         }      
