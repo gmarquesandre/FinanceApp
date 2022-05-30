@@ -1,7 +1,7 @@
 ﻿using FinanceApp.Shared.Enum;
 using System.ComponentModel.DataAnnotations;
 
-namespace FinancialAPI.Data
+namespace FinanceApp.Shared.Models
 {
     public class Asset
     {

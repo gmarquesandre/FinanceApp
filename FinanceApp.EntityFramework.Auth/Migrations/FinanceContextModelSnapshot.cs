@@ -4,18 +4,16 @@ using FinanceApp.EntityFramework.Auth;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace FinanceApp.EntityFramework.Auth.Migrations
+namespace FinanceApp.EntityFramework.Migrations
 {
-    [DbContext(typeof(UserDbContext))]
-    [Migration("20220529210926_test")]
-    partial class test
+    [DbContext(typeof(FinanceContext))]
+    partial class FinanceContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -23,6 +21,56 @@ namespace FinanceApp.EntityFramework.Auth.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("FinanceApp.Shared.Models.Holiday", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateLastUpdate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Date")
+                        .IsUnique();
+
+                    b.ToTable("Holidays");
+                });
+
+            modelBuilder.Entity("FinanceApp.Shared.Models.IndexValue", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateEnd")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Index")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Value")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Date", "DateEnd", "Index")
+                        .IsUnique();
+
+                    b.ToTable("IndexValues");
+                });
 
             modelBuilder.Entity("FinanceApp.Shared.Models.PrivateFixedIncome", b =>
                 {
@@ -66,7 +114,7 @@ namespace FinanceApp.EntityFramework.Auth.Migrations
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("UpdateDateTime")
+                    b.Property<DateTime?>("UpdateDateTime")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("UserId")
@@ -77,6 +125,158 @@ namespace FinanceApp.EntityFramework.Auth.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("PrivateFixedIncomes");
+                });
+
+            modelBuilder.Entity("FinanceApp.Shared.Models.ProspectIndexValue", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<double>("Average")
+                        .HasColumnType("float");
+
+                    b.Property<int>("BaseCalculo")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DateEnd")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateLastUpdate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateResearch")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateStart")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Index")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Max")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Median")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Min")
+                        .HasColumnType("float");
+
+                    b.Property<int>("ResearchAnswers")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DateStart", "DateEnd", "Index", "BaseCalculo")
+                        .IsUnique();
+
+                    b.ToTable("ProspectIndexValues");
+                });
+
+            modelBuilder.Entity("FinanceApp.Shared.Models.TreasuryBondTitle", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ExpirationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double>("FixedInterestValueBuy")
+                        .HasColumnType("float");
+
+                    b.Property<double>("FixedInterestValueSell")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("LastUpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("UnitPriceBuy")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("UnitPriceSell")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExpirationDate", "Type")
+                        .IsUnique();
+
+                    b.ToTable("TreasuryBondTitles");
+                });
+
+            modelBuilder.Entity("FinanceApp.Shared.Models.TreasuryBondValue", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ExpirationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double>("FixedInterestValueBuy")
+                        .HasColumnType("float");
+
+                    b.Property<double>("FixedInterestValueSell")
+                        .HasColumnType("float");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("UnitPriceBuy")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("UnitPriceSell")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Date", "ExpirationDate", "Type")
+                        .IsUnique();
+
+                    b.ToTable("TreasuryBondValues");
+                });
+
+            modelBuilder.Entity("FinanceApp.Shared.Models.WorkingDaysByYear", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("DateLastUpdate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("WorkingDays")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Year")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Year")
+                        .IsUnique();
+
+                    b.ToTable("WorkingDaysByYear");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<int>", b =>
@@ -112,14 +312,14 @@ namespace FinanceApp.EntityFramework.Auth.Migrations
                         new
                         {
                             Id = 99999,
-                            ConcurrencyStamp = "0276d971-a4b8-4378-a30b-2b0f8486f3e2",
+                            ConcurrencyStamp = "70002952-69bb-4ecd-95cd-33144b337779",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 99997,
-                            ConcurrencyStamp = "34f27f66-5443-40f7-90cd-c42701e954a0",
+                            ConcurrencyStamp = "b1899d63-2c1f-401e-9b43-cc1cbdc94315",
                             Name = "regular",
                             NormalizedName = "REGULAR"
                         });
@@ -307,15 +507,15 @@ namespace FinanceApp.EntityFramework.Auth.Migrations
                         {
                             Id = 99999,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2e779958-9647-4376-befa-3862ca1828b8",
+                            ConcurrencyStamp = "9935916a-5dfe-4300-a885-5afd682bde51",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEOut9cZU1B/ukJPcZFNFXC7iC1LQ3jItJT7XRecayqMUUEomCEsyW4i2MHV1wYwCwg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEENkGtFrT4fXEV1wWX864yT253hbnYn++jSZq5qi3h9t0iG4zN2ChT9IcPnmyUqGJQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "99d2a5e6-b183-4c54-9701-ba16dd105a49",
+                            SecurityStamp = "794ce9d6-1ecd-47de-9349-5d5f9041d099",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });

@@ -14,12 +14,12 @@ namespace FinanceApp.Core.Services
 
         private IMapper _mapper;
         private UserManager<CustomIdentityUser> _userManager;
-        private UserDbContext _teste;
+        private FinanceContext _teste;
         //private EmailService _emailService;
 
         public UserRegisterService(IMapper mapper,
             UserManager<CustomIdentityUser> userManager,
-            UserDbContext teste)
+            FinanceContext teste)
         {
             _mapper = mapper;
             _teste = teste;

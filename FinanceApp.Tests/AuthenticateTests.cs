@@ -12,7 +12,7 @@ namespace FinanceApp.Tests
     public class AuthenticateTests : CreateDbBase
     {
 
-        public async Task<CustomIdentityUser> ReturnDefaultUser(UserDbContext userContext)
+        public async Task<CustomIdentityUser> ReturnDefaultUser(FinanceContext userContext)
         {
             
             var users = await userContext.Users.ToListAsync();
@@ -23,7 +23,7 @@ namespace FinanceApp.Tests
         [Fact]
         public async Task DefaultUserMustBeCreatedOnCreateContext()
         {
-            var userContext = await CreateUserDbContext();
+            var userContext = await CreateFinanceContext();
             var user = ReturnDefaultUser(userContext);
             Assert.True(user != null);
 

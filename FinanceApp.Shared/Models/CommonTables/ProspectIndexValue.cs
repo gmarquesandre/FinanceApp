@@ -1,6 +1,6 @@
 ﻿using FinanceApp.Shared.Enum;
 using System.ComponentModel.DataAnnotations;
-namespace FinancialAPI.Data
+namespace FinanceApp.Shared.Models
 {
     public class ProspectIndexValue
     {
@@ -9,7 +9,7 @@ namespace FinancialAPI.Data
         public EIndex Index { get; set; }
         public DateTime DateResearch { get; set; }
         public DateTime DateStart { get; set; }
-        public DateTime DateEnd{ get; set; }
+        public DateTime DateEnd { get; set; }
         public double Median { get; set; }
         public double Average { get; set; }
         public double Min { get; set; }

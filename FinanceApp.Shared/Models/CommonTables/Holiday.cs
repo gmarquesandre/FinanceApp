@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace FinancialAPI.Data
+namespace FinanceApp.Shared.Models
 {
     public class Holiday
     { 

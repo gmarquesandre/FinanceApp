@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace FinanceApp.EntityFramework.Auth.Migrations
+namespace FinanceApp.EntityFramework.Migrations
 {
     public partial class init : Migration
     {
@@ -48,6 +48,113 @@ namespace FinanceApp.EntityFramework.Auth.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Holidays",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateLastUpdate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Holidays", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "IndexValues",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Index = table.Column<int>(type: "int", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateEnd = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Value = table.Column<double>(type: "float", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_IndexValues", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProspectIndexValues",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Index = table.Column<int>(type: "int", nullable: false),
+                    DateResearch = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateStart = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateEnd = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Median = table.Column<double>(type: "float", nullable: false),
+                    Average = table.Column<double>(type: "float", nullable: false),
+                    Min = table.Column<double>(type: "float", nullable: false),
+                    Max = table.Column<double>(type: "float", nullable: false),
+                    ResearchAnswers = table.Column<int>(type: "int", nullable: false),
+                    BaseCalculo = table.Column<int>(type: "int", nullable: false),
+                    DateLastUpdate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProspectIndexValues", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TreasuryBondTitles",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Type = table.Column<int>(type: "int", nullable: false),
+                    FixedInterestValueBuy = table.Column<double>(type: "float", nullable: false),
+                    FixedInterestValueSell = table.Column<double>(type: "float", nullable: false),
+                    UnitPriceBuy = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    UnitPriceSell = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    ExpirationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastUpdateDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TreasuryBondTitles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TreasuryBondValues",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Type = table.Column<int>(type: "int", nullable: false),
+                    FixedInterestValueBuy = table.Column<double>(type: "float", nullable: false),
+                    FixedInterestValueSell = table.Column<double>(type: "float", nullable: false),
+                    UnitPriceBuy = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    UnitPriceSell = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    ExpirationDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TreasuryBondValues", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "WorkingDaysByYear",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Year = table.Column<int>(type: "int", nullable: false),
+                    WorkingDays = table.Column<int>(type: "int", nullable: false),
+                    DateLastUpdate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_WorkingDaysByYear", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -168,11 +275,13 @@ namespace FinanceApp.EntityFramework.Auth.Migrations
                     Index = table.Column<int>(type: "int", nullable: false),
                     PreFixedInvestment = table.Column<bool>(type: "bit", nullable: false),
                     IndexPercentage = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    AdditionalFixedInterest = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    AdditionalFixedInterest = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     InvestmentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ExpirationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LiquidityOnExpiration = table.Column<bool>(type: "bit", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false)
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    CreationDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdateDateTime = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -188,17 +297,17 @@ namespace FinanceApp.EntityFramework.Auth.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { 99997, "0f864938-8d77-42f7-9a6c-4d441d9dbb65", "regular", "REGULAR" });
+                values: new object[] { 99997, "b1899d63-2c1f-401e-9b43-cc1cbdc94315", "regular", "REGULAR" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { 99999, "542ffeaf-d033-4048-894f-b52124699162", "admin", "ADMIN" });
+                values: new object[] { 99999, "70002952-69bb-4ecd-95cd-33144b337779", "admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { 99999, 0, "e9f24604-f2d8-4b48-bf3c-15bd4b5cc419", "admin@admin.com", true, false, null, "ADMIN@ADMIN.COM", "ADMIN", "AQAAAAEAACcQAAAAEEKDrSdBJvXsL+La+rVwNtf16RHXnGM9ZZYSlx1Tcz8AuJT0K/gftECHpOF9oEJjkQ==", null, false, "f810af26-56e6-4baf-b4b3-dbe97126753d", false, "admin" });
+                values: new object[] { 99999, 0, "9935916a-5dfe-4300-a885-5afd682bde51", "admin@admin.com", true, false, null, "ADMIN@ADMIN.COM", "ADMIN", "AQAAAAEAACcQAAAAEENkGtFrT4fXEV1wWX864yT253hbnYn++jSZq5qi3h9t0iG4zN2ChT9IcPnmyUqGJQ==", null, false, "794ce9d6-1ecd-47de-9349-5d5f9041d099", false, "admin" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
@@ -245,9 +354,45 @@ namespace FinanceApp.EntityFramework.Auth.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Holidays_Date",
+                table: "Holidays",
+                column: "Date",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_IndexValues_Date_DateEnd_Index",
+                table: "IndexValues",
+                columns: new[] { "Date", "DateEnd", "Index" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PrivateFixedIncomes_UserId",
                 table: "PrivateFixedIncomes",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProspectIndexValues_DateStart_DateEnd_Index_BaseCalculo",
+                table: "ProspectIndexValues",
+                columns: new[] { "DateStart", "DateEnd", "Index", "BaseCalculo" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TreasuryBondTitles_ExpirationDate_Type",
+                table: "TreasuryBondTitles",
+                columns: new[] { "ExpirationDate", "Type" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TreasuryBondValues_Date_ExpirationDate_Type",
+                table: "TreasuryBondValues",
+                columns: new[] { "Date", "ExpirationDate", "Type" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WorkingDaysByYear_Year",
+                table: "WorkingDaysByYear",
+                column: "Year",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -268,7 +413,25 @@ namespace FinanceApp.EntityFramework.Auth.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Holidays");
+
+            migrationBuilder.DropTable(
+                name: "IndexValues");
+
+            migrationBuilder.DropTable(
                 name: "PrivateFixedIncomes");
+
+            migrationBuilder.DropTable(
+                name: "ProspectIndexValues");
+
+            migrationBuilder.DropTable(
+                name: "TreasuryBondTitles");
+
+            migrationBuilder.DropTable(
+                name: "TreasuryBondValues");
+
+            migrationBuilder.DropTable(
+                name: "WorkingDaysByYear");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

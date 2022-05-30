@@ -30,7 +30,7 @@ namespace FinanceApp.Tests.Investments
             Type = (int)ETypePrivateFixedIncome.CRA
         };
 
-        private PrivateFixedIncomeService GetPrivateFixedIncomeService(UserDbContext userContext)
+        private PrivateFixedIncomeService GetPrivateFixedIncomeService(FinanceContext userContext)
         {
             IMapper mapper = GetPrivateFixedIncomeServiceMapper();
             var service = new PrivateFixedIncomeService(userContext, mapper);
@@ -47,9 +47,9 @@ namespace FinanceApp.Tests.Investments
         }
 
         [Fact]
-        public async Task<(UserDbContext userContext, CustomIdentityUser user, PrivateFixedIncome investment)> MustAddInvestment()
+        public async Task<(FinanceContext userContext, CustomIdentityUser user, PrivateFixedIncome investment)> MustAddInvestment()
         {
-            var userContext = await CreateUserDbContext();
+            var userContext = await CreateFinanceContext();
 
             var user = await ReturnDefaultUser(userContext);
 
@@ -70,7 +70,7 @@ namespace FinanceApp.Tests.Investments
         private async Task MustFailAddInvestment()
         {
             
-            var userContext = await CreateUserDbContext();
+            var userContext = await CreateFinanceContext();
 
             var user = await ReturnDefaultUser(userContext);
 
@@ -92,7 +92,7 @@ namespace FinanceApp.Tests.Investments
         [Fact]
         public async Task MustUpdateInvestment()
         {
-            (UserDbContext userContext, CustomIdentityUser user, PrivateFixedIncome investment) = await MustAddInvestment();
+            (FinanceContext userContext, CustomIdentityUser user, PrivateFixedIncome investment) = await MustAddInvestment();
 
             var updateInvestment = new UpdatePrivateFixedIncome()
             {
@@ -123,7 +123,7 @@ namespace FinanceApp.Tests.Investments
         [Fact]
         public async Task MustDeleteInvestment()
         {
-            (UserDbContext userContext, CustomIdentityUser user, PrivateFixedIncome investment) = await MustAddInvestment();
+            (FinanceContext userContext, CustomIdentityUser user, PrivateFixedIncome investment) = await MustAddInvestment();
             
             var service = GetPrivateFixedIncomeService(userContext);
 

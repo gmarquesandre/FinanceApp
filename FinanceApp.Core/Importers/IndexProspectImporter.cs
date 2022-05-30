@@ -1,11 +1,10 @@
-﻿using FinanceApp.Shared;
+﻿using FinanceApp.EntityFramework.Auth;
+using FinanceApp.Shared;
 using FinanceApp.Shared.Enum;
-using FinancialApi.WebAPI.Data;
-using FinancialAPI.Data;
+using FinanceApp.Shared.Models;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
 using System.Globalization;
-using System.Text;
 
 namespace FinanceApp.Core.Importers
 {

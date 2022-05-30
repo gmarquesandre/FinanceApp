@@ -1,5 +1,5 @@
-﻿using FinancialApi.WebAPI.Data;
-using FinancialAPI.Data;
+﻿using FinanceApp.EntityFramework.Auth;
+using FinanceApp.Shared.Models;
 using System.Globalization;
 using System.Net;
 using System.Text.RegularExpressions;

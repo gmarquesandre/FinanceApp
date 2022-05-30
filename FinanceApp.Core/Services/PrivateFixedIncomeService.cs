@@ -12,9 +12,9 @@ namespace FinanceApp.Core.Services
 {
     public class PrivateFixedIncomeService
     {
-        private UserDbContext _context;
+        private FinanceContext _context;
         private IMapper _mapper;
-        public PrivateFixedIncomeService(UserDbContext context, IMapper mapper) 
+        public PrivateFixedIncomeService(FinanceContext context, IMapper mapper) 
         {
             _context = context;
             _mapper = mapper;   

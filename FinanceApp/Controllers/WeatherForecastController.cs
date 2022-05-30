@@ -1,18 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Linq;
-using System;
-using System.Text.RegularExpressions;
-using Microsoft.EntityFrameworkCore;
-using FinancialApi.WebAPI.Data;
-using FinancialAPI.Dto;
-using System.Collections.Generic;
-using FinancialAPI.Data;
 using Microsoft.AspNetCore.Authorization;
+using FinanceApp.EntityFramework.Auth;
 
 namespace FinancialAPI.Controllers
 {
     [ApiController]
-    [Route("")]
+    [Route("[controller]")]
     public class ValueController : ControllerBase
     {
         public readonly FinanceContext _context;

@@ -12,7 +12,7 @@ namespace FinanceApp.Tests
         [Fact]
         public async Task TestIndexImporter()
         {
-            var dataContext = await CreateDataDbContext();
+            var dataContext = await CreateFinanceContext();
 
             var importer = new IndexImporter(dataContext);
 
@@ -29,7 +29,7 @@ namespace FinanceApp.Tests
         [Fact]
         public async Task TestTreasuryBondImporter()
         {
-            var dataContext = await CreateDataDbContext();
+            var dataContext = await CreateFinanceContext();
 
             var importer = new TreasuryBondImporter(dataContext);
 
@@ -41,11 +41,26 @@ namespace FinanceApp.Tests
 
             await DeleteDataDb(dataContext);
         }
+        [Fact]
+        public async Task TestTreasuryBondTitlesImporter()
+        {
+            var dataContext = await CreateFinanceContext();
 
+            var importer = new TreasuryBondImporter(dataContext);
+
+            await importer.GetLastValueTreasury();
+
+            var values = await dataContext.TreasuryBondTitles.ToListAsync();
+
+            Assert.True(values.Any());
+
+            await DeleteDataDb(dataContext);
+        }
+        
         [Fact]
         public async Task TestIndexProspectImporter()
         {
-            var dataContext = await CreateDataDbContext();
+            var dataContext = await CreateFinanceContext();
 
             var importer = new IndexProspectImporter(dataContext);
 
@@ -61,7 +76,7 @@ namespace FinanceApp.Tests
         [Fact]
         public async Task TestHolidaysImporter()
         {
-            var dataContext = await CreateDataDbContext();
+            var dataContext = await CreateFinanceContext();
 
             var importer = new HolidaysImporter(dataContext);
 
@@ -78,7 +93,7 @@ namespace FinanceApp.Tests
         [Fact]
         public async Task TestWorkingDaysImporter()
         {
-            var dataContext = await CreateDataDbContext();
+            var dataContext = await CreateFinanceContext();
 
             var importer = new WorkingDaysImporter(dataContext);
 
@@ -92,6 +107,6 @@ namespace FinanceApp.Tests
 
             await DeleteDataDb(dataContext);
         }
-
+        
     }
 }

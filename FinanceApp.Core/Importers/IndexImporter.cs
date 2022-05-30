@@ -1,6 +1,6 @@
-﻿using FinanceApp.Shared.Enum;
-using FinancialApi.WebAPI.Data;
-using FinancialAPI.Data;
+﻿using FinanceApp.EntityFramework.Auth;
+using FinanceApp.Shared.Enum;
+using FinanceApp.Shared.Models;
 using System.Text;
 
 namespace FinanceApp.Core.Importers

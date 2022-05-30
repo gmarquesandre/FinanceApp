@@ -1,4 +1,4 @@
-﻿using FinancialApi.WebAPI.Data;
+﻿using FinanceApp.EntityFramework.Auth;
 using System.Globalization;
 using System.Net;
 
@@ -10,6 +10,8 @@ namespace FinanceApp.Core.Importers
         public FinanceContext _context;
 
         public CultureInfo _cultureInfoPtBr = new("pt-br");
+
+        public CultureInfo _cultureInvariant = CultureInfo.InvariantCulture;
 
         public ImporterBase(FinanceContext context)
         {

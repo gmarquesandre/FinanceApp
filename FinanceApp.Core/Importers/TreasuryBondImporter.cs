@@ -1,7 +1,9 @@
-﻿using FinanceApp.Shared;
+﻿using FinanceApp.EntityFramework.Auth;
+using FinanceApp.Shared;
 using FinanceApp.Shared.Enum;
-using FinancialApi.WebAPI.Data;
-using FinancialAPI.Data;
+using FinanceApp.Shared.Models;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
 using System.Text;
 
 namespace FinanceApp.Core.Importers
@@ -13,6 +15,106 @@ namespace FinanceApp.Core.Importers
         public TreasuryBondImporter(FinanceContext context): base(context)
         {
 
+        }
+        public async Task GetLastValueTreasury()
+        {
+
+            var response = await _client.GetAsync("https://www.tesourodireto.com.br/json/br/com/b3/tesourodireto/service/api/treasurybondsinfo.json");
+
+            var responseString = await response.Content.ReadAsStringAsync();
+
+            dynamic json = JObject.Parse(responseString);
+
+            var values = json.response.TrsrBdTradgList;
+
+            DateTime lastUpdate = Convert.ToDateTime(json.response.TrsrBondMkt.opngDtTm);
+
+            List<TreasuryBondTitle> listValues = new();
+
+            ConvertToList(values, listValues, lastUpdate);
+
+            await InsertOrUpdate(listValues);
+
+            List<TreasuryBondValue> listValuesHistory = new();
+
+            foreach (var value in listValues)
+            {
+                listValuesHistory.Add(new TreasuryBondValue(){
+                   Date = value.LastUpdateDate.Date,
+                   FixedInterestValueBuy = value.FixedInterestValueBuy,
+                   FixedInterestValueSell = value.FixedInterestValueSell,
+                   ExpirationDate = value.ExpirationDate,
+                   Type = value.Type,
+                   UnitPriceBuy = value.UnitPriceBuy,
+                   UnitPriceSell = value.UnitPriceBuy
+                });
+            }
+
+            await InsertOrUpdate(listValuesHistory);
+        }
+
+        private async Task InsertOrUpdate(List<TreasuryBondTitle> listValues)
+        {
+
+            var allValues = await _context.TreasuryBondTitles.AsNoTracking().ToListAsync();
+
+            var listInsert = listValues
+                    .Where(a => !allValues.Select(b => b.KeyTitle()).Contains(a.KeyTitle())).ToList();
+
+            var listUpdate = listValues.Where(a => allValues.Select(b => b.KeyTitle()).Contains(a.KeyTitle())).ToList();
+
+
+
+            await InsertValues(listInsert);
+            await UpdateValues(listUpdate);
+        }
+
+        private async Task UpdateValues(List<TreasuryBondTitle> listUpdate)
+        {
+            foreach (var treasuryBondTitle in listUpdate)
+            {
+                var title = await _context.TreasuryBondTitles.AsNoTracking()
+                    .FirstOrDefaultAsync(a => a.Type == treasuryBondTitle.Type && a.ExpirationDate == treasuryBondTitle.ExpirationDate);
+
+                treasuryBondTitle.Id = title!.Id;
+
+                _context.TreasuryBondTitles.Update(treasuryBondTitle);
+            }
+            await _context.SaveChangesAsync();    
+        }
+
+        private async Task InsertValues(List<TreasuryBondTitle> listInsert)
+        {
+            await _context.TreasuryBondTitles.AddRangeAsync(listInsert);
+            await _context.SaveChangesAsync();
+        }
+
+        private void ConvertToList(dynamic values, List<TreasuryBondTitle> listValues, DateTime dateLastUpdate)
+        {
+            foreach(var value in values)
+            {
+                var obj = value.TrsrBd;
+                DateTime expirationDate = Convert.ToDateTime(obj.mtrtyDt);
+                string fixedInterestValueBuy = obj.anulInvstmtRate;
+                string fixedInterestValueSell = obj.anulRedRate;
+                string description = obj.featrs;
+                string titleNameWithYear = obj.nm.ToString();
+                string titleName = titleNameWithYear[..titleNameWithYear.LastIndexOf(' ')];
+                string unitPriceBuy = obj.untrInvstmtVal;
+                string unitPriceSell = obj.untrRedVal;
+
+                listValues.Add(new TreasuryBondTitle()
+                {
+                    ExpirationDate = expirationDate,
+                    FixedInterestValueBuy= Convert.ToDouble(fixedInterestValueBuy, _cultureInvariant),
+                    FixedInterestValueSell= Convert.ToDouble(fixedInterestValueSell, _cultureInvariant),
+                    LastUpdateDate = dateLastUpdate,
+                    Description = description,
+                    Type = EnumHelper<ETreasuryBond>.GetValueFromName(titleName),
+                    UnitPriceBuy = Convert.ToDecimal(unitPriceBuy, _cultureInvariant),
+                    UnitPriceSell = Convert.ToDecimal(unitPriceSell, _cultureInvariant)                    
+                });
+            }
         }
 
         public async Task GetTreasury()
@@ -30,11 +132,11 @@ namespace FinanceApp.Core.Importers
 
             var itens = ConvertToList(str);
 
-            await InsertOrUpdateIndex(itens);
+            await InsertOrUpdate(itens);
 
         }
 
-        private async Task InsertOrUpdateIndex(List<TreasuryBondValue> itens)
+        private async Task InsertOrUpdate(List<TreasuryBondValue> itens)
         {
             var treasuryTypeList = Enum.GetValues(typeof(ETreasuryBond)).Cast<ETreasuryBond>().ToList();
            
@@ -104,10 +206,10 @@ namespace FinanceApp.Core.Importers
                 Date = Convert.ToDateTime(a[dateIndex].Replace("\"", ""), _cultureInfoPtBr),
                 Type = EnumHelper<ETreasuryBond>.GetValueFromName(a[typeIndex]),
                 ExpirationDate = Convert.ToDateTime(a[expirationDate].Replace("\"", ""), _cultureInfoPtBr),
-                FixedInterestValueBuy = Convert.ToDouble(a[interestRateBuy]),
-                FixedInterestValueSell = Convert.ToDouble(a[interestRateSell]),
-                UnitPriceBuy = Convert.ToDouble(a[unitPriceBuy]),
-                UnitPriceSell = Convert.ToDouble(a[unitPriceSell]),
+                FixedInterestValueBuy = Convert.ToDouble(a[interestRateBuy], _cultureInvariant),
+                FixedInterestValueSell = Convert.ToDouble(a[interestRateSell], _cultureInvariant),
+                UnitPriceBuy = Convert.ToDecimal(a[unitPriceBuy], _cultureInvariant),
+                UnitPriceSell = Convert.ToDecimal(a[unitPriceSell], _cultureInvariant),
                 
                 //DateEnd = Convert.ToDateTime(a[dateEndIndex].Replace("\"", ""), _cultureInfoPtBr),
                 //    Index = index,

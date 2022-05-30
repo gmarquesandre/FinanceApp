@@ -1,7 +1,6 @@
 
 using FinanceApp.Core.Services;
 using FinanceApp.EntityFramework.Auth;
-using FinancialApi.WebAPI.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -35,7 +34,6 @@ builder.Services.AddDbContext<FinanceContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
 
 });
-builder.Services.AddDbContext<UserDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultAuth")));
 builder.Services.AddIdentity<CustomIdentityUser, IdentityRole<int>>(opt =>
     {
         //opt.SignIn.RequireConfirmedEmail = true;
@@ -43,7 +41,7 @@ builder.Services.AddIdentity<CustomIdentityUser, IdentityRole<int>>(opt =>
     })
     .AddSignInManager()
   
-    .AddEntityFrameworkStores<UserDbContext>()
+    .AddEntityFrameworkStores<FinanceContext>()
     .AddDefaultTokenProviders();
 
 builder.Services.AddAuthentication(auth =>
