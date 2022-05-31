@@ -7,10 +7,10 @@ namespace FinanceApp.Core.Services
 {
     public interface ITreasuryBondService
     {
-        Task<IncomeDto> AddAsync(CreateTreasuryBond input, CustomIdentityUser user);
+        Task<TreasuryBondDto> AddAsync(CreateTreasuryBond input, CustomIdentityUser user);
         Task<Result> DeleteAsync(int id, CustomIdentityUser user);
-        Task<List<IncomeDto>> GetAsync(CustomIdentityUser user);
-        Task<IncomeDto> GetAsync(CustomIdentityUser user, int id);
+        Task<List<TreasuryBondDto>> GetAsync(CustomIdentityUser user);
+        Task<TreasuryBondDto> GetAsync(CustomIdentityUser user, int id);
         Task<Result> UpdateAsync(UpdateTreasuryBond input, CustomIdentityUser user);
     }
 }

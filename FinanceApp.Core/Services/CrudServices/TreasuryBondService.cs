@@ -15,7 +15,7 @@ namespace FinanceApp.Core.Services
 
         public TreasuryBondService(FinanceContext context, IMapper mapper) : base(context, mapper) { }
 
-        public async Task<IncomeDto> AddAsync(CreateTreasuryBond input, CustomIdentityUser user)
+        public async Task<TreasuryBondDto> AddAsync(CreateTreasuryBond input, CustomIdentityUser user)
         {
             TreasuryBond model = _mapper.Map<TreasuryBond>(input);
 
@@ -24,7 +24,7 @@ namespace FinanceApp.Core.Services
             model.UserId = user.Id;
             await _context.TreasuryBonds.AddAsync(model);
             await _context.SaveChangesAsync();
-            return _mapper.Map<IncomeDto>(model);
+            return _mapper.Map<TreasuryBondDto>(model);
 
         }
         public async Task<Result> UpdateAsync(UpdateTreasuryBond input, CustomIdentityUser user)
@@ -68,20 +68,20 @@ namespace FinanceApp.Core.Services
 
         }
 
-        public async Task<List<IncomeDto>> GetAsync(CustomIdentityUser user)
+        public async Task<List<TreasuryBondDto>> GetAsync(CustomIdentityUser user)
         {
             var values = await _context.TreasuryBonds.Where(a => a.User.Id == user.Id).ToListAsync();
-            return _mapper.Map<List<IncomeDto>>(values);
+            return _mapper.Map<List<TreasuryBondDto>>(values);
         }
 
-        public async Task<IncomeDto> GetAsync(CustomIdentityUser user, int id)
+        public async Task<TreasuryBondDto> GetAsync(CustomIdentityUser user, int id)
         {
             var value = await _context.TreasuryBonds.FirstOrDefaultAsync(a => a.User.Id == user.Id && a.Id == id);
 
             if (value == null)
                 throw new Exception("Registro Não Encontrado");
 
-            return _mapper.Map<IncomeDto>(value);
+            return _mapper.Map<TreasuryBondDto>(value);
 
         }
 

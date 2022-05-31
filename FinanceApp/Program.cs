@@ -19,6 +19,7 @@ builder.Services.AddMemoryCache();
 builder.Services.AddTransient<ITreasuryBondService, TreasuryBondService>();
 builder.Services.AddTransient<IPrivateFixedIncomeService, PrivateFixedIncomeService>();
 builder.Services.AddTransient<IIncomeService, IncomeService>();
+builder.Services.AddTransient<IFGTSService, FGTSService>();
 builder.Services.AddTransient<ILoginService, LoginService>();
 builder.Services.AddTransient<ITokenService, TokenService>();
 builder.Services.AddTransient<IUserRegisterService, UserRegisterService>();

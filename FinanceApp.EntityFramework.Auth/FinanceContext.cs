@@ -24,6 +24,7 @@ namespace FinanceApp.EntityFramework.Auth
         public DbSet<Spending> Spendings { get; set; }
         public DbSet<Income> Incomes { get; set; }
         public DbSet<FGTS> FGTS { get; set; }
+        public DbSet<Loan> Loans { get; set; }
 
         //Common Tables
         public DbSet<IndexValue> IndexValues { get; set; }
