@@ -8,13 +8,13 @@ namespace FinanceApp.Shared.Models
         [Key]
         public int Id { get; set; }
         public ETreasuryBond Type { get; set; }
-        private string TypeDisplayValue => EnumHelper<ETreasuryBond>.GetDisplayValue(Type);
+        public string TypeDisplayValue => EnumHelper<ETreasuryBond>.GetDisplayValue(Type);
         public decimal UnitPrice { get; set; }
         public DateTime ExpirationDate { get; set; }
         public DateTime InvestmentDate { get; set; }
         public EOperation Operation { get; set; }
-        private string OperationName => EnumHelper<EOperation>.GetDisplayValue(Operation);
-        private string OperationNameShort => EnumHelper<EOperation>.GetDisplayShortValue(Operation);
+        public string OperationName => EnumHelper<EOperation>.GetDisplayValue(Operation);
+        public string OperationNameShort => EnumHelper<EOperation>.GetDisplayShortValue(Operation);
         public decimal Quantity { get; set; }
 
     }

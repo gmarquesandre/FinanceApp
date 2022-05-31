@@ -2,6 +2,7 @@
 using FinanceApp.Core.Services.Base;
 using FinanceApp.EntityFramework.Auth;
 using FinanceApp.Shared.Dto;
+using FinanceApp.Shared.Enum;
 using FinanceApp.Shared.Models;
 using FluentResults;
 using Microsoft.EntityFrameworkCore;
@@ -14,15 +15,25 @@ namespace FinanceApp.Core.Services
 
         public IncomeService(FinanceContext context, IMapper mapper) : base(context, mapper) { }
 
-        public async Task<IncomeDto> AddAsync(CreateIncome input, CustomIdentityUser user)
+        public async Task<Result> AddAsync(CreateIncome input, CustomIdentityUser user)
         {
-            Income model = _mapper.Map<Income>(input);
+            try
+            {
+                Income model = _mapper.Map<Income>(input);
 
-            model.UserId = user.Id;
-            await _context.Incomes.AddAsync(model);
-            await _context.SaveChangesAsync();
-            return _mapper.Map<IncomeDto>(model);
+                CheckValue(model);
 
+                model.UserId = user.Id;
+                await _context.Incomes.AddAsync(model);
+                await _context.SaveChangesAsync();
+                //return _mapper.Map<IncomeDto>(model);
+
+                return Result.Ok().WithSuccess("Criado com sucesso");
+            }
+            catch (Exception ex)
+            {
+                return Result.Ok().WithError(ex.Message);
+            }
         }
         public async Task<Result> UpdateAsync(UpdateIncome input, CustomIdentityUser user)
         {
@@ -35,20 +46,25 @@ namespace FinanceApp.Core.Services
 
             var model = _mapper.Map<Income>(input);
 
+            CheckValue(model);
+
             model.User = user;
+            model.CreationDateTime = oldModel.CreationDateTime;
 
             _context.Incomes.Update(model);
             await _context.SaveChangesAsync();
             return Result.Ok().WithSuccess("Investimento atualizado com sucesso");
         }
 
-        public async Task<List<IncomeDto>> GetAllAsync(CustomIdentityUser user)
+
+
+        public async Task<List<IncomeDto>> GetAsync(CustomIdentityUser user)
         {
             var values = await _context.Incomes.Where(a => a.User.Id == user.Id).ToListAsync();
             return _mapper.Map<List<IncomeDto>>(values);
         }
 
-        public async Task<IncomeDto> GetSingleAsync(CustomIdentityUser user, int id)
+        public async Task<IncomeDto> GetAsync(CustomIdentityUser user, int id)
         {
             var value = await _context.Incomes.FirstOrDefaultAsync(a => a.User.Id == user.Id && a.Id == id);
 

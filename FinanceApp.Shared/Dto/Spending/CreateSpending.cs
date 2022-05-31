@@ -5,10 +5,9 @@ namespace FinanceApp.Shared.Models
     public class CreateSpending : CreateDto
     {
         public string Name { get; set; }
-        public int Type { get; set; }
         public decimal Amount { get; set; }
         public DateTime InitialDate { get; set; }
-        public int Frequency { get; set; }
+        public int Recurrence { get; set; }
         public bool IsRequired { get; set; }
         public int? Category { get; set; }
         public DateTime? EndDate { get; set; }

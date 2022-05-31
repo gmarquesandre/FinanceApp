@@ -18,7 +18,7 @@ namespace FinanceApp.Core.Services
         public async Task<SpendingDto> AddAsync(CreateSpending input, CustomIdentityUser user)
         {
             Spending model = _mapper.Map<Spending>(input);
-
+            CheckValue(model);
             model.UserId = user.Id;
             await _context.Spendings.AddAsync(model);
             await _context.SaveChangesAsync();
@@ -35,23 +35,26 @@ namespace FinanceApp.Core.Services
                 return Result.Fail("Usuário Inválido");
 
             var model = _mapper.Map<Spending>(input);
-
+            
+            CheckValue(model);
+            
             model.User = user;
+            model.CreationDateTime = oldModel.CreationDateTime;
 
             _context.Spendings.Update(model);
             await _context.SaveChangesAsync();
             return Result.Ok().WithSuccess("Investimento atualizado com sucesso");
         }
 
-        public async Task<List<SpendingDto>> GetAllAsync(CustomIdentityUser user)
+        public async Task<List<SpendingDto>> GetAsync(CustomIdentityUser user)
         {
-            var values = await _context.Spendings.Where(a => a.User.Id == user.Id).ToListAsync();
+            var values = await _context.Spendings.Include(a => a.Category).Where(a => a.User.Id == user.Id).ToListAsync();
             return _mapper.Map<List<SpendingDto>>(values);
         }
 
-        public async Task<SpendingDto> GetSingleAsync(CustomIdentityUser user, int id)
+        public async Task<SpendingDto> GetAsync(CustomIdentityUser user, int id)
         {
-            var value = await _context.Spendings.FirstOrDefaultAsync(a => a.User.Id == user.Id && a.Id == id);
+            var value = await _context.Spendings.Include(a=> a.Category).FirstOrDefaultAsync(a => a.User.Id == user.Id && a.Id == id);
 
             if (value == null)
                 throw new Exception("Registro Não Encontrado");

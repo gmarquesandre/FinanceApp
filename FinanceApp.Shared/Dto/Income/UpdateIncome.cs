@@ -6,7 +6,7 @@ namespace FinanceApp.Shared.Dto
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public int Type { get; set; }
+        public int Recurrence { get; set; }
         public decimal Amount { get; set; }
         public DateTime InitialDate { get; set; }
         public DateTime? EndDate { get; set; }

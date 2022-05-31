@@ -40,7 +40,7 @@ namespace FinanceApp.Core.Services
                 return Result.Fail("Usuário Inválido");
 
             var model = _mapper.Map<PrivateFixedIncome>(input);
-
+            model.CreationDateTime = oldModel.CreationDateTime;
             model.User = user;
 
 
@@ -54,7 +54,7 @@ namespace FinanceApp.Core.Services
             return Result.Ok().WithSuccess("Investimento atualizado com sucesso");
         }
 
-        public async Task<PrivateFixedIncomeDto> GetSingleAsync(CustomIdentityUser user, int id)
+        public async Task<PrivateFixedIncomeDto> GetAsync(CustomIdentityUser user, int id)
         {
             var value = await _context.PrivateFixedIncomes.FirstOrDefaultAsync(a => a.User.Id == user.Id && a.Id == id);
 
@@ -83,7 +83,7 @@ namespace FinanceApp.Core.Services
 
         }
 
-        public async Task<List<PrivateFixedIncomeDto>> GetAllAsync(CustomIdentityUser user)
+        public async Task<List<PrivateFixedIncomeDto>> GetAsync(CustomIdentityUser user)
         {
             var values = await _context.PrivateFixedIncomes.Where(a => a.User.Id == user.Id).ToListAsync();
             return _mapper.Map<List<PrivateFixedIncomeDto>>(values);

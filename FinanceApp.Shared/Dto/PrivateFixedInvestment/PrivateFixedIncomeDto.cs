@@ -11,12 +11,12 @@ namespace FinanceApp.Shared.Models
         public string Name { get; set; }
         [Required]
         public ETypePrivateFixedIncome Type { get; set; }
-        private string TypeDisplayValue => EnumHelper<ETypePrivateFixedIncome>.GetDisplayValue(Type);
+        public string TypeDisplayValue => EnumHelper<ETypePrivateFixedIncome>.GetDisplayValue(Type);
         [Required]
         public decimal Amount { get; set; }
         [Required]
         public EIndex Index { get; set; }
-        private string IndexDisplayValue => EnumHelper<EIndex>.GetDisplayValue(Index);
+        public string IndexDisplayValue => EnumHelper<EIndex>.GetDisplayValue(Index);
         [Required]
         public bool PreFixedInvestment { get; set; }
         [Required]

@@ -2,6 +2,6 @@
 {
     public class CreateDto
     {
-        public DateTime CreateDateTime => DateTime.Now;
+        public DateTime CreationDateTime => DateTime.Now;
     }
 }

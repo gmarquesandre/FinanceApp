@@ -39,6 +39,7 @@ namespace FinanceApp.Core.Services
             var model = _mapper.Map<TreasuryBond>(input);
 
             model.User = user;
+            model.CreationDateTime = oldModel.CreationDateTime;
 
             CheckInvestment(model);
 
@@ -67,13 +68,13 @@ namespace FinanceApp.Core.Services
 
         }
 
-        public async Task<List<IncomeDto>> GetAllAsync(CustomIdentityUser user)
+        public async Task<List<IncomeDto>> GetAsync(CustomIdentityUser user)
         {
             var values = await _context.TreasuryBonds.Where(a => a.User.Id == user.Id).ToListAsync();
             return _mapper.Map<List<IncomeDto>>(values);
         }
 
-        public async Task<IncomeDto> GetSingleAsync(CustomIdentityUser user, int id)
+        public async Task<IncomeDto> GetAsync(CustomIdentityUser user, int id)
         {
             var value = await _context.TreasuryBonds.FirstOrDefaultAsync(a => a.User.Id == user.Id && a.Id == id);
 

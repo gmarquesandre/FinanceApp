@@ -26,18 +26,18 @@ namespace FinanceApp.Api.Controllers
         public async Task<IActionResult> GetInvestmentsAsync()
         {
             var user = await _userManager.GetUserAsync(User);
-            var resultado = await _service.GetAllAsync(user);
+            var resultado = await _service.GetAsync(user);
         
             return Ok(resultado);
         }
 
 
-        [HttpGet("GetSingle")]
+        [HttpGet("Get/{id:int}")]
         [Authorize]
         public async Task<IActionResult> GetInvestmentsAsync(int id)
         {
             var user = await _userManager.GetUserAsync(User);
-            var resultado = await _service.GetSingleAsync(user, id);
+            var resultado = await _service.GetAsync(user, id);
 
             return Ok(resultado);
         }
@@ -46,13 +46,17 @@ namespace FinanceApp.Api.Controllers
         [Authorize]
         public async Task<IActionResult> AddInvestment(CreateIncome input)
         {
+            
             var user = await _userManager.GetUserAsync(User);
-            var result = await _service.AddAsync(input, user);
-
-            return CreatedAtAction(nameof(AddInvestment), new { Id = result.Id }, result);
+            var resultado = await _service.AddAsync(input, user);
+            if (resultado.IsSuccess)
+                return Ok(resultado);
+            else
+                return BadRequest(resultado);
+            
         }
 
-        [HttpDelete("Delete")]
+        [HttpDelete("Delete/{id:int}")]
         [Authorize]
         public async Task<IActionResult> DeleteInvestment(int id)
         {

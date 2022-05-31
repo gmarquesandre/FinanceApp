@@ -9,8 +9,8 @@ namespace FinanceApp.Core.Services
     {
         Task<PrivateFixedIncomeDto> AddAsync(CreatePrivateFixedIncome input, CustomIdentityUser user);
         Task<Result> DeleteAsync(int id, CustomIdentityUser user);
-        Task<List<PrivateFixedIncomeDto>> GetAllAsync(CustomIdentityUser user);
-        Task<PrivateFixedIncomeDto> GetSingleAsync(CustomIdentityUser user, int id);
+        Task<List<PrivateFixedIncomeDto>> GetAsync(CustomIdentityUser user);
+        Task<PrivateFixedIncomeDto> GetAsync(CustomIdentityUser user, int id);
         Task<Result> UpdateAsync(UpdatePrivateFixedIncome input, CustomIdentityUser user);
     }
 }

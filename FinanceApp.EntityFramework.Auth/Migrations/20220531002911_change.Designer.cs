@@ -4,6 +4,7 @@ using FinanceApp.EntityFramework.Auth;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinanceApp.EntityFramework.Migrations
 {
     [DbContext(typeof(FinanceContext))]
-    partial class FinanceContextModelSnapshot : ModelSnapshot
+    [Migration("20220531002911_change")]
+    partial class change
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -99,10 +101,10 @@ namespace FinanceApp.EntityFramework.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Recurrence")
+                    b.Property<int?>("TimesRecurrence")
                         .HasColumnType("int");
 
-                    b.Property<int?>("TimesRecurrence")
+                    b.Property<int>("Type")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdateDateTime")
@@ -283,10 +285,10 @@ namespace FinanceApp.EntityFramework.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Recurrence")
+                    b.Property<int?>("TimesRecurrence")
                         .HasColumnType("int");
 
-                    b.Property<int?>("TimesRecurrence")
+                    b.Property<int>("Type")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdateDateTime")
@@ -482,14 +484,14 @@ namespace FinanceApp.EntityFramework.Migrations
                         new
                         {
                             Id = 99999,
-                            ConcurrencyStamp = "cc7097e8-a895-4dd0-a00c-a02e0fd758bf",
+                            ConcurrencyStamp = "7d5fce18-a54c-4721-9b2d-af8324dd62a3",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 99997,
-                            ConcurrencyStamp = "cdad4c39-e9a3-44d6-ab14-f9bdd82c4001",
+                            ConcurrencyStamp = "e3255599-fc44-40a8-aea3-add7c06c9d04",
                             Name = "regular",
                             NormalizedName = "REGULAR"
                         });
@@ -677,15 +679,15 @@ namespace FinanceApp.EntityFramework.Migrations
                         {
                             Id = 99999,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2b5573b9-8171-4f7c-bb14-04ad6e53f002",
+                            ConcurrencyStamp = "dccccc53-2793-425b-a75a-7902128e15c6",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEFNCETHev0c8MGfPDx6zBE663jaWf9w+N/NdvZWDZNTclTbeYdojDKBGYzKFgnF39w==",
+                            PasswordHash = "AQAAAAEAACcQAAAAELAVrnByvVFwPPRLhLeeu6GBDz0dMCEZc4aYjseo9WjuanjTRMFeDqwHW0jD8TW83Q==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "821158b3-3f08-4036-9e34-d907e67a0b33",
+                            SecurityStamp = "95e37262-ae8a-4a73-92a3-6663bed3fa5e",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });

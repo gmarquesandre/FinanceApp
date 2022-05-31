@@ -8,7 +8,7 @@ namespace FinanceApp.Shared.Models
         [Required]
         public string Name { get; set; }
         [Required]
-        public ERecurrence Type { get; set; }
+        public ERecurrence Recurrence { get; set; }
         public decimal Amount { get; set; }
         public DateTime InitialDate { get; set; }
         public DateTime? EndDate { get; set; }

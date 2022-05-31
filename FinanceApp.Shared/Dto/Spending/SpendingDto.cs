@@ -7,7 +7,7 @@ namespace FinanceApp.Shared.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public ERecurrence Recurrence { get; set; }
-        private string RecurrenceDisplayValue => EnumHelper<ERecurrence>.GetDisplayValue(Recurrence);
+        public string RecurrenceDisplayValue => EnumHelper<ERecurrence>.GetDisplayValue(Recurrence);
         public CategoryDto? Category { get; set; }
         public bool IsRequired { get; set; }
         public decimal Amount { get; set; }
