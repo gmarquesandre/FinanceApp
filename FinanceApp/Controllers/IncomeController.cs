@@ -10,12 +10,12 @@ namespace FinanceApp.Api.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class PrivateFixedIncomeController : ControllerBase
+    public class IncomeController : ControllerBase
     {
-        private readonly IPrivateFixedIncomeService _service;
+        private readonly IIncomeService _service;
         private readonly UserManager<CustomIdentityUser> _userManager;
 
-        public PrivateFixedIncomeController(IPrivateFixedIncomeService service, UserManager<CustomIdentityUser> userManager)
+        public IncomeController(IIncomeService service, UserManager<CustomIdentityUser> userManager)
         {
             _userManager = userManager;
             _service = service;
@@ -44,7 +44,7 @@ namespace FinanceApp.Api.Controllers
 
         [HttpPost("Create")]
         [Authorize]
-        public async Task<IActionResult> AddInvestment(CreatePrivateFixedIncome input)
+        public async Task<IActionResult> AddInvestment(CreateIncome input)
         {
             var user = await _userManager.GetUserAsync(User);
             var result = await _service.AddAsync(input, user);
@@ -65,7 +65,7 @@ namespace FinanceApp.Api.Controllers
 
         [HttpPut("Update")]
         [Authorize]
-        public async Task<IActionResult> UpdateInvestment(UpdatePrivateFixedIncome input)
+        public async Task<IActionResult> UpdateInvestment(UpdateIncome input)
         {
             var user = await _userManager.GetUserAsync(User);
             var resultado = await _service.UpdateAsync(input, user);

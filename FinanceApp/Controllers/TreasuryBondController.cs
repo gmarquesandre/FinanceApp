@@ -32,7 +32,7 @@ namespace FinanceApp.Api.Controllers
         }
 
 
-        [HttpGet("Get")]
+        [HttpGet("GetSingle")]
         [Authorize]
         public async Task<IActionResult> GetInvestmentsAsync(int id)
         {

@@ -1,4 +1,3 @@
-
 using FinanceApp.Core.Services;
 using FinanceApp.EntityFramework.Auth;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -12,9 +11,11 @@ using UsuariosApi.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 
+//builder.Services.AddControllers();
 builder.Services.AddControllersWithViews();
 builder.Services.AddSession();
 
+builder.Services.AddMemoryCache();
 builder.Services.AddTransient<ITreasuryBondService, TreasuryBondService>();
 builder.Services.AddTransient<IPrivateFixedIncomeService, PrivateFixedIncomeService>();
 builder.Services.AddTransient<IIncomeService, IncomeService>();
@@ -72,11 +73,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "FinancialAPI", Version = "v1" });
+    c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
 });
 builder.Services.AddCors();
 
 
-builder.Services.AddMemoryCache();
 
 
 

@@ -2,12 +2,12 @@
 using FinanceApp.Core.Services;
 using FinanceApp.Shared.Dto;
 using FluentResults;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinanceApp.Api.Controllers
 {
     [ApiController]
+    [ApiExplorerSettings(IgnoreApi = false)]
     [Route("[controller]")]
     public class LoginController : ControllerBase
     {
@@ -26,7 +26,7 @@ namespace FinanceApp.Api.Controllers
             return Ok(resultado.Successes);
         }
 
-        [HttpPost("/solicita-reset")]
+        [HttpPost("ResetRequest")]
         public async Task<IActionResult> SolicitaResetSenhaUsuario(SolicitaResetDto request)
         {
             Result resultado = await _loginService.SolicitaResetSenhaUsuarioAsync(request);
@@ -34,7 +34,7 @@ namespace FinanceApp.Api.Controllers
             return Ok(resultado.Successes);
         }
 
-        [HttpPost("/efetua-reset")]
+        [HttpPost("Reset")]
         public IActionResult ResetaSenhaUsuario(EfetuaResetDto request)
         {
             Result resultado = _loginService.ResetaSenhaUsuario(request);

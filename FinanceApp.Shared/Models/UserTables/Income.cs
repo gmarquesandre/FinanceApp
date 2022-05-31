@@ -2,6 +2,5 @@
 {
     public class Income : SpendingAndIncome
     {
-        public SpendingCategory? Category { get; set; }
     }
 }

@@ -17,7 +17,7 @@ namespace FinancialAPI.Controllers
 
         [Authorize]
         [HttpGet("mvp/GetProspect")]
-        public ActionResult GetProspect()
+        public IActionResult GetProspect()
         {
             var values = _context.ProspectIndexValues
                 .Where(a => a.BaseCalculo == 0)
@@ -26,7 +26,7 @@ namespace FinancialAPI.Controllers
         }
 
         [HttpGet("mvp/GetHolidays")]
-        public ActionResult GetHolidays([FromQuery] int userId)
+        public IActionResult GetHolidays([FromQuery] int userId)
         {
             DateTime lastUpdateDateLocal = _context.Holidays.Select(a => a.DateLastUpdate).Max();
             
@@ -36,7 +36,7 @@ namespace FinancialAPI.Controllers
         }
 
         [HttpGet("mvp/GetWorkingDaysByYear")]
-        public ActionResult GetWorkingDaysByYear()
+        public IActionResult GetWorkingDaysByYear()
         {
             
             var values = _context.WorkingDaysByYear.ToList();
