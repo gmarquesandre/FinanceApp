@@ -1,13 +1,14 @@
 ﻿using AutoMapper;
-using FinanceApp.EntityFramework.Auth;
+using FinanceApp.Core.Services.UserServices.Interfaces;
+using FinanceApp.EntityFramework;
+using FinanceApp.Shared.Dto;
 using FinanceApp.Shared.Enum;
-using FinanceApp.Shared.Models;
+using FinanceApp.Shared.Models.CommonTables;
+using FinanceApp.Shared.Models.UserTables;
 using FluentResults;
 using Microsoft.AspNetCore.Identity;
-using UsuariosApi.Data.Dtos.Usuario;
-using UsuariosApi.Models;
 
-namespace FinanceApp.Core.Services
+namespace FinanceApp.Core.Services.UserServices
 {
     public class UserRegisterService : IUserRegisterService
     {

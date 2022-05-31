@@ -1,6 +1,6 @@
 ﻿using FinanceApp.Shared.Enum;
 
-namespace FinanceApp.Shared.Models
+namespace FinanceApp.Shared.Dto.Loan
 {
     public class LoanDto
     {

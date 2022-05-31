@@ -1,9 +1,9 @@
-﻿using FinanceApp.Core.Services;
-using FinanceApp.Shared.Dto;
+﻿using FinanceApp.Core.Services.CrudServices.Interfaces;
+using FinanceApp.Shared.Dto.PrivateFixedInvestment;
+using FinanceApp.Shared.Models.CommonTables;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using UsuariosApi.Models;
 
 namespace FinanceApp.Api.Controllers
 {

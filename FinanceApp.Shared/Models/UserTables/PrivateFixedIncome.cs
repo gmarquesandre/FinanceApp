@@ -1,7 +1,8 @@
 ﻿using FinanceApp.Shared.Enum;
+using FinanceApp.Shared.Models.UserTables.Bases;
 using System.ComponentModel.DataAnnotations;
 
-namespace FinanceApp.Shared.Models
+namespace FinanceApp.Shared.Models.UserTables
 {
     public class PrivateFixedIncome : UserTable
     {
@@ -9,7 +10,7 @@ namespace FinanceApp.Shared.Models
         public string Name { get; set; }
         [Required]
         public ETypePrivateFixedIncome Type { get; set; }
-        [Required]        
+        [Required]
         public decimal Amount { get; set; }
         [Required]
         public EIndex Index { get; set; }

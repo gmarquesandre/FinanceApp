@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace FinancialAPI.Dto
+namespace FinanceApp.Shared.Dto
 {
     public class AssetChangeInput
     {

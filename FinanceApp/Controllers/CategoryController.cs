@@ -1,10 +1,10 @@
-﻿using FinanceApp.Core.Services;
+﻿using FinanceApp.Core.Services.CrudServices.Interfaces;
 using FinanceApp.Shared.Dto;
-using FinanceApp.Shared.Models;
+using FinanceApp.Shared.Dto.Category;
+using FinanceApp.Shared.Models.CommonTables;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using UsuariosApi.Models;
 
 namespace FinanceApp.Api.Controllers
 {

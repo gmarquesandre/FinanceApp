@@ -1,14 +1,15 @@
 ﻿using AutoMapper;
-using FinanceApp.Core.Services;
-using FinanceApp.EntityFramework.Auth;
+using FinanceApp.Core.Services.CrudServices;
+using FinanceApp.EntityFramework;
 using FinanceApp.Shared.Dto;
+using FinanceApp.Shared.Dto.TreasuryBond;
 using FinanceApp.Shared.Enum;
-using FinanceApp.Shared.Models;
+using FinanceApp.Shared.Models.CommonTables;
+using FinanceApp.Shared.Models.UserTables;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using UsuariosApi.Models;
 using UsuariosApi.Profiles;
 using Xunit;
 

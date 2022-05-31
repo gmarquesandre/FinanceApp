@@ -1,11 +1,11 @@
-﻿using FinanceApp.Shared.Models;
+﻿using FinanceApp.Core.Services.UserServices.Interfaces;
+using FinanceApp.Shared.Models.CommonTables;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using UsuariosApi.Models;
 
-namespace FinanceApp.Core.Services
+namespace FinanceApp.Core.Services.UserServices
 {
     public class TokenService : ITokenService
     {

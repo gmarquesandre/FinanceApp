@@ -1,11 +1,10 @@
-﻿using FinanceApp.Api.Requests;
+﻿using FinanceApp.Core.Services.UserServices.Interfaces;
 using FinanceApp.Shared.Dto;
-using FinanceApp.Shared.Models;
+using FinanceApp.Shared.Models.CommonTables;
 using FluentResults;
 using Microsoft.AspNetCore.Identity;
-using UsuariosApi.Models;
 
-namespace FinanceApp.Core.Services
+namespace FinanceApp.Core.Services.UserServices
 {
     public class LoginService : ILoginService
     {

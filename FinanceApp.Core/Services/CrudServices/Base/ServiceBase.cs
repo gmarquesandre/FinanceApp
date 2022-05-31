@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using FinanceApp.EntityFramework.Auth;
+using FinanceApp.EntityFramework;
 using FinanceApp.Shared.Enum;
-using FinanceApp.Shared.Models;
+using FinanceApp.Shared.Models.UserTables.Bases;
 
-namespace FinanceApp.Core.Services.Base
+namespace FinanceApp.Core.Services.CrudServices.Base
 {
     public class CrudServiceBase
     {

@@ -1,8 +1,7 @@
-﻿using FinanceApp.Api.Requests;
-using FinanceApp.Shared.Dto;
+﻿using FinanceApp.Shared.Dto;
 using FluentResults;
 
-namespace FinanceApp.Core.Services
+namespace FinanceApp.Core.Services.UserServices.Interfaces
 {
     public interface ILoginService
     {

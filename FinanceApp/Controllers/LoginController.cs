@@ -1,5 +1,4 @@
-﻿using FinanceApp.Api.Requests;
-using FinanceApp.Core.Services;
+﻿using FinanceApp.Core.Services.UserServices.Interfaces;
 using FinanceApp.Shared.Dto;
 using FluentResults;
 using Microsoft.AspNetCore.Mvc;

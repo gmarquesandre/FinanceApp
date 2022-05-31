@@ -1,7 +1,7 @@
-﻿using FluentResults;
-using UsuariosApi.Data.Dtos.Usuario;
+﻿using FinanceApp.Shared.Dto;
+using FluentResults;
 
-namespace FinanceApp.Core.Services
+namespace FinanceApp.Core.Services.UserServices.Interfaces
 {
     public interface IUserRegisterService
     {

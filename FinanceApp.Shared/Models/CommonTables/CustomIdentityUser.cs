@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace UsuariosApi.Models
+namespace FinanceApp.Shared.Models.CommonTables
 {
     public class CustomIdentityUser : IdentityUser<int>
     {
-        
+
     }
 }

@@ -1,7 +1,8 @@
-﻿using FinanceApp.EntityFramework.Auth;
+﻿using FinanceApp.Core.Importers.Base;
+using FinanceApp.EntityFramework;
 using FinanceApp.Shared;
 using FinanceApp.Shared.Enum;
-using FinanceApp.Shared.Models;
+using FinanceApp.Shared.Models.CommonTables;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
 using System.Text;

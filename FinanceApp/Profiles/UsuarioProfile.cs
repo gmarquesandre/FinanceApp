@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using FinanceApp.Shared.Models;
+using FinanceApp.Shared.Dto;
+using FinanceApp.Shared.Models.CommonTables;
+using FinanceApp.Shared.Models.UserTables;
 using Microsoft.AspNetCore.Identity;
-using UsuariosApi.Data.Dtos.Usuario;
-using UsuariosApi.Models;
 
-namespace UsuariosApi.Profiles
+namespace FinanceApp.Api.Profiles
 {
     public class UsuarioProfile : Profile
     {

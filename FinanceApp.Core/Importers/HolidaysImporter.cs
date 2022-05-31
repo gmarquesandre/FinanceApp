@@ -1,5 +1,6 @@
-﻿using FinanceApp.EntityFramework.Auth;
-using FinanceApp.Shared.Models;
+﻿using FinanceApp.Core.Importers.Base;
+using FinanceApp.EntityFramework;
+using FinanceApp.Shared.Models.CommonTables;
 using System.Globalization;
 using System.Net;
 using System.Text.RegularExpressions;

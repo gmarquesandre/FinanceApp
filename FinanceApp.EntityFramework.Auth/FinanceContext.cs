@@ -1,11 +1,10 @@
-﻿using FinanceApp.Shared.Models;
-using FinancialAPI.Data;
+﻿using FinanceApp.Shared.Models.CommonTables;
+using FinanceApp.Shared.Models.UserTables;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using UsuariosApi.Models;
 
-namespace FinanceApp.EntityFramework.Auth
+namespace FinanceApp.EntityFramework
 {
     public class FinanceContext : IdentityDbContext<CustomIdentityUser, IdentityRole<int>, int>
     {
@@ -41,7 +40,7 @@ namespace FinanceApp.EntityFramework.Auth
             CustomIdentityUser admin = new CustomIdentityUser
             {
                 UserName = "admin",
-              
+
                 NormalizedUserName = "ADMIN",
                 Email = "admin@admin.com",
                 NormalizedEmail = "ADMIN@ADMIN.COM",
@@ -52,7 +51,7 @@ namespace FinanceApp.EntityFramework.Auth
 
             PasswordHasher<CustomIdentityUser> hasher = new();
 
-            admin.PasswordHash = hasher.HashPassword(admin,"teste");
+            admin.PasswordHash = hasher.HashPassword(admin, "teste");
 
             builder.Entity<CustomIdentityUser>().HasData(admin);
 
@@ -109,7 +108,7 @@ namespace FinanceApp.EntityFramework.Auth
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
-            if(!options.IsConfigured)
+            if (!options.IsConfigured)
                 options.UseSqlServer("Server=localhost;Initial Catalog=FinanceDb;Trusted_Connection=True;");
         }
     }

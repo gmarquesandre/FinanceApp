@@ -1,6 +1,7 @@
 ﻿using FinanceApp.Shared.Enum;
+using FinanceApp.Shared.Models.UserTables.Bases;
 
-namespace FinanceApp.Shared.Models
+namespace FinanceApp.Shared.Models.UserTables
 {
     public class Loan : UserTable
     {

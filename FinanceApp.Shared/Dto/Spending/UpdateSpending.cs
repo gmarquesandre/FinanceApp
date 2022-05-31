@@ -1,8 +1,8 @@
 ﻿using FinanceApp.Shared.Dto.Base;
 
-namespace FinanceApp.Shared.Dto
+namespace FinanceApp.Shared.Dto.Spending
 {
-    public class UpdateSpending: UpdateDto
+    public class UpdateSpending : UpdateDto
     {
         public int Id { get; set; }
         public string Name { get; set; }

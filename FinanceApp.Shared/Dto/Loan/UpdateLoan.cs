@@ -1,6 +1,6 @@
 ﻿using FinanceApp.Shared.Dto.Base;
 
-namespace FinanceApp.Shared.Dto
+namespace FinanceApp.Shared.Dto.Loan
 {
     public class UpdateLoan : UpdateDto
     {

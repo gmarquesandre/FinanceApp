@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using FinanceApp.Shared.Dto;
-using FinanceApp.Shared.Models;
+using FinanceApp.Shared.Dto.Income;
+using FinanceApp.Shared.Models.UserTables;
 
-namespace UsuariosApi.Profiles
+namespace FinanceApp.Api.Profiles
 {
     public class IncomeProfile : Profile
     {

@@ -1,7 +1,7 @@
-﻿using FinanceApp.Core.Services;
+﻿using FinanceApp.Core.Services.UserServices.Interfaces;
+using FinanceApp.Shared.Dto;
 using FluentResults;
 using Microsoft.AspNetCore.Mvc;
-using UsuariosApi.Data.Dtos.Usuario;
 
 namespace FinanceApp.Api.Controllers
 {

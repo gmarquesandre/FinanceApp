@@ -1,7 +1,7 @@
 ﻿using FinanceApp.Shared.Enum;
 using System.ComponentModel.DataAnnotations;
 
-namespace FinanceApp.Shared.Models
+namespace FinanceApp.Shared.Models.CommonTables
 {
     public class Asset
     {
@@ -13,6 +13,6 @@ namespace FinanceApp.Shared.Models
         public string CompanyName { get; set; }
         public decimal UnitPrice { get; set; }
         public DateTime Date { get; set; }
-        public decimal OpeningPrice { get; set;}
+        public decimal OpeningPrice { get; set; }
     }
 }

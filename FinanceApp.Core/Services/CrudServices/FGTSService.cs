@@ -1,13 +1,14 @@
 ﻿using AutoMapper;
-using FinanceApp.Core.Services.Base;
-using FinanceApp.EntityFramework.Auth;
-using FinanceApp.Shared.Dto;
-using FinanceApp.Shared.Models;
+using FinanceApp.Core.Services.CrudServices.Base;
+using FinanceApp.Core.Services.CrudServices.Interfaces;
+using FinanceApp.EntityFramework;
+using FinanceApp.Shared.Dto.FGTS;
+using FinanceApp.Shared.Models.CommonTables;
+using FinanceApp.Shared.Models.UserTables;
 using FluentResults;
 using Microsoft.EntityFrameworkCore;
-using UsuariosApi.Models;
 
-namespace FinanceApp.Core.Services
+namespace FinanceApp.Core.Services.CrudServices
 {
     public class FGTSService : CrudServiceBase, IFGTSService
     {

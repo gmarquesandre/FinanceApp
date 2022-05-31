@@ -1,7 +1,7 @@
 ﻿using FinanceApp.Shared.Enum;
 using System.ComponentModel.DataAnnotations;
 
-namespace FinanceApp.Shared.Models
+namespace FinanceApp.Shared.Dto.TreasuryBond
 {
     public class TreasuryBondDto
     {

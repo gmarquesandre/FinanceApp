@@ -1,7 +1,7 @@
 ﻿using FinanceApp.Shared.Dto.Base;
 using System.ComponentModel.DataAnnotations;
 
-namespace FinanceApp.Shared.Dto
+namespace FinanceApp.Shared.Dto.PrivateFixedInvestment
 {
     public class UpdatePrivateFixedIncome : UpdateDto
     {

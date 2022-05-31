@@ -1,8 +1,8 @@
-﻿using FinanceApp.EntityFramework.Auth;
+﻿using FinanceApp.EntityFramework;
 using System.Globalization;
 using System.Net;
 
-namespace FinanceApp.Core.Importers
+namespace FinanceApp.Core.Importers.Base
 {
     public class ImporterBase
     {

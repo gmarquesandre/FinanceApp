@@ -1,12 +1,14 @@
 ﻿using AutoMapper;
-using FinanceApp.Core.Services.Base;
-using FinanceApp.EntityFramework.Auth;
-using FinanceApp.Shared.Models;
+using FinanceApp.Core.Services.CrudServices.Base;
+using FinanceApp.Core.Services.CrudServices.Interfaces;
+using FinanceApp.EntityFramework;
+using FinanceApp.Shared.Dto.Category;
+using FinanceApp.Shared.Models.CommonTables;
+using FinanceApp.Shared.Models.UserTables;
 using FluentResults;
 using Microsoft.EntityFrameworkCore;
-using UsuariosApi.Models;
 
-namespace FinanceApp.Core.Services
+namespace FinanceApp.Core.Services.CrudServices
 {
     public class Categorieservice : CrudServiceBase, ICategoryService
     {
@@ -15,14 +17,14 @@ namespace FinanceApp.Core.Services
 
         public async Task<CategoryDto> AddAsync(CreateCategory input, CustomIdentityUser user)
         {
-            
+
             Category model = _mapper.Map<Category>(input);
-            
+
             model.UserId = user.Id;
             await _context.Categories.AddAsync(model);
             await _context.SaveChangesAsync();
             return _mapper.Map<CategoryDto>(model);
-             
+
         }
         public async Task<Result> UpdateAsync(UpdateCategory input, CustomIdentityUser user)
         {

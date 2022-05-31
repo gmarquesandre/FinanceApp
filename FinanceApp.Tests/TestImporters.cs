@@ -1,4 +1,5 @@
 using FinanceApp.Core.Importers;
+using FinanceApp.Tests.Base;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;

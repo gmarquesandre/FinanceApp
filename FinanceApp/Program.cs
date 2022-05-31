@@ -1,12 +1,15 @@
-using FinanceApp.Core.Services;
-using FinanceApp.EntityFramework.Auth;
+using FinanceApp.Core.Services.CrudServices;
+using FinanceApp.Core.Services.CrudServices.Interfaces;
+using FinanceApp.Core.Services.UserServices;
+using FinanceApp.Core.Services.UserServices.Interfaces;
+using FinanceApp.EntityFramework;
+using FinanceApp.Shared.Models.CommonTables;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
-using UsuariosApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 

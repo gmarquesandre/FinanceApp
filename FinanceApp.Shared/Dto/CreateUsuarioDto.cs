@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace UsuariosApi.Data.Dtos.Usuario
+namespace FinanceApp.Shared.Dto
 {
     public class CreateUsuarioDto
     {

@@ -1,6 +1,6 @@
 ﻿using FinanceApp.Shared.Dto.Base;
 
-namespace FinanceApp.Shared.Models
+namespace FinanceApp.Shared.Dto.TreasuryBond
 {
     public class CreateTreasuryBond : CreateDto
     {

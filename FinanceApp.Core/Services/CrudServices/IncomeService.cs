@@ -1,14 +1,15 @@
 ﻿using AutoMapper;
-using FinanceApp.Core.Services.Base;
-using FinanceApp.EntityFramework.Auth;
-using FinanceApp.Shared.Dto;
+using FinanceApp.Core.Services.CrudServices.Base;
+using FinanceApp.Core.Services.CrudServices.Interfaces;
+using FinanceApp.EntityFramework;
+using FinanceApp.Shared.Dto.Income;
 using FinanceApp.Shared.Enum;
-using FinanceApp.Shared.Models;
+using FinanceApp.Shared.Models.CommonTables;
+using FinanceApp.Shared.Models.UserTables;
 using FluentResults;
 using Microsoft.EntityFrameworkCore;
-using UsuariosApi.Models;
 
-namespace FinanceApp.Core.Services
+namespace FinanceApp.Core.Services.CrudServices
 {
     public class IncomeService : CrudServiceBase, IIncomeService
     {
@@ -17,7 +18,7 @@ namespace FinanceApp.Core.Services
 
         public async Task<IncomeDto> AddAsync(CreateIncome input, CustomIdentityUser user)
         {
-            
+
             Income model = _mapper.Map<Income>(input);
 
             CheckValue(model);
@@ -26,7 +27,7 @@ namespace FinanceApp.Core.Services
             await _context.Incomes.AddAsync(model);
             await _context.SaveChangesAsync();
             return _mapper.Map<IncomeDto>(model);
-             
+
         }
         public async Task<Result> UpdateAsync(UpdateIncome input, CustomIdentityUser user)
         {

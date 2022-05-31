@@ -1,6 +1,6 @@
 ﻿using FinanceApp.Shared.Dto.Base;
 
-namespace FinanceApp.Shared.Dto
+namespace FinanceApp.Shared.Dto.Income
 {
     public class UpdateIncome : UpdateDto
     {

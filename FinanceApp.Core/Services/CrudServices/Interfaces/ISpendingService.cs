@@ -1,9 +1,8 @@
-﻿using FinanceApp.Shared.Dto;
-using FinanceApp.Shared.Models;
+﻿using FinanceApp.Shared.Dto.Spending;
+using FinanceApp.Shared.Models.CommonTables;
 using FluentResults;
-using UsuariosApi.Models;
 
-namespace FinanceApp.Core.Services
+namespace FinanceApp.Core.Services.CrudServices.Interfaces
 {
     public interface ISpendingService
     {

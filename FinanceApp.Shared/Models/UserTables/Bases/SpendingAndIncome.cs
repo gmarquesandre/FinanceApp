@@ -1,7 +1,7 @@
 ﻿using FinanceApp.Shared.Enum;
 using System.ComponentModel.DataAnnotations;
 
-namespace FinanceApp.Shared.Models
+namespace FinanceApp.Shared.Models.UserTables.Bases
 {
     public class SpendingAndIncome : UserTable
     {

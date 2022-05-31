@@ -1,5 +1,6 @@
-﻿using FinanceApp.EntityFramework.Auth;
-using FinanceApp.Shared.Models;
+﻿using FinanceApp.Core.Importers.Base;
+using FinanceApp.EntityFramework;
+using FinanceApp.Shared.Models.CommonTables;
 
 namespace FinanceApp.Core.Importers
 {

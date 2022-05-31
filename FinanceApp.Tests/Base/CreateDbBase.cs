@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
-using FinanceApp.EntityFramework.Auth;
+using FinanceApp.EntityFramework;
 
-namespace FinanceApp.Tests
+namespace FinanceApp.Tests.Base
 {
     public class CreateDbBase
     {
@@ -20,7 +20,7 @@ namespace FinanceApp.Tests
 
             return context;
         }
-     
+
         public async Task DeleteDataDb(FinanceContext context)
         {
             await context.Database.EnsureDeletedAsync();

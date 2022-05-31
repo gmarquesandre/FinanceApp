@@ -1,7 +1,6 @@
-﻿using FinanceApp.Shared.Models;
-using UsuariosApi.Models;
+﻿using FinanceApp.Shared.Models.CommonTables;
 
-namespace FinanceApp.Core.Services
+namespace FinanceApp.Core.Services.UserServices.Interfaces
 {
     public interface ITokenService
     {

@@ -1,6 +1,6 @@
 ﻿using FinanceApp.Shared.Dto.Base;
 
-namespace FinanceApp.Shared.Models
+namespace FinanceApp.Shared.Dto.Spending
 {
     public class CreateSpending : CreateDto
     {

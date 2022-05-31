@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-using UsuariosApi.Models;
+﻿using FinanceApp.Shared.Models.CommonTables;
+using System.ComponentModel.DataAnnotations;
 
-namespace FinanceApp.Shared.Models
+namespace FinanceApp.Shared.Models.UserTables.Bases
 {
     public class UserTable : StandartTable
     {

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace FinancialAPI.Data
+namespace FinanceApp.Shared.Dto
 {
     public class AssetChangeDto
-    { 
+    {
         [Key]
         public int Id { get; set; }
         public string AssetCode { get; set; }
@@ -13,7 +13,7 @@ namespace FinancialAPI.Data
         public DateTime DeclarationDate { get; set; }
         public DateTime ExDate { get; set; }
         public double GroupingFactor { get; set; }
-        public string ToAssetISIN{ get; set; }
+        public string ToAssetISIN { get; set; }
         public string Notes { get; set; }
         public string Hash { get; set; }
     }

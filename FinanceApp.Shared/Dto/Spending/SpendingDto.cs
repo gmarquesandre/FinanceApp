@@ -1,6 +1,7 @@
-﻿using FinanceApp.Shared.Enum;
+﻿using FinanceApp.Shared.Dto.Category;
+using FinanceApp.Shared.Enum;
 
-namespace FinanceApp.Shared.Models
+namespace FinanceApp.Shared.Dto.Spending
 {
     public class SpendingDto
     {

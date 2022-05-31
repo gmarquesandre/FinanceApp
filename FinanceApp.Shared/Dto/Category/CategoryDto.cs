@@ -1,5 +1,4 @@
-﻿
-namespace FinanceApp.Shared.Models
+﻿namespace FinanceApp.Shared.Dto.Category
 {
     public class CategoryDto
     {
