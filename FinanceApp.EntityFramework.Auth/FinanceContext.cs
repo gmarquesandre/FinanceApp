@@ -23,6 +23,7 @@ namespace FinanceApp.EntityFramework.Auth
         public DbSet<Category> Categories { get; set; }
         public DbSet<Spending> Spendings { get; set; }
         public DbSet<Income> Incomes { get; set; }
+        public DbSet<FGTS> FGTS { get; set; }
 
         //Common Tables
         public DbSet<IndexValue> IndexValues { get; set; }
@@ -91,6 +92,15 @@ namespace FinanceApp.EntityFramework.Auth
 
             builder.Entity<TreasuryBondValue>()
                  .HasIndex(p => new { p.Date, p.ExpirationDate, p.Type })
+                 .IsUnique(true);
+
+
+            builder.Entity<Category>()
+                 .HasIndex(p => new { p.Name })
+                 .IsUnique(true);
+
+            builder.Entity<FGTS>()
+                 .HasIndex(p => new { p.UserId })
                  .IsUnique(true);
 
 

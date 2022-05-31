@@ -7,7 +7,7 @@ namespace FinanceApp.Core.Services
 {
     public interface IIncomeService
     {
-        Task<Result> AddAsync(CreateIncome input, CustomIdentityUser user);
+        Task<IncomeDto> AddAsync(CreateIncome input, CustomIdentityUser user);
         Task<Result> DeleteAsync(int id, CustomIdentityUser user);
         Task<List<IncomeDto>> GetAsync(CustomIdentityUser user);
         Task<IncomeDto> GetAsync(CustomIdentityUser user, int id);

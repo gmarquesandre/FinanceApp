@@ -10,12 +10,12 @@ namespace FinanceApp.Api.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class IncomeController : ControllerBase
+    public class CategoryController : ControllerBase
     {
-        private readonly IIncomeService _service;
+        private readonly ICategoryService _service;
         private readonly UserManager<CustomIdentityUser> _userManager;
 
-        public IncomeController(IIncomeService service, UserManager<CustomIdentityUser> userManager)
+        public CategoryController(ICategoryService service, UserManager<CustomIdentityUser> userManager)
         {
             _userManager = userManager;
             _service = service;
@@ -58,7 +58,7 @@ namespace FinanceApp.Api.Controllers
 
         [HttpPost("Create")]
         [Authorize]
-        public async Task<IActionResult> AddInvestment(CreateIncome input)
+        public async Task<IActionResult> AddInvestment(CreateCategory input)
         {
             try
             {
@@ -92,7 +92,7 @@ namespace FinanceApp.Api.Controllers
 
         [HttpPut("Update")]
         [Authorize]
-        public async Task<IActionResult> UpdateInvestment(UpdateIncome input)
+        public async Task<IActionResult> UpdateInvestment(UpdateCategory input)
         {
             try
             {

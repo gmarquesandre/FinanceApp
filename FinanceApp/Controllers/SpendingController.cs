@@ -25,10 +25,17 @@ namespace FinanceApp.Api.Controllers
         [Authorize]
         public async Task<IActionResult> GetInvestmentsAsync()
         {
-            var user = await _userManager.GetUserAsync(User);
-            var resultado = await _service.GetAsync(user);
-        
-            return Ok(resultado);
+            try
+            {
+                var user = await _userManager.GetUserAsync(User);
+                var resultado = await _service.GetAsync(user);
+
+                return Ok(resultado);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
 
@@ -36,30 +43,50 @@ namespace FinanceApp.Api.Controllers
         [Authorize]
         public async Task<IActionResult> GetInvestmentsAsync(int id)
         {
-            var user = await _userManager.GetUserAsync(User);
-            var resultado = await _service.GetAsync(user, id);
+            try
+            {
+                var user = await _userManager.GetUserAsync(User);
+                var resultado = await _service.GetAsync(user, id);
 
-            return Ok(resultado);
+                return Ok(resultado);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPost("Create")]
         [Authorize]
         public async Task<IActionResult> AddInvestment(CreateSpending input)
         {
-            var user = await _userManager.GetUserAsync(User);
-            var result = await _service.AddAsync(input, user);
-
-            return CreatedAtAction(nameof(AddInvestment), new { Id = result.Id }, result);
+            try
+            {
+                var user = await _userManager.GetUserAsync(User);
+                var resultado = await _service.AddAsync(input, user);
+                return Ok(resultado);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpDelete("Delete/{id:int}")]
         [Authorize]
         public async Task<IActionResult> DeleteInvestment(int id)
         {
-            var user = await _userManager.GetUserAsync(User);
-            var resultado = await _service.DeleteAsync(id, user);
+            try
+            {
+                var user = await _userManager.GetUserAsync(User);
+                var resultado = await _service.DeleteAsync(id, user);
 
-            return Ok(resultado);
+                return Ok(resultado);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
 
@@ -67,10 +94,17 @@ namespace FinanceApp.Api.Controllers
         [Authorize]
         public async Task<IActionResult> UpdateInvestment(UpdateSpending input)
         {
-            var user = await _userManager.GetUserAsync(User);
-            var resultado = await _service.UpdateAsync(input, user);
+            try
+            {
+                var user = await _userManager.GetUserAsync(User);
+                var resultado = await _service.UpdateAsync(input, user);
 
-            return Ok(resultado);
-        }        
+                return Ok(resultado);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
