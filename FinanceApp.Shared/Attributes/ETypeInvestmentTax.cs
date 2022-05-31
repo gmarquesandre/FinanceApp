@@ -1,5 +1,4 @@
 ﻿using FinanceApp.Shared.Enum;
-using System;
 
 namespace FinanceApp.Shared.Attributes
 {

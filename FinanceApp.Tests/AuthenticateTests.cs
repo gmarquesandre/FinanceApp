@@ -1,11 +1,9 @@
-﻿using AutoMapper;
-using FinanceApp.EntityFramework;
+﻿using FinanceApp.EntityFramework;
 using FinanceApp.Shared.Models.CommonTables;
 using FinanceApp.Tests.Base;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
-using UsuariosApi.Profiles;
 using Xunit;
 
 namespace FinanceApp.Tests

@@ -1,5 +1,4 @@
 ﻿using FinanceApp.Shared.Models.UserTables.Bases;
-using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace FinanceApp.Shared.Models.CommonTables

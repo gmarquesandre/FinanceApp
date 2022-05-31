@@ -2,7 +2,6 @@
 using FinanceApp.Core.Services.UserServices.Interfaces;
 using FinanceApp.EntityFramework;
 using FinanceApp.Shared.Dto;
-using FinanceApp.Shared.Enum;
 using FinanceApp.Shared.Models.CommonTables;
 using FinanceApp.Shared.Models.UserTables;
 using FluentResults;
