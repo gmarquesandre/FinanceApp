@@ -1,9 +1,10 @@
-﻿using FinanceApp.Shared.Enum;
+﻿using FinanceApp.Shared.Dto.Base;
+using FinanceApp.Shared.Enum;
 using System.ComponentModel.DataAnnotations;
 
 namespace FinanceApp.Shared.Dto.TreasuryBond
 {
-    public class TreasuryBondDto
+    public class TreasuryBondDto : StandardDto
     {
         [Key]
         public int Id { get; set; }

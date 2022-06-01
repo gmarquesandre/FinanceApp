@@ -2,10 +2,11 @@
 
 namespace FinanceApp.Shared.Models.UserTables
 {
-    public class FGTS : UserTable
+    public class CurrentBalance : UserTable
     {
         public decimal CurrentValue { get; set; }
-        public decimal MonthlyGrossIncome { get; set; }
-        public bool AnniversaryWithdraw { get; set; }
+        public decimal? PercentageCdi { get; set; }
+        public bool CdIncome { get; set; }
     }
 }
+

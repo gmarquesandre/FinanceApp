@@ -16,4 +16,9 @@
     <ProjectReference Include="..\FinanceApp.EntityFramework.Auth\FinanceApp.EntityFramework.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\Forecast\Base\" />
+    <Folder Include="Services\Forecast\Interfaces\" />
+  </ItemGroup>
+
 </Project>

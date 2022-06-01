@@ -1,8 +1,9 @@
-﻿using FinanceApp.Shared.Enum;
+﻿using FinanceApp.Shared.Dto.Base;
+using FinanceApp.Shared.Enum;
 
 namespace FinanceApp.Shared.Dto.Income
 {
-    public class IncomeDto
+    public class IncomeDto : StandardDto
     {
         public int Id { get; set; }
         public string Name { get; set; }

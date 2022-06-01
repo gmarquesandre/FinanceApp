@@ -13,6 +13,7 @@ namespace FinanceApp.Api.Profiles
             CreateMap<SpendingDto, Spending>();
             CreateMap<Spending, SpendingDto>();
             CreateMap<UpdateSpending, Spending>();
+            CreateMap<SpendingDto, SpendingSpread>();
         }
     }
 }

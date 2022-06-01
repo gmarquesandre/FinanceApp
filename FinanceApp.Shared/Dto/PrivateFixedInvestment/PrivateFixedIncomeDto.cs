@@ -1,9 +1,10 @@
-﻿using FinanceApp.Shared.Enum;
+﻿using FinanceApp.Shared.Dto.Base;
+using FinanceApp.Shared.Enum;
 using System.ComponentModel.DataAnnotations;
 
 namespace FinanceApp.Shared.Dto.PrivateFixedInvestment
 {
-    public class PrivateFixedIncomeDto
+    public class PrivateFixedIncomeDto : StandardDto
     {
         [Key]
         public int Id { get; set; }
