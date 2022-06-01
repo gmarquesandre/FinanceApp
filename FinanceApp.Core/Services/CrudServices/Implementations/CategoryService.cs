@@ -10,10 +10,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FinanceApp.Core.Services.CrudServices
 {
-    public class Categorieservice : CrudServiceBase, ICategoryService
+    public class CategoryService : CrudServiceBase, ICategoryService
     {
 
-        public Categorieservice(FinanceContext context, IMapper mapper) : base(context, mapper) { }
+        public CategoryService(FinanceContext context, IMapper mapper) : base(context, mapper) { }
 
         public async Task<CategoryDto> AddAsync(CreateCategory input, CustomIdentityUser user)
         {

@@ -1,6 +1,6 @@
 ﻿using FinanceApp.Shared.Dto.Base;
 
-namespace FinanceApp.Shared.Dto.FGTS
+namespace FinanceApp.Shared.Dto.CurrentBalance
 {
     public class CurrentBalanceDto : StandardDto
     {

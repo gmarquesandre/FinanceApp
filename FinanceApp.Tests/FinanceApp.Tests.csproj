@@ -29,8 +29,4 @@
     <ProjectReference Include="..\FinanceApp\FinanceApp.Api.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Forecast\" />
-  </ItemGroup>
-
 </Project>

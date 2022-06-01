@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FinanceApp.Shared.Dto.CurrentBalance;
 using FinanceApp.Shared.Dto.FGTS;
 using FinanceApp.Shared.Models.UserTables;
 

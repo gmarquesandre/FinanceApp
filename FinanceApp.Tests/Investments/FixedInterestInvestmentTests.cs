@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FinanceApp.Api.Profiles;
 using FinanceApp.Core.Services.CrudServices;
 using FinanceApp.EntityFramework;
 using FinanceApp.Shared.Dto.PrivateFixedInvestment;

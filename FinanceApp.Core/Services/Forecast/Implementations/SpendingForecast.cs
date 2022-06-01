@@ -13,7 +13,7 @@ namespace FinanceApp.Core
         private readonly IMapper _mapper;
         private readonly FinanceContext _context;
 
-        public SpendingForecast(IMapper mapper, ISpendingService service, FinanceContext context)
+        public SpendingForecast(IMapper mapper, FinanceContext context)
         {
             _mapper = mapper;
             _context = context;
@@ -22,7 +22,7 @@ namespace FinanceApp.Core
         public async Task GetMonthlyForecast(List<DateTime> dates, CustomIdentityUser user)
         {
 
-            var spendingsSpreadList = await GetSpendingsSpreadList(dates, user);
+            var spendingsSpreadList = await GetSpendingsSpreadList(dates.Max(), user);
 
 
             //Agrupar valores
@@ -32,16 +32,16 @@ namespace FinanceApp.Core
 
 
 
-        private async Task<List<SpendingSpread>> GetSpendingsSpreadList(List<DateTime> dates, CustomIdentityUser user)
+        public async Task<List<SpendingSpread>> GetSpendingsSpreadList(DateTime maxYearMonth, CustomIdentityUser user)
         {
             var spendings = await _context.Spendings.AsNoTracking().ToListAsync();
 
+            maxYearMonth = new DateTime(maxYearMonth.Year, maxYearMonth.Month, 1).AddMonths(1).AddDays(-1);
+            
             var spendingsDto = _mapper.Map<List<SpendingDto>>(spendings);
 
-            var maxDate = dates.Max();
-            var minDate = dates.Min();
 
-            var sprendingSpreadList = new List<SpendingSpread>();
+            var spendingSpreadList = new List<SpendingSpread>();
 
             foreach (var spendingDto in spendingsDto)
             {
@@ -51,7 +51,7 @@ namespace FinanceApp.Core
                     SpendingSpread spendingSpread = _mapper.Map<SpendingSpread>(spendingDto);
                     spendingSpread.Date = spendingDto.InitialDate;
 
-                    sprendingSpreadList.Add(spendingSpread);
+                    spendingSpreadList.Add(spendingSpread);
 
                 }
                 else
@@ -86,24 +86,28 @@ namespace FinanceApp.Core
 
                         if (spendingDto.TimesRecurrence > 0)
                         {
-                            int yearFinal = spendingDto.InitialDate.Year + yearSpanTime > 0 ? yearSpanTime * (spendingDto.TimesRecurrence - 1) : 0;
-                            int monthFinal = spendingDto.InitialDate.Month + monthsSpanTime > 0 ? monthsSpanTime * (spendingDto.TimesRecurrence - 1) : 0;
-                            int dayFinal = spendingDto.InitialDate.Day + daysSpanTime > 0 ? daysSpanTime * (spendingDto.TimesRecurrence - 1) : 0;
+                            int years = (yearSpanTime > 0 ? yearSpanTime * (spendingDto.TimesRecurrence - 1) : 0);
+                            int months = (monthsSpanTime > 0 ? monthsSpanTime * (spendingDto.TimesRecurrence - 1) : 0);
+                            int days = (daysSpanTime > 0 ? daysSpanTime * (spendingDto.TimesRecurrence - 1) : 0);
 
-                            endDate = new DateTime(yearFinal, monthFinal, dayFinal);
+                            endDate = spendingDto.InitialDate.AddDays(days).AddMonths(months).AddYears(years);
 
                         }
                         else if (spendingDto.IsEndless)
                         {
-                            endDate = maxDate;
+                            endDate = maxYearMonth;
                         }
+                        DateTime initialDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).AddMonths(1); 
+                        endDate = endDate < maxYearMonth ? endDate: maxYearMonth;
 
-                        for (DateTime date = spendingDto.InitialDate; date <= endDate; date = date.AddDays(daysSpanTime).AddMonths(monthsSpanTime).AddYears(yearSpanTime))
+                        for (DateTime date = initialDate; date <= endDate; date = date.AddDays(daysSpanTime).AddMonths(monthsSpanTime).AddYears(yearSpanTime))
                         {
+                            if (date < DateTime.Now.Date)
+                                continue;
                             SpendingSpread spendingSpread = _mapper.Map<SpendingSpread>(spendingDto);
                             spendingSpread.Date = date;
 
-                            sprendingSpreadList.Add(spendingSpread);
+                            spendingSpreadList.Add(spendingSpread);
                         }
 
                     }
@@ -162,7 +166,7 @@ namespace FinanceApp.Core
             //}
             //    }
             //  });
-            return null;
+            return spendingSpreadList;
 
         }
     }
