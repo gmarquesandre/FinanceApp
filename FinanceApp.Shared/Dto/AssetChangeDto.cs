@@ -4,7 +4,7 @@ namespace FinanceApp.Shared.Dto
 {
     public class AssetChangeDto
     {
-        [Key]
+        
         public int Id { get; set; }
         public string AssetCode { get; set; }
         public string AssetCodeISIN { get; set; }

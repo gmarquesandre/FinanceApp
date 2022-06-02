@@ -1,5 +1,6 @@
 ﻿using FinanceApp.Shared.Dto.Base;
 using FinanceApp.Shared.Dto.Category;
+using FinanceApp.Shared.Dto.CreditCard;
 using FinanceApp.Shared.Enum;
 
 namespace FinanceApp.Shared.Dto.Spending
@@ -9,6 +10,8 @@ namespace FinanceApp.Shared.Dto.Spending
         public int Id { get; set; }
         public string Name { get; set; }
         public ERecurrence Recurrence { get; set; }
+        public EPayment Payment { get; set; }
+        public CreditCardDto? CreditCard { get; set; }
         public string RecurrenceDisplayValue => EnumHelper<ERecurrence>.GetDisplayValue(Recurrence);
         public CategoryDto? Category { get; set; }
         public bool IsRequired { get; set; }

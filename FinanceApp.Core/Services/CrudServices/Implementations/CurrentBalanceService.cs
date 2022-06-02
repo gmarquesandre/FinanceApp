@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FinanceApp.Core.Services.CrudServices.Base;
+using FinanceApp.Core.Services.CrudServices.Interfaces;
 using FinanceApp.EntityFramework;
 using FinanceApp.Shared.Dto.CurrentBalance;
 using FinanceApp.Shared.Models.CommonTables;
@@ -7,7 +8,7 @@ using FinanceApp.Shared.Models.UserTables;
 using FluentResults;
 using Microsoft.EntityFrameworkCore;
 
-namespace FinanceApp.Core.Services.CrudServices
+namespace FinanceApp.Core.Services.CrudServices.Implementations
 {
     public class CurrentBalanceService : CrudServiceBase, ICurrentBalanceService
     {

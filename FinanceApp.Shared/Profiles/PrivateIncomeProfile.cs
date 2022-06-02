@@ -2,7 +2,7 @@
 using FinanceApp.Shared.Dto.PrivateFixedInvestment;
 using FinanceApp.Shared.Models.UserTables;
 
-namespace FinanceApp.Api.Profiles
+namespace FinanceApp.Shared.Profiles
 {
     public class PrivateFixedIncomeProfile : Profile
     {

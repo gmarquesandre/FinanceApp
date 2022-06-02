@@ -1,12 +1,10 @@
 ﻿using FinanceApp.Shared.Dto.Base;
 using FinanceApp.Shared.Enum;
-using System.ComponentModel.DataAnnotations;
 
 namespace FinanceApp.Shared.Dto.TreasuryBond
 {
     public class TreasuryBondDto : StandardDto
     {
-        [Key]
         public int Id { get; set; }
         public ETreasuryBond Type { get; set; }
         public string TypeDisplayValue => EnumHelper<ETreasuryBond>.GetDisplayValue(Type);

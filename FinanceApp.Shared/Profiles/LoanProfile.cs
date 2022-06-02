@@ -2,7 +2,7 @@
 using FinanceApp.Shared.Dto.Loan;
 using FinanceApp.Shared.Models.UserTables;
 
-namespace FinanceApp.Api.Profiles
+namespace FinanceApp.Shared.Profiles
 {
     public class LoanProfile : Profile
     {

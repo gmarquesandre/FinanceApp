@@ -4,7 +4,7 @@ using FinanceApp.Shared.Models.CommonTables;
 using FinanceApp.Shared.Models.UserTables;
 using Microsoft.AspNetCore.Identity;
 
-namespace FinanceApp.Api.Profiles
+namespace FinanceApp.Shared.Profiles
 {
     public class UsuarioProfile : Profile
     {

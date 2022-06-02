@@ -1,4 +1,4 @@
-using FinanceApp.Core.Services.CrudServices;
+using FinanceApp.Core.Services.CrudServices.Implementations;
 using FinanceApp.Core.Services.CrudServices.Interfaces;
 using FinanceApp.Core.Services.UserServices;
 using FinanceApp.Core.Services.UserServices.Interfaces;

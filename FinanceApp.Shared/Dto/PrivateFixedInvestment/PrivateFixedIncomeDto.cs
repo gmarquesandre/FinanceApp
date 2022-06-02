@@ -6,7 +6,7 @@ namespace FinanceApp.Shared.Dto.PrivateFixedInvestment
 {
     public class PrivateFixedIncomeDto : StandardDto
     {
-        [Key]
+        
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }

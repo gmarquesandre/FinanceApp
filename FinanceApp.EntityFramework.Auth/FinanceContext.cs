@@ -25,6 +25,7 @@ namespace FinanceApp.EntityFramework
         public DbSet<FGTS> FGTS { get; set; }
         public DbSet<Loan> Loans { get; set; }
         public DbSet<CurrentBalance> CurrentBalances { get; set; }
+        public DbSet<CreditCard> CreditCards { get; set; }
 
         //Common Tables
         public DbSet<IndexValue> IndexValues { get; set; }

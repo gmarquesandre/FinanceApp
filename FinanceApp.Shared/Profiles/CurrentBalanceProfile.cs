@@ -3,7 +3,7 @@ using FinanceApp.Shared.Dto.CurrentBalance;
 using FinanceApp.Shared.Dto.FGTS;
 using FinanceApp.Shared.Models.UserTables;
 
-namespace FinanceApp.Api.Profiles
+namespace FinanceApp.Shared.Profiles
 {
     public class FGTSProfile : Profile
     {

@@ -1,11 +1,9 @@
 ﻿using FinanceApp.Shared.Dto.Base;
-using System.ComponentModel.DataAnnotations;
 
 namespace FinanceApp.Shared.Dto.TreasuryBond
 {
     public class UpdateTreasuryBond : UpdateDto
     {
-        [Key]
         public int Id { get; set; }
         public int Type { get; set; }
         public decimal UnitPrice { get; set; }

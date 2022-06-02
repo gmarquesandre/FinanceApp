@@ -3,12 +3,13 @@ using FinanceApp.Core.Services.CrudServices.Base;
 using FinanceApp.Core.Services.CrudServices.Interfaces;
 using FinanceApp.EntityFramework;
 using FinanceApp.Shared.Dto.Income;
+using FinanceApp.Shared.Enum;
 using FinanceApp.Shared.Models.CommonTables;
 using FinanceApp.Shared.Models.UserTables;
 using FluentResults;
 using Microsoft.EntityFrameworkCore;
 
-namespace FinanceApp.Core.Services.CrudServices
+namespace FinanceApp.Core.Services.CrudServices.Implementations
 {
     public class IncomeService : CrudServiceBase, IIncomeService
     {
@@ -85,6 +86,20 @@ namespace FinanceApp.Core.Services.CrudServices
             _context.Incomes.Remove(investment);
             await _context.SaveChangesAsync();
             return Result.Ok().WithSuccess("Investimento deletado");
+        }
+
+
+        public void CheckValue(Income model)
+        {
+            if (model.Recurrence == ERecurrence.NTimes && (model.TimesRecurrence == null || model.TimesRecurrence == 0))
+                throw new Exception("A quantidade de repetições deve ser maior que zero para o tipo de recorrência selecionado");
+
+            else if (model.Recurrence != ERecurrence.NTimes && model.Recurrence != ERecurrence.Once && model.EndDate == null)
+                throw new Exception("A data final deve ser preenchida");
+
+            else if (model.Amount <= 0.00M)
+                throw new Exception("O valor deve ser maior do que zero");
+
         }
     }
 }

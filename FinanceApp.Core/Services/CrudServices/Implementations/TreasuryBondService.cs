@@ -9,7 +9,7 @@ using FinanceApp.Shared.Models.UserTables;
 using FluentResults;
 using Microsoft.EntityFrameworkCore;
 
-namespace FinanceApp.Core.Services.CrudServices
+namespace FinanceApp.Core.Services.CrudServices.Implementations
 {
     public class TreasuryBondService : CrudServiceBase, ITreasuryBondService
     {
