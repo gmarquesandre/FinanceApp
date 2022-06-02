@@ -1,6 +1,4 @@
-﻿using FinanceApp.Shared.Dto.Category;
-
-namespace FinanceApp.Shared.Dto.Spending
+﻿namespace FinanceApp.Shared.Dto.Spending
 {
     public class SpendingSpread : SpendingDto
     {       
