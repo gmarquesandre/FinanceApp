@@ -87,6 +87,9 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
 
         public void CheckValue(Spending model)
         {
+            if(model.Payment == EPayment.Credit && model.CreditCard == null)
+                throw new Exception("Pagamentos em Crédito devem ser vinculados a um cartão");
+
             if (model.Recurrence == ERecurrence.NTimes && (model.TimesRecurrence == null || model.TimesRecurrence == 0))
                 throw new Exception("A quantidade de repetições deve ser maior que zero para o tipo de recorrência selecionado");
 

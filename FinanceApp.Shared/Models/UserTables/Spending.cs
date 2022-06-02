@@ -19,5 +19,6 @@ namespace FinanceApp.Shared.Models.UserTables
         public Category? Category { get; set; }
         public EPayment Payment { get; set; }
         public CreditCard? CreditCard { get; set; } // Cartão de Crédito
+        public int? CreditCardId { get; set; }
     }
 }
