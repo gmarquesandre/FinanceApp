@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using FinanceApp.Core.Services.CrudServices.Base;
 using FinanceApp.Core.Services.CrudServices.Interfaces;
+using FinanceApp.Core.Services.ForecastServices.Implementations;
 using FinanceApp.EntityFramework;
+using FinanceApp.Shared.Dto;
 using FinanceApp.Shared.Dto.Income;
 using FinanceApp.Shared.Enum;
 using FinanceApp.Shared.Models.CommonTables;
@@ -13,8 +15,11 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
 {
     public class IncomeService : CrudServiceBase, IIncomeService
     {
-
-        public IncomeService(FinanceContext context, IMapper mapper) : base(context, mapper) { }
+        public IncomeForecast _forecast;
+        public IncomeService(FinanceContext context, IncomeForecast forecast, IMapper mapper) : base(context, mapper) 
+        {
+            _forecast = forecast;
+        }
 
         public async Task<IncomeDto> AddAsync(CreateIncome input, CustomIdentityUser user)
         {
@@ -88,6 +93,14 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
             return Result.Ok().WithSuccess("Investimento deletado");
         }
 
+        public async Task<List<ForecastItem>> GetForecast(CustomIdentityUser user)
+        {
+            var values = await GetAsync(user);
+
+            var forecast = _forecast.GetMonthlyForecast(values, DateTime.Now.AddMonths(12));
+
+            return forecast;
+        }
 
         public void CheckValue(Income model)
         {

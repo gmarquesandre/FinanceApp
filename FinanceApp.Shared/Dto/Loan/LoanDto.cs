@@ -7,7 +7,7 @@ namespace FinanceApp.Shared.Dto.Loan
     {
         public int Id { get; set; }
         public DateTime InitialDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public int MonthsPayment { get; set; }
         public string Name { get; set; }
         public decimal LoanValue { get; set; }
         public decimal InterestRate { get; set; }

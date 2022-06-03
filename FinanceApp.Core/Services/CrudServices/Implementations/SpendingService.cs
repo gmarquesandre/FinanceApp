@@ -1,8 +1,9 @@
-﻿
-using AutoMapper;
+﻿using AutoMapper;
 using FinanceApp.Core.Services.CrudServices.Base;
 using FinanceApp.Core.Services.CrudServices.Interfaces;
+using FinanceApp.Core.Services.ForecastServices.Implementations;
 using FinanceApp.EntityFramework;
+using FinanceApp.Shared.Dto;
 using FinanceApp.Shared.Dto.Spending;
 using FinanceApp.Shared.Enum;
 using FinanceApp.Shared.Models.CommonTables;
@@ -14,8 +15,12 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
 {
     public class SpendingService : CrudServiceBase, ISpendingService
     {
+        public SpendingForecast _forecast;
 
-        public SpendingService(FinanceContext context, IMapper mapper) : base(context, mapper) { }
+        public SpendingService(FinanceContext context, IMapper mapper, SpendingForecast forecast) : base(context, mapper) 
+        {
+            _forecast = forecast;
+        }
 
         public async Task<SpendingDto> AddAsync(CreateSpending input, CustomIdentityUser user)
         {
@@ -50,7 +55,12 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
 
         public async Task<List<SpendingDto>> GetAsync(CustomIdentityUser user)
         {
-            var values = await _context.Spendings.Include(a => a.Category).Where(a => a.User.Id == user.Id).ToListAsync();
+            var values = await _context
+                .Spendings
+                .Include(a => a.Category)
+                .Include(a => a.CreditCard)
+                .Where(a => a.User.Id == user.Id)
+                .ToListAsync();
             return _mapper.Map<List<SpendingDto>>(values);
         }
 
@@ -83,7 +93,14 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
             await _context.SaveChangesAsync();
             return Result.Ok().WithSuccess("Investimento deletado");
         }
+        public async Task<List<ForecastItem>> GetForecast(CustomIdentityUser user)
+        {
+            var values = await GetAsync(user);
 
+            var forecast = _forecast.GetMonthlyForecast(values, DateTime.Now.AddMonths(12));
+
+            return forecast;
+        } 
 
         public void CheckValue(Spending model)
         {

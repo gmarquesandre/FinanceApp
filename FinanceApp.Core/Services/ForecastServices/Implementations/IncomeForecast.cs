@@ -1,34 +1,28 @@
 ﻿using AutoMapper;
 using FinanceApp.Core.Services.CrudServices.Implementations;
-using FinanceApp.Core.Services.Forecast.Base;
-using FinanceApp.EntityFramework;
+using FinanceApp.Core.Services.ForecastServices.Base;
 using FinanceApp.Shared.Dto;
 using FinanceApp.Shared.Dto.Income;
-using FinanceApp.Shared.Dto.Spending;
 using FinanceApp.Shared.Enum;
-using FinanceApp.Shared.Models.CommonTables;
-using Microsoft.EntityFrameworkCore;
 
-namespace FinanceApp.Core.Services.Forecast.Implementations
+namespace FinanceApp.Core.Services.ForecastServices.Implementations
 {
     public class IncomeForecast : BaseForecast
     {
         private readonly IMapper _mapper;
-        private readonly IncomeService _service;
 
-        public IncomeForecast(IMapper mapper, IncomeService service)
+        public IncomeForecast(IMapper mapper)
         {
             _mapper = mapper;
-            _service = service;            
         }
 
         public EItemType Item => EItemType.Income;
 
-        public async Task<List<ForecastItem>> GetMonthlyForecast(CustomIdentityUser user, DateTime maxDate, DateTime? minDate = null)
+        public List<ForecastItem> GetMonthlyForecast(List<IncomeDto> incomes, DateTime maxDate, DateTime? minDate = null)
         {
             decimal cumSum = 0;
 
-            var IncomesSpreadList = await GetIncomesSpreadList(user, maxDate, minDate);
+            var IncomesSpreadList = GetIncomesSpreadList(incomes, maxDate, minDate);
 
             var monthlyValues = IncomesSpreadList.OrderBy(a => a.Date).GroupBy(a => new { a.Date.Year, a.Date.Month }, (key, group) =>
               new ForecastItem
@@ -50,11 +44,11 @@ namespace FinanceApp.Core.Services.Forecast.Implementations
             return monthlyValues;
         }
 
-        public async Task<List<ForecastItem>> GetDailyForecast(CustomIdentityUser user, DateTime maxDate, DateTime? minDate = null)
+        public List<ForecastItem> GetDailyForecast(List<IncomeDto> incomesDto, DateTime maxDate, DateTime? minDate = null)
         {
             decimal cumSum = 0;
 
-            var IncomesSpreadList = await GetIncomesSpreadList(user, maxDate, minDate);
+            var IncomesSpreadList = GetIncomesSpreadList(incomesDto, maxDate, minDate);
 
             var dailyValues = IncomesSpreadList.OrderBy(a => a.Date).GroupBy(a => new { a.Date }, (key, group) =>
               new ForecastItem
@@ -77,16 +71,14 @@ namespace FinanceApp.Core.Services.Forecast.Implementations
         }
 
 
-        public async Task<List<IncomeSpread>> GetIncomesSpreadList(CustomIdentityUser user, DateTime maxYearMonth, DateTime? minYearMonth = null)
-        {            
+        public List<IncomeSpread> GetIncomesSpreadList(List<IncomeDto> incomesDto, DateTime maxYearMonth, DateTime? minDateInput = null)
+        {
             maxYearMonth = new DateTime(maxYearMonth.Year, maxYearMonth.Month, 1).AddMonths(1).AddDays(-1);
-            DateTime minYearMonthUse = minYearMonth ?? DateTime.Now.Date;
+            DateTime minDate = minDateInput ?? DateTime.Now.Date;
 
-            var IncomesDto = await _service.GetAsync(user);
+            var incomeSpreadList = new List<IncomeSpread>();
 
-            var IncomeSpreadList = new List<IncomeSpread>();
-
-            foreach (var IncomeDto in IncomesDto)
+            foreach (var IncomeDto in incomesDto)
             {
 
                 if (IncomeDto.Recurrence == ERecurrence.Once)
@@ -94,7 +86,7 @@ namespace FinanceApp.Core.Services.Forecast.Implementations
                     IncomeSpread IncomeSpread = _mapper.Map<IncomeSpread>(IncomeDto);
                     IncomeSpread.Date = IncomeDto.InitialDate;
 
-                    IncomeSpreadList.Add(IncomeSpread);
+                    incomeSpreadList.Add(IncomeSpread);
 
                 }
                 else
@@ -144,13 +136,13 @@ namespace FinanceApp.Core.Services.Forecast.Implementations
                     while (date <= endDate)
                     {
                         //ignora datas passadas
-                        if (date >= minYearMonthUse)
+                        if (date >= minDate)
                         {
                             IncomeSpread IncomeSpread = _mapper.Map<IncomeSpread>(IncomeDto);
-                            
+
                             IncomeSpread.Date = date;
-                                                        
-                            IncomeSpreadList.Add(IncomeSpread);
+
+                            incomeSpreadList.Add(IncomeSpread);
                         }
 
                         try
@@ -167,8 +159,8 @@ namespace FinanceApp.Core.Services.Forecast.Implementations
                 }
 
             }
-            return IncomeSpreadList;
+            return incomeSpreadList;
 
-        }        
+        }
     }
 }

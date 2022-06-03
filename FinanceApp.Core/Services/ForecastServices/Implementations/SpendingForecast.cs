@@ -1,32 +1,28 @@
 ﻿using AutoMapper;
-using FinanceApp.Core.Services.CrudServices.Implementations;
-using FinanceApp.Core.Services.Forecast.Base;
+using FinanceApp.Core.Services.ForecastServices.Base;
 using FinanceApp.Shared.Dto;
 using FinanceApp.Shared.Dto.CreditCard;
 using FinanceApp.Shared.Dto.Spending;
 using FinanceApp.Shared.Enum;
-using FinanceApp.Shared.Models.CommonTables;
 
-namespace FinanceApp.Core.Services.Forecast.Implementations
+namespace FinanceApp.Core.Services.ForecastServices.Implementations
 {
     public class SpendingForecast : BaseForecast
     {
         private readonly IMapper _mapper;
-        private readonly SpendingService _service;
 
-        public SpendingForecast(IMapper mapper, SpendingService service)
+        public SpendingForecast(IMapper mapper)
         {
             _mapper = mapper;
-            _service = service;
         }
 
         public EItemType Item => EItemType.Spending;
 
-        public async Task<List<ForecastItem>> GetMonthlyForecast(CustomIdentityUser user, DateTime maxDate, DateTime? minDate = null)
+        public List<ForecastItem> GetMonthlyForecast(List<SpendingDto> spendingDtos, DateTime maxDate, DateTime? minDate = null)
         {
             decimal cumSum = 0;
 
-            var spendingsSpreadList = await GetSpendingsSpreadList(user, maxDate, minDate);
+            var spendingsSpreadList = GetSpendingsSpreadList(spendingDtos, maxDate, minDate);
 
             var monthlyValues = spendingsSpreadList.OrderBy(a => a.ReferenceDate).GroupBy(a => new { a.ReferenceDate.Year, a.ReferenceDate.Month }, (key, group) =>
               new ForecastItem
@@ -48,11 +44,11 @@ namespace FinanceApp.Core.Services.Forecast.Implementations
             return monthlyValues;
         }
 
-        public async Task<List<ForecastItem>> GetDailyForecast(CustomIdentityUser user, DateTime maxDate, DateTime? minDate = null)
+        public List<ForecastItem> GetDailyForecast(List<SpendingDto> spendingDtos, DateTime maxDate, DateTime? minDate = null)
         {
             decimal cumSum = 0;
 
-            var spendingsSpreadList = await GetSpendingsSpreadList(user, maxDate, minDate);
+            var spendingsSpreadList = GetSpendingsSpreadList(spendingDtos, maxDate, minDate);
 
             var dailyValues = spendingsSpreadList.OrderBy(a => a.ReferenceDate).GroupBy(a => new { a.ReferenceDate }, (key, group) =>
               new ForecastItem
@@ -75,13 +71,11 @@ namespace FinanceApp.Core.Services.Forecast.Implementations
         }
 
 
-        public async Task<List<SpendingSpread>> GetSpendingsSpreadList(CustomIdentityUser user, DateTime maxYearMonth, DateTime? minYearMonth = null)
+        public List<SpendingSpread> GetSpendingsSpreadList(List<SpendingDto> spendingsDto, DateTime maxYearMonth, DateTime? minDateInput = null)
         {
 
             maxYearMonth = new DateTime(maxYearMonth.Year, maxYearMonth.Month, 1).AddMonths(1).AddDays(-1);
-            DateTime minYearMonthUse = minYearMonth ?? DateTime.Now.Date;
-
-            var spendingsDto = await _service.GetAsync(user);
+            DateTime minDate = minDateInput ?? DateTime.Now.Date;
 
             var spendingSpreadList = new List<SpendingSpread>();
 
@@ -143,7 +137,7 @@ namespace FinanceApp.Core.Services.Forecast.Implementations
                     while (date <= endDate)
                     {
                         //ignora datas passadas
-                        if (date >= minYearMonthUse)
+                        if (date >= minDate)
                         {
                             SpendingSpread spendingSpread = _mapper.Map<SpendingSpread>(spendingDto);
                             if (spendingDto.Payment == EPayment.Cash)

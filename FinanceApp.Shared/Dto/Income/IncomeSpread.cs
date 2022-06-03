@@ -1,9 +1,7 @@
-﻿using FinanceApp.Shared.Dto.Income;
-
-namespace FinanceApp.Shared.Dto.Spending
+﻿namespace FinanceApp.Shared.Dto.Income
 {
     public class IncomeSpread : IncomeDto
-    {       
+    {
         public DateTime Date { get; set; }
     }
 }

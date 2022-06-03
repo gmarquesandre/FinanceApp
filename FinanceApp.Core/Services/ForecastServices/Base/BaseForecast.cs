@@ -1,4 +1,4 @@
-﻿namespace FinanceApp.Core.Services.Forecast.Base
+﻿namespace FinanceApp.Core.Services.ForecastServices.Base
 {
     public class BaseForecast
     {

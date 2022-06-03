@@ -8,6 +8,8 @@ namespace FinanceApp.Shared.Enum
         SAC = 0,
         [Display(Name = "Sistema de Amortização Price", ShortName = "PRICE")]
         PRICE = 1,
+        [Display(Name = "Sistema de Amortização Crescente", ShortName = "SACRE")]
+        SACRE = 2,
         
     }
 }

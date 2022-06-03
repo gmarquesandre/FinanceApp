@@ -13,6 +13,7 @@ namespace FinanceApp.Shared.Profiles
             CreateMap<IncomeDto, Income>();
             CreateMap<Income, IncomeDto>();
             CreateMap<UpdateIncome, Income>();
+            CreateMap<IncomeDto, IncomeSpread>();
         }
     }
 }

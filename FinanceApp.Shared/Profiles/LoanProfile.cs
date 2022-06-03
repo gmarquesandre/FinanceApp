@@ -13,6 +13,7 @@ namespace FinanceApp.Shared.Profiles
             CreateMap<LoanDto, Loan>();
             CreateMap<Loan, LoanDto>();
             CreateMap<UpdateLoan, Loan>();
+            CreateMap<LoanDto, LoanSpread>();
         }
     }
 }
