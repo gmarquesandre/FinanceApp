@@ -47,20 +47,24 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
         {
             var loanSpreadList = new List<LoanSpread>();
 
-            decimal amortization = loan.LoanValue / loan.MonthsPayment;
-            
-            double interestRateMonthMultipliler = Math.Pow(1.00 + (Convert.ToDouble(loan.InterestRate) / 100.00), 1 / 12);
+            decimal amortization = loan.LoanValue / (decimal)loan.MonthsPayment;
 
-            for (DateTime date = minDate; date <= maxDate; date.AddMonths(1))
+            double monthsInAYear = 12.00;
+            double interestRateMonthMultipliler = Math.Pow(1.00 + (Convert.ToDouble(loan.InterestRate) / 100.00), 1.00 / monthsInAYear) - 1;
+
+            maxDate = maxDate < loan.InitialDate.AddMonths(loan.MonthsPayment) ? maxDate : loan.InitialDate.AddMonths(loan.MonthsPayment);
+
+            for (DateTime date = minDate; date <= maxDate; date = date.AddMonths(1))
             {
                 var loanSpread = _mapper.Map<LoanSpread>(loan);
 
-                int monthsPaid = date.Year * date.Month - loan.InitialDate.Year * loan.InitialDate.Month;
+                int monthsPaid =  MonthDiff(loan.InitialDate, date);
 
-                decimal interestValueParcel = (decimal)interestRateMonthMultipliler * loan.LoanValue * (1 - Convert.ToDecimal(monthsPaid / loan.MonthsPayment));
+                decimal interestValueParcel = (decimal)interestRateMonthMultipliler * loan.LoanValue * (1 -( (decimal)monthsPaid / (decimal)loan.MonthsPayment));
 
                 loanSpread.LoanAmortizationValue = amortization;
                 loanSpread.Date = date;
+                loanSpread.LoanInterestValue = interestValueParcel;
                 loanSpread.LoanValueMonth = amortization + interestValueParcel;
 
                 loanSpreadList.Add(loanSpread);
@@ -74,14 +78,16 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
         private List<LoanSpread> GetPriceValues(LoanDto loan, DateTime minDate, DateTime maxDate)
         {
             var loanSpreadList = new List<LoanSpread>();
-            
-            double interestRateMonthMultipliler = Math.Pow(1.00 + (Convert.ToDouble(loan.InterestRate) / 100.00), 1 / 12);
-            
-            double InterestValue = Math.Pow(1 + interestRateMonthMultipliler, loan.MonthsPayment);
 
-            decimal valueParcel = loan.LoanValue * (decimal)(InterestValue * interestRateMonthMultipliler / (interestRateMonthMultipliler - 1) );            
+            double monthsInAYear= 12.00;
+            double interestRateMonthMultipliler = Math.Pow(1.00 + (Convert.ToDouble(loan.InterestRate) / 100.00), 1.00 / monthsInAYear) - 1;
             
-            for(DateTime date = minDate; date <= maxDate; date.AddMonths(1))
+            double InterestValue = Math.Pow(1+interestRateMonthMultipliler, loan.MonthsPayment);
+
+            decimal valueParcel = loan.LoanValue * (decimal)(InterestValue * interestRateMonthMultipliler / (InterestValue - 1.00) );
+
+            maxDate = maxDate < loan.InitialDate ? maxDate : loan.InitialDate;
+            for (DateTime date = minDate; date <= maxDate; date = date.AddMonths(1))
             {
                 var loanSpread = _mapper.Map<LoanSpread>(loan);
 
@@ -95,6 +101,24 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
 
             }
             return loanSpreadList;
+        }
+
+        public static int MonthDiff(DateTime d1, DateTime d2)
+        {
+            int m1;
+            int m2;
+            if (d1 < d2)
+            {
+                m1 = (d2.Month - d1.Month);//for years
+                m2 = (d2.Year - d1.Year) * 12; //for months
+            }
+            else
+            {
+                m1 = (d1.Month - d2.Month);//for years
+                m2 = (d1.Year - d2.Year) * 12; //for months
+            }
+
+            return m1 + m2;
         }
     }
 }

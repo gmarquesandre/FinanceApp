@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using FinanceApp.Core.Services.CrudServices.Implementations;
 using FinanceApp.Core.Services.ForecastServices.Base;
 using FinanceApp.Shared.Dto;
 using FinanceApp.Shared.Dto.Income;

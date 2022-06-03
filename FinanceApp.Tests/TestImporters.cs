@@ -8,7 +8,7 @@ using Xunit;
 
 namespace FinanceApp.Tests
 {
-    public class TestImporters : CreateDbBase
+    public class TestImporters : TestsBase
     {
         [Fact]
         public async Task TestIndexImporter()

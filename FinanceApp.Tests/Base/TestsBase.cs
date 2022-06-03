@@ -1,10 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using FinanceApp.EntityFramework;
+using FinanceApp.Shared.Profiles;
+using AutoMapper;
 
 namespace FinanceApp.Tests.Base
 {
-    public class CreateDbBase
+    public class TestsBase
     {
 
         public async Task<FinanceContext> CreateFinanceContext()
@@ -28,6 +30,15 @@ namespace FinanceApp.Tests.Base
         public async Task DeleteUserDb(FinanceContext context)
         {
             await context.Database.EnsureDeletedAsync();
+        }
+
+        public IMapper GetConfigurationIMapper()
+        {
+            var myProfile = new LoanProfile();
+            var configuration = new MapperConfiguration(cfg => cfg.AddProfile(myProfile));
+            IMapper mapper = new Mapper(configuration);
+            return mapper;
+
         }
     }
 }

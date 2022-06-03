@@ -8,7 +8,7 @@ using Xunit;
 
 namespace FinanceApp.Tests
 {
-    public class AuthenticateTests : CreateDbBase
+    public class AuthenticateTests : TestsBase
     {
 
         public async Task<CustomIdentityUser> ReturnDefaultUser(FinanceContext userContext)
