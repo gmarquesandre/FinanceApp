@@ -1,6 +1,6 @@
 ﻿namespace FinanceApp.Core.Services.ForecastServices.Base
 {
-    public class BaseForecast
+    public class BaseForecast : ServiceBase
     {
 
     }
