@@ -5,7 +5,7 @@ using FluentResults;
 
 namespace FinanceApp.Core.Services.CrudServices.Interfaces
 {
-    public interface ICategoryService
+    public interface ICategoryService : ITransientService
     {
         Task<CategoryDto> AddAsync(CreateCategory input, CustomIdentityUser user);
         Task<Result> DeleteAsync(int id, CustomIdentityUser user);

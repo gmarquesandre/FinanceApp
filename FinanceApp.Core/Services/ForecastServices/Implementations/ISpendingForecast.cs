@@ -1,10 +1,11 @@
-﻿using FinanceApp.Shared.Dto;
+﻿using FinanceApp.Api.Startup;
+using FinanceApp.Shared.Dto;
 using FinanceApp.Shared.Dto.Spending;
 using FinanceApp.Shared.Enum;
 
 namespace FinanceApp.Core.Services.ForecastServices.Implementations
 {
-    public interface ISpendingForecast
+    public interface ISpendingForecast : ITransientService
     {
         EItemType Item { get; }
 

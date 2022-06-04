@@ -2,7 +2,7 @@
 
 namespace FinanceApp.Core.Services
 {
-    public interface IServiceBase :ITransientService
+    public interface IServiceBase 
     {
     }
 }

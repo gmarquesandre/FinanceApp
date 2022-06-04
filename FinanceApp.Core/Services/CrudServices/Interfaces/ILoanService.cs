@@ -1,10 +1,11 @@
-﻿using FinanceApp.Shared.Dto.Loan;
+﻿using FinanceApp.Api.Startup;
+using FinanceApp.Shared.Dto.Loan;
 using FinanceApp.Shared.Models.CommonTables;
 using FluentResults;
 
 namespace FinanceApp.Core.Services.CrudServices.Interfaces
 {
-    public interface ILoanService
+    public interface ILoanService : ITransientService
     {
         Task<LoanDto> AddAsync(CreateLoan input, CustomIdentityUser user);
         Task<Result> DeleteAsync(int id, CustomIdentityUser user);

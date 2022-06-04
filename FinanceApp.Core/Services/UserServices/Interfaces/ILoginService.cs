@@ -1,9 +1,10 @@
-﻿using FinanceApp.Shared.Dto;
+﻿using FinanceApp.Api.Startup;
+using FinanceApp.Shared.Dto;
 using FluentResults;
 
 namespace FinanceApp.Core.Services.UserServices.Interfaces
 {
-    public interface ILoginService
+    public interface ILoginService : ITransientService
     {
         Result LogaUsuario(LoginRequestDto request);
         Result ResetaSenhaUsuario(EfetuaResetDto request);
