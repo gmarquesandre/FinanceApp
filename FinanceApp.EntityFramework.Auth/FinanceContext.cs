@@ -48,7 +48,7 @@ namespace FinanceApp.EntityFramework
                 NormalizedEmail = "ADMIN@ADMIN.COM",
                 EmailConfirmed = true,
                 SecurityStamp = Guid.NewGuid().ToString(),
-                Id = 99999
+                Id = 1
             };
 
             PasswordHasher<CustomIdentityUser> hasher = new();
@@ -57,17 +57,17 @@ namespace FinanceApp.EntityFramework
 
             builder.Entity<CustomIdentityUser>().HasData(admin);
 
-            builder.Entity<IdentityRole<int>>().HasData(
-                new IdentityRole<int> { Id = 99999, Name = "admin", NormalizedName = "ADMIN" }
-            );
+            //builder.Entity<IdentityRole<int>>().HasData(
+            //    new IdentityRole<int> { Id = 99999, Name = "admin", NormalizedName = "ADMIN" }
+            //);
 
-            builder.Entity<IdentityRole<int>>().HasData(
-                new IdentityRole<int> { Id = 99997, Name = "regular", NormalizedName = "REGULAR" }
-            );
+            //builder.Entity<IdentityRole<int>>().HasData(
+            //    new IdentityRole<int> { Id = 99997, Name = "regular", NormalizedName = "REGULAR" }
+            //);
 
-            builder.Entity<IdentityUserRole<int>>().HasData(
-                new IdentityUserRole<int> { RoleId = 99999, UserId = 99999 }
-                );
+            //builder.Entity<IdentityUserRole<int>>().HasData(
+            //    new IdentityUserRole<int> { RoleId = 99999, UserId = 99999 }
+            //    );
 
             //Common Tables
             builder.Entity<IndexValue>()
