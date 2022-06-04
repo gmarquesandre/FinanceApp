@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using FinanceApp.EntityFramework;
 using FinanceApp.Shared.Profiles;
 using AutoMapper;
+using System;
+using System.Linq;
 
 namespace FinanceApp.Tests.Base
 {
@@ -34,8 +36,29 @@ namespace FinanceApp.Tests.Base
 
         public IMapper GetConfigurationIMapper()
         {
-            var myProfile = new LoanProfile();
-            var configuration = new MapperConfiguration(cfg => cfg.AddProfile(myProfile));
+            Type profile = typeof(Profile);
+            var profiles = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(a => a.GetTypes())
+                .Where(a => a.BaseType == profile)
+                .Where(a => !a.FullName.Contains("MapperConfiguration"))
+                .ToList();
+
+            var configuration = new MapperConfiguration(cfg =>
+                {
+                    profiles.ForEach(profile => cfg.AddProfile((Profile)Activator.CreateInstance(profile)));
+
+                }
+            );
+
+            
+            //var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(a => a.ManifestModule.Name.Contains("CNDLambda")).ToList();
+            //var classType = assemblies
+            //    .SelectMany(s => s.GetTypes())
+            //    .Where(p => type.IsAssignableFrom(p) && p.IsClass && !p.IsAbstract)
+            //    .FirstOrDefault(a => (EDebitDocumentType)a.GetProperty("DebitDocumentType")?.GetValue(null, null) == documentType);
+
+
+
             IMapper mapper = new Mapper(configuration);
             return mapper;
 

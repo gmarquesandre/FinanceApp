@@ -32,20 +32,12 @@ namespace FinanceApp.Tests.Investments
 
         private PrivateFixedIncomeService GetPrivateFixedIncomeService(FinanceContext userContext)
         {
-            IMapper mapper = GetPrivateFixedIncomeServiceMapper();
+            var mapper = GetConfigurationIMapper();
             var service = new PrivateFixedIncomeService(userContext, mapper);
 
             return service;
         }
-        private static IMapper GetPrivateFixedIncomeServiceMapper()
-        {
-            var myProfile = new PrivateFixedIncomeProfile();
-            var configuration = new MapperConfiguration(cfg => cfg.AddProfile(myProfile));
-            IMapper mapper = new Mapper(configuration);
-
-            return mapper;
-        }
-
+       
         [Fact]
         public async Task<(FinanceContext userContext, CustomIdentityUser user, PrivateFixedIncome investment)> MustAddInvestment()
         {

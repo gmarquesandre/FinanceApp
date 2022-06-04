@@ -1,141 +1,134 @@
-﻿//using AutoMapper;
-//using FinanceApp.Core.Services;
-//using FinanceApp.EntityFramework.Auth;
-//using FinanceApp.Shared.Dto;
-//using FinanceApp.Shared.Enum;
-//using FinanceApp.Shared.Models;
-//using Microsoft.EntityFrameworkCore;
-//using System;
-//using System.Linq;
-//using System.Threading.Tasks;
-//using UsuariosApi.Models;
-//using UsuariosApi.Profiles;
-//using Xunit;
+﻿using AutoMapper;
+using FinanceApp.Core.Services;
+using FinanceApp.EntityFramework.Auth;
+using FinanceApp.Shared.Dto;
+using FinanceApp.Shared.Enum;
+using FinanceApp.Shared.Models;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+using UsuariosApi.Models;
+using UsuariosApi.Profiles;
+using Xunit;
 
-//namespace FinanceApp.Tests.Investments
-//{
-//    public class SpendingTests : AuthenticateTests
-//    {
-//        private readonly CreateSpending DefaultNewInvestment = new()
-//        {
-//            AdditionalFixedInterest = 0.00M,
-//            Amount = 1000.00M,
-//            ExpirationDate = DateTime.Now.Date.AddDays(90),
-//            Index = (int)EIndex.CDI,
-//            IndexPercentage = 100.00M,
-//            InvestmentDate = DateTime.Now.Date,
-//            LiquidityOnExpiration = true,
-//            Name = "Teste",
-//            PreFixedInvestment = false,
-//            Type = (int)ETypeSpending.CRA
-//        };
+namespace FinanceApp.Tests.Investments
+{
+    public class SpendingTests : AuthenticateTests
+    {
+        private readonly CreateSpending DefaultNewInvestment = new()
+        {
+            AdditionalFixedInterest = 0.00M,
+            Amount = 1000.00M,
+            ExpirationDate = DateTime.Now.Date.AddDays(90),
+            Index = (int)EIndex.CDI,
+            IndexPercentage = 100.00M,
+            InvestmentDate = DateTime.Now.Date,
+            LiquidityOnExpiration = true,
+            Name = "Teste",
+            PreFixedInvestment = false,
+            Type = (int)ETypeSpending.CRA
+        };
 
-//        private SpendingService GetSpendingService(FinanceContext userContext)
-//        {
-//            IMapper mapper = GetSpendingServiceMapper();
-//            var service = new SpendingService(userContext, mapper);
+        private SpendingService GetSpendingService(FinanceContext userContext)
+        {
 
-//            return service;
-//        }
-//        private static IMapper GetSpendingServiceMapper()
-//        {
-//            var myProfile = new SpendingProfile();
-//            var configuration = new MapperConfiguration(cfg => cfg.AddProfile(myProfile));
-//            IMapper mapper = new Mapper(configuration);
+            var mapper = GetConfigurationIMapper();
+            var service = new SpendingService(userContext, mapper);
 
-//            return mapper;
-//        }
+            return service;
+        }
 
-//        [Fact]
-//        public async Task<(FinanceContext userContext, CustomIdentityUser user, Spending investment)> MustAddInvestment()
-//        {
-//            var userContext = await CreateFinanceContext();
+        [Fact]
+        public async Task<(FinanceContext userContext, CustomIdentityUser user, Spending investment)> MustAddInvestment()
+        {
+            var userContext = await CreateFinanceContext();
 
-//            var user = await ReturnDefaultUser(userContext);
+            var user = await ReturnDefaultUser(userContext);
 
-//            var investment = DefaultNewInvestment;
+            var investment = DefaultNewInvestment;
 
-//            SpendingService service = GetSpendingService(userContext);
+            SpendingService service = GetSpendingService(userContext);
 
-//            await service.AddAsync(investment, user);
+            await service.AddAsync(investment, user);
 
-//            var investments = await userContext.Spendings.AsNoTracking().ToListAsync();
+            var investments = await userContext.Spendings.AsNoTracking().ToListAsync();
 
-//            Assert.True(investments != null);
+            Assert.True(investments != null);
 
-//            return (userContext, user, investments!.First());
-//        }
+            return (userContext, user, investments!.First());
+        }
 
-//        [Fact]
-//        private async Task MustFailAddInvestment()
-//        {
-            
-//            var userContext = await CreateFinanceContext();
+        [Fact]
+        private async Task MustFailAddInvestment()
+        {
 
-//            var user = await ReturnDefaultUser(userContext);
+            var userContext = await CreateFinanceContext();
 
-//            var investment = DefaultNewInvestment;
+            var user = await ReturnDefaultUser(userContext);
 
-//            investment.Type = 45;
+            var investment = DefaultNewInvestment;
 
-//            SpendingService service = GetSpendingService(userContext);
+            investment.Type = 45;
 
-//            await service.AddAsync(investment, user);
+            SpendingService service = GetSpendingService(userContext);
 
-//            var investments = await userContext.Spendings.AsNoTracking().ToListAsync();
+            await service.AddAsync(investment, user);
 
-//            Assert.True(investments != null);
+            var investments = await userContext.Spendings.AsNoTracking().ToListAsync();
 
-            
-//        }
+            Assert.True(investments != null);
 
-//        [Fact]
-//        public async Task MustUpdateInvestment()
-//        {
-//            (FinanceContext userContext, CustomIdentityUser user, Spending investment) = await MustAddInvestment();
 
-//            var updateInvestment = new UpdateSpending()
-//            {
-//                Id = investment.Id,
-//                Name = investment.Name,
-//                AdditionalFixedInterest = investment.AdditionalFixedInterest,
-//                Amount = investment.Amount * 2,
-//                ExpirationDate = investment.ExpirationDate.AddDays(10),
-//                IndexPercentage = investment.IndexPercentage,
-//                Index = (int)investment.Index,
-//                InvestmentDate = investment.InvestmentDate,
-//                LiquidityOnExpiration = investment.LiquidityOnExpiration,
-//                PreFixedInvestment = investment.PreFixedInvestment,
-//                Type = (int)investment.Type
-//            };
-                
+        }
 
-//            var service = GetSpendingService(userContext);
+        [Fact]
+        public async Task MustUpdateInvestment()
+        {
+            (FinanceContext userContext, CustomIdentityUser user, Spending investment) = await MustAddInvestment();
 
-//            await service.UpdateAsync(updateInvestment, user!);
+            var updateInvestment = new UpdateSpending()
+            {
+                Id = investment.Id,
+                Name = investment.Name,
+                AdditionalFixedInterest = investment.AdditionalFixedInterest,
+                Amount = investment.Amount * 2,
+                ExpirationDate = investment.ExpirationDate.AddDays(10),
+                IndexPercentage = investment.IndexPercentage,
+                Index = (int)investment.Index,
+                InvestmentDate = investment.InvestmentDate,
+                LiquidityOnExpiration = investment.LiquidityOnExpiration,
+                PreFixedInvestment = investment.PreFixedInvestment,
+                Type = (int)investment.Type
+            };
 
-//            var newInvestment = await userContext.Spendings.FirstOrDefaultAsync(a => a.Id == updateInvestment.Id);
 
-//            Assert.True(newInvestment!.Amount == investment.Amount*2);
-//            Assert.True(newInvestment!.ExpirationDate == investment.ExpirationDate.AddDays(10));
-//        }
+            var service = GetSpendingService(userContext);
 
-//        [Fact]
-//        public async Task MustDeleteInvestment()
-//        {
-//            (FinanceContext userContext, CustomIdentityUser user, Spending investment) = await MustAddInvestment();
-            
-//            var service = GetSpendingService(userContext);
+            await service.UpdateAsync(updateInvestment, user!);
 
-//            var mustExistInvesment = await userContext.Spendings.FirstOrDefaultAsync(a => a.Id == investment.Id);
+            var newInvestment = await userContext.Spendings.FirstOrDefaultAsync(a => a.Id == updateInvestment.Id);
 
-//            Assert.True(mustExistInvesment != null);
+            Assert.True(newInvestment!.Amount == investment.Amount * 2);
+            Assert.True(newInvestment!.ExpirationDate == investment.ExpirationDate.AddDays(10));
+        }
 
-//            await service.DeleteAsync(investment.Id, user!);
+        [Fact]
+        public async Task MustDeleteInvestment()
+        {
+            (FinanceContext userContext, CustomIdentityUser user, Spending investment) = await MustAddInvestment();
 
-//            var mustBeNullInvestment = await userContext.Spendings.FirstOrDefaultAsync(a => a.Id == investment.Id);
+            var service = GetSpendingService(userContext);
 
-//            Assert.True(mustBeNullInvestment == null);
-//        }
-//    }
-//}
+            var mustExistInvesment = await userContext.Spendings.FirstOrDefaultAsync(a => a.Id == investment.Id);
+
+            Assert.True(mustExistInvesment != null);
+
+            await service.DeleteAsync(investment.Id, user!);
+
+            var mustBeNullInvestment = await userContext.Spendings.FirstOrDefaultAsync(a => a.Id == investment.Id);
+
+            Assert.True(mustBeNullInvestment == null);
+        }
+    }
+}

@@ -19,10 +19,9 @@
 //        [Fact]
 //        private async Task MustOpenSpendingsByTimesRecurrence()
 //        {
-            
-//            var myProfile = new SpendingProfile();
-//            var configuration = new MapperConfiguration(cfg => cfg.AddProfile(myProfile));
-//            IMapper mapper = new Mapper(configuration);
+
+//            
+//var mapper = GetConfigurationIMapper();
 //            var userContext = await CreateFinanceContext();
 
 //            var user = await ReturnDefaultUser(userContext);
@@ -60,10 +59,9 @@
 //        private async Task ShouldNotFailOnOutofRangeDateByMonthlyRecurrence()
 //        {
 
-//            var myProfile = new SpendingProfile();
-//            var configuration = new MapperConfiguration(cfg => cfg.AddProfile(myProfile));
-//            IMapper mapper = new Mapper(configuration);
-//            var userContext = await CreateFinanceContext();
+//            
+//var mapper = GetConfigurationIMapper(); 
+//var userContext = await CreateFinanceContext();
 
 //            var user = await ReturnDefaultUser(userContext);
 //            int nTimes = 12;
@@ -101,11 +99,9 @@
 //        private async Task CreditCardPaymentTest()
 //        {
 
-//            var myProfile = new SpendingProfile();
-//            var creditProfile = new CreditCardProfile();
-//            var configuration = new MapperConfiguration(cfg => { cfg.AddProfile(myProfile); cfg.AddProfile(creditProfile); });
-//            IMapper mapper = new Mapper(configuration);
-//            var userContext = await CreateFinanceContext();
+//            
+//var mapper = GetConfigurationIMapper(); 
+//var userContext = await CreateFinanceContext();
 
 //            var user = await ReturnDefaultUser(userContext);
 //            int nTimes = 30;
@@ -155,10 +151,7 @@
 //        private async Task GroupedMonthValue()
 //        {
 
-//            var myProfile = new SpendingProfile();
-//            var creditProfile = new CreditCardProfile();
-//            var configuration = new MapperConfiguration(cfg => { cfg.AddProfile(myProfile); cfg.AddProfile(creditProfile); });
-//            IMapper mapper = new Mapper(configuration);
+//var mapper = GetConfigurationIMapper();
 //            var userContext = await CreateFinanceContext();
 
 //            var user = await ReturnDefaultUser(userContext);
@@ -202,6 +195,6 @@
 
 //            Assert.True(true);
 //        }
-        
+
 //    }
 //}

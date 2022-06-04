@@ -29,20 +29,12 @@ namespace FinanceApp.Tests.Investments
 
         private TreasuryBondService GetTreasuryBondService(FinanceContext userContext)
         {
-            IMapper mapper = GetTreasuryBondServiceMapper();
-            var service = new TreasuryBondService(userContext, mapper);
+
+            var mapper = GetConfigurationIMapper(); var service = new TreasuryBondService(userContext, mapper);
 
             return service;
         }
-        private static IMapper GetTreasuryBondServiceMapper()
-        {
-            var myProfile = new TreasuryBondProfile();
-            var configuration = new MapperConfiguration(cfg => cfg.AddProfile(myProfile));
-            IMapper mapper = new Mapper(configuration);
-
-            return mapper;
-        }
-
+        
         [Fact]
         public async Task<(FinanceContext userContext, CustomIdentityUser user, TreasuryBond investment)> MustAddInvestment()
         {
