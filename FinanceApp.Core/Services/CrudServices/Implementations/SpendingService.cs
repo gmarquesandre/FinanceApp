@@ -15,9 +15,9 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
 {
     public class SpendingService : CrudServiceBase, ISpendingService
     {
-        public SpendingForecast _forecast;
+        public ISpendingForecast _forecast;
 
-        public SpendingService(FinanceContext context, IMapper mapper, SpendingForecast forecast) : base(context, mapper) 
+        public SpendingService(FinanceContext context, IMapper mapper, ISpendingForecast forecast) : base(context, mapper) 
         {
             _forecast = forecast;
         }

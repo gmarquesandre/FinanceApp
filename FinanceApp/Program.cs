@@ -1,5 +1,7 @@
+using FinanceApp.Core.Services.CrudServices;
 using FinanceApp.Core.Services.CrudServices.Implementations;
 using FinanceApp.Core.Services.CrudServices.Interfaces;
+using FinanceApp.Core.Services.ForecastServices.Implementations;
 using FinanceApp.Core.Services.UserServices;
 using FinanceApp.Core.Services.UserServices.Interfaces;
 using FinanceApp.EntityFramework;
@@ -17,18 +19,20 @@ var builder = WebApplication.CreateBuilder(args);
 //builder.Services.AddControllers();
 builder.Services.AddControllersWithViews();
 builder.Services.AddSession();
-
 builder.Services.AddMemoryCache();
+
 builder.Services.AddTransient<ITreasuryBondService, TreasuryBondService>();
 builder.Services.AddTransient<IPrivateFixedIncomeService, PrivateFixedIncomeService>();
 builder.Services.AddTransient<IIncomeService, IncomeService>();
 builder.Services.AddTransient<ISpendingService, SpendingService>();
+builder.Services.AddTransient<ISpendingForecast, SpendingForecast>();
 builder.Services.AddTransient<ICategoryService, CategoryService>();
 builder.Services.AddTransient<ICurrentBalanceService, CurrentBalanceService>();
 builder.Services.AddTransient<IFGTSService, FGTSService>();
 builder.Services.AddTransient<ILoginService, LoginService>();
 builder.Services.AddTransient<ITokenService, TokenService>();
 builder.Services.AddTransient<IUserRegisterService, UserRegisterService>();
+builder.Services.AddTransient<IForecastService, ForecastService>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

@@ -7,7 +7,7 @@ using FinanceApp.Shared.Enum;
 
 namespace FinanceApp.Core.Services.ForecastServices.Implementations
 {
-    public class SpendingForecast : BaseForecast
+    public class SpendingForecast : BaseForecast, ISpendingForecast
     {
         private readonly IMapper _mapper;
 
@@ -114,6 +114,9 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
                     {
                         yearSpanTime = 1;
                     }
+                    else {
+                        throw new Exception("Recorrencia não encontrada");
+                    };
 
 
                     if (spendingDto.TimesRecurrence > 0)

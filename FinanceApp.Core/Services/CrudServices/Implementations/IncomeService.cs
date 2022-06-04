@@ -15,10 +15,8 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
 {
     public class IncomeService : CrudServiceBase, IIncomeService
     {
-        public IncomeForecast _forecast;
-        public IncomeService(FinanceContext context, IncomeForecast forecast, IMapper mapper) : base(context, mapper) 
+        public IncomeService(FinanceContext context, IMapper mapper) : base(context, mapper) 
         {
-            _forecast = forecast;
         }
 
         public async Task<IncomeDto> AddAsync(CreateIncome input, CustomIdentityUser user)
@@ -93,14 +91,6 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
             return Result.Ok().WithSuccess("Investimento deletado");
         }
 
-        public async Task<List<ForecastItem>> GetForecast(CustomIdentityUser user)
-        {
-            var values = await GetAsync(user);
-
-            var forecast = _forecast.GetMonthlyForecast(values, DateTime.Now.AddMonths(12));
-
-            return forecast;
-        }
 
         public void CheckValue(Income model)
         {

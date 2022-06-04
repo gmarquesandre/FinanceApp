@@ -14,7 +14,7 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
             _mapper = mapper;
         }
 
-        public EItemType Item => EItemType.Loan;
+        public static EItemType Item => EItemType.Loan;
 
         public List<LoanSpread> GetLoanSpreadList(List<LoanDto> loanDto, DateTime maxYearMonth, DateTime? minDateInput = null)
         {
