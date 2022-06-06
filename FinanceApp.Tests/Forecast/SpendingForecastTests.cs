@@ -1,200 +1,202 @@
-﻿//using AutoMapper;
-//using FinanceApp.Core.Services.CrudServices.Implementations;
-//using FinanceApp.Core.Services.Forecast.Implementations;
-//using FinanceApp.Core.Services.ForecastServices.Implementations;
-//using FinanceApp.Shared.Enum;
-//using FinanceApp.Shared.Models.UserTables;
-//using FinanceApp.Shared.Profiles;
-//using Microsoft.EntityFrameworkCore;
-//using System;
-//using System.Linq;
-//using System.Threading.Tasks;
-//using Xunit;
+﻿using FinanceApp.Core.Services.CrudServices.Implementations;
+using FinanceApp.Core.Services.ForecastServices.Implementations;
+using FinanceApp.Shared.Enum;
+using FinanceApp.Shared.Models.UserTables;
+using System;
+using System.Threading.Tasks;
+using Xunit;
 
-//namespace FinanceApp.Tests.Forecast
-//{
-//    public class SpendingForecastTests : AuthenticateTests
-//    {
+namespace FinanceApp.Tests.Forecast
+{
+    public class SpendingForecastTests : AuthenticateTests
+    {
 
-//        [Fact]
-//        private async Task MustOpenSpendingsByTimesRecurrence()
-//        {
-
-//            
-//var mapper = GetConfigurationIMapper();
-//            var userContext = await CreateFinanceContext();
-
-//            var user = await ReturnDefaultUser(userContext);
-//            int nTimes = 45;
-
-//            var newSpending = new Spending()
-//            {
-//                Amount = 10,
-//                Category = null,
-//                EndDate = null,
-//                Name = "Teste",
-//                IsEndless = false,
-//                IsRequired = false,
-//                UserId = user.Id,
-//                InitialDate = DateTime.Now.Date.AddDays(-20),
-//                Recurrence = ERecurrence.Daily,
-//                TimesRecurrence = nTimes,
-//                CreationDateTime = DateTime.Now,
-//                UpdateDateTime = null,                                
-//            };
-
-//            await userContext.Spendings.AddAsync(newSpending);
-//            await userContext.SaveChangesAsync();
-
-//            var spendingSevice = new SpendingService(userContext, mapper);
-//            var spendingForecast = new SpendingForecast(mapper, spendingSevice);
-
-//            var values = await spendingForecast.GetSpendingsSpreadList(user, DateTime.Now.AddMonths(1));
-
-//            Assert.True(values.Count == 24);
-//            Assert.True(true);
-//        }
-
-//        [Fact]
-//        private async Task ShouldNotFailOnOutofRangeDateByMonthlyRecurrence()
-//        {
-
-//            
-//var mapper = GetConfigurationIMapper(); 
-//var userContext = await CreateFinanceContext();
-
-//            var user = await ReturnDefaultUser(userContext);
-//            int nTimes = 12;
-
-//            var newSpending = new Spending()
-//            {
-//                Amount = 10,
-//                Category = null,
-//                EndDate = null,
-//                Name = "Teste",
-//                IsEndless = false,
-//                IsRequired = false,
-//                UserId = user.Id,
-//                InitialDate = new DateTime(DateTime.Now.Year,1,31),
-//                Recurrence = ERecurrence.Monthly,
-//                TimesRecurrence = nTimes,
-//                CreationDateTime = DateTime.Now,
-//                UpdateDateTime = null,
-//            };
-
-//            await userContext.Spendings.AddAsync(newSpending);
-//            await userContext.SaveChangesAsync();
-
-//            var spendingForecast = new SpendingForecast(mapper);
-
-//            var values = await spendingForecast.GetSpendingsSpreadList(
-//                user, DateTime.Now.AddMonths(12));
-
-//            Assert.True((values.Count == 12 - DateTime.Now.Month-6) || values.Count == 12 - DateTime.Now.Month - 5);
-//            Assert.True(true);
-//        }
+        [Fact]
+        private async Task MustOpenSpendingsByTimesRecurrence()
+        {
 
 
-//        [Fact]
-//        private async Task CreditCardPaymentTest()
-//        {
+            var mapper = GetConfigurationIMapper();
+            var userContext = await CreateFinanceContext();
 
-//            
-//var mapper = GetConfigurationIMapper(); 
-//var userContext = await CreateFinanceContext();
+            var user = await ReturnDefaultUser(userContext);
+            int nTimes = 45;
 
-//            var user = await ReturnDefaultUser(userContext);
-//            int nTimes = 30;
+            var newSpending = new Spending()
+            {
+                Amount = 10,
+                Category = null,
+                EndDate = null,
+                Name = "Teste",
+                IsEndless = false,
+                IsRequired = false,
+                UserId = user.Id,
+                Payment = EPayment.Credit,
+                CreditCard = new CreditCard()
+                {
+                    Name = "Teste",
+                    InvoiceClosingDay = 20,
+                    InvoicePaymentDay = 30,
+                },
+                InitialDate = DateTime.Now.Date.AddDays(-20),
+                Recurrence = ERecurrence.Daily,
+                TimesRecurrence = nTimes,
+                CreationDateTime = DateTime.Now,
+                UpdateDateTime = null,
+            };
 
-//            var newSpending = new Spending()
-//            {
-//                Amount = 10,
-//                Category = null,
-//                EndDate = null,
-//                Name = "Teste",
-//                IsEndless = false,
-//                IsRequired = false,
-//                UserId = user.Id,
-//                InitialDate = DateTime.Now.Date,
-//                Recurrence = ERecurrence.Daily,
-//                Payment = EPayment.Credit,
-//                CreditCard = new CreditCard()
-//                {
-//                    InvoiceClosingDay = 10,
-//                    UserId = user.Id,
-//                    Name = "Boa",
-//                    CreationDateTime = DateTime.Now,
-//                    InvoicePaymentDay = 20                     
-//                },
-//                TimesRecurrence = nTimes,
-//                CreationDateTime = DateTime.Now,
-//                UpdateDateTime = null,
-//            };
+            await userContext.Spendings.AddAsync(newSpending);
+            await userContext.SaveChangesAsync();
 
-//            await userContext.Spendings.AddAsync(newSpending);
-//            await userContext.SaveChangesAsync();
+            var spendingForecast = new SpendingForecast(mapper);
+            var spendingSevice = new SpendingService(userContext, mapper, spendingForecast);
+
+            var values = await spendingSevice.GetForecast(user);
+
+            Assert.True(values.Items.Count == 24);
+            Assert.True(true);
+        }
+
+        //        [Fact]
+        //        private async Task ShouldNotFailOnOutofRangeDateByMonthlyRecurrence()
+        //        {
+
+        //            
+        //var mapper = GetConfigurationIMapper(); 
+        //var userContext = await CreateFinanceContext();
+
+        //            var user = await ReturnDefaultUser(userContext);
+        //            int nTimes = 12;
+
+        //            var newSpending = new Spending()
+        //            {
+        //                Amount = 10,
+        //                Category = null,
+        //                EndDate = null,
+        //                Name = "Teste",
+        //                IsEndless = false,
+        //                IsRequired = false,
+        //                UserId = user.Id,
+        //                InitialDate = new DateTime(DateTime.Now.Year,1,31),
+        //                Recurrence = ERecurrence.Monthly,
+        //                TimesRecurrence = nTimes,
+        //                CreationDateTime = DateTime.Now,
+        //                UpdateDateTime = null,
+        //            };
+
+        //            await userContext.Spendings.AddAsync(newSpending);
+        //            await userContext.SaveChangesAsync();
+
+        //            var spendingForecast = new SpendingForecast(mapper);
+
+        //            var values = await spendingForecast.GetSpendingsSpreadList(
+        //                user, DateTime.Now.AddMonths(12));
+
+        //            Assert.True((values.Count == 12 - DateTime.Now.Month-6) || values.Count == 12 - DateTime.Now.Month - 5);
+        //            Assert.True(true);
+        //        }
 
 
-//            var spendingSevice = new SpendingService(userContext, mapper);
-//            var spendingForecast = new SpendingForecast(mapper, spendingSevice);
+        //        [Fact]
+        //        private async Task CreditCardPaymentTest()
+        //        {
 
-//            var spending = await userContext.Spendings.ToListAsync();
-//            var card = await userContext.CreditCards.ToListAsync();
+        //            
+        //var mapper = GetConfigurationIMapper(); 
+        //var userContext = await CreateFinanceContext();
 
-//            var values = await spendingForecast.GetSpendingsSpreadList(user, DateTime.Now.AddMonths(12));
-//            var dates = values.Select(a => a.Date).ToList();
-//            Assert.True(true);
-//        }
+        //            var user = await ReturnDefaultUser(userContext);
+        //            int nTimes = 30;
+
+        //            var newSpending = new Spending()
+        //            {
+        //                Amount = 10,
+        //                Category = null,
+        //                EndDate = null,
+        //                Name = "Teste",
+        //                IsEndless = false,
+        //                IsRequired = false,
+        //                UserId = user.Id,
+        //                InitialDate = DateTime.Now.Date,
+        //                Recurrence = ERecurrence.Daily,
+        //                Payment = EPayment.Credit,
+        //                CreditCard = new CreditCard()
+        //                {
+        //                    InvoiceClosingDay = 10,
+        //                    UserId = user.Id,
+        //                    Name = "Boa",
+        //                    CreationDateTime = DateTime.Now,
+        //                    InvoicePaymentDay = 20                     
+        //                },
+        //                TimesRecurrence = nTimes,
+        //                CreationDateTime = DateTime.Now,
+        //                UpdateDateTime = null,
+        //            };
+
+        //            await userContext.Spendings.AddAsync(newSpending);
+        //            await userContext.SaveChangesAsync();
 
 
-//        [Fact]
-//        private async Task GroupedMonthValue()
-//        {
+        //            var spendingSevice = new SpendingService(userContext, mapper);
+        //            var spendingForecast = new SpendingForecast(mapper, spendingSevice);
 
-//var mapper = GetConfigurationIMapper();
-//            var userContext = await CreateFinanceContext();
+        //            var spending = await userContext.Spendings.ToListAsync();
+        //            var card = await userContext.CreditCards.ToListAsync();
 
-//            var user = await ReturnDefaultUser(userContext);
-//            int nTimes = 30;
+        //            var values = await spendingForecast.GetSpendingsSpreadList(user, DateTime.Now.AddMonths(12));
+        //            var dates = values.Select(a => a.Date).ToList();
+        //            Assert.True(true);
+        //        }
 
-//            var newSpending = new Spending()
-//            {
-//                Amount = 10,
-//                Category = null,
-//                EndDate = null,
-//                Name = "Teste",
-//                IsEndless = false,
-//                IsRequired = false,
-//                UserId = user.Id,
-//                InitialDate = DateTime.Now.Date,
-//                Recurrence = ERecurrence.Daily,
-//                Payment = EPayment.Credit,
-//                CreditCard = new CreditCard()
-//                {
-//                    InvoiceClosingDay = 10,
-//                    UserId = user.Id,
-//                    Name = "Boa",
-//                    CreationDateTime = DateTime.Now,
-//                    InvoicePaymentDay = 20
-//                },
-//                TimesRecurrence = nTimes,
-//                CreationDateTime = DateTime.Now,
-//                UpdateDateTime = null,
-//            };
 
-//            await userContext.Spendings.AddAsync(newSpending);
-//            await userContext.SaveChangesAsync();
+        //        [Fact]
+        //        private async Task GroupedMonthValue()
+        //        {
 
-//            var spendingSevice = new SpendingService(userContext, mapper);
-//            var spendingForecast = new SpendingForecast(mapper, spendingSevice);
+        //var mapper = GetConfigurationIMapper();
+        //            var userContext = await CreateFinanceContext();
 
-//            var spending = await userContext.Spendings.ToListAsync();
-//            var card = await userContext.CreditCards.ToListAsync();
+        //            var user = await ReturnDefaultUser(userContext);
+        //            int nTimes = 30;
 
-//            var values = await spendingForecast.GetMonthlyForecast(user, DateTime.Now.AddMonths(12), null);
+        //            var newSpending = new Spending()
+        //            {
+        //                Amount = 10,
+        //                Category = null,
+        //                EndDate = null,
+        //                Name = "Teste",
+        //                IsEndless = false,
+        //                IsRequired = false,
+        //                UserId = user.Id,
+        //                InitialDate = DateTime.Now.Date,
+        //                Recurrence = ERecurrence.Daily,
+        //                Payment = EPayment.Credit,
+        //                CreditCard = new CreditCard()
+        //                {
+        //                    InvoiceClosingDay = 10,
+        //                    UserId = user.Id,
+        //                    Name = "Boa",
+        //                    CreationDateTime = DateTime.Now,
+        //                    InvoicePaymentDay = 20
+        //                },
+        //                TimesRecurrence = nTimes,
+        //                CreationDateTime = DateTime.Now,
+        //                UpdateDateTime = null,
+        //            };
 
-//            Assert.True(true);
-//        }
+        //            await userContext.Spendings.AddAsync(newSpending);
+        //            await userContext.SaveChangesAsync();
 
-//    }
-//}
+        //            var spendingSevice = new SpendingService(userContext, mapper);
+        //            var spendingForecast = new SpendingForecast(mapper, spendingSevice);
+
+        //            var spending = await userContext.Spendings.ToListAsync();
+        //            var card = await userContext.CreditCards.ToListAsync();
+
+        //            var values = await spendingForecast.GetMonthlyForecast(user, DateTime.Now.AddMonths(12), null);
+
+        //            Assert.True(true);
+        //        }
+
+    }
+}

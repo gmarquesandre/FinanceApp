@@ -1,5 +1,4 @@
-﻿using FinanceApp.Api.Startup;
-using FinanceApp.Shared.Dto;
+﻿using FinanceApp.Shared.Dto;
 using FluentResults;
 
 namespace FinanceApp.Core.Services.UserServices.Interfaces

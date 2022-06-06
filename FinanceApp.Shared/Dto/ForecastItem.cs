@@ -6,7 +6,6 @@ namespace FinanceApp.Shared.Dto
     {
         public DateTime DateReference { get; set;}
         public decimal Amount { get; set;}
-        public decimal CumulatedAmount { get; set;}        
-        public EItemType Type { get; set; }
+        public decimal CumulatedAmount { get; set;}
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace FinanceApp.Api.Startup
+﻿using FinanceApp.Core.Services;
+
+namespace FinanceApp.Api.Startup
 {
     public static class ServiceExtensions
     {

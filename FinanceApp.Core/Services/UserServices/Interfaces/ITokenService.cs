@@ -1,5 +1,4 @@
-﻿using FinanceApp.Api.Startup;
-using FinanceApp.Shared.Models.CommonTables;
+﻿using FinanceApp.Shared.Models.CommonTables;
 
 namespace FinanceApp.Core.Services.UserServices.Interfaces
 {

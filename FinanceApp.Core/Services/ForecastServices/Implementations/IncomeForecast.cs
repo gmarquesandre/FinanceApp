@@ -28,8 +28,7 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
               {
                   Amount = group.Sum(a => a.Amount),
                   DateReference = new DateTime(key.Year, key.Month, 1).AddMonths(1).AddDays(-1),
-                  CumulatedAmount = 0,
-                  Type = Item
+                  CumulatedAmount = 0
               }
             ).ToList();
 
@@ -54,8 +53,7 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
               {
                   Amount = group.Sum(a => a.Amount),
                   DateReference = key.Date,
-                  CumulatedAmount = 0,
-                  Type = Item
+                  CumulatedAmount = 0
               }
             ).ToList();
 

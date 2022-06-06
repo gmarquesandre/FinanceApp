@@ -1,5 +1,4 @@
-﻿using FinanceApp.Api.Startup;
-using FinanceApp.Shared.Dto.Income;
+﻿using FinanceApp.Shared.Dto.Income;
 using FinanceApp.Shared.Models.CommonTables;
 using FluentResults;
 

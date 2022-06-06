@@ -1,4 +1,4 @@
-﻿namespace FinanceApp.Api.Startup
+﻿namespace FinanceApp.Core.Services
 {
     public interface IScopedService
     {

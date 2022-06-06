@@ -18,7 +18,7 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
 
         public EItemType Item => EItemType.Spending;
 
-        public List<ForecastItem> GetMonthlyForecast(List<SpendingDto> spendingDtos, DateTime maxDate, DateTime? minDate = null)
+        public ForecastList GetMonthlyForecast(List<SpendingDto> spendingDtos, DateTime maxDate, DateTime? minDate = null)
         {
             decimal cumSum = 0;
 
@@ -29,8 +29,7 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
               {
                   Amount = group.Sum(a => a.Amount),
                   DateReference = new DateTime(key.Year, key.Month, 1).AddMonths(1).AddDays(-1),
-                  CumulatedAmount = 0,
-                  Type = Item
+                  CumulatedAmount = 0
               }
             ).ToList();
 
@@ -41,13 +40,16 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
 
             });
 
-            return monthlyValues;
+            return new ForecastList()
+            {
+                Type = Item,
+                Items = monthlyValues
+            };
         }
 
-        public List<ForecastItem> GetDailyForecast(List<SpendingDto> spendingDtos, DateTime maxDate, DateTime? minDate = null)
+        public ForecastList GetDailyForecast(List<SpendingDto> spendingDtos, DateTime maxDate, DateTime? minDate = null)
         {
             decimal cumSum = 0;
-
             var spendingsSpreadList = GetSpendingsSpreadList(spendingDtos, maxDate, minDate);
 
             var dailyValues = spendingsSpreadList.OrderBy(a => a.ReferenceDate).GroupBy(a => new { a.ReferenceDate }, (key, group) =>
@@ -55,8 +57,7 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
               {
                   Amount = group.Sum(a => a.Amount),
                   DateReference = key.ReferenceDate,
-                  CumulatedAmount = 0,
-                  Type = Item
+                  CumulatedAmount = 0
               }
             ).ToList();
 
@@ -67,7 +68,12 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
 
             });
 
-            return dailyValues;
+            return new ForecastList()
+            {
+                Items = dailyValues,
+                Type = Item
+            };
+
         }
 
 

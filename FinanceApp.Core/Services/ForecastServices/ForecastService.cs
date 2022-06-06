@@ -2,7 +2,7 @@
 using FinanceApp.Shared.Dto;
 using FinanceApp.Shared.Models.CommonTables;
 
-namespace FinanceApp.Core.Services.CrudServices
+namespace FinanceApp.Core.Services.ForecastServices
 {
     public class ForecastService : IForecastService
     {
@@ -12,7 +12,7 @@ namespace FinanceApp.Core.Services.CrudServices
             _spendingService = spendingService;
         }
 
-        public async Task<List<ForecastItem>> GetForecast(CustomIdentityUser user)
+        public async Task<ForecastList> GetForecast(CustomIdentityUser user)
         {
             var value = await _spendingService.GetForecast(user);
 

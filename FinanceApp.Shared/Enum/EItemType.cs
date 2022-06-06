@@ -18,6 +18,8 @@ namespace FinanceApp.Shared.Enum
         FGTS = 5,
         [Display(Name = "Conta Corrente")]
         CurrentBalance = 6,
+        [Display(Name = "Total")]
+        Total = 9999
 
     }
 }

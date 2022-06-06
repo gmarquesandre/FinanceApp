@@ -1,5 +1,4 @@
-﻿using FinanceApp.Api.Startup;
-using FinanceApp.Shared.Dto.Category;
+﻿using FinanceApp.Shared.Dto.Category;
 using FinanceApp.Shared.Models.CommonTables;
 using FluentResults;
 

@@ -1,4 +1,4 @@
-﻿using FinanceApp.Core.Services.CrudServices;
+﻿using FinanceApp.Core.Services.ForecastServices;
 using FinanceApp.Shared.Models.CommonTables;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
