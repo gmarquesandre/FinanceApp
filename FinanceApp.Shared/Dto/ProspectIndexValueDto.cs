@@ -1,5 +1,4 @@
 ﻿using FinanceApp.Shared.Enum;
-using FinanceApp.Shared.Models.UserTables.Bases;
 
 namespace FinanceApp.Shared.Dto
 {

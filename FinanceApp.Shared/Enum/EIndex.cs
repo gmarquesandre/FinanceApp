@@ -10,11 +10,11 @@ namespace FinanceApp.Shared.Enum
         CDI = 1,
         [Display(Name = "IPCA")]
         IPCA = 2,
-        [Display(Name = "IGP-M")]
+        [Display(Name = "IGPM")]
         IGPM = 3,
         [Display(Name = "TR")]
         TR = 4,
-        [Display(Name = "Poupanca")]
+        [Display(Name = "Poupança")]
         Poupanca = 5,
         [Display(Name = "Prefixado")]
         Prefixado = 6
