@@ -4,10 +4,9 @@ using FinanceApp.EntityFramework;
 Console.WriteLine("boa");
 var context = new FinanceContext();
 
+var indexProspect = new IndexProspectImporter(context);
+await indexProspect.GetProspectIndexes();
 
-//var indexImporter = new IndexProspectImporter(context);
-//await indexImporter.GetProspectIndexes();
+var indexes = new IndexImporter(context);
+await indexes.GetIndexes();
 
-
-var treasuryImporter = new TreasuryBondImporter(context);
-await treasuryImporter.GetLastValueTreasury();

@@ -28,7 +28,7 @@ namespace FinanceApp.Core.Importers
 
             int year = 2001;
             DateTime dateUpdate = DateTime.Now;
-            await DeleteAllValues();
+            DeleteAllValues();
 
             List<Holiday> holidays = new();
             while (true)
@@ -78,13 +78,13 @@ namespace FinanceApp.Core.Importers
             await _context.SaveChangesAsync();
         }
 
-        private async Task DeleteAllValues()
+        private void DeleteAllValues()
         {
-         
+
             var data = _context.Holidays.ToList();
 
             _context.Holidays.RemoveRange(data);
-            
+
         }
     }
 }

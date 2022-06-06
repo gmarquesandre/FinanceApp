@@ -51,7 +51,7 @@ namespace FinanceApp.Tests.Forecast
             var spendingForecast = new SpendingForecast(mapper);
             var spendingSevice = new SpendingService(userContext, mapper, spendingForecast);
 
-            var values = await spendingSevice.GetForecast(user);
+            var values = await spendingSevice.GetForecast(user, EForecastType.Monthly, DateTime.Now.Date.AddMonths(12));
 
             Assert.True(values.Items.Count == 24);
             Assert.True(true);

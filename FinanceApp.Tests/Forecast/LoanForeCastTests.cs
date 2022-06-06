@@ -14,7 +14,7 @@ namespace FinanceApp.Tests.Forecast
     {
 
         [Fact]
-        private async Task LoanPriceValueTest()
+        private void LoanPriceValueTest()
         {
             var mapper = GetConfigurationIMapper();
 
@@ -38,7 +38,7 @@ namespace FinanceApp.Tests.Forecast
 
             decimal valueParcel = values.First().LoanValueMonth;
 
-            Assert.True(valueParcel.ToString("N", setPrecision) == 393.23.ToString("N", setPrecision)); 
+            Assert.True(valueParcel.ToString("N", setPrecision) == 393.23.ToString("N", setPrecision));
         }
 
 

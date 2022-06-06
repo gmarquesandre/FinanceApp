@@ -56,7 +56,6 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
                 Items = monthlyValues
             };
         }
-
         private ForecastList GetDailyForecast(List<SpendingDto> spendingDtos, DateTime maxDate, DateTime? minDate = null)
         {
             decimal cumSum = 0;
@@ -191,11 +190,8 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
             return spendingSpreadList;
 
         }
-
         private DateTime CheckDateForCredit(DateTime date, CreditCardDto creditCard)
         {
-
-
             if (date.Day >= creditCard.InvoiceClosingDay)
             {
                 return new DateTime(date.Year, date.Month + 1, creditCard.InvoicePaymentDay);

@@ -5,6 +5,6 @@ namespace FinanceApp.Core.Services.ForecastServices
 {
     public interface IForecastService
     {
-        Task<ForecastList> GetForecast(CustomIdentityUser user);
+        Task<List<ForecastList>> GetForecast(CustomIdentityUser user);
     }
 }

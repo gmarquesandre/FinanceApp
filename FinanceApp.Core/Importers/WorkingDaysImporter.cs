@@ -28,7 +28,7 @@ namespace FinanceApp.Core.Importers
         {
 
 
-            await DeleteAllValues();
+            DeleteAllValues();
 
             List<DateTime> holidays = _context.Holidays.ToList().Select(a => a.Date).ToList();
 
@@ -71,7 +71,7 @@ namespace FinanceApp.Core.Importers
         
         }
 
-        private async Task DeleteAllValues()
+        private void DeleteAllValues()
         {
 
             var data = _context.WorkingDaysByYear.ToList();
