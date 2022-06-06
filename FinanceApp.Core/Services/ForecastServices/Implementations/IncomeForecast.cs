@@ -6,7 +6,7 @@ using FinanceApp.Shared.Enum;
 
 namespace FinanceApp.Core.Services.ForecastServices.Implementations
 {
-    public class IncomeForecast : BaseForecast
+    public class IncomeForecast : BaseForecast, IIncomeForecast
     {
         private readonly IMapper _mapper;
 
@@ -16,8 +16,18 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
         }
 
         public EItemType Item => EItemType.Income;
+        public ForecastList GetForecast(List<IncomeDto> incomeDtos, EForecastType forecastType, DateTime maxDate, DateTime? minDate = null)
+        {
 
-        public List<ForecastItem> GetMonthlyForecast(List<IncomeDto> incomes, DateTime maxDate, DateTime? minDate = null)
+            if (forecastType == EForecastType.Daily)
+                return GetDailyForecast(incomeDtos, maxDate, minDate);
+            else if (forecastType == EForecastType.Monthly)
+                return GetMonthlyForecast(incomeDtos, maxDate, minDate);
+
+            throw new Exception("Tipo de previsão inválido");
+
+        }
+        private ForecastList GetMonthlyForecast(List<IncomeDto> incomes, DateTime maxDate, DateTime? minDate = null)
         {
             decimal cumSum = 0;
 
@@ -30,7 +40,7 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
                   DateReference = new DateTime(key.Year, key.Month, 1).AddMonths(1).AddDays(-1),
                   CumulatedAmount = 0
               }
-            ).ToList();
+            ).OrderBy(a=> a.DateReference).ToList();
 
             monthlyValues.ForEach(a =>
             {
@@ -39,10 +49,14 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
 
             });
 
-            return monthlyValues;
+            return new ForecastList()
+            {
+                Type = Item,
+                Items = monthlyValues
+            };
         }
 
-        public List<ForecastItem> GetDailyForecast(List<IncomeDto> incomesDto, DateTime maxDate, DateTime? minDate = null)
+        private ForecastList GetDailyForecast(List<IncomeDto> incomesDto, DateTime maxDate, DateTime? minDate = null)
         {
             decimal cumSum = 0;
 
@@ -63,8 +77,11 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
                 a.CumulatedAmount = cumSum;
 
             });
-
-            return dailyValues;
+            return new ForecastList()
+            {
+                Type = Item,
+                Items = dailyValues
+            };
         }
 
 

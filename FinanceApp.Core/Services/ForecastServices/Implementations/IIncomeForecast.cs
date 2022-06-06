@@ -4,12 +4,10 @@ using FinanceApp.Shared.Enum;
 
 namespace FinanceApp.Core.Services.ForecastServices.Implementations
 {
-    public interface IIncomeForecast
+    public interface IIncomeForecast : ITransientService
     {
         EItemType Item { get; }
-
-        List<ForecastItem> GetDailyForecast(List<IncomeDto> incomesDto, DateTime maxDate, DateTime? minDate = null);
+        ForecastList GetForecast(List<IncomeDto> incomeDtos, EForecastType forecastType, DateTime maxDate, DateTime? minDate = null);
         List<IncomeSpread> GetIncomesSpreadList(List<IncomeDto> incomesDto, DateTime maxYearMonth, DateTime? minDateInput = null);
-        List<ForecastItem> GetMonthlyForecast(List<IncomeDto> incomes, DateTime maxDate, DateTime? minDate = null);
     }
 }

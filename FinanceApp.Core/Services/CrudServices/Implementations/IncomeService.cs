@@ -15,8 +15,11 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
 {
     public class IncomeService : CrudServiceBase, IIncomeService
     {
-        public IncomeService(FinanceContext context, IMapper mapper) : base(context, mapper) 
+
+        public IIncomeForecast _forecast;
+        public IncomeService(FinanceContext context, IMapper mapper, IIncomeForecast forecast) : base(context, mapper) 
         {
+            _forecast = forecast;
         }
 
         public async Task<IncomeDto> AddAsync(CreateIncome input, CustomIdentityUser user)
@@ -32,6 +35,15 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
             return _mapper.Map<IncomeDto>(model);
 
         }
+        public async Task<ForecastList> GetForecast(CustomIdentityUser user, EForecastType forecastType, DateTime maxYearMonth)
+        {
+            var values = await GetAsync(user);
+
+            var forecast = _forecast.GetForecast(values, forecastType, maxYearMonth);
+
+            return forecast;
+        }
+
         public async Task<Result> UpdateAsync(UpdateIncome input, CustomIdentityUser user)
         {
             var oldModel = _context.Incomes.AsNoTracking().FirstOrDefault(x => x.Id == input.Id);
