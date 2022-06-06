@@ -2,7 +2,7 @@
 using FinanceApp.Shared.Dto.Spending;
 using FinanceApp.Shared.Enum;
 
-namespace FinanceApp.Core.Services.ForecastServices.Implementations
+namespace FinanceApp.Core.Services.ForecastServices.Interfaces
 {
     public interface ISpendingForecast : ITransientService
     {

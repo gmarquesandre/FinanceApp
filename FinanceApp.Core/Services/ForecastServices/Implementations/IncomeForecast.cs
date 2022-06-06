@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FinanceApp.Core.Services.ForecastServices.Base;
+using FinanceApp.Core.Services.ForecastServices.Interfaces;
 using FinanceApp.Shared.Dto;
 using FinanceApp.Shared.Dto.Income;
 using FinanceApp.Shared.Enum;

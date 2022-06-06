@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using FinanceApp.EntityFramework;
-using FinanceApp.Shared.Models.CommonTables;
+using FinanceApp.Shared.Dto;
 using Microsoft.EntityFrameworkCore;
 
 namespace FinanceApp.Core.Services.DataServices

@@ -1,19 +1,18 @@
 ﻿using FinanceApp.EntityFramework;
 using FinanceApp.Shared.Models.CommonTables;
-using FinanceApp.Tests.Base;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace FinanceApp.Tests
+namespace FinanceApp.Tests.Base
 {
     public class AuthenticateTests : TestsBase
     {
 
         public async Task<CustomIdentityUser> ReturnDefaultUser(FinanceContext userContext)
         {
-            
+
             var users = await userContext.Users.ToListAsync();
 
             return users.First();
@@ -26,6 +25,6 @@ namespace FinanceApp.Tests
             var user = await ReturnDefaultUser(userContext);
             Assert.True(user != null);
 
-        }      
+        }
     }
 }

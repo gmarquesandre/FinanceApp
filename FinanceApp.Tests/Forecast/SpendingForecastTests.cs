@@ -2,6 +2,7 @@
 using FinanceApp.Core.Services.ForecastServices.Implementations;
 using FinanceApp.Shared.Enum;
 using FinanceApp.Shared.Models.UserTables;
+using FinanceApp.Tests.Base;
 using System;
 using System.Threading.Tasks;
 using Xunit;

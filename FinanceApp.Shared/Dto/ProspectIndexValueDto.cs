@@ -1,7 +1,7 @@
 ﻿using FinanceApp.Shared.Enum;
 using FinanceApp.Shared.Models.UserTables.Bases;
 
-namespace FinanceApp.Shared.Models.CommonTables
+namespace FinanceApp.Shared.Dto
 {
     public class ProspectIndexValueDto
     {

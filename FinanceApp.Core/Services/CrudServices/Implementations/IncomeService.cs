@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using FinanceApp.Core.Services.CrudServices.Base;
 using FinanceApp.Core.Services.CrudServices.Interfaces;
-using FinanceApp.Core.Services.ForecastServices.Implementations;
+using FinanceApp.Core.Services.ForecastServices.Interfaces;
 using FinanceApp.EntityFramework;
 using FinanceApp.Shared.Dto;
 using FinanceApp.Shared.Dto.Income;

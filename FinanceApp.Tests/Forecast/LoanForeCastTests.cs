@@ -1,6 +1,7 @@
 ﻿using FinanceApp.Core.Services.ForecastServices.Implementations;
 using FinanceApp.Shared.Dto.Loan;
 using FinanceApp.Shared.Enum;
+using FinanceApp.Tests.Base;
 using System;
 using System.Collections.Generic;
 using System.Globalization;

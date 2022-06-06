@@ -6,6 +6,7 @@ using FinanceApp.Shared.Enum;
 using FinanceApp.Shared.Models.CommonTables;
 using FinanceApp.Shared.Models.UserTables;
 using FinanceApp.Shared.Profiles;
+using FinanceApp.Tests.Base;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
