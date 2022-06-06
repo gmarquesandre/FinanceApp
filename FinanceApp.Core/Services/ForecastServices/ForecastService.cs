@@ -1,4 +1,5 @@
 ﻿using FinanceApp.Core.Services.CrudServices.Interfaces;
+using FinanceApp.Core.Services.DataServices;
 using FinanceApp.Shared.Dto;
 using FinanceApp.Shared.Enum;
 using FinanceApp.Shared.Models.CommonTables;
@@ -11,13 +12,15 @@ namespace FinanceApp.Core.Services.ForecastServices
         public IIncomeService _incomeService;
         public ILoanService _loanService;
         public ICurrentBalanceService _currentBalanceService;
+        public IDataService _dataService;
 
-        public ForecastService(ISpendingService spendingService, IIncomeService incomeService, ICurrentBalanceService currentBalanceService, ILoanService loanService)
+        public ForecastService(ISpendingService spendingService, IIncomeService incomeService, ICurrentBalanceService currentBalanceService, ILoanService loanService, IDataService dataService)
         {
             _spendingService = spendingService;
             _incomeService = incomeService;
             _currentBalanceService = currentBalanceService;
             _loanService = loanService;
+            _dataService = dataService;
         }
 
         public async Task<List<ForecastList>> GetForecast(CustomIdentityUser user)
@@ -27,6 +30,8 @@ namespace FinanceApp.Core.Services.ForecastServices
             var spendingsDaily = await _spendingService.GetForecast(user, EForecastType.Daily, maxYearMonth);
             var incomesDaily = await _incomeService.GetForecast(user, EForecastType.Daily, maxYearMonth);
             var loanDaily = await _loanService.GetForecast(user, EForecastType.Daily, maxYearMonth);
+
+            var indexesProspect = await _dataService.GetIndexesProspect();
 
             var balance = await _currentBalanceService.GetAsync(user);
 
@@ -48,6 +53,9 @@ namespace FinanceApp.Core.Services.ForecastServices
 
                     date = date.AddDays(1);
                 }
+
+
+
             }
             
 
