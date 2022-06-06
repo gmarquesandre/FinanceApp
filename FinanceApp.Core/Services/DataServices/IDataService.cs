@@ -4,6 +4,6 @@ namespace FinanceApp.Core.Services.DataServices
 {
     public interface IDataService : IScopedService
     {
-        Task<List<ProspectIndexValue>> GetIndexesProspect();
+        Task<List<ProspectIndexValueDto>> GetIndexesProspect();
     }
 }

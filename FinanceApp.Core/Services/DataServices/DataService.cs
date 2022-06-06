@@ -17,12 +17,13 @@ namespace FinanceApp.Core.Services.DataServices
         }
 
 
-        public async Task<List<ProspectIndexValue>> GetIndexesProspect()
+        public async Task<List<ProspectIndexValueDto>> GetIndexesProspect()
         {
 
             //_context.ProspectIndexValues.Load();
+            var values = await _context.ProspectIndexValues.Where(a => a.BaseCalculo == 0).ToListAsync();
 
-            return await _context.ProspectIndexValues.Where(a => a.BaseCalculo == 0).ToListAsync();
+            return _mapper.Map<List<ProspectIndexValueDto>>(values);
         }
     }
 }
