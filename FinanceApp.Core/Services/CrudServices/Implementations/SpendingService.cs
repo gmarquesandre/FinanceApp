@@ -93,11 +93,11 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
             await _context.SaveChangesAsync();
             return Result.Ok().WithSuccess("Investimento deletado");
         }
-        public async Task<ForecastList> GetForecast(CustomIdentityUser user)
+        public async Task<ForecastList> GetForecast(CustomIdentityUser user, EForecastType forecastType)
         {
             var values = await GetAsync(user);
 
-            var forecast = _forecast.GetMonthlyForecast(values, DateTime.Now.AddMonths(12));
+            var forecast = _forecast.GetForecast(values, forecastType, DateTime.Now.AddMonths(12));
 
             return forecast;
         } 

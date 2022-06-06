@@ -17,8 +17,18 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
         }
 
         public EItemType Item => EItemType.Spending;
+        public ForecastList GetForecast(List<SpendingDto> spendingDtos, EForecastType forecastType, DateTime maxDate, DateTime? minDate = null)
+        {
 
-        public ForecastList GetMonthlyForecast(List<SpendingDto> spendingDtos, DateTime maxDate, DateTime? minDate = null)
+            if (forecastType == EForecastType.Daily)
+                return GetDailyForecast(spendingDtos, maxDate, minDate);
+            else if(forecastType == EForecastType.Monthly)
+                return GetMonthlyForecast(spendingDtos, maxDate, minDate);
+
+            throw new Exception("Tipo de previsão inválido");
+
+        }
+        private ForecastList GetMonthlyForecast(List<SpendingDto> spendingDtos, DateTime maxDate, DateTime? minDate = null)
         {
             decimal cumSum = 0;
 
@@ -47,7 +57,7 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
             };
         }
 
-        public ForecastList GetDailyForecast(List<SpendingDto> spendingDtos, DateTime maxDate, DateTime? minDate = null)
+        private ForecastList GetDailyForecast(List<SpendingDto> spendingDtos, DateTime maxDate, DateTime? minDate = null)
         {
             decimal cumSum = 0;
             var spendingsSpreadList = GetSpendingsSpreadList(spendingDtos, maxDate, minDate);
@@ -75,8 +85,6 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
             };
 
         }
-
-
         public List<SpendingSpread> GetSpendingsSpreadList(List<SpendingDto> spendingsDto, DateTime maxYearMonth, DateTime? minDateInput = null)
         {
 

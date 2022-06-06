@@ -14,7 +14,7 @@ namespace FinanceApp.Core.Services.ForecastServices
 
         public async Task<ForecastList> GetForecast(CustomIdentityUser user)
         {
-            var value = await _spendingService.GetForecast(user);
+            var spendingsDaily = await _spendingService.GetForecast(user);
 
             return value;
         }
