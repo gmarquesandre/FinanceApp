@@ -94,15 +94,15 @@ namespace FinanceApp.EntityFramework.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2679b563-5a77-4731-b87a-d71d625f776a",
+                            ConcurrencyStamp = "b4684d51-9eab-4f13-b85d-f46c9a1a5905",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAECJ5J83Nm3kjpM58+nw7bPflBiutIFZyvrb8YiNxdB46VUq1BFwa0XjPIRpT8WY2dw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIIAguZxZwm050nBH+GZbbG5CSdxZ091X/kjRRKtXsgzIYXMis25XgIma+uI12ViiQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "e33ba2f3-6d43-4ae8-adb1-96749e8cdc5b",
+                            SecurityStamp = "10ea732a-0fdb-4e88-b35d-78717dc8b27d",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
@@ -147,6 +147,9 @@ namespace FinanceApp.EntityFramework.Migrations
                     b.Property<int>("Index")
                         .HasColumnType("int");
 
+                    b.Property<int>("IndexRecurrence")
+                        .HasColumnType("int");
+
                     b.Property<double>("Value")
                         .HasColumnType("float");
 
@@ -185,6 +188,9 @@ namespace FinanceApp.EntityFramework.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<int>("Index")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IndexRecurrence")
                         .HasColumnType("int");
 
                     b.Property<double>("Max")
@@ -245,7 +251,7 @@ namespace FinanceApp.EntityFramework.Migrations
                     b.HasIndex("ExpirationDate", "Type")
                         .IsUnique();
 
-                    b.ToTable("TreasuryBondTitles");
+                    b.ToTable("TreasuryBondTitle");
                 });
 
             modelBuilder.Entity("FinanceApp.Shared.Models.CommonTables.TreasuryBondValue", b =>

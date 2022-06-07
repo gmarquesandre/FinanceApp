@@ -71,6 +71,7 @@ namespace FinanceApp.EntityFramework.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Index = table.Column<int>(type: "int", nullable: false),
+                    IndexRecurrence = table.Column<int>(type: "int", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DateEnd = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Value = table.Column<double>(type: "float", nullable: false)
@@ -87,6 +88,7 @@ namespace FinanceApp.EntityFramework.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Index = table.Column<int>(type: "int", nullable: false),
+                    IndexRecurrence = table.Column<int>(type: "int", nullable: false),
                     DateResearch = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DateStart = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DateEnd = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -104,7 +106,7 @@ namespace FinanceApp.EntityFramework.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TreasuryBondTitles",
+                name: "TreasuryBondTitle",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -120,7 +122,7 @@ namespace FinanceApp.EntityFramework.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TreasuryBondTitles", x => x.Id);
+                    table.PrimaryKey("PK_TreasuryBondTitle", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -515,7 +517,7 @@ namespace FinanceApp.EntityFramework.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { 1, 0, "2679b563-5a77-4731-b87a-d71d625f776a", "admin@admin.com", true, false, null, "ADMIN@ADMIN.COM", "ADMIN", "AQAAAAEAACcQAAAAECJ5J83Nm3kjpM58+nw7bPflBiutIFZyvrb8YiNxdB46VUq1BFwa0XjPIRpT8WY2dw==", null, false, "e33ba2f3-6d43-4ae8-adb1-96749e8cdc5b", false, "admin" });
+                values: new object[] { 1, 0, "b4684d51-9eab-4f13-b85d-f46c9a1a5905", "admin@admin.com", true, false, null, "ADMIN@ADMIN.COM", "ADMIN", "AQAAAAEAACcQAAAAEIIAguZxZwm050nBH+GZbbG5CSdxZ091X/kjRRKtXsgzIYXMis25XgIma+uI12ViiQ==", null, false, "10ea732a-0fdb-4e88-b35d-78717dc8b27d", false, "admin" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -637,8 +639,8 @@ namespace FinanceApp.EntityFramework.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TreasuryBondTitles_ExpirationDate_Type",
-                table: "TreasuryBondTitles",
+                name: "IX_TreasuryBondTitle_ExpirationDate_Type",
+                table: "TreasuryBondTitle",
                 columns: new[] { "ExpirationDate", "Type" },
                 unique: true);
 
@@ -703,7 +705,7 @@ namespace FinanceApp.EntityFramework.Migrations
                 name: "TreasuryBonds");
 
             migrationBuilder.DropTable(
-                name: "TreasuryBondTitles");
+                name: "TreasuryBondTitle");
 
             migrationBuilder.DropTable(
                 name: "TreasuryBondValues");

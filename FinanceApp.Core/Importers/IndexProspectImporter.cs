@@ -4,7 +4,6 @@ using FinanceApp.Shared;
 using FinanceApp.Shared.Enum;
 using FinanceApp.Shared.Models.CommonTables;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json.Linq;
 using System.Globalization;
 
@@ -145,7 +144,8 @@ namespace FinanceApp.Core.Importers
                         Min = Convert.ToDouble(minValue, CultureInfo.InvariantCulture),
                         ResearchAnswers = Convert.ToInt16(numeroRespondentes),
                         Index = EnumHelper<EIndex>.GetValueFromName(indexName),
-                        BaseCalculo = Convert.ToInt16(baseCalculo)
+                        BaseCalculo = Convert.ToInt16(baseCalculo),
+                        IndexRecurrence = EIndexRecurrence.Yearly
                     });
                 }
                 catch (Exception e)
@@ -186,6 +186,7 @@ namespace FinanceApp.Core.Importers
                         ResearchAnswers = Convert.ToInt16(numeroRespondentes),
                         Index = EnumHelper<EIndex>.GetValueFromName(indexName),
                         BaseCalculo = Convert.ToInt16(baseCalculo),
+                        IndexRecurrence = EIndexRecurrence.Monthly
                     });
                 }
                 catch (Exception e)

@@ -83,6 +83,7 @@ namespace FinanceApp.Core.Services.DataServices
             if (index == EIndex.TR)
                 return new List<IndexValueDailyWithProspect>();
 
+            return new List<IndexValueDailyWithProspect>();
 
             List<IndexValueDailyWithProspect> prospectDaily = new();
             var prospects = await GetIndexProspect(index);
@@ -90,43 +91,43 @@ namespace FinanceApp.Core.Services.DataServices
 
             DateTime dateStart = DateTime.Now.Date;
             DateTime date = dateStart;
-            prospects.ForEach(prospect =>
-            {
-                while(date <= endDate)
-                {
+            //prospects.ForEach(prospect =>
+            //{
+            //    while(date <= endDate)
+            //    {
 
 
-                    if (date.DayOfWeek == DayOfWeek.Sunday || date.DayOfWeek == DayOfWeek.Saturday)
-                        return;
-                    else if (await IsHoliday(date))
-                        return;
+            //        if (date.DayOfWeek == DayOfWeek.Sunday || date.DayOfWeek == DayOfWeek.Saturday)
+            //            return;
+            //        else if (await IsHoliday(date))
+            //            return;
 
 
-                    prospectDaily.Add(new IndexValueDailyWithProspect()
-                    {
-                        Date = date,
-                        Index = index,
-                        IsProspect = true,
-                        Value = valueDaily
-                    });
+            //        prospectDaily.Add(new IndexValueDailyWithProspect()
+            //        {
+            //            Date = date,
+            //            Index = index,
+            //            IsProspect = true,
+            //            Value = valueDaily
+            //        });
 
-                    date.AddDays(1);
-                }
+            //        date.AddDays(1);
+            //    }
 
-            })
+            //})
 
-            for (DateTime date = DateTime.Now.Date; date <= endDate; date = date = date.AddMonths(1))
-            {
+            //for (DateTime date = DateTime.Now.Date; date <= endDate; date = date = date.AddMonths(1))
+            //{
 
-                if(periodValue == null)
-                {
-                    periodValue == prospects.Where()
-                }
+            //    if(periodValue == null)
+            //    {
+            //        periodValue == prospects.Where()
+            //    }
 
-                ConvertIndexToDaily(date, periodValue.Median);
+            //    ConvertIndexToDaily(date, periodValue.Median);
 
 
-            }
+            //}
 
 
         }

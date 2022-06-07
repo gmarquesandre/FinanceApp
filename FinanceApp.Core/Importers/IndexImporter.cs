@@ -12,14 +12,14 @@ namespace FinanceApp.Core.Importers
 
         private HttpClientHandler _handler;
 
-        public Dictionary<EIndex, string> Indexes = new()
+        public Dictionary<EIndex, (string code, EIndexRecurrence indexRecurrence)> Indexes = new()
         {
-            { EIndex.IPCA, "433" },
-            { EIndex.IGPM, "189" },
-            { EIndex.Selic, "11" },
-            { EIndex.CDI, "12" },
-            { EIndex.Poupanca, "196" },
-            { EIndex.TR, "226" },
+            { EIndex.IPCA, ("433", EIndexRecurrence.Monthly) },
+            { EIndex.IGPM, ("189", EIndexRecurrence.Monthly) },
+            { EIndex.Selic, ("11", EIndexRecurrence.Daily) },
+            { EIndex.CDI, ("12", EIndexRecurrence.Daily) },
+            { EIndex.Poupanca, ("196", EIndexRecurrence.Monthly) },
+            { EIndex.TR, ("226", EIndexRecurrence.Monthly) },
         };
 
         public IndexImporter(FinanceContext context) : base(context) { }
@@ -32,7 +32,7 @@ namespace FinanceApp.Core.Importers
             }
         }
 
-        private async Task ImportIndex(KeyValuePair<EIndex, string> index)
+        private async Task ImportIndex(KeyValuePair<EIndex, (string code, EIndexRecurrence IndexRecurrence)> index)
         {
             _handler = SetDefaultHttpHandler();
 
@@ -40,7 +40,7 @@ namespace FinanceApp.Core.Importers
 
             _client.DefaultRequestHeaders.Host = "api.bcb.gov.br";
             _client.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.0.0 Safari/537.36");
-            string url = "http://api.bcb.gov.br/dados/serie/bcdata.sgs.{index.Value}/dados?formato=csv";
+            string url = $"http://api.bcb.gov.br/dados/serie/bcdata.sgs.{index.Value.code}/dados?formato=csv";
 
             DateTime? minDate;
             if(_context.IndexValues.Any(a=> a.Index == index.Key)){
@@ -55,7 +55,7 @@ namespace FinanceApp.Core.Importers
 
             string str = Encoding.Default.GetString(bytes);
 
-            var itens = ConvertToList(str, index.Key);
+            var itens = ConvertToList(str, index.Key, index.Value.IndexRecurrence);
 
             await InsertOrUpdateIndex(itens);
 
@@ -92,7 +92,7 @@ namespace FinanceApp.Core.Importers
             await _context.SaveChangesAsync();
         }
 
-        private List<IndexValue> ConvertToList(string str, EIndex index)
+        private List<IndexValue> ConvertToList(string str, EIndex index, EIndexRecurrence indexRecurrence)
         {
 
             var itens = str.Replace("\r", "").Split("\n").Select(a => a.Split(";"))
@@ -119,6 +119,7 @@ namespace FinanceApp.Core.Importers
                 Date = Convert.ToDateTime(a[dateIndex].Replace("\"", ""), _cultureInfoPtBr),
                 DateEnd = Convert.ToDateTime(a[dateEndIndex].Replace("\"", ""), _cultureInfoPtBr),
                 Index = index,
+                IndexRecurrence = indexRecurrence,
                 Value = Convert.ToDouble(a[valueIndex].Replace("\"", ""), _cultureInfoPtBr) / 100
             }).ToList();
 
