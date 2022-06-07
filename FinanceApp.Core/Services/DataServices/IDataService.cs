@@ -6,7 +6,7 @@ namespace FinanceApp.Core.Services.DataServices
 {
     public interface IDataService : IScopedService
     {
-        Task<List<ProspectIndexValueDto>> GetIndexesProspect();
+        Task<List<ProspectIndexValueDto>> GetIndexProspect(EIndex index);
         Task<List<IndexValueDto>> GetIndex(EIndex index, DateTime dateStart);
         Task<List<TreasuryBondValue>> GetTreasuryBondLastValue();
     }

@@ -16,9 +16,9 @@ namespace FinanceApp.Api.Controllers
         } 
 
         [HttpGet("ProspectIndexes")] 
-        public async Task<IActionResult> ProspectIndexesAsync()
+        public async Task<IActionResult> ProspectIndexesAsync([FromQuery]EIndex index)
         {
-            var values = await _service.GetIndexesProspect();
+            var values = await _service.GetIndexProspect(index);
             return Ok(values);
         }
 

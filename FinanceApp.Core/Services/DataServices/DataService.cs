@@ -21,17 +21,15 @@ namespace FinanceApp.Core.Services.DataServices
             _mapper = mapper;
             _memoryCache = memoryCache; 
         }
-
-
-        public async Task<List<ProspectIndexValueDto>> GetIndexesProspect()
+        public async Task<List<ProspectIndexValueDto>> GetIndexProspect(EIndex index)
         {
-            var cacheKey = EnumHelper<EDataCacheKey>.GetDescriptionValue(EDataCacheKey.TreasuryBond);
+            var cacheKey = EnumHelper<EDataCacheKey>.GetDescriptionValue(EDataCacheKey.TreasuryBond)+index.ToString();
 
             //checks if cache entries exists
             if (!_memoryCache.TryGetValue(cacheKey, out List<ProspectIndexValueDto> valuesDto))
             {
                 //calling the server
-                var values = await _context.ProspectIndexValues.ToListAsync();
+                var values = await _context.ProspectIndexValues.Where(a => a.Index == index).ToListAsync();
 
                 //setting up cache options
                 var cacheExpiryOptions = new MemoryCacheEntryOptions
@@ -49,8 +47,6 @@ namespace FinanceApp.Core.Services.DataServices
             //_context.ProspectIndexValues.Load();
             return valuesDto;
         }
-
-
         public async Task<List<IndexValueDto>> GetIndex(EIndex index, DateTime dateStart)
         {
             var cacheKey = EnumHelper<EDataCacheKey>.GetDescriptionValue(EDataCacheKey.IndexesProspect) + index.ToString();
@@ -78,7 +74,6 @@ namespace FinanceApp.Core.Services.DataServices
             //_context.ProspectIndexValues.Load();
             return returnList;
         }
-
         public async Task<List<TreasuryBondValue>> GetTreasuryBondLastValue()
         {
             var cacheKey = EnumHelper<EDataCacheKey>.GetDescriptionValue(EDataCacheKey.TreasuryBond);
@@ -108,7 +103,5 @@ namespace FinanceApp.Core.Services.DataServices
             //_context.ProspectIndexValues.Load();
             return returnList;
         }
-
-
     }
 }
