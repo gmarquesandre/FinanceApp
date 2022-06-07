@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using FinanceApp.EntityFramework;
-using FinanceApp.Shared.Profiles;
 using AutoMapper;
 using System;
 using System.Linq;
@@ -40,7 +39,7 @@ namespace FinanceApp.Tests.Base
             var profiles = AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(a => a.GetTypes())
                 .Where(a => a.BaseType == profile)
-                .Where(a => !a.FullName.Contains("MapperConfiguration"))
+                .Where(a => a.FullName != null && !a.FullName.Contains("MapperConfiguration"))
                 .ToList();
 
             var configuration = new MapperConfiguration(cfg =>
@@ -49,15 +48,6 @@ namespace FinanceApp.Tests.Base
 
                 }
             );
-
-            
-            //var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(a => a.ManifestModule.Name.Contains("CNDLambda")).ToList();
-            //var classType = assemblies
-            //    .SelectMany(s => s.GetTypes())
-            //    .Where(p => type.IsAssignableFrom(p) && p.IsClass && !p.IsAbstract)
-            //    .FirstOrDefault(a => (EDebitDocumentType)a.GetProperty("DebitDocumentType")?.GetValue(null, null) == documentType);
-
-
 
             IMapper mapper = new Mapper(configuration);
             return mapper;
