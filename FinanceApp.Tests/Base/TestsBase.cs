@@ -28,10 +28,7 @@ namespace FinanceApp.Tests.Base
         {
             await context.Database.EnsureDeletedAsync();
         }
-        public async Task DeleteUserDb(FinanceContext context)
-        {
-            await context.Database.EnsureDeletedAsync();
-        }
+
 
         public IMapper GetConfigurationIMapper()
         {
@@ -48,7 +45,7 @@ namespace FinanceApp.Tests.Base
 
                 }
             );
-
+       
             IMapper mapper = new Mapper(configuration);
             return mapper;
 
