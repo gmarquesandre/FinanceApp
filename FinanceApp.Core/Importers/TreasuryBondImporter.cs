@@ -34,7 +34,7 @@ namespace FinanceApp.Core.Importers
 
             ConvertToList(values, listValues, lastUpdate);
 
-            await InsertOrUpdate(listValues);
+            //await InsertOrUpdate(listValues);
 
             List<TreasuryBondValue> listValuesHistory = new();
 
@@ -54,41 +54,41 @@ namespace FinanceApp.Core.Importers
             await InsertOrUpdate(listValuesHistory);
         }
 
-        private async Task InsertOrUpdate(List<TreasuryBondTitle> listValues)
-        {
+        //private async Task InsertOrUpdate(List<TreasuryBondTitle> listValues)
+        //{
 
-            var allValues = await _context.TreasuryBondTitles.AsNoTracking().ToListAsync();
+        //    var allValues = await _context.TreasuryBondTitles.AsNoTracking().ToListAsync();
 
-            var listInsert = listValues
-                    .Where(a => !allValues.Select(b => b.KeyTitle()).Contains(a.KeyTitle())).ToList();
+        //    var listInsert = listValues
+        //            .Where(a => !allValues.Select(b => b.KeyTitle()).Contains(a.KeyTitle())).ToList();
 
-            var listUpdate = listValues.Where(a => allValues.Select(b => b.KeyTitle()).Contains(a.KeyTitle())).ToList();
+        //    var listUpdate = listValues.Where(a => allValues.Select(b => b.KeyTitle()).Contains(a.KeyTitle())).ToList();
 
 
 
-            await InsertValues(listInsert);
-            await UpdateValues(listUpdate);
-        }
+        //    await InsertValues(listInsert);
+        //    await UpdateValues(listUpdate);
+        //}
 
-        private async Task UpdateValues(List<TreasuryBondTitle> listUpdate)
-        {
-            foreach (var treasuryBondTitle in listUpdate)
-            {
-                var title = await _context.TreasuryBondTitles.AsNoTracking()
-                    .FirstOrDefaultAsync(a => a.Type == treasuryBondTitle.Type && a.ExpirationDate == treasuryBondTitle.ExpirationDate);
+        //private async Task UpdateValues(List<TreasuryBondTitle> listUpdate)
+        //{
+        //    foreach (var treasuryBondTitle in listUpdate)
+        //    {
+        //        var title = await _context.TreasuryBondTitles.AsNoTracking()
+        //            .FirstOrDefaultAsync(a => a.Type == treasuryBondTitle.Type && a.ExpirationDate == treasuryBondTitle.ExpirationDate);
 
-                treasuryBondTitle.Id = title!.Id;
+        //        treasuryBondTitle.Id = title!.Id;
 
-                _context.TreasuryBondTitles.Update(treasuryBondTitle);
-            }
-            await _context.SaveChangesAsync();    
-        }
+        //        _context.TreasuryBondTitles.Update(treasuryBondTitle);
+        //    }
+        //    await _context.SaveChangesAsync();    
+        //}
 
-        private async Task InsertValues(List<TreasuryBondTitle> listInsert)
-        {
-            await _context.TreasuryBondTitles.AddRangeAsync(listInsert);
-            await _context.SaveChangesAsync();
-        }
+        //private async Task InsertValues(List<TreasuryBondTitle> listInsert)
+        //{
+        //    await _context.TreasuryBondTitles.AddRangeAsync(listInsert);
+        //    await _context.SaveChangesAsync();
+        //}
 
         private void ConvertToList(dynamic values, List<TreasuryBondTitle> listValues, DateTime dateLastUpdate)
         {
@@ -124,6 +124,7 @@ namespace FinanceApp.Core.Importers
             //https://www.tesourotransparente.gov.br/ckan/dataset/taxas-dos-titulos-ofertados-pelo-tesouro-direto
 
             var url = "https://www.tesourotransparente.gov.br/ckan/dataset/df56aa42-484a-4a59-8184-7676580c81e3/resource/796d2059-14e9-44e3-80c9-2d9e30b405c1/download/PrecoTaxaTesouroDireto.csv";
+                       https://www.tesourotransparente.gov.br/ckan/dataset/df56aa42-484a-4a59-8184-7676580c81e3/resource/796d2059-14e9-44e3-80c9-2d9e30b405c1/download/PrecoTaxaTesouroDireto.csv
 
             var response = await _client.GetAsync(url);
 
@@ -217,9 +218,11 @@ namespace FinanceApp.Core.Importers
                 //    Value = Convert.ToDouble(a[valueIndex].Replace("\"", ""), _cultureInfoPtBr) / 100
             }).ToList();
 
+            DateTime maxDate = treasuryBondValueList.Max(a => a.Date);
+
             //Remove titulos vencimentos a mais de 1 mês
             if(removeExpired)
-                treasuryBondValueList = treasuryBondValueList.Where(a => a.ExpirationDate <= DateTime.Now.AddDays(-1)).ToList();
+                treasuryBondValueList = treasuryBondValueList.Where(a => a.ExpirationDate >= DateTime.Now.AddDays(-1)).ToList();
             
             return treasuryBondValueList;
         }
