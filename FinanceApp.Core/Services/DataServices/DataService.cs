@@ -19,24 +19,24 @@ namespace FinanceApp.Core.Services.DataServices
         {
             _context = context;
             _mapper = mapper;
-            _memoryCache = memoryCache; 
+            _memoryCache = memoryCache;
         }
         public async Task<List<ProspectIndexValueDto>> GetIndexProspect(EIndex index)
         {
-            var cacheKey = EnumHelper<EDataCacheKey>.GetDescriptionValue(EDataCacheKey.TreasuryBond)+index.ToString();
+            var cacheKey = EnumHelper<EDataCacheKey>.GetDescriptionValue(EDataCacheKey.TreasuryBond) + index.ToString();
 
             //checks if cache entries exists
             if (!_memoryCache.TryGetValue(cacheKey, out List<ProspectIndexValueDto> valuesDto))
             {
                 //calling the server
-                var values = await _context.ProspectIndexValues.Where(a => a.Index == index).ToListAsync();
+                var values = await _context.ProspectIndexValues.Where(a => a.Index == index && a.BaseCalculo == 0).ToListAsync();
 
                 //setting up cache options
                 var cacheExpiryOptions = new MemoryCacheEntryOptions
                 {
                     AbsoluteExpiration = DateTime.Now.AddHours(1),
                     Priority = CacheItemPriority.High,
-                    SlidingExpiration = TimeSpan.FromHours(1)                    
+                    SlidingExpiration = TimeSpan.FromHours(1)
                 };
 
                 valuesDto = _mapper.Map<List<ProspectIndexValueDto>>(values);
@@ -54,8 +54,12 @@ namespace FinanceApp.Core.Services.DataServices
             //checks if cache entries exists
             if (!_memoryCache.TryGetValue(cacheKey, out List<IndexValueDto> valuesDto))
             {
-                //calling the server
-                var values = await _context.IndexValues.Where(a=> a.Index == index).ToListAsync();
+                List<IndexValue> values = new();
+
+                if (index == EIndex.TR)
+                    values = await _context.IndexValues.Where(a => a.Index == index && a.Date.Day == 1 && a.DateEnd.Day == 1).ToListAsync();
+                else
+                    values = await _context.IndexValues.Where(a => a.Index == index).ToListAsync();
 
                 //setting up cache options
                 var cacheExpiryOptions = new MemoryCacheEntryOptions
@@ -74,6 +78,65 @@ namespace FinanceApp.Core.Services.DataServices
             //_context.ProspectIndexValues.Load();
             return returnList;
         }
+        public async Task<List<IndexValueDailyWithProspect>> GetIndexProspectDaily(EIndex index, DateTime endDate)
+        {
+            if (index == EIndex.TR)
+                return new List<IndexValueDailyWithProspect>();
+
+
+            List<IndexValueDailyWithProspect> prospectDaily = new();
+            var prospects = await GetIndexProspect(index);
+            prospects.OrderBy(a => a.DateStart);
+
+            DateTime dateStart = DateTime.Now.Date;
+            DateTime date = dateStart;
+            prospects.ForEach(prospect =>
+            {
+                while(date <= endDate)
+                {
+
+
+                    if (date.DayOfWeek == DayOfWeek.Sunday || date.DayOfWeek == DayOfWeek.Saturday)
+                        return;
+                    else if (await IsHoliday(date))
+                        return;
+
+
+                    prospectDaily.Add(new IndexValueDailyWithProspect()
+                    {
+                        Date = date,
+                        Index = index,
+                        IsProspect = true,
+                        Value = valueDaily
+                    });
+
+                    date.AddDays(1);
+                }
+
+            })
+
+            for (DateTime date = DateTime.Now.Date; date <= endDate; date = date = date.AddMonths(1))
+            {
+
+                if(periodValue == null)
+                {
+                    periodValue == prospects.Where()
+                }
+
+                ConvertIndexToDaily(date, periodValue.Median);
+
+
+            }
+
+
+        }
+
+        private Task<bool> IsHoliday(DateTime date)
+        {
+            //Separar a consulta em outro método e adicionar cache nesse novo método
+            return _context.Holidays.AnyAsync(a => a.Date == date);
+        }
+
         public async Task<List<TreasuryBondValue>> GetTreasuryBondLastValue()
         {
             var cacheKey = EnumHelper<EDataCacheKey>.GetDescriptionValue(EDataCacheKey.TreasuryBond);
@@ -83,7 +146,7 @@ namespace FinanceApp.Core.Services.DataServices
             {
                 //calling the server
                 DateTime maxDate = await _context.TreasuryBondValues.MaxAsync(a => a.Date);
-                var values = await _context.TreasuryBondValues.Where(a=> a.Date == maxDate).ToListAsync();
+                var values = await _context.TreasuryBondValues.Where(a => a.Date == maxDate).ToListAsync();
 
                 //setting up cache options
                 var cacheExpiryOptions = new MemoryCacheEntryOptions

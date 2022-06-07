@@ -31,7 +31,7 @@ namespace FinanceApp.Core.Services.ForecastServices
             var incomesDaily = await _incomeService.GetForecast(user, EForecastType.Daily, maxYearMonth);
             var loanDaily = await _loanService.GetForecast(user, EForecastType.Daily, maxYearMonth);
 
-            var indexesProspect = await _dataService.GetIndexesProspect();
+            var indexesProspect = await _dataService.GetIndexProspect(EIndex.Selic);
 
             var balance = await _currentBalanceService.GetAsync(user);
 

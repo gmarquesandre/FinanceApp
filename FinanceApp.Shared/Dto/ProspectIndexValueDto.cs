@@ -5,6 +5,8 @@ namespace FinanceApp.Shared.Dto
     public class ProspectIndexValueDto
     {
         public EIndex Index { get; set; }
+        public EIndexRecurrence IndexRecurrence { get; set; }
+        public string IndexRecurrenceName => EnumHelper<EIndexRecurrence>.GetDisplayValue(IndexRecurrence);
         public string IndexName => EnumHelper<EIndex>.GetDisplayValue(Index);
         public DateTime DateResearch { get; set; }
         public DateTime DateStart { get; set; }

@@ -6,6 +6,7 @@ namespace FinanceApp.Shared.Models.CommonTables
     public class ProspectIndexValue : StandartTable
     {
         public EIndex Index { get; set; }
+        public EIndexRecurrence IndexRecurrence { get; set; }
         public DateTime DateResearch { get; set; }
         public DateTime DateStart { get; set; }
         public DateTime DateEnd { get; set; }

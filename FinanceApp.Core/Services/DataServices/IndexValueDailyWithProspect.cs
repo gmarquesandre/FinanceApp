@@ -1,15 +1,15 @@
-﻿using FinanceApp.Shared.Enum;
+﻿using FinanceApp.Shared;
+using FinanceApp.Shared.Enum;
 
-namespace FinanceApp.Shared.Models.CommonTables
+namespace FinanceApp.Core.Services.DataServices
 {
-    public class IndexValueDto
+    public class IndexValueDailyWithProspect
     {
         public EIndex Index { get; set; }
         public EIndexRecurrence IndexRecurrence { get; set; }
-        public string IndexRecurrenceName => EnumHelper<EIndexRecurrence>.GetDisplayValue(IndexRecurrence);
         public string IndexName => EnumHelper<EIndex>.GetDisplayValue(Index);
         public DateTime Date { get; set; }
-        public DateTime DateEnd { get; set; }
         public double Value { get; set; }
+        public bool IsProspect { get; set; }
     }
 }
