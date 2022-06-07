@@ -28,6 +28,13 @@ namespace FinanceApp.Api.Controllers
             var values = await _service.GetIndex(index, dateStart);
             return Ok(values);
         }
+        
+        [HttpGet("TreasuryBondLastValue")]
+        public async Task<IActionResult> TreasuryBondsAsync()
+        {
+            var values = await _service.GetTreasuryBondLastValue();
+            return Ok(values);
+        }
 
         //[HttpGet("GetHolidays")]
         //public IActionResult GetHolidays()

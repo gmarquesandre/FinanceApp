@@ -8,5 +8,6 @@ namespace FinanceApp.Core.Services.DataServices
     {
         Task<List<ProspectIndexValueDto>> GetIndexesProspect();
         Task<List<IndexValueDto>> GetIndex(EIndex index, DateTime dateStart);
+        Task<List<TreasuryBondValue>> GetTreasuryBondLastValue();
     }
 }

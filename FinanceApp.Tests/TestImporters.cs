@@ -43,21 +43,21 @@ namespace FinanceApp.Tests
             await DeleteDataDb(dataContext);
         }
 
-        [Fact]
-        public async Task TestTreasuryBondTitlesImporter()
-        {
-            var dataContext = await CreateFinanceContext();
+        //[Fact]
+        //public async Task TestTreasuryBondTitlesImporter()
+        //{
+        //    var dataContext = await CreateFinanceContext();
 
-            var importer = new TreasuryBondImporter(dataContext);
+        //    var importer = new TreasuryBondImporter(dataContext);
 
-            await importer.GetLastValueTreasury();
+        //    await importer.GetLastValueTreasury();
 
-            var values = await dataContext.TreasuryBondTitles.ToListAsync();
+        //    var values = await dataContext.TreasuryBondTitles.ToListAsync();
 
-            Assert.True(values.Any());
+        //    Assert.True(values.Any());
 
-            await DeleteDataDb(dataContext);
-        }
+        //    await DeleteDataDb(dataContext);
+        //}
         
         [Fact]
         public async Task TestIndexProspectImporter()

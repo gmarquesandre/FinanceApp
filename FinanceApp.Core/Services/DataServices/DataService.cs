@@ -25,7 +25,7 @@ namespace FinanceApp.Core.Services.DataServices
 
         public async Task<List<ProspectIndexValueDto>> GetIndexesProspect()
         {
-            var cacheKey = EnumHelper<EDataCacheKey>.GetDescriptionValue(EDataCacheKey.IndexesProspect);
+            var cacheKey = EnumHelper<EDataCacheKey>.GetDescriptionValue(EDataCacheKey.TreasuryBond);
 
             //checks if cache entries exists
             if (!_memoryCache.TryGetValue(cacheKey, out List<ProspectIndexValueDto> valuesDto))
@@ -78,6 +78,37 @@ namespace FinanceApp.Core.Services.DataServices
             //_context.ProspectIndexValues.Load();
             return returnList;
         }
+
+        public async Task<List<TreasuryBondValue>> GetTreasuryBondLastValue()
+        {
+            var cacheKey = EnumHelper<EDataCacheKey>.GetDescriptionValue(EDataCacheKey.TreasuryBond);
+
+            //Converter em Dto
+            if (!_memoryCache.TryGetValue(cacheKey, out List<TreasuryBondValue> valuesDto))
+            {
+                //calling the server
+                DateTime maxDate = await _context.TreasuryBondValues.MaxAsync(a => a.Date);
+                var values = await _context.TreasuryBondValues.Where(a=> a.Date == maxDate).ToListAsync();
+
+                //setting up cache options
+                var cacheExpiryOptions = new MemoryCacheEntryOptions
+                {
+                    AbsoluteExpiration = DateTime.Now.AddHours(1),
+                    Priority = CacheItemPriority.High,
+                    SlidingExpiration = TimeSpan.FromHours(1)
+                };
+
+                //valuesDto = _mapper.Map<List<IndexValueDto>>(values);
+
+                valuesDto = values;
+                //setting cache entries
+                _memoryCache.Set(cacheKey, valuesDto, cacheExpiryOptions);
+            }
+            var returnList = valuesDto;
+            //_context.ProspectIndexValues.Load();
+            return returnList;
+        }
+
 
     }
 }
