@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace FinanceApp.Shared
 {
@@ -75,7 +76,9 @@ namespace FinanceApp.Shared
             var fieldInfo = value.GetType().GetField(value.ToString());
 
             var descriptionAttributes = fieldInfo.GetCustomAttributes(
-                typeof(DisplayAttribute), false) as DisplayAttribute[];
+                typeof(DescriptionAttribute), false) as DescriptionAttribute[];
+
+
 
             if (descriptionAttributes == null) return string.Empty;
             return descriptionAttributes.Length > 0 ? descriptionAttributes[0].Description : value.ToString();

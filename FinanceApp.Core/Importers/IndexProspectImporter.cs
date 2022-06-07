@@ -4,6 +4,7 @@ using FinanceApp.Shared;
 using FinanceApp.Shared.Enum;
 using FinanceApp.Shared.Models.CommonTables;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json.Linq;
 using System.Globalization;
 
@@ -14,6 +15,7 @@ namespace FinanceApp.Core.Importers
         private HttpClient _client;
 
         private HttpClientHandler _handler;
+        
 
         public IndexProspectImporter(FinanceContext context) : base(context)
         {
@@ -35,7 +37,8 @@ namespace FinanceApp.Core.Importers
 
             await GetSelic();
 
-            await GetCdi();          
+            await GetCdi();
+            
 
         }
 
