@@ -40,8 +40,16 @@ namespace FinanceApp.Core.Importers
 
             _client.DefaultRequestHeaders.Host = "api.bcb.gov.br";
             _client.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.0.0 Safari/537.36");
+            string url = "http://api.bcb.gov.br/dados/serie/bcdata.sgs.{index.Value}/dados?formato=csv";
 
-            var response = await _client.GetAsync($"http://api.bcb.gov.br/dados/serie/bcdata.sgs.{index.Value}/dados?formato=csv");
+            DateTime? minDate;
+            if(_context.IndexValues.Any(a=> a.Index == index.Key)){
+
+                minDate = _context.IndexValues.Where(a => a.Index == index.Key).Max(a => a.Date);
+                url+= $"&dataInicial={minDate.Value:dd/MM/yyyy}";
+            }
+
+            var response = await _client.GetAsync(url);
 
             var bytes = await response.Content.ReadAsByteArrayAsync();
 
