@@ -45,7 +45,7 @@ namespace FinanceApp.Tests.DatesServiceTests
             var selicIndexes = context.IndexValues.Where(a => a.Index == EIndex.Selic && a.Date.Year >= 2001);
 
             // pega resultado do método
-            for (DateTime date = new(2002,1,1); date < DateTime.Now.AddYears(-1); date = date.AddDays(1))
+            for (DateTime date = new(2002,1,1); date < DateTime.Now.AddYears(-1).AddDays(-1); date = date.AddDays(1))
             {
 
                 DateTime dateStart = date;
@@ -54,7 +54,7 @@ namespace FinanceApp.Tests.DatesServiceTests
                 var result = await datesService.GetWorkingDaysBetweenDates(dateStart, dateEnd);
 
                 int resultCompare = selicIndexes.Where(a => a.Date >= dateStart && a.Date <= dateEnd).Count();
-
+               
                 Assert.True(result == resultCompare);
 
             }
