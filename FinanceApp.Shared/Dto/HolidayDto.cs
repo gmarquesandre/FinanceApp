@@ -1,4 +1,4 @@
-﻿namespace FinanceApp.Shared.Models.CommonTables
+﻿namespace FinanceApp.Shared.Dto
 {
     public class HolidayDto
     {

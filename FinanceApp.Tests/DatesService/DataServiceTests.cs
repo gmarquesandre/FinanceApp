@@ -9,7 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace FinanceApp.Tests
+namespace FinanceApp.Tests.DatesService
 {
     public class DataServiceTests : TestsBase
     {
@@ -21,7 +21,7 @@ namespace FinanceApp.Tests
             var context = await CreateFinanceContext();
 
             //Instancias 
-            MemoryCacheOptions cacheOptions = new();            
+            MemoryCacheOptions cacheOptions = new();
             var memoryCache = new MemoryCache(cacheOptions);
             var datesService = new DatesService(context, mapper, memoryCache);
             var indexesImporter = new IndexImporter(context);
@@ -58,6 +58,6 @@ namespace FinanceApp.Tests
             Assert.True(values.Select(a => a.Index).Distinct().Count() == importer.Indexes.Count);
 
             await DeleteDataDb(dataContext);
-        }        
+        }
     }
 }

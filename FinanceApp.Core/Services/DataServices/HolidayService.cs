@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using FinanceApp.EntityFramework;
 using FinanceApp.Shared;
+using FinanceApp.Shared.Dto;
 using FinanceApp.Shared.Enum;
-using FinanceApp.Shared.Models.CommonTables;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 

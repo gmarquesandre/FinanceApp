@@ -1,6 +1,6 @@
 ﻿using FinanceApp.Shared.Enum;
 
-namespace FinanceApp.Shared.Models.CommonTables
+namespace FinanceApp.Shared.Dto
 {
     public class IndexValueDto
     {

@@ -1,4 +1,4 @@
-﻿using FinanceApp.Shared.Models.CommonTables;
+﻿using FinanceApp.Shared.Dto;
 
 namespace FinanceApp.Core.Services.DataServices
 {

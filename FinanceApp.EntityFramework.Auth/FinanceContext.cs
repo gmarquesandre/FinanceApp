@@ -1,4 +1,5 @@
-﻿using FinanceApp.Shared.Models.CommonTables;
+﻿using FinanceApp.Shared.Dto;
+using FinanceApp.Shared.Models.CommonTables;
 using FinanceApp.Shared.Models.UserTables;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
