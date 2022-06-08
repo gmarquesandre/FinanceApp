@@ -15,6 +15,7 @@ namespace FinanceApp.Core.Services.DataServices
         private FinanceContext _context;
         private IMapper _mapper;
         private readonly IMemoryCache _memoryCache;
+
         public DataService(FinanceContext context, IMapper mapper, IMemoryCache memoryCache)
         {
             _context = context;
@@ -78,7 +79,7 @@ namespace FinanceApp.Core.Services.DataServices
             //_context.ProspectIndexValues.Load();
             return returnList;
         }
-        public async Task<List<IndexValueDailyWithProspect>> GetIndexProspectDaily(EIndex index, DateTime endDate)
+        public async Task<List<IndexValueDailyWithProspect>> GetIndexProspectDaily(EIndex index, DateTime startDate, DateTime endDate)
         {
             if (index == EIndex.TR)
                 return new List<IndexValueDailyWithProspect>();
@@ -86,40 +87,43 @@ namespace FinanceApp.Core.Services.DataServices
             return new List<IndexValueDailyWithProspect>();
 
             List<IndexValueDailyWithProspect> prospectDaily = new();
+
+            var values = await GetIndex(index, startDate);
             var prospects = await GetIndexProspect(index);
             prospects.OrderBy(a => a.DateStart);
 
-            DateTime dateStart = DateTime.Now.Date;
-            DateTime date = dateStart;
-            //prospects.ForEach(prospect =>
-            //{
-            //    while(date <= endDate)
-            //    {
+            DateTime date = startDate;
+
+            prospects.ForEach(async prospect =>
+            {
+                while (date <= endDate)
+                {
+                    bool isHoliday = await IsHoliday(date);
+
+                    if (date.DayOfWeek == DayOfWeek.Sunday || date.DayOfWeek == DayOfWeek.Saturday)
+                        return;
+                    else if (isHoliday)
+                        return;
 
 
-            //        if (date.DayOfWeek == DayOfWeek.Sunday || date.DayOfWeek == DayOfWeek.Saturday)
-            //            return;
-            //        else if (await IsHoliday(date))
-            //            return;
 
+                    prospectDaily.Add(new IndexValueDailyWithProspect()
+                    {
+                        Date = date,
+                        Index = index,
+                        IsProspect = true,
+                        Value = valueDaily
+                    });
 
-            //        prospectDaily.Add(new IndexValueDailyWithProspect()
-            //        {
-            //            Date = date,
-            //            Index = index,
-            //            IsProspect = true,
-            //            Value = valueDaily
-            //        });
+                    date.AddDays(1);
+                }
 
-            //        date.AddDays(1);
-            //    }
-
-            //})
+            });
 
             //for (DateTime date = DateTime.Now.Date; date <= endDate; date = date = date.AddMonths(1))
             //{
 
-            //    if(periodValue == null)
+            //    if (periodValue == null)
             //    {
             //        periodValue == prospects.Where()
             //    }
@@ -131,13 +135,6 @@ namespace FinanceApp.Core.Services.DataServices
 
 
         }
-
-        private Task<bool> IsHoliday(DateTime date)
-        {
-            //Separar a consulta em outro método e adicionar cache nesse novo método
-            return _context.Holidays.AnyAsync(a => a.Date == date);
-        }
-
         public async Task<List<TreasuryBondValue>> GetTreasuryBondLastValue()
         {
             var cacheKey = EnumHelper<EDataCacheKey>.GetDescriptionValue(EDataCacheKey.TreasuryBond);
