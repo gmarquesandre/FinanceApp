@@ -2,7 +2,7 @@
 using FinanceApp.Shared.Enum;
 using FinanceApp.Shared.Models.CommonTables;
 
-namespace FinanceApp.Core.Services.DataServices
+namespace FinanceApp.Core.Services
 {
     public interface IDataService : IScopedService
     {

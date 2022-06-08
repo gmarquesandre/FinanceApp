@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FinanceApp.Core.Services.DataServices;
 using FinanceApp.EntityFramework;
 using FinanceApp.Shared;
 using FinanceApp.Shared.Dto;
@@ -7,7 +8,7 @@ using FinanceApp.Shared.Models.CommonTables;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 
-namespace FinanceApp.Core.Services.DataServices
+namespace FinanceApp.Core.Services
 {
     public class DataService : ServiceBase, IDataService
     {

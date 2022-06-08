@@ -6,7 +6,7 @@ using FinanceApp.Shared.Enum;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 
-namespace FinanceApp.Core.Services.DataServices
+namespace FinanceApp.Core.Services
 {
     public class DatesService : ServiceBase, IDatesService
     {
@@ -57,7 +57,7 @@ namespace FinanceApp.Core.Services.DataServices
         public async Task<WorkingDaysByYearDto?> GetWorkingDaysOfAYear(int year)
         {
             var values = await GetWorkingDaysByYear();
-            
+
             var value = values.FirstOrDefault(a => a.Year == year);
 
             return value;
@@ -129,6 +129,6 @@ namespace FinanceApp.Core.Services.DataServices
 
             return Convert.ToInt32(calcWorkingDaysDays) - holidaysCountBetweenDates;
         }
-        
+
     }
 }

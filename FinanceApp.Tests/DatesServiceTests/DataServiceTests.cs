@@ -1,5 +1,5 @@
 using FinanceApp.Core.Importers;
-using FinanceApp.Core.Services.DataServices;
+using FinanceApp.Core.Services;
 using FinanceApp.Shared.Enum;
 using FinanceApp.Tests.Base;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace FinanceApp.Tests.DatesService
+namespace FinanceApp.Tests.DatesServiceTests
 {
     public class DataServiceTests : TestsBase
     {
@@ -23,7 +23,11 @@ namespace FinanceApp.Tests.DatesService
             //Instancias 
             MemoryCacheOptions cacheOptions = new();
             var memoryCache = new MemoryCache(cacheOptions);
-            var datesService = new DatesService(context, mapper, memoryCache);
+            var datesService = new DatesService(context,
+                                                mapper,
+                                                memoryCache);
+
+
             var indexesImporter = new IndexImporter(context);
             var holidaysImporter = new HolidaysImporter(context);
 
