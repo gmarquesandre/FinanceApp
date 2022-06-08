@@ -22,13 +22,16 @@ namespace FinanceApp.Tests.DatesServiceTests
 
             //Instancias 
             MemoryCacheOptions cacheOptions = new();
+
             var memoryCache = new MemoryCache(cacheOptions);
+
             var datesService = new DatesService(context,
                                                 mapper,
                                                 memoryCache);
 
 
             var indexesImporter = new IndexImporter(context);
+
             var holidaysImporter = new HolidaysImporter(context);
 
             //Importar dados para comparação
@@ -42,26 +45,20 @@ namespace FinanceApp.Tests.DatesServiceTests
             var selicIndexes = context.IndexValues.Where(a => a.Index == EIndex.Selic && a.Date.Year >= 2001);
 
             // pega resultado do método
-            DateTime dateStart = new(2010, 01, 01);
-            DateTime dateEnd = new(2011, 05, 01);
-            var result = await datesService.GetWorkingDaysBetweenDates(dateStart, dateEnd);
+            for (DateTime date = new(2002,1,1); date < DateTime.Now.AddYears(-1); date = date.AddDays(1))
+            {
 
-            int resultCompare = selicIndexes.Where(a => a.Date >= dateStart && a.Date <= dateEnd).Count();
+                DateTime dateStart = date;
+                DateTime dateEnd = date.AddYears(1);
 
-            Assert.True(result == resultCompare);
+                var result = await datesService.GetWorkingDaysBetweenDates(dateStart, dateEnd);
 
-            var dataContext = await CreateFinanceContext();
+                int resultCompare = selicIndexes.Where(a => a.Date >= dateStart && a.Date <= dateEnd).Count();
 
-            var importer = new IndexImporter(dataContext);
+                Assert.True(result == resultCompare);
 
-            await importer.GetIndexes();
+            }
 
-            var values = await dataContext.IndexValues.ToListAsync();
-
-            Assert.True(values.Any());
-            Assert.True(values.Select(a => a.Index).Distinct().Count() == importer.Indexes.Count);
-
-            await DeleteDataDb(dataContext);
         }
     }
 }

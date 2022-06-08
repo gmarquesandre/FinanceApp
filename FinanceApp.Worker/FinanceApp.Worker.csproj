@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FinanceApp.Core\FinanceApp.Core.csproj" />
+    <ProjectReference Include="..\FinanceApp.Shared\FinanceApp.Shared.csproj" />
   </ItemGroup>
 
 </Project>

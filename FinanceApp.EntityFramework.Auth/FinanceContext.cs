@@ -80,7 +80,7 @@ namespace FinanceApp.EntityFramework
                .IsUnique(true);
 
 
-            builder.Entity<WorkingDaysByYearDto>()
+            builder.Entity<WorkingDaysByYear>()
                  .HasIndex(p => new { p.Year })
                  .IsUnique(true);
 
