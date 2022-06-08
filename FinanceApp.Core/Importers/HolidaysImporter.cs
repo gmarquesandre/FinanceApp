@@ -20,7 +20,7 @@ namespace FinanceApp.Core.Importers
 
         }
 
-        public async Task GetHolidays()
+        public async Task GetHolidays(int? yearEnd = null)
         {
             _handler = SetDefaultHttpHandler();
 
@@ -31,7 +31,7 @@ namespace FinanceApp.Core.Importers
             DeleteAllValues();
 
             List<Holiday> holidays = new();
-            while (true)
+            while (true || (yearEnd.HasValue && year >= yearEnd.Value))
             {
                 try
                 {

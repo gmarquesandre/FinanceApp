@@ -96,27 +96,27 @@ namespace FinanceApp.Core.Services.DataServices
 
             prospects.ForEach(async prospect =>
             {
-                while (date <= endDate)
-                {
-                    bool isHoliday = await IsHoliday(date);
+                //while (date <= endDate)
+                //{
+                //    bool isHoliday = await IsHoliday(date);
 
-                    if (date.DayOfWeek == DayOfWeek.Sunday || date.DayOfWeek == DayOfWeek.Saturday)
-                        return;
-                    else if (isHoliday)
-                        return;
+                //    if (date.DayOfWeek == DayOfWeek.Sunday || date.DayOfWeek == DayOfWeek.Saturday)
+                //        return;
+                //    else if (isHoliday)
+                //        return;
 
 
 
-                    prospectDaily.Add(new IndexValueDailyWithProspect()
-                    {
-                        Date = date,
-                        Index = index,
-                        IsProspect = true,
-                        Value = valueDaily
-                    });
+                //    prospectDaily.Add(new IndexValueDailyWithProspect()
+                //    {
+                //        Date = date,
+                //        Index = index,
+                //        IsProspect = true,
+                //        Value = valueDaily
+                //    });
 
-                    date.AddDays(1);
-                }
+                //    date.AddDays(1);
+                //}
 
             });
 

@@ -36,7 +36,7 @@ namespace FinanceApp.Tests.Base
             var profiles = AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(a => a.GetTypes())
                 .Where(a => a.BaseType == profile)
-                .Where(a => a.FullName != null && !a.FullName.Contains("MapperConfiguration"))
+                .Where(a => !a.FullName.Contains("MapperConfiguration"))
                 .ToList();
 
             var configuration = new MapperConfiguration(cfg =>
@@ -45,6 +45,7 @@ namespace FinanceApp.Tests.Base
 
                 }
             );
+
        
             IMapper mapper = new Mapper(configuration);
             return mapper;
