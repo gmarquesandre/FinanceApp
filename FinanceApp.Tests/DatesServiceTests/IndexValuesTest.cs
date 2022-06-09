@@ -57,12 +57,6 @@ namespace FinanceApp.Tests.DatesServiceTests
             
             setPrecision.NumberDecimalDigits = 8;
 
-            //            var LoanForecast = new LoanForecast(mapper);
-
-            
-            //            Assert.True(valueParcel.ToString("N", setPrecision) == 393.23.ToString("N", setPrecision));
-            //        }
-
             Assert.True(value.ToString("N", setPrecision) == 1.00034749.ToString("N", setPrecision));
             Assert.True(value2.ToString("N", setPrecision) == 1.00732270.ToString("N", setPrecision));
             Assert.True(value3.ToString("N", setPrecision) == 1.01492840.ToString("N", setPrecision));
