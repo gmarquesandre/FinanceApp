@@ -8,9 +8,9 @@ namespace FinanceApp.Api.Controllers
     [ApiController]
     public class DataController : ControllerBase
     {
-        public readonly IDataService _service;
+        public readonly IIndexService _service;
 
-        public DataController(IDataService service)
+        public DataController(IIndexService service)
         {
             _service = service;
         } 
@@ -29,12 +29,12 @@ namespace FinanceApp.Api.Controllers
             return Ok(values);
         }
         
-        [HttpGet("TreasuryBondLastValue")]
-        public async Task<IActionResult> TreasuryBondsAsync()
-        {
-            var values = await _service.GetTreasuryBondLastValue();
-            return Ok(values);
-        }
+        //[HttpGet("TreasuryBondLastValue")]
+        //public async Task<IActionResult> TreasuryBondsAsync()
+        //{
+        //    var values = await _service.GetTreasuryBondLastValue();
+        //    return Ok(values);
+        //}
 
         //[HttpGet("GetHolidays")]
         //public IActionResult GetHolidays()

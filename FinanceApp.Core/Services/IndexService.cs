@@ -18,9 +18,9 @@ namespace FinanceApp.Core.Services
         private readonly IMemoryCache _memoryCache;
         public readonly IDatesService _datesService;
 
-        public IndexService(FinanceContext context, 
-            IMapper mapper, 
-            IMemoryCache memoryCache, 
+        public IndexService(FinanceContext context,
+            IMapper mapper,
+            IMemoryCache memoryCache,
             IDatesService datesService)
         {
             _context = context;
@@ -31,7 +31,7 @@ namespace FinanceApp.Core.Services
 
 
         private readonly List<Iof> IofValues = new() {
-            new Iof(0,1.00),
+            new Iof(0, 1.00),
             new Iof(1, 0.96),
             new Iof(2, 0.93),
             new Iof(3, 0.9),
@@ -98,7 +98,7 @@ namespace FinanceApp.Core.Services
             //_context.ProspectIndexValues.Load();
             return valuesDto;
         }
-        public async Task<List<IndexValueDto>> GetIndex(EIndex index, DateTime dateStart)
+        public async Task<List<IndexValueDto>> GetIndex(EIndex index, DateTime dateStart, DateTime? dateEnd = null)
         {
             var cacheKey = EnumHelper<EDataCacheKey>.GetDescriptionValue(EDataCacheKey.Indexes) + index.ToString();
 
@@ -125,9 +125,12 @@ namespace FinanceApp.Core.Services
                 //setting cache entries
                 _memoryCache.Set(cacheKey, valuesDto, cacheExpiryOptions);
             }
-            var returnList = valuesDto.Where(a => a.Date >= dateStart).ToList();
-            //_context.ProspectIndexValues.Load();
-            return returnList;
+
+            if (dateEnd.HasValue)
+                return valuesDto.Where(a => a.Date >= dateStart && a.Date <= dateEnd).ToList();
+
+            return valuesDto.Where(a => a.Date >= dateStart).ToList();
+
         }
         public async Task<IndexValueDto> GetIndexLastValue(EIndex index)
         {
@@ -140,7 +143,7 @@ namespace FinanceApp.Core.Services
 
                 if (index == EIndex.TR)
                 {
-                    DateTime maxDate = _context.IndexValues.Where(a=> a.Date.Day == 1).Max(a => a.Date);
+                    DateTime maxDate = _context.IndexValues.Where(a => a.Date.Day == 1).Max(a => a.Date);
                     value = await _context.IndexValues.FirstOrDefaultAsync(a => a.Index == index && a.Date.Day == 1 && a.DateEnd.Day == 1);
                 }
                 else
@@ -170,77 +173,62 @@ namespace FinanceApp.Core.Services
             //_context.ProspectIndexValues.Load();
             return valueDto;
         }
-        public async Task<List<IndexValueDailyWithProspect>> GetIndexProspectDaily(EIndex index, DateTime startDate, DateTime endDate)
+        public async Task<double> GetIndexValueBetweenDates(EIndex index, DateTime startDate, DateTime endDate)
         {
-            if (index == EIndex.TR)
-                return new List<IndexValueDailyWithProspect>();
-
-            return new List<IndexValueDailyWithProspect>();
-
-            List<IndexValueDailyWithProspect> returnList = new();
-
-            var indexRealValues = await GetIndex(index, startDate);
+                                    
             var indexLastValue = await GetIndexLastValue(index);
-            
-            DateTime maxDateRealIndex = indexLastValue.Date;
+            double cumRealValue = 0.00;
+            var indexRecurrence = indexLastValue.IndexRecurrence;
+            if (indexLastValue.IndexRecurrence == EIndexRecurrence.Daily)
+                cumRealValue = await GetDailyIndexCumValueAsync(index, startDate, endDate);
+            //Chamar método
 
-            indexRealValues.OrderBy(a => a.Date);
-
-            returnList.AddRange(indexRealValues.Where(a => a.Date >= startDate && a.Date <= endDate).Select(a =>
-            new IndexValueDailyWithProspect{
-                Date = a.Date,
-                
-            }).ToList());
-
-            var prospects = await GetIndexProspect(index);
-
-
-
-            prospects.ForEach(async prospect =>
-            {
-                //while (date <= endDate)
-                //{
-                //    if (date <= maxDateRealIndex);
-
-                }
-                //    bool isHoliday = await IsHoliday(date);
-
-                //    if (date.DayOfWeek == DayOfWeek.Sunday || date.DayOfWeek == DayOfWeek.Saturday)
-                //        return;
-                //    else if (isHoliday)
-                //        return;
-
-
-
-                //    prospectDaily.Add(new IndexValueDailyWithProspect()
-                //    {
-                //        Date = date,
-                //        Index = index,
-                //        IsProspect = true,
-                //        Value = valueDaily
-                //    });
-
-                //    date.AddDays(1);
-                //}
-
-            });
-
-            //for (DateTime date = DateTime.Now.Date; date <= endDate; date = date = date.AddMonths(1))
+            else if (indexLastValue.IndexRecurrence != EIndexRecurrence.Monthly)
+                return -1.00;
+            //Chamar método
+            else if (indexLastValue.IndexRecurrence == EIndexRecurrence.Yearly)
+                throw new NotImplementedException();
+            //if (indexRecurrence == EIndexRecurrence.Daily && indexLastValue.Date <= endDate.AddDays(-1))
             //{
+            //    getProspect = true;
+            //}    
+            //else if(indexRecurrence == EIndexRecurrence.Monthly)
+            //{
+            //    if (indexLastValue.Date.Year < endDate.Year)
+            //        getProspect = true;
 
-            //    if (periodValue == null)
-            //    {
-            //        periodValue == prospects.Where()
-            //    }
-
-            //    ConvertIndexToDaily(date, periodValue.Median);
-
+            //    else if (indexLastValue.Date.Month < indexLastValue.Date.Month)
+            //        getProspect = true;
 
             //}
+            //DateTime maxDateRealIndex = indexLastValue.Date;
 
+            //_ = indexRealValues.OrderBy(a => a.Date);
+
+            
+            var prospects = await GetIndexProspect(index);
+
+            return cumRealValue;
 
         }
-        
+
+        private async Task<double> GetDailyIndexCumValueAsync(EIndex index, DateTime dateStart, DateTime dateEnd)
+        {
+            var indexLastValue = await GetIndexLastValue(index);
+
+            var indexRealValues = await GetIndex(index, dateStart, dateEnd.AddDays(-1));
+            
+            double cumIndexValue = 1.00;
+
+            indexRealValues
+                .Select(a => a.Value)
+                .ToList()
+                .ForEach(a => cumIndexValue *= (1 + a));
+           
+
+            return cumIndexValue;
+        }
+
         
         //public async Task<List<TreasuryBondValue>> GetTreasuryBondLastValue()
         //{

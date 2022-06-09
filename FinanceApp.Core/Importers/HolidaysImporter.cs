@@ -20,13 +20,15 @@ namespace FinanceApp.Core.Importers
 
         }
 
-        public async Task GetHolidays(int? yearEnd = null)
+        public async Task GetHolidays(int? yearStart = null, int? yearEnd = null)
         {
             _handler = SetDefaultHttpHandler();
 
             _client = new HttpClient(_handler);
 
             int year = 2001;
+            if (yearStart != null)
+                year = yearStart.Value;
             DateTime dateUpdate = DateTime.Now;
             DeleteAllValues();
 

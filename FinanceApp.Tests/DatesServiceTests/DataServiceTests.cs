@@ -36,7 +36,7 @@ namespace FinanceApp.Tests.DatesServiceTests
 
             //Importar dados para comparação
 
-            await holidaysImporter.GetHolidays(DateTime.Now.Year);
+            await holidaysImporter.GetHolidays(2002,DateTime.Now.Year);
 
             await indexesImporter.GetIndexes();
 

@@ -7,7 +7,7 @@ namespace FinanceApp.Core.Services
     public interface IIndexService : IScopedService
     {
         Task<List<ProspectIndexValueDto>> GetIndexProspect(EIndex index);
-        Task<List<IndexValueDto>> GetIndex(EIndex index, DateTime dateStart);
+        Task<List<IndexValueDto>> GetIndex(EIndex index, DateTime dateStart, DateTime? endDate = null);
         //Task<List<TreasuryBondValue>> GetTreasuryBondLastValue();
     }
 }
