@@ -16,12 +16,61 @@ namespace FinanceApp.Core.Services
         private FinanceContext _context;
         private IMapper _mapper;
         private readonly IMemoryCache _memoryCache;
+        public readonly IDatesService _datesService;
 
-        public IndexService(FinanceContext context, IMapper mapper, IMemoryCache memoryCache)
+        public IndexService(FinanceContext context, 
+            IMapper mapper, 
+            IMemoryCache memoryCache, 
+            IDatesService datesService)
         {
             _context = context;
             _mapper = mapper;
             _memoryCache = memoryCache;
+            _datesService = datesService;
+        }
+
+
+        private readonly List<Iof> IofValues = new() {
+            new Iof(0,1.00),
+            new Iof(1, 0.96),
+            new Iof(2, 0.93),
+            new Iof(3, 0.9),
+            new Iof(4, 0.86),
+            new Iof(5, 0.83),
+            new Iof(6, 0.8),
+            new Iof(7, 0.76),
+            new Iof(8, 0.73),
+            new Iof(9, 0.7),
+            new Iof(10, 0.66),
+            new Iof(11, 0.63),
+            new Iof(12, 0.6),
+            new Iof(13, 0.56),
+            new Iof(14, 0.53),
+            new Iof(15, 0.5),
+            new Iof(16, 0.46),
+            new Iof(17, 0.43),
+            new Iof(18, 0.4),
+            new Iof(19, 0.36),
+            new Iof(20, 0.33),
+            new Iof(21, 0.3),
+            new Iof(22, 0.26),
+            new Iof(23, 0.23),
+            new Iof(24, 0.2),
+            new Iof(25, 0.16),
+            new Iof(26, 0.13),
+            new Iof(27, 0.1),
+            new Iof(28, 0.06),
+            new Iof(29, 0.03)
+
+        };
+        public double GetIof(int day)
+        {
+            var item = IofValues.FirstOrDefault(x => x.Day == day);
+
+            if (item == null)
+                return 0;
+
+            return item.Value;
         }
         public async Task<List<ProspectIndexValueDto>> GetIndexProspect(EIndex index)
         {
@@ -128,18 +177,32 @@ namespace FinanceApp.Core.Services
 
             return new List<IndexValueDailyWithProspect>();
 
-            List<IndexValueDailyWithProspect> prospectDaily = new();
+            List<IndexValueDailyWithProspect> returnList = new();
 
-            var values = await GetIndex(index, startDate);
+            var indexRealValues = await GetIndex(index, startDate);
+            var indexLastValue = await GetIndexLastValue(index);
+            
+            DateTime maxDateRealIndex = indexLastValue.Date;
+
+            indexRealValues.OrderBy(a => a.Date);
+
+            returnList.AddRange(indexRealValues.Where(a => a.Date >= startDate && a.Date <= endDate).Select(a =>
+            new IndexValueDailyWithProspect{
+                Date = a.Date,
+                
+            }).ToList());
+
             var prospects = await GetIndexProspect(index);
-            prospects.OrderBy(a => a.DateStart);
 
-            DateTime date = startDate;
+
 
             prospects.ForEach(async prospect =>
             {
                 //while (date <= endDate)
                 //{
+                //    if (date <= maxDateRealIndex);
+
+                }
                 //    bool isHoliday = await IsHoliday(date);
 
                 //    if (date.DayOfWeek == DayOfWeek.Sunday || date.DayOfWeek == DayOfWeek.Saturday)
@@ -177,6 +240,8 @@ namespace FinanceApp.Core.Services
 
 
         }
+        
+        
         //public async Task<List<TreasuryBondValue>> GetTreasuryBondLastValue()
         //{
         //    var cacheKey = EnumHelper<EDataCacheKey>.GetDescriptionValue(EDataCacheKey.TreasuryBond);
