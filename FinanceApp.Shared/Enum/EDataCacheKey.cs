@@ -17,6 +17,9 @@ namespace FinanceApp.Shared.Enum
         [Description("assets")]
         Asset = 6,
         [Description("investmentFund")]
-        InvestmentFund = 7
+        InvestmentFund = 7,
+        [Description("indexesLastValue")]
+        IndexesLastValue = 8
+
     }
 }
