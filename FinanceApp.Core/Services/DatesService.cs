@@ -54,11 +54,14 @@ namespace FinanceApp.Core.Services
 
             return values.Where(a => a.Year >= yearStart).ToList();
         }
-        public async Task<WorkingDaysByYearDto?> GetWorkingDaysOfAYear(int year)
+        public async Task<WorkingDaysByYearDto> GetWorkingDaysOfAYear(int year)
         {
             var values = await GetWorkingDaysByYear();
 
             var value = values.FirstOrDefault(a => a.Year == year);
+
+            if (value == null)
+                return new WorkingDaysByYearDto() { WorkingDays = 252, Year = year};
 
             return value;
 

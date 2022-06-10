@@ -24,15 +24,21 @@ namespace FinanceApp.Core.Importers
 
         public IndexImporter(FinanceContext context) : base(context) { }
         
-        public async Task GetIndexes()
+        public async Task GetIndexes(EIndex? indexImport = null, DateTime? dateStart = null)
         {
-            foreach (var index in Indexes)
+            if (indexImport == null) { 
+                foreach (var index in Indexes)
+                {
+                    await ImportIndex(index, dateStart);
+                }
+            }
+            else
             {
-                await ImportIndex(index);
+                await ImportIndex(Indexes.FirstOrDefault(a => a.Key == indexImport)!, dateStart);
             }
         }
 
-        private async Task ImportIndex(KeyValuePair<EIndex, (string code, EIndexRecurrence IndexRecurrence)> index)
+        private async Task ImportIndex(KeyValuePair<EIndex, (string code, EIndexRecurrence IndexRecurrence)> index, DateTime? dateStart)
         {
             _handler = SetDefaultHttpHandler();
 
@@ -46,9 +52,12 @@ namespace FinanceApp.Core.Importers
             if(_context.IndexValues.Any(a=> a.Index == index.Key)){
 
                 minDate = _context.IndexValues.Where(a => a.Index == index.Key).Max(a => a.Date);
-                url+= $"&dataInicial={minDate.Value:dd/MM/yyyy}";
+                url+= $"&dataInicial={minDate.Value:dd/MM/yyyy}&dataFinal=01/01/2999";
             }
-
+            else if(dateStart != null)
+            {
+                url += $"&dataInicial={dateStart.Value:dd/MM/yyyy}&dataFinal=01/01/2999";
+            }
             var response = await _client.GetAsync(url);
 
             var bytes = await response.Content.ReadAsByteArrayAsync();

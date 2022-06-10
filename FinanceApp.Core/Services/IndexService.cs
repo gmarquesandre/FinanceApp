@@ -178,15 +178,14 @@ namespace FinanceApp.Core.Services
                                     
             var indexLastValue = await GetIndexLastValue(index);
             double cumRealValue = 0.00;
+            
             var indexRecurrence = indexLastValue.IndexRecurrence;
-            if (indexLastValue.IndexRecurrence == EIndexRecurrence.Daily)
-                cumRealValue = await GetDailyIndexCumValueAsync(index, startDate, endDate);
-            //Chamar método
 
-            else if (indexLastValue.IndexRecurrence != EIndexRecurrence.Monthly)
-                return -1.00;
-            //Chamar método
-            else if (indexLastValue.IndexRecurrence == EIndexRecurrence.Yearly)
+            if (indexRecurrence == EIndexRecurrence.Daily)
+                cumRealValue = await GetDailyIndexRealValueAsync(index, startDate, endDate);            
+            else if (indexRecurrence == EIndexRecurrence.Monthly)
+                cumRealValue = await GetMonthlyIndexRealValueAsync(index, startDate, endDate);
+            else if (indexRecurrence == EIndexRecurrence.Yearly)
                 throw new NotImplementedException();
             //if (indexRecurrence == EIndexRecurrence.Daily && indexLastValue.Date <= endDate.AddDays(-1))
             //{
@@ -207,8 +206,36 @@ namespace FinanceApp.Core.Services
 
             
             var prospects = await GetIndexProspect(index);
-
+            
             return cumRealValue;
+
+        }
+
+        private async Task<double> GetMonthlyIndexRealValueAsync(EIndex index, DateTime dateStart, DateTime dateEnd)
+        {
+            var indexLastValue = await GetIndexLastValue(index);
+
+            var indexRealValues = await GetIndex(index, dateStart, dateEnd.AddDays(-1));
+
+            double cumIndexValue = 1.00;           
+
+            if(dateStart.Day != 1)
+                //corrige o valor para apenas os dias corridos
+            if(indexLastValue.Date.Year < dateEnd.Year || 
+                    (indexLastValue.Date.Year == dateEnd.Year 
+                    && indexLastValue.Date.Year < dateEnd.Date.Year))
+                    //Adicionar valores futuros
+
+
+
+            indexRealValues
+                .Select(a => a.Value)
+                .ToList()
+                .ForEach(a => cumIndexValue *= (1 + a));
+
+             return cumIndexValue;
+
+
 
         }
 
@@ -219,17 +246,88 @@ namespace FinanceApp.Core.Services
             var indexRealValues = await GetIndex(index, dateStart, dateEnd.AddDays(-1));
             
             double cumIndexValue = 1.00;
-
+            
             indexRealValues
                 .Select(a => a.Value)
                 .ToList()
                 .ForEach(a => cumIndexValue *= (1 + a));
-           
+
+
+            if (dateEnd.AddDays(-1) > indexLastValue.Date)
+            {
+                var prospect = await GetIndexProspect(index);
+
+                prospect.Min(a => a.DateStart);                
+
+                for(DateTime date = indexLastValue.Date; date < dateEnd; date.AddDays(1))
+                {
+                    cumIndexValue = await AddMissingFutureValues(indexLastValue, cumIndexValue, prospect, date);
+
+                }
+
+
+            }
+
 
             return cumIndexValue;
         }
 
-        
+        private async Task<double> AddMissingFutureValues(IndexValueDto indexLastValue, double cumIndexValue, List<ProspectIndexValueDto> prospect, DateTime date)
+        {
+            var indexProspectDate = prospect.FirstOrDefault(a => date > a.DateStart && date <= a.DateEnd);
+
+            if (indexProspectDate == null)
+            {
+                cumIndexValue *= (1 + indexLastValue.Value);
+            }
+            else
+            {
+                if (indexProspectDate.IndexRecurrence == EIndexRecurrence.Yearly)
+                {
+                    var indexDayValue = await ConvertYearValueToDayValueAsync(indexProspectDate.Median / 100, date.Year);
+                    cumIndexValue *= (1 + indexDayValue);
+                }
+                else if (indexProspectDate.IndexRecurrence == EIndexRecurrence.Monthly)
+                {
+                    var indexDayValue = await ConvertMonthValueToDayValueAsync(indexProspectDate.Median / 100, date.Year, date.Month);
+                    cumIndexValue *= (1 + indexDayValue);
+                }
+                else
+                {
+                    cumIndexValue *= (1 + indexProspectDate.Median);
+                }
+
+            }
+
+            return cumIndexValue;
+        }
+
+        private async Task<double> ConvertMonthValueToDayValueAsync(double value, int year, int month)
+        {
+
+            DateTime dateStart = new(year, month, 1);
+
+            DateTime dateEnd = dateStart.AddMonths(1).AddDays(-1);
+
+            var workingDays = await _datesService.GetWorkingDaysBetweenDates(dateStart, dateEnd);
+
+            var dailyValue = Math.Pow((1 + value), (1 / workingDays));
+
+            return dailyValue;
+
+        }
+
+        private async Task<double> ConvertYearValueToDayValueAsync(double value, int year)
+        {
+            var workingDays = await _datesService.GetWorkingDaysOfAYear(year);
+
+            var dailyValue = Math.Pow((1 + value), (1 / workingDays.WorkingDays));
+
+            return (1 - dailyValue);
+
+        }
+
+
         //public async Task<List<TreasuryBondValue>> GetTreasuryBondLastValue()
         //{
         //    var cacheKey = EnumHelper<EDataCacheKey>.GetDescriptionValue(EDataCacheKey.TreasuryBond);

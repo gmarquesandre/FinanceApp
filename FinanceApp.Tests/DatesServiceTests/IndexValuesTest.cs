@@ -13,7 +13,6 @@ namespace FinanceApp.Tests.DatesServiceTests
     public class IndexValuesTests : TestsBase
     {
         [Fact]
-        //Teste insano para garantir que este método está ok
         public async Task MustCalculateSelicValues()
         {
             var mapper = GetConfigurationIMapper();
@@ -43,7 +42,7 @@ namespace FinanceApp.Tests.DatesServiceTests
 
             await holidaysImporter.GetHolidays(2022, 2022);
 
-            await indexesImporter.GetIndexes();
+            await indexesImporter.GetIndexes(indexImport: EIndex.Selic, dateStart: new DateTime(2022, 01, 01));
 
             //Importar dados para comparação
 
@@ -57,10 +56,59 @@ namespace FinanceApp.Tests.DatesServiceTests
             
             setPrecision.NumberDecimalDigits = 8;
 
+            //Valores extaidos da calculadora do cidadão para CDI de 100% https://www3.bcb.gov.br/CALCIDADAO/publico/exibirFormCorrecaoValores.do?method=exibirFormCorrecaoValores&aba=5
             Assert.True(value.ToString("N", setPrecision) == 1.00034749.ToString("N", setPrecision));
             Assert.True(value2.ToString("N", setPrecision) == 1.00732270.ToString("N", setPrecision));
             Assert.True(value3.ToString("N", setPrecision) == 1.01492840.ToString("N", setPrecision));
             
         }
+
+
+        [Fact]
+        public async Task MustCalculateIPCAValues()
+        {
+            var mapper = GetConfigurationIMapper();
+            var context = await CreateFinanceContext();
+
+            //Instancias 
+            MemoryCacheOptions cacheOptions = new();
+
+            var memoryCache = new MemoryCache(cacheOptions);
+
+            var datesService = new DatesService(context,
+                                                mapper,
+                                                memoryCache);
+
+
+            var indexService = new IndexService(context,
+                                                mapper,
+                                                memoryCache,
+                                                datesService);
+
+
+            var indexesImporter = new IndexImporter(context);
+
+            var holidaysImporter = new HolidaysImporter(context);
+
+            //Importar dados para comparação
+
+            await holidaysImporter.GetHolidays(2022, 2022);
+
+            await indexesImporter.GetIndexes(indexImport: EIndex.IPCA, dateStart: new DateTime(2022, 01, 01));
+
+            //Importar dados para comparação
+
+            var value = await indexService.GetIndexValueBetweenDates(EIndex.IPCA, new DateTime(2022, 1, 1), new DateTime(2022, 03, 31));
+            
+            NumberFormatInfo setPrecision = new();
+            
+            setPrecision.NumberDecimalDigits = 6;
+
+            //Valores extaidos da calculadora do cidadão para CDI de 100% https://www3.bcb.gov.br/CALCIDADAO/publico/exibirFormCorrecaoValores.do?method=exibirFormCorrecaoValores&aba=5
+            
+            Assert.True(value.ToString("N", setPrecision) == 1.03200650.ToString("N", setPrecision));
+            
+        }
+
     }
 }
