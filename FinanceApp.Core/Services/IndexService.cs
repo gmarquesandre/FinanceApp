@@ -187,25 +187,6 @@ namespace FinanceApp.Core.Services
                 cumRealValue = await GetMonthlyIndexRealValueAsync(index, startDate, endDate);
             else if (indexRecurrence == EIndexRecurrence.Yearly)
                 throw new NotImplementedException();
-            //if (indexRecurrence == EIndexRecurrence.Daily && indexLastValue.Date <= endDate.AddDays(-1))
-            //{
-            //    getProspect = true;
-            //}    
-            //else if(indexRecurrence == EIndexRecurrence.Monthly)
-            //{
-            //    if (indexLastValue.Date.Year < endDate.Year)
-            //        getProspect = true;
-
-            //    else if (indexLastValue.Date.Month < indexLastValue.Date.Month)
-            //        getProspect = true;
-
-            //}
-            //DateTime maxDateRealIndex = indexLastValue.Date;
-
-            //_ = indexRealValues.OrderBy(a => a.Date);
-
-            
-            var prospects = await GetIndexProspect(index);
             
             return cumRealValue;
 
@@ -327,7 +308,7 @@ namespace FinanceApp.Core.Services
 
             var dailyValue = Math.Pow((1.00 + value), (1.00 / Convert.ToDouble(workingDays.WorkingDays)));
 
-            return (1 - dailyValue);
+            return (dailyValue - 1);
 
         }
 
