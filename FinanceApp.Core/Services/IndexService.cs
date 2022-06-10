@@ -259,7 +259,7 @@ namespace FinanceApp.Core.Services
 
                 prospect.Min(a => a.DateStart);                
 
-                for(DateTime date = indexLastValue.Date; date < dateEnd; date.AddDays(1))
+                for(DateTime date = indexLastValue.Date.AddDays(1); date < dateEnd; date = date.AddDays(1))
                 {
                     if (await _datesService.IsHoliday(date) || 
                         date.DayOfWeek == DayOfWeek.Sunday || 
@@ -278,7 +278,7 @@ namespace FinanceApp.Core.Services
 
         private async Task<double> AddMissingFutureValues(IndexValueDto indexLastValue, double cumIndexValue, List<ProspectIndexValueDto> prospect, DateTime date)
         {
-            var indexProspectDate = prospect.FirstOrDefault(a => date > a.DateStart && date <= a.DateEnd);
+            var indexProspectDate = prospect.FirstOrDefault(a => date >= a.DateStart && date <= a.DateEnd);
 
             if (indexProspectDate == null)
             {
@@ -315,7 +315,7 @@ namespace FinanceApp.Core.Services
 
             var workingDays = await _datesService.GetWorkingDaysBetweenDates(dateStart, dateEnd);
 
-            var dailyValue = Math.Pow((1 + value), (1 / workingDays));
+            var dailyValue = Math.Pow((1.00 + value), (1.00 / Convert.ToDouble(workingDays)));
 
             return dailyValue;
 
@@ -325,7 +325,7 @@ namespace FinanceApp.Core.Services
         {
             var workingDays = await _datesService.GetWorkingDaysOfAYear(year);
 
-            var dailyValue = Math.Pow((1 + value), (1 / workingDays.WorkingDays));
+            var dailyValue = Math.Pow((1.00 + value), (1.00 / Convert.ToDouble(workingDays.WorkingDays)));
 
             return (1 - dailyValue);
 
