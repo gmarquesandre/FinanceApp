@@ -182,7 +182,7 @@ namespace FinanceApp.Core.Services
             var indexRecurrence = indexLastValue.IndexRecurrence;
 
             if (indexRecurrence == EIndexRecurrence.Daily)
-                cumRealValue = await GetDailyIndexRealValueAsync(index, startDate, endDate);            
+                cumRealValue = await GetDailyIndexCumValueAsync(index, startDate, endDate);            
             else if (indexRecurrence == EIndexRecurrence.Monthly)
                 cumRealValue = await GetMonthlyIndexRealValueAsync(index, startDate, endDate);
             else if (indexRecurrence == EIndexRecurrence.Yearly)
@@ -261,6 +261,10 @@ namespace FinanceApp.Core.Services
 
                 for(DateTime date = indexLastValue.Date; date < dateEnd; date.AddDays(1))
                 {
+                    if (await _datesService.IsHoliday(date) || 
+                        date.DayOfWeek == DayOfWeek.Sunday || 
+                        date.DayOfWeek == DayOfWeek.Saturday)
+                        continue;
                     cumIndexValue = await AddMissingFutureValues(indexLastValue, cumIndexValue, prospect, date);
 
                 }
