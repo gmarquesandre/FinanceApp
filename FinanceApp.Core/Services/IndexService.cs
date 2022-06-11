@@ -184,14 +184,19 @@ namespace FinanceApp.Core.Services
             if (indexRecurrence == EIndexRecurrence.Daily)
                 cumRealValue = await GetDailyIndexCumValueAsync(index, startDate, endDate);            
             else if (indexRecurrence == EIndexRecurrence.Monthly)
-                cumRealValue = await GetMonthlyIndexRealValueAsync(index, startDate, endDate);
+            {
+                throw new NotImplementedException();
+
+                //Terminar a parte de adaptar para valores futuros e quando a data inicial é no meio do mês
+                //cumRealValue = await GetMonthlyIndexRealValueAsync(index, startDate, endDate);
+
+            }
             else if (indexRecurrence == EIndexRecurrence.Yearly)
                 throw new NotImplementedException();
             
             return cumRealValue;
 
         }
-
         private async Task<double> GetMonthlyIndexRealValueAsync(EIndex index, DateTime dateStart, DateTime dateEnd)
         {
             var indexLastValue = await GetIndexLastValue(index);
@@ -219,7 +224,6 @@ namespace FinanceApp.Core.Services
 
 
         }
-
         private async Task<double> GetDailyIndexCumValueAsync(EIndex index, DateTime dateStart, DateTime dateEnd)
         {
             var indexLastValue = await GetIndexLastValue(index);
@@ -256,7 +260,6 @@ namespace FinanceApp.Core.Services
 
             return cumIndexValue;
         }
-
         private async Task<double> AddMissingFutureValues(IndexValueDto indexLastValue, double cumIndexValue, List<ProspectIndexValueDto> prospect, DateTime date)
         {
             var indexProspectDate = prospect.FirstOrDefault(a => date >= a.DateStart && date <= a.DateEnd);
@@ -286,7 +289,6 @@ namespace FinanceApp.Core.Services
 
             return cumIndexValue;
         }
-
         private async Task<double> ConvertMonthValueToDayValueAsync(double value, int year, int month)
         {
 
@@ -301,7 +303,6 @@ namespace FinanceApp.Core.Services
             return dailyValue;
 
         }
-
         private async Task<double> ConvertYearValueToDayValueAsync(double value, int year)
         {
             var workingDays = await _datesService.GetWorkingDaysOfAYear(year);
@@ -311,7 +312,6 @@ namespace FinanceApp.Core.Services
             return (dailyValue - 1);
 
         }
-
 
         //public async Task<List<TreasuryBondValue>> GetTreasuryBondLastValue()
         //{
