@@ -5,7 +5,7 @@ namespace FinanceApp.Shared.Dto.CurrentBalance
     public class CurrentBalanceDto : StandardDto
     {
         public decimal CurrentBalance { get; set; }
-        public decimal MonthlyGrossIncome { get; set; }
-        public bool AnniversaryWithdraw { get; set; }
+        public DateTime CreationTime { get; set; }
+        public DateTime? UpdateDateTime { get; set; }
     }
 }

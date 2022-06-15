@@ -1,6 +1,9 @@
 using FinanceApp.Api.Startup;
 using FinanceApp.EntityFramework;
 using FinanceApp.Shared.Models.CommonTables;
+using Hangfire;
+using Hangfire.SqlServer;
+using Hangfire.Storage;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -21,11 +24,32 @@ builder.Services.RegisterServices(builder.Configuration);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 
+var connectionStringHangfire = builder.Configuration.GetConnectionString("HangfireConnection");
+
+builder.Services.AddHangfire(configuration => configuration.SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+    .UseSimpleAssemblyNameTypeSerializer()
+    .UseRecommendedSerializerSettings()
+    .UseSqlServerStorage("Database=Hangfire.Sample; Integrated Security=True;", new SqlServerStorageOptions
+    {
+        CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
+        SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
+        QueuePollInterval = TimeSpan.Zero,
+        UseRecommendedIsolationLevel = true
+    }));
+
+builder.Services.AddHangfireServer(configuration =>
+{
+    configuration.Queues = new[] { "default" };
+    configuration.WorkerCount = 5;
+    configuration.ServerName = "Default Server";
+});
+
 builder.Services.AddControllersWithViews()
     .AddNewtonsoftJson(options =>
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
 );
 
+builder.Services.AddMvc();
 
 
 // Add services to the container.
@@ -72,10 +96,6 @@ builder.Services.AddSwaggerGen(c =>
 });
 builder.Services.AddCors();
 
-
-
-
-
 var app = builder.Build();
 
 app.UseCors(options =>
@@ -90,9 +110,23 @@ app.UseSwagger();
 app.UseSwaggerUI();
 //}
 
+app.UseHangfireDashboard();
+
+app.UseRouting();
+
+app.UseStaticFiles();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+    endpoints.MapHangfireDashboard();
+});
+
 app.UseAuthentication(); 
-app.UseAuthorization();
 
 app.MapControllers();
+
+
+app.Services.AddDefaultJobs();
 
 app.Run();

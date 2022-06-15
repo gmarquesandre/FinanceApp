@@ -36,23 +36,18 @@ namespace FinanceApp.Core.Services.ForecastServices
 
             var balance = await _currentBalanceService.GetAsync(user);
 
-            decimal balanceInitial = 0.00M;
-
+                var balanceTitlesList = new List<BalanceTitle>();
+            
             if (balance != null)
             {
-                balanceInitial = balance.CurrentBalance;
-            }
-
-            //Criar lista de "titulos" para todas entradas e saídas com taxas atualização de referencia
-            //Adicionar titulos liquidos quando tiver renda fixa e tesouro direto           
-            //Estes titulos na conta corrente, caso sejam atualizados por algum indice, devem sempre ter IOF e IR fixo de 27,5%,
-            //afim de facilitar calculos e garantir não exibir um valor maior do que deveria,
-            //dado que o tempo para vencimento do titulo nem sempre está claro 
-            //Campos:
-            //Data Investimento
-            //Valor Investido
-            //Valor Liquido
-            //
+                balanceTitlesList.Add(new BalanceTitle()
+                {
+                    DateReference = balance.UpdateDateTime ?? balance.CreationTime,
+                    Value = balance.CurrentBalance
+                });                
+            }                       
+            
+            
             for (DateTime date = DateTime.Now.Date; date <= maxYearMonth; date = date.AddMonths(1))
             {
 
@@ -85,10 +80,67 @@ namespace FinanceApp.Core.Services.ForecastServices
                     if (updateBalance)
                     {
                         //atualizar saldo inicial de titulos liquidos pelo indice
+                        if(incomesDay > loansDay + spendingsDay)
+                        {
+                            balanceTitlesList.Add(new BalanceTitle()
+                            {
+                                DateReference = date,
+                                Value = incomesDay,
+                            });
+                        }
+                        else if( incomesDay < loansDay + spendingsDay)
+                        {
+                            decimal leftValue = spendingsDay + loansDay - incomesDay;
 
-                        decimal balanceFinal = balanceInitial + incomesDay - spendingsDay - loansDay;
+                            double totalSpendingDayValue = Convert.ToDouble(spendingsDay + loansDay);
 
-                        balanceInitial += balanceInitial;
+                            balanceTitlesList.ForEach(async title =>
+                                {
+
+                                    var titleLiquidValue = await UpdateBalanceTitleValue(title.DateReference, title.Value, date);
+                                    
+
+                                    if(titleLiquidValue > totalSpendingDayValue)
+                                    {
+                                        //Atualiza titulo 
+
+                                        //Acho que aqui precisa deflacionar o valor liquido novo e subtrair - Pegar os prints do btg
+                                        var newLiquidValue = titleLiquidValue - totalSpendingDayValue;
+
+                                        //title.Value = titleVal
+                                        
+
+                                        //Zera
+                                        totalSpendingDayValue = 0;
+                                        //Finaliza loop
+                                        return;
+                                    }
+                                    else if(titleLiquidValue < totalSpendingDayValue)
+                                    {
+                                        totalSpendingDayValue -= titleLiquidValue;
+                                    }
+                                    else
+                                    {
+                                        titleLiquidValue = 0;
+                                        balanceTitlesList.Remove(title);
+                                    }
+
+
+                                }
+                            );
+
+
+                            if(totalSpendingDayValue > 0)
+                            {
+
+                            }
+
+
+
+                        }
+                        //decimal balanceFinal = balanceInitial + incomesDay - spendingsDay - loansDay;
+
+                        //balanceInitial += balanceInitial;
                     }
 
 
@@ -104,5 +156,30 @@ namespace FinanceApp.Core.Services.ForecastServices
             return null;
         }
 
+        private async Task<double> UpdateBalanceTitleValue(DateTime dateInvestment, decimal investmentValue, DateTime date)
+        {
+            if(investmentValue > 0) { 
+                var apprecitation = await _indexService.GetIndexValueBetweenDates(EIndex.CDI,
+                                            dateInvestment,
+                                            date);
+
+                var incomeTax = 0.275;
+
+                var iof = _indexService.GetIof((date - dateInvestment).Days);
+
+                var finalValue = Convert.ToDouble(investmentValue) + (Convert.ToDouble(investmentValue) - incomeTax) * ( 1 - iof) * ( 1 - incomeTax) ;
+
+                return finalValue;
+            }
+
+            //Aqui poderia colocar o juros de empréstimo da conta
+            return -1;
+
+        }
+    }
+    public class BalanceTitle
+    {
+        public DateTime DateReference { get; set; }
+        public decimal Value { get; set; }        
     }
 }
