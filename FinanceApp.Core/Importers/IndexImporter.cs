@@ -63,7 +63,8 @@ namespace FinanceApp.Core.Importers
             var bytes = await response.Content.ReadAsByteArrayAsync();
 
             string str = Encoding.Default.GetString(bytes);
-
+            if (str.Contains("<?xml"))
+                throw new Exception("Não foi possível buscar dados");
             var itens = ConvertToList(str, index.Key, index.Value.IndexRecurrence);
 
             await InsertOrUpdateIndex(itens);
