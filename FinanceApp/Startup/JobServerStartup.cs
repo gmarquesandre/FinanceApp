@@ -10,10 +10,10 @@ namespace FinanceApp.Api.Startup
     {
         public static void AddDefaultJobs(this IServiceProvider service)
         {
-            foreach (var recurringJob in JobStorage.Current.GetConnection().GetRecurringJobs())
-            {
-                RecurringJob.RemoveIfExists(recurringJob.Id);
-            }
+            //foreach (var recurringJob in JobStorage.Current.GetConnection().GetRecurringJobs())
+            //{
+            //    RecurringJob.RemoveIfExists(recurringJob.Id);
+            //}
 
             var context = new FinanceContext();
 
@@ -32,10 +32,12 @@ namespace FinanceApp.Api.Startup
 
             IMapper mapper = new Mapper(configuration);
 
-
             var indexImporter = new IndexImporter(context);
 
-            RecurringJob.AddOrUpdate<IndexImporter>("get-indexes", importer => importer.GetIndexes(null, null), "*/5 * * * *");
+            RecurringJob.AddOrUpdate<IndexImporter>("get-indexes", importer => importer.GetIndexes(null, null), "0 0 23 * * ?");
+            RecurringJob.AddOrUpdate<IndexProspectImporter>("get-indexes-prospect", importer => importer.GetProspectIndexes(), "0 0 23 * * ?");
+            RecurringJob.AddOrUpdate<TreasuryBondImporter>("get-treasury-bond", importer => importer.GetLastValueTreasury(), "0 0 23 * * ?");
+            RecurringJob.AddOrUpdate<TreasuryBondImporter>("get-treasury", importer => importer.GetTreasury(), Cron.Yearly);
 
         }
     }
