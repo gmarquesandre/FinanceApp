@@ -47,7 +47,7 @@ namespace FinanceApp.Core.Importers
                    ExpirationDate = value.ExpirationDate,
                    Type = value.Type,
                    UnitPriceBuy = value.UnitPriceBuy,
-                   UnitPriceSell = value.UnitPriceBuy
+                   UnitPriceSell = value.UnitPriceSell
                 });
             }
 
@@ -124,8 +124,7 @@ namespace FinanceApp.Core.Importers
             //https://www.tesourotransparente.gov.br/ckan/dataset/taxas-dos-titulos-ofertados-pelo-tesouro-direto
 
             var url = "https://www.tesourotransparente.gov.br/ckan/dataset/df56aa42-484a-4a59-8184-7676580c81e3/resource/796d2059-14e9-44e3-80c9-2d9e30b405c1/download/PrecoTaxaTesouroDireto.csv";
-                       https://www.tesourotransparente.gov.br/ckan/dataset/df56aa42-484a-4a59-8184-7676580c81e3/resource/796d2059-14e9-44e3-80c9-2d9e30b405c1/download/PrecoTaxaTesouroDireto.csv
-
+                       
             var response = await _client.GetAsync(url);
 
             var bytes = await response.Content.ReadAsByteArrayAsync();
@@ -208,10 +207,10 @@ namespace FinanceApp.Core.Importers
                 Date = Convert.ToDateTime(a[dateIndex].Replace("\"", ""), _cultureInfoPtBr),
                 Type = EnumHelper<ETreasuryBond>.GetValueFromName(a[typeIndex]),
                 ExpirationDate = Convert.ToDateTime(a[expirationDate].Replace("\"", ""), _cultureInfoPtBr),
-                FixedInterestValueBuy = Convert.ToDouble(a[interestRateBuy], _cultureInvariant),
-                FixedInterestValueSell = Convert.ToDouble(a[interestRateSell], _cultureInvariant),
-                UnitPriceBuy = Convert.ToDecimal(a[unitPriceBuy], _cultureInvariant),
-                UnitPriceSell = Convert.ToDecimal(a[unitPriceSell], _cultureInvariant),
+                FixedInterestValueBuy = Convert.ToDouble(a[interestRateBuy].Replace(",", "."), _cultureInvariant),
+                FixedInterestValueSell = Convert.ToDouble(a[interestRateSell].Replace(",", "."), _cultureInvariant),
+                UnitPriceBuy = Convert.ToDecimal(a[unitPriceBuy].Replace(",","."), _cultureInvariant),
+                UnitPriceSell = Convert.ToDecimal(a[unitPriceSell].Replace(",", "."), _cultureInvariant),
                 
                 //DateEnd = Convert.ToDateTime(a[dateEndIndex].Replace("\"", ""), _cultureInfoPtBr),
                 //    Index = index,
