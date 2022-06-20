@@ -133,7 +133,50 @@ namespace FinanceApp.Tests.DatesServiceTests
 
         }
 
+        [Fact]
+        public async Task MustCalculateCdiValue()
+        {
+            var mapper = GetConfigurationIMapper();
+            var context = await CreateFinanceContext();
 
+            //Instancias 
+            MemoryCacheOptions cacheOptions = new();
+
+            var memoryCache = new MemoryCache(cacheOptions);
+
+            var datesService = new DatesService(context,
+                                                mapper,
+                                                memoryCache);
+
+
+            var indexService = new IndexService(context,
+                                                mapper,
+                                                memoryCache,
+                                                datesService);
+
+
+            var indexesImporter = new IndexImporter(context);
+
+            var holidaysImporter = new HolidaysImporter(context);
+
+            //Importar dados para comparação
+
+            await holidaysImporter.GetHolidays(2022, 2022);
+
+            await indexesImporter.GetIndexes(indexImport: EIndex.CDI, dateStart: new DateTime(2022, 01, 01));
+
+            //Importar dados para comparação
+
+            var value = await indexService.GetIndexValueBetweenDates(EIndex.CDI, new DateTime(2022, 05, 31), new DateTime(2022, 06, 17), 1.03);
+
+            NumberFormatInfo setPrecision = new();
+
+            setPrecision.NumberDecimalDigits = 8;
+
+            //Valores extaidos da calculadora do cidadão para CDI de 100% https://www3.bcb.gov.br/CALCIDADAO/publico/exibirFormCorrecaoValores.do?method=exibirFormCorrecaoValores&aba=5
+            Assert.True(value.ToString("N", setPrecision) == 1.00585936.ToString("N", setPrecision));
+           
+        }
 
 
         [Fact]

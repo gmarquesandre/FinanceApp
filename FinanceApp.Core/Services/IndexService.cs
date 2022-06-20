@@ -172,7 +172,7 @@ namespace FinanceApp.Core.Services
             //_context.ProspectIndexValues.Load();
             return valueDto;
         }
-        public async Task<double> GetIndexValueBetweenDates(EIndex index, DateTime startDate, DateTime endDate)
+        public async Task<double> GetIndexValueBetweenDates(EIndex index, DateTime startDate, DateTime endDate, double indexPercentage = 1)
         {
                                     
             var indexLastValue = await GetIndexLastValue(index);
@@ -181,7 +181,7 @@ namespace FinanceApp.Core.Services
             var indexRecurrence = indexLastValue.IndexRecurrence;
 
             if (indexRecurrence == EIndexRecurrence.Daily)
-                cumRealValue = await GetDailyIndexCumValueAsync(index, startDate, endDate);            
+                cumRealValue = await GetDailyIndexCumValueAsync(index, startDate, endDate, indexPercentage);            
             else if (indexRecurrence == EIndexRecurrence.Monthly)
             {
                 throw new NotImplementedException();
@@ -223,7 +223,7 @@ namespace FinanceApp.Core.Services
 
 
         }
-        private async Task<double> GetDailyIndexCumValueAsync(EIndex index, DateTime dateStart, DateTime dateEnd)
+        private async Task<double> GetDailyIndexCumValueAsync(EIndex index, DateTime dateStart, DateTime dateEnd, double indexPercentage)
         {
             var indexLastValue = await GetIndexLastValue(index);
 
@@ -232,12 +232,12 @@ namespace FinanceApp.Core.Services
             double cumIndexValue = 1.00;
             
             indexRealValues
-                .Select(a => a.Value)
+                .Select(a => a.Value * indexPercentage)
                 .ToList()
                 .ForEach(a => cumIndexValue *= (1 + a));
 
 
-            if (dateEnd.AddDays(-1) > indexLastValue.Date)
+            if (dateEnd.AddDays( index == EIndex.CDI ? -2 :-1) > indexLastValue.Date)
             {
                 var prospect = await GetIndexProspect(index);
 
@@ -249,7 +249,7 @@ namespace FinanceApp.Core.Services
                         date.DayOfWeek == DayOfWeek.Sunday || 
                         date.DayOfWeek == DayOfWeek.Saturday)
                         continue;
-                    cumIndexValue = await AddMissingFutureValues(indexLastValue, cumIndexValue, prospect, date);
+                    cumIndexValue = await AddMissingFutureValues(indexLastValue, cumIndexValue, prospect, date, indexPercentage);
 
                 }
 
@@ -259,29 +259,29 @@ namespace FinanceApp.Core.Services
 
             return cumIndexValue;
         }
-        private async Task<double> AddMissingFutureValues(IndexValueDto indexLastValue, double cumIndexValue, List<ProspectIndexValueDto> prospect, DateTime date)
+        private async Task<double> AddMissingFutureValues(IndexValueDto indexLastValue, double cumIndexValue, List<ProspectIndexValueDto> prospect, DateTime date, double indexPercentage)
         {
             var indexProspectDate = prospect.FirstOrDefault(a => date >= a.DateStart && date <= a.DateEnd);
 
             if (indexProspectDate == null)
             {
-                cumIndexValue *= (1 + indexLastValue.Value);
+                cumIndexValue *= (1 + indexLastValue.Value * indexPercentage);
             }
             else
             {
                 if (indexProspectDate.IndexRecurrence == EIndexRecurrence.Yearly)
                 {
                     var indexDayValue = await ConvertYearValueToDayValueAsync(indexProspectDate.Median / 100, date.Year);
-                    cumIndexValue *= (1 + indexDayValue);
+                    cumIndexValue *= (1 + indexDayValue * indexPercentage);
                 }
                 else if (indexProspectDate.IndexRecurrence == EIndexRecurrence.Monthly)
                 {
                     var indexDayValue = await ConvertMonthValueToDayValueAsync(indexProspectDate.Median / 100, date.Year, date.Month);
-                    cumIndexValue *= (1 + indexDayValue);
+                    cumIndexValue *= (1 + indexDayValue * indexPercentage) ;
                 }
                 else
                 {
-                    cumIndexValue *= (1 + indexProspectDate.Median);
+                    cumIndexValue *= (1 + indexProspectDate.Median * indexPercentage) ;
                 }
 
             }

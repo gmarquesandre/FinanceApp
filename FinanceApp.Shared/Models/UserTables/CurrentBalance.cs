@@ -4,9 +4,9 @@ namespace FinanceApp.Shared.Models.UserTables
 {
     public class CurrentBalance : UserTable
     {
-        public decimal CurrentValue { get; set; }
+        public decimal Value { get; set; }
         public decimal? PercentageCdi { get; set; }
-        public bool CdIncome { get; set; }
+        public bool UpdateValueWithCdiIndex { get; set; }
     }
 }
 

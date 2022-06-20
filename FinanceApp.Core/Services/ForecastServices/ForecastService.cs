@@ -13,10 +13,10 @@ namespace FinanceApp.Core.Services.ForecastServices
         public ICurrentBalanceService _currentBalanceService;
         public IIndexService _indexService;
 
-        public ForecastService(ISpendingService spendingService, 
-            IIncomeService incomeService, 
-            ICurrentBalanceService currentBalanceService, 
-            ILoanService loanService, 
+        public ForecastService(ISpendingService spendingService,
+            IIncomeService incomeService,
+            ICurrentBalanceService currentBalanceService,
+            ILoanService loanService,
             IIndexService indexService)
         {
             _spendingService = spendingService;
@@ -36,18 +36,24 @@ namespace FinanceApp.Core.Services.ForecastServices
 
             var balance = await _currentBalanceService.GetAsync(user);
 
-                var balanceTitlesList = new List<BalanceTitle>();
-            
+            var balanceTitlesList = new List<BalanceTitle>();
+
+            bool updateValueWithCdiIndex = balance.UpdateValueWithCdiIndex;
+
+            decimal percentageCdi = balance.PercentageCdi ?? 1.00M;
+
             if (balance != null)
             {
                 balanceTitlesList.Add(new BalanceTitle()
                 {
                     DateReference = balance.UpdateDateTime ?? balance.CreationTime,
-                    Value = balance.CurrentBalance
-                });                
-            }                       
-            
-            
+                    Value = balance.Value,
+                    PercentageCdi = balance.PercentageCdi,
+                    UpdateValueWithCdiIndex = balance.UpdateValueWithCdiIndex
+                });
+            }
+
+
             for (DateTime date = DateTime.Now.Date; date <= maxYearMonth; date = date.AddMonths(1))
             {
 
@@ -80,15 +86,21 @@ namespace FinanceApp.Core.Services.ForecastServices
                     if (updateBalance)
                     {
                         //atualizar saldo inicial de titulos liquidos pelo indice
-                        if(incomesDay > loansDay + spendingsDay)
+                        if (incomesDay >= loansDay + spendingsDay)
                         {
-                            balanceTitlesList.Add(new BalanceTitle()
+                            if (incomesDay > loansDay + spendingsDay)
                             {
-                                DateReference = date,
-                                Value = incomesDay,
-                            });
+                                balanceTitlesList.Add(new BalanceTitle()
+                                {
+                                    DateReference = date,
+                                    Value = incomesDay,
+                                    UpdateValueWithCdiIndex = updateBalance,
+                                    PercentageCdi = percentageCdi
+                                });
+                            }
+
                         }
-                        else if( incomesDay < loansDay + spendingsDay)
+                        else if (incomesDay < loansDay + spendingsDay)
                         {
                             decimal leftValue = spendingsDay + loansDay - incomesDay;
 
@@ -97,31 +109,42 @@ namespace FinanceApp.Core.Services.ForecastServices
                             balanceTitlesList.ForEach(async title =>
                                 {
 
-                                    var titleLiquidValue = await UpdateBalanceTitleValue(title.DateReference, title.Value, date);
-                                    
+                                    var titleUpdated = await GetCurrentValueOfTitle(title.DateReference, title.Value, date, title!.UpdateValueWithCdiIndex, Convert.ToDouble(title.PercentageCdi ?? 1.00M ));
 
-                                    if(titleLiquidValue > totalSpendingDayValue)
+
+                                    if (titleUpdated.liquidValue > totalSpendingDayValue)
                                     {
                                         //Atualiza titulo 
 
                                         //Acho que aqui precisa deflacionar o valor liquido novo e subtrair - Pegar os prints do btg
-                                        var newLiquidValue = titleLiquidValue - totalSpendingDayValue;
+                                        var newLiquidValue = titleUpdated.liquidValue - totalSpendingDayValue;
 
-                                        //title.Value = titleVal
-                                        
+                                        if (title!.UpdateValueWithCdiIndex)
+                                        {
+
+                                        }
+                                        else
+                                        {
+                                            title.Value = Convert.ToDecimal(newLiquidValue);
+                                        }
+
 
                                         //Zera
                                         totalSpendingDayValue = 0;
                                         //Finaliza loop
+
+
+
                                         return;
                                     }
-                                    else if(titleLiquidValue < totalSpendingDayValue)
+                                    else if (titleUpdated.liquidValue < totalSpendingDayValue)
                                     {
-                                        totalSpendingDayValue -= titleLiquidValue;
+                                        totalSpendingDayValue -= titleUpdated.liquidValue;
+                                        balanceTitlesList.Remove(title);
                                     }
                                     else
                                     {
-                                        titleLiquidValue = 0;
+                                        totalSpendingDayValue = 0;
                                         balanceTitlesList.Remove(title);
                                     }
 
@@ -130,7 +153,7 @@ namespace FinanceApp.Core.Services.ForecastServices
                             );
 
 
-                            if(totalSpendingDayValue > 0)
+                            if (totalSpendingDayValue > 0)
                             {
 
                             }
@@ -156,30 +179,52 @@ namespace FinanceApp.Core.Services.ForecastServices
             return null;
         }
 
-        private async Task<double> UpdateBalanceTitleValue(DateTime dateInvestment, decimal investmentValue, DateTime date)
+        //Função apenas para saldo em conta corrente que é atualizado pelo CDI
+        //sempre o IR será considerado como 22,5% e o IOF sempre será utilizado a partir do ultimo dia atualizado
+        private async Task<(double grossValue, double liquidValue, double iof, double incomeTax)> GetCurrentValueOfTitle(DateTime dateInvestment, decimal investmentValue, DateTime date, bool updateWithCdiIndex, double indexPercentage)
         {
-            if(investmentValue > 0) { 
+            if (investmentValue > 0 && updateWithCdiIndex)
+            {
                 var apprecitation = await _indexService.GetIndexValueBetweenDates(EIndex.CDI,
                                             dateInvestment,
-                                            date);
+                                            date,
+                                            indexPercentage);
 
-                var incomeTax = 0.275;
+                var grossValue = Convert.ToDouble(investmentValue) * apprecitation;
 
-                var iof = _indexService.GetIof((date - dateInvestment).Days);
+                var incomeTaxPercentage = 0.225;
 
-                var finalValue = Convert.ToDouble(investmentValue) + (Convert.ToDouble(investmentValue) - incomeTax) * ( 1 - iof) * ( 1 - incomeTax) ;
+                var iofPercentage = _indexService.GetIof((date - dateInvestment).Days);
 
-                return finalValue;
+                var iofValue = iofPercentage * (grossValue - Convert.ToDouble(investmentValue));
+
+                var grossValueAfterIof = grossValue - iofValue;
+
+                var incomeTaxValue = incomeTaxPercentage * (grossValueAfterIof - Convert.ToDouble(investmentValue));
+
+                var liquidValue = grossValueAfterIof - incomeTaxValue;
+
+                return (grossValue, liquidValue, iofValue, incomeTaxValue);
             }
+            else if(investmentValue < 0)
+            {
 
-            //Aqui poderia colocar o juros de empréstimo da conta
-            return -1;
+                //Aqui poderia colocar o juros de empréstimo da conta
+                return (0, 0, 0, 0);
+            }
+            else
+            {
+
+                return (Convert.ToDouble(investmentValue), Convert.ToDouble(investmentValue), 0,0);
+            }
 
         }
     }
     public class BalanceTitle
     {
         public DateTime DateReference { get; set; }
-        public decimal Value { get; set; }        
+        public decimal Value { get; set; }
+        public bool UpdateValueWithCdiIndex { get; set; }
+        public decimal? PercentageCdi { get; set; }
     }
 }
