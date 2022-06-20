@@ -15,6 +15,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 //builder.Services.AddControllers();
+
+builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews();
 builder.Services.AddSession();
 builder.Services.AddMemoryCache();
@@ -36,6 +38,7 @@ builder.Services.AddHangfire(configuration => configuration.SetDataCompatibility
         QueuePollInterval = TimeSpan.Zero,
         UseRecommendedIsolationLevel = true
     }));
+
 
 builder.Services.AddHangfireServer(configuration =>
 {
@@ -94,6 +97,7 @@ builder.Services.AddSwaggerGen(c =>
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "FinancialAPI", Version = "v1" });
     c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
 });
+
 builder.Services.AddCors();
 
 var app = builder.Build();
@@ -115,6 +119,10 @@ app.UseHangfireDashboard();
 app.UseRouting();
 
 app.UseStaticFiles();
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller = Home}"
+);
 
 app.UseEndpoints(endpoints =>
 {
@@ -126,6 +134,7 @@ app.UseAuthentication();
 
 app.MapControllers();
 
+app.MapRazorPages();
 
 app.Services.AddDefaultJobs();
 
