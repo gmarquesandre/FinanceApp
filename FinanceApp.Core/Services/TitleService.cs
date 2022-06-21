@@ -1,8 +1,9 @@
-﻿using FinanceApp.Shared.Enum;
+﻿using FinanceApp.Shared;
+using FinanceApp.Shared.Enum;
 
-namespace FinanceApp.Core.Services.ForecastServices
+namespace FinanceApp.Core.Services
 {
-    public class TitleService
+    public partial class TitleService
     {
         public IIndexService _indexService;
 
@@ -11,65 +12,82 @@ namespace FinanceApp.Core.Services.ForecastServices
             _indexService = indexService;
         }
 
-        public class DefaultTitleOutput
+        public async Task<DefaultTitleOutput> GetCurrentValueOfTitle(DefaultTitleInput input)
         {
-            public DateTime Date { get; set; }
-            public double GrossValue { get; set; }
-            public double LiquidValue { get; set; }
-            public double IofValue { get; set; }
-            public double IncomeTaxValue { get; set; }
-        }
-
-        public class DefaultTitleInput
-        {
-            public DateTime DateInvestment { get; set; }
-            public DateTime Date { get; set; }
-            public double InvestmentValue { get; set; }
-            public EIndex Index { get; set; }
-            public double IndexPercentage { get; set; }
-            public double AdditionalFixedInterest { get; set; }
-
-        }
-
-
-        public async Task<(double grossValue, double liquidValue, double iof, double incomeTax)>
-            GetCurrentValueOfTitle(DateTime dateInvestment, double investmentValue, DateTime date, bool updateWithCdiIndex, double indexPercentage, bool IsBalance = true)
-        {
-            if (investmentValue > 0 && updateWithCdiIndex)
+            if (input.InvestmentValue > 0.00)
             {
                 var apprecitation = await _indexService.GetIndexValueBetweenDates(EIndex.CDI,
-                                            dateInvestment,
-                                            date,
-                                            indexPercentage);
+                                            input.DateInvestment,
+                                            input.Date,
+                                            input.IndexPercentage);
 
-                var grossValue = Convert.ToDouble(investmentValue) * apprecitation;
+                var grossValue = Convert.ToDouble(input.InvestmentValue) * apprecitation;
 
-                var incomeTaxPercentage = 0.225;
+                var incomeTaxPercentage = GetIncomeTax(input.TypePrivateFixedIncome, input.Date, input.DateInvestment);
 
-                var iofPercentage = _indexService.GetIof((date - dateInvestment).Days);
+                var iofPercentage = _indexService.GetIof((input.Date - input.DateInvestment).Days);
 
-                var iofValue = iofPercentage * (grossValue - Convert.ToDouble(investmentValue));
+                var iofValue = iofPercentage * (grossValue - Convert.ToDouble(input.InvestmentValue));
 
                 var grossValueAfterIof = grossValue - iofValue;
 
-                var incomeTaxValue = incomeTaxPercentage * (grossValueAfterIof - Convert.ToDouble(investmentValue));
+                var incomeTaxValue = incomeTaxPercentage * (grossValueAfterIof - input.InvestmentValue);
 
                 var liquidValue = grossValueAfterIof - incomeTaxValue;
 
-                return (grossValue, liquidValue, iofValue, incomeTaxValue);
+                return new DefaultTitleOutput()
+                {
+
+                };
             }
-            else if (investmentValue < 0)
+            else if (input.InvestmentValue < 0)
             {
 
                 //Aqui poderia colocar o juros de empréstimo da conta
-                return (0, 0, 0, 0);
+                return new DefaultTitleOutput()
+                {
+
+                };
             }
             else
             {
 
-                return (Convert.ToDouble(investmentValue), Convert.ToDouble(investmentValue), 0, 0);
+                return new DefaultTitleOutput()
+                {
+
+                };
             }
 
+        }
+
+        private double GetIncomeTax(ETypePrivateFixedIncome typePrivateFixedIncome, DateTime date, DateTime dateInvestment)
+        {
+            var typeTax = EnumHelper<ETypePrivateFixedIncome>.GetInvestmentTax(typePrivateFixedIncome);
+
+            if (typeTax == ETypeInvestmentTax.NotApplied)
+            {
+                return 0;
+            }
+            else if (typeTax == ETypeInvestmentTax.BalanceTax)
+            {
+                return 0.225;
+            }
+            else if(typeTax == ETypeInvestmentTax.DefaultInvestmentTax)
+            {
+                //Até 180 dias  22.5%
+                //Entre 181 e 360 dias 20.0
+                //Entre 361 dias e 720 17.5%
+                // >= 720  dias 15.0%
+                if ((date - dateInvestment).Days <= 180)
+                    return 0.225;
+                else if ((date - dateInvestment).Days <= 360 && (date - dateInvestment).Days >= 181)
+                    return 0.20;
+                else if ((date - dateInvestment).Days <= 720 && (date - dateInvestment).Days >= 361)
+                    return 0.20;
+                else
+                    return 0.15;
+            }
+            return 0;
         }
     }
 }

@@ -1,10 +1,16 @@
 ﻿using FinanceApp.Shared.Attributes;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FinanceApp.Shared.Enum
 {
     public enum ETypePrivateFixedIncome
     {
+        [NotMapped]
+        [Display(Name = "Conta Corrente CDI")]
+        [TypeInvestmentTax(ETypeInvestmentTax.BalanceTax)]
+        BalanceCDB = 0,
+
         [Display(Name = "CDB - Certificado de Depósito Bancário")]
         [TypeInvestmentTax(ETypeInvestmentTax.DefaultInvestmentTax)]
         CDB = 1,

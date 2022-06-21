@@ -9,6 +9,11 @@
         //Entre 361 dias e 720 17.5%
         // >= 720  dias 15.0%
         DefaultInvestmentTax = 1,
+
+        //Premissas adotadas para conta corrente que rende CDI
+        //Sempre terá 22,5% de IR
+        
+        BalanceTax = 2,
         
     }
 }

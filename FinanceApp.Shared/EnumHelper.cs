@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using FinanceApp.Shared.Attributes;
+using FinanceApp.Shared.Enum;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace FinanceApp.Shared
@@ -30,7 +32,7 @@ namespace FinanceApp.Shared
 
             throw new ArgumentOutOfRangeException(name);
         }
-      
+
         //public static T Parse(string value)
         //{
         //    return (T)Enum.Parse(typeof(T), value, true);
@@ -100,6 +102,18 @@ namespace FinanceApp.Shared
 
             return value.ToString();
         }
+        
+        public static ETypeInvestmentTax GetInvestmentTax(T value)
+        {
+            var fieldInfo = value.GetType().GetField(value.ToString());
+
+            var taxAttribute = fieldInfo.GetCustomAttributes(
+                typeof(TypeInvestmentTaxAttribute), false) as TypeInvestmentTaxAttribute[];
+
+            if (taxAttribute == null || taxAttribute.Length > 0) return ETypeInvestmentTax.DefaultInvestmentTax;
+            return taxAttribute[0].IncomeTax;
+        }
+
 
         public static string GetDisplayShortValue(T value)
         {
