@@ -11,11 +11,9 @@
 #Lista de BDRs 
 #http://bvmf.bmfbovespa.com.br/cias-listadas/Mercado-Internacional/Mercado-Internacional.aspx?Idioma=pt-br
 import requests
-import connectionSqlServer
 from bs4 import BeautifulSoup
 from datetime import datetime
 import pandas as pd
-import pypyodbc 
 import base64
 import time
 
@@ -76,7 +74,7 @@ for i in [2,7]:
                 dictr = resp.json()
                 df = pd.DataFrame.from_records(dictr["cashDividends"])
 
-                df_proventos = pd.concat([df_proventos, df ])
+                df_proventos = pd.concat([df_proventos, df ])       
 
                 df = pd.DataFrame.from_records(dictr["stockDividends"])
                 if(df.shape[0] > 0):
@@ -112,107 +110,16 @@ df_proventos['ExDate'] = pd.to_datetime(df_proventos['ExDate'], format = '%d/%m/
 df_proventos['PaymentDate'] = pd.to_datetime(df_proventos['PaymentDate'], format = '%d/%m/%Y', errors='coerce') 
 
 
-conn = pypyodbc.connect(connectionSqlServer.getConnectionString())
+# df_changes['Hash'] = pd.util.hash_pandas_object(df_changes)
 
-cursor = conn.cursor()
+# df_changes['GroupingFactor'] = df_changes['GroupingFactor'].replace(".",'', regex = True).replace(",",'.', regex = True)
 
-table = cursor.execute('SELECT * FROM dbo.AssetEarnings')
+# df_changes['DeclarationDate'] = pd.to_datetime(df_changes['DeclarationDate'], format = '%d/%m/%Y', errors='coerce') 
 
-df_db = pd.DataFrame(tuple(t) for t in table.fetchall())
+# df_changes['ExDate'] = pd.to_datetime(df_changes['ExDate'], format = '%d/%m/%Y', errors='coerce') 
 
-if(df_db.shape[0] <  1):
-    print('entrou')
-    for index,row in df_proventos.iterrows():
-        
-        try:
-            query = "INSERT INTO dbo.AssetEarnings(AssetCodeISIN, Type, DeclarationDate, ExDate, CashAmount, Period, PaymentDate, Notes, Hash)" 
-            query+= f" VALUES ('{row['AssetCodeISIN']}', '{row['Type']}','{row['DeclarationDate']}','{row['ExDate']}',{row['CashAmount']},'{row['Period']}','{row['PaymentDate']}' , '{row['Notes']}', '{row['Hash']}');"
-            cursor.execute(query)
-            conn.commit()
-        except Exception as e:
-            print(f"Erro ao inserir {e}")
-        
-        
-else:    
-    for index, row in df_proventos.iterrows():
-        if(False):                    
-            query = f'''
-                       '''
-            try:
-                cursor.execute(query)           
-            except e:
-                print(f"Erro ao inserir {e}")
-        
-        else:            
-            try:
-                query = "INSERT INTO dbo.AssetEarnings(AssetCodeISIN, Type, DeclarationDate, ExDate, CashAmount, Period, PaymentDate, Notes, Hash)" 
-                query+= f" VALUES ('{row['AssetCodeISIN']}', '{row['Type']}','{row['DeclarationDate']}','{row['ExDate']}',{row['CashAmount']},'{row['Period']}','{row['PaymentDate']}' , '{row['Notes']}', '{row['Hash']}');"
-                cursor.execute(query)
-            except Exception as e:
-                print(f"Erro ao inserir o {row['Type']}, {row['AssetCodeISIN']}, {row['Notes']}")
-                print(f"{e}")
-    conn.commit()
+# df_changes['GroupingFactor'] = float(df_changes['GroupingFactor'].fillna(0))/100
 
+df_changes.to_csv("df_changes.csv", index = False, sep = ";")
 
-
-df_changes = df_changes.rename(columns={"label":"Type", 
-                         "isinCode":"AssetCodeISIN",
-                         "approvedOn": "DeclarationDate",
-                         "lastDatePrior": "ExDate",
-                         "factor": "GroupingFactor",
-                         "isinCode": "ToAssetISIN",
-                         "remarks": "Notes",                         
-                        })
-
-df_changes['Hash'] = pd.util.hash_pandas_object(df_changes)
-
-
-df_changes['GroupingFactor'] = df_changes['GroupingFactor'].replace(".",'', regex = True).replace(",",'.', regex = True)
-
-
-table = cursor.execute('SELECT * FROM dbo.AssetChanges')
-
-df_changes['DeclarationDate'] = pd.to_datetime(df_changes['DeclarationDate'], format = '%d/%m/%Y', errors='coerce') 
-
-df_changes['ExDate'] = pd.to_datetime(df_changes['ExDate'], format = '%d/%m/%Y', errors='coerce') 
-
-df_changes['GroupingFactor'] = float(df_changes['GroupingFactor'].fillna(0))/100
-
-df_db = pd.DataFrame(tuple(t) for t in table.fetchall())
-
-df_db.head()
-if(df_db.shape[0] <  1):
-    print('entrou')
-    for index,row in df_changes.iterrows():
-        
-        try:
-            query = "INSERT INTO dbo.AssetChanges(AssetCodeISIN, Type, DeclarationDate, ExDate, GroupingFactor, ToAssetISIN, Notes, Hash)" 
-            query+= f" VALUES ('{row['AssetCodeISIN']}', '{row['Type']}','{row['DeclarationDate']}','{row['ExDate']}',{row['GroupingFactor']},'{row['ToAssetISIN']}','{row['Notes']}', '{row['Hash']}');"
-            cursor.execute(query)
-            conn.commit()
-        except:
-            print(f"Erro ao inserir o {row['Type']}, {row['AssetCodeISIN']}, {row['Notes']}")
-        
-    conn.commit()
-else:    
-    columns = [column[0] for column in table.description]
-
-    for index, row in df_changes.iterrows():
-        if(False):                    
-            query = f'''
-                       '''
-            try:
-                cursor.execute(query)           
-                conn.commit()
-            except:
-                print(f"Erro ao atualizar a ação {row['CNPJ']}, UnitPrice {row['UnitPrice']}")
-        else:
-            
-            try:
-                query = "INSERT INTO dbo.AssetChanges(AssetCodeISIN, Type, DeclarationDate, ExDate, GroupingFactor, ToAssetISIN, Notes, Hash)" 
-                query+= f" VALUES ('{row['AssetCodeISIN']}', '{row['Type']}','{row['DeclarationDate']}','{row['ExDate']}',{row['GroupingFacotr']}','{row['ToAssetISIN']}','{row['Notes']}', '{row['Hash']}');"
-                cursor.execute(query)
-                conn.commit()
-            except:
-                print(f"Erro ao inserir o {row['Type']}, {row['AssetCodeISIN']}")
-conn.commit()
+df_proventos.to_csv("df_proventos.csv", index = False, sep = ";")

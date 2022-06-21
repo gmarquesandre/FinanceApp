@@ -27,7 +27,7 @@ namespace FinanceApp.Core.Services.ForecastServices
             _currentBalanceService = currentBalanceService;
             _loanService = loanService;
             _indexService = indexService;
-            _titleService = titleService; 
+            _titleService = titleService;
         }
 
         public async Task<List<ForecastList>> GetForecast(CustomIdentityUser user)
@@ -52,7 +52,7 @@ namespace FinanceApp.Core.Services.ForecastServices
                 {
                     DateInvestment = balance.UpdateDateTime ?? balance.CreationTime,
                     InvestmentValue = balance.Value,
-                    IndexPercentage= balance.PercentageCdi?? 0.00,
+                    IndexPercentage = balance.PercentageCdi ?? 0.00,
                     Index = EIndex.CDI,
                     AdditionalFixedInterest = 0.00,
                     TypePrivateFixedIncome = ETypePrivateFixedIncome.BalanceCDB
@@ -96,12 +96,14 @@ namespace FinanceApp.Core.Services.ForecastServices
                         {
                             if (incomesDay > loansDay + spendingsDay)
                             {
-                                balanceTitlesList.Add(new BalanceTitle()
+                                balanceTitlesList.Add(new DefaultTitleInput()
                                 {
-                                    DateReference = date,
-                                    Value = incomesDay,
-                                    UpdateValueWithCdiIndex = updateBalance,
-                                    PercentageCdi = percentageCdi
+                                    DateInvestment = date,
+                                    InvestmentValue = incomesDay,
+                                    IndexPercentage = balance.PercentageCdi ?? 0.00,
+                                    Index = EIndex.CDI,
+                                    AdditionalFixedInterest = 0.00,
+                                    TypePrivateFixedIncome = ETypePrivateFixedIncome.BalanceCDB
                                 });
                             }
 
@@ -114,47 +116,25 @@ namespace FinanceApp.Core.Services.ForecastServices
 
                             balanceTitlesList.ForEach(async title =>
                                 {
-
-                                    var titleUpdated = await _titleService.GetCurrentValueOfTitle(title.DateReference, title.Value, date, title!.UpdateValueWithCdiIndex, title.PercentageCdi ?? 1.00);
-
-
-                                    if (titleUpdated.liquidValue > totalSpendingDayValue)
-                                    {
-                                        //Atualiza titulo 
-
-                                        //Acho que aqui precisa deflacionar o valor liquido novo e subtrair - Pegar os prints do btg
-                                        var newLiquidValue = titleUpdated.liquidValue - totalSpendingDayValue;
-
-                                        if (title!.UpdateValueWithCdiIndex)
-                                        {
-
-                                        }
-                                        else
-                                        {
-                                            title.Value = newLiquidValue;
-                                        }
-
-
-                                        //Zera
-                                        totalSpendingDayValue = 0;
-                                        //Finaliza loop
-
-
-
+                                    if (totalSpendingDayValue <= 0.00)
                                         return;
-                                    }
-                                    else if (titleUpdated.liquidValue < totalSpendingDayValue)
-                                    {
-                                        totalSpendingDayValue -= titleUpdated.liquidValue;
-                                        balanceTitlesList.Remove(title);
-                                    }
-                                    else
-                                    {
-                                        totalSpendingDayValue = 0;
-                                        balanceTitlesList.Remove(title);
-                                    }
 
+                                    title.Date = date;                                    
+                                    var (titleOutput, withdraw) = await _titleService.GetCurrentTitleAfterWithdraw(title, totalSpendingDayValue);
 
+                                    var titleUpdated = titleOutput;
+                                    var withdrawTotal = withdraw;
+
+                                    if(titleUpdated.LiquidValue > 0.00)
+                                    {
+                                        totalSpendingDayValue = 0.00;
+                                        return ;
+                                    }
+                                    else if(titleUpdated.LiquidValue == 0.00)
+                                    {
+                                        totalSpendingDayValue -= withdrawTotal;
+                                        balanceTitlesList.Remove(title);
+                                    }                                   
                                 }
                             );
 
@@ -167,9 +147,6 @@ namespace FinanceApp.Core.Services.ForecastServices
 
 
                         }
-                        //double balanceFinal = balanceInitial + incomesDay - spendingsDay - loansDay;
-
-                        //balanceInitial += balanceInitial;
                     }
 
 
@@ -184,4 +161,5 @@ namespace FinanceApp.Core.Services.ForecastServices
 
             return null;
         }
+    }
 }

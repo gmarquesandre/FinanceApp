@@ -115,149 +115,55 @@ df_dividendos = df_dividendos.rename(columns={"Proventos":"Type",
                          "cvmCode":"Notes",                         
                         })
 
-df_dividendos['Period'] = df_dividendos['Period'].str.upper().replace("ANUAL/","")
-df_dividendos['Period'] = df_dividendos['Period'].str.upper().replace("º TRIMESTRE","Q")
+# df_dividendos['Period'] = df_dividendos['Period'].str.upper().replace("ANUAL/","")
+# df_dividendos['Period'] = df_dividendos['Period'].str.upper().replace("º TRIMESTRE","Q")
 
-df_dividendos.columns
+# df_dividendos.columns
     
-df_dividendos = df_dividendos[["Type","AssetCodeISIN","DeclarationDate","ExDate","CashAmount","Period","PaymentDate","Notes"]] 
+# df_dividendos = df_dividendos[["Type","AssetCodeISIN","DeclarationDate","ExDate","CashAmount","Period","PaymentDate","Notes"]] 
  
 
-#Ajusta tabela alterações
+# #Ajusta tabela alterações
 
-df_alteracoes_acao.columns
+# df_alteracoes_acao.columns
 
-df_alteracoes_acao = df_alteracoes_acao.rename(columns={"Proventos":"Type", 
-                         "Código ISIN":"AssetCodeISIN",
-                         "Deliberado em": "DeclarationDate",
-                         "Negócios com até": "ExDate",
-                         "% / Fator de Grupamento": "GroupingFactor",
-                         "Ativo Emitido": "ToAssetISIN",
-                         "cvmCode": "Notes",                         
-                        })
-df_alteracoes_acao  = df_alteracoes_acao[["Type","AssetCodeISIN","DeclarationDate","ExDate","GroupingFactor","ToAssetISIN","Notes"]] 
+# df_alteracoes_acao = df_alteracoes_acao.rename(columns={"Proventos":"Type", 
+#                          "Código ISIN":"AssetCodeISIN",
+#                          "Deliberado em": "DeclarationDate",
+#                          "Negócios com até": "ExDate",
+#                          "% / Fator de Grupamento": "GroupingFactor",
+#                          "Ativo Emitido": "ToAssetISIN",
+#                          "cvmCode": "Notes",                         
+#                         })
+# df_alteracoes_acao  = df_alteracoes_acao[["Type","AssetCodeISIN","DeclarationDate","ExDate","GroupingFactor","ToAssetISIN","Notes"]] 
  
 
-#Cria hash unico para evitar adicionar o mesmo evento duas vezes
-#Esse Hash não é afetado pela ordem das colunas   
-df_dividendos['Hash'] = pd.util.hash_pandas_object(df_dividendos)
-df_alteracoes_acao['Hash'] = pd.util.hash_pandas_object(df_alteracoes_acao)
+# #Cria hash unico para evitar adicionar o mesmo evento duas vezes
+# #Esse Hash não é afetado pela ordem das colunas   
+# df_dividendos['Hash'] = pd.util.hash_pandas_object(df_dividendos)
+# df_alteracoes_acao['Hash'] = pd.util.hash_pandas_object(df_alteracoes_acao)
 
 
         
 
-#Insere tabela
+# df_dividendos['DeclarationDate'] = pd.to_datetime(df_dividendos['DeclarationDate'], format = '%d/%m/%Y', errors='coerce') 
 
-import pypyodbc 
-conn = pypyodbc.connect(connectionSqlServer.getConnectionString())
-
-cursor = conn.cursor()
-
-table = cursor.execute('SELECT * FROM dbo.AssetEarnings')
+# df_dividendos['ExDate'] = pd.to_datetime(df_dividendos['ExDate'], format = '%d/%m/%Y', errors='coerce') 
 
 
-df_db = pd.DataFrame(tuple(t) for t in table.fetchall())
-
-df_db.head()
+# df_dividendos['PaymentDate'] = pd.to_datetime(df_dividendos['PaymentDate'], format = '%d/%m/%Y', errors='coerce') 
 
 
+# df_alteracoes_acao['DeclarationDate'] = pd.to_datetime(df_alteracoes_acao['DeclarationDate'], format = '%d/%m/%Y', errors='coerce') 
 
-df_dividendos['DeclarationDate'] = pd.to_datetime(df_dividendos['DeclarationDate'], format = '%d/%m/%Y', errors='coerce') 
+# df_alteracoes_acao['ExDate'] = pd.to_datetime(df_alteracoes_acao['ExDate'], format = '%d/%m/%Y', errors='coerce') 
 
-df_dividendos['ExDate'] = pd.to_datetime(df_dividendos['ExDate'], format = '%d/%m/%Y', errors='coerce') 
-
-
-df_dividendos['PaymentDate'] = pd.to_datetime(df_dividendos['PaymentDate'], format = '%d/%m/%Y', errors='coerce') 
-
-
-if(df_db.shape[0] <  1):
-    print('entrou')
-    for index,row in df_dividendos.iterrows():
-        
-        try:
-            query = "INSERT INTO dbo.AssetEarnings(AssetCodeISIN, Type, DeclarationDate, ExDate, CashAmount, Period, PaymentDate, Notes, Hash)" 
-            query+= f" VALUES ('{row['AssetCodeISIN']}', '{row['Type']}','{row['DeclarationDate']}','{row['ExDate']}',{row['CashAmount']},'{row['Period']}','{row['PaymentDate']}' , '{row['Notes']}', '{row['Hash']}');"
-            cursor.execute(query)
-            conn.commit()
-        except Exception as e:
-            print(f"Erro ao inserir {e}")
-        
-        
-else:    
-    for index, row in df_dividendos.iterrows(): 
-        if(False):                    
-            query = f'''
-                       '''
-            try:
-                cursor.execute(query)           
-            except e:
-                print(f"Erro ao inserir {e}")
-        
-        else:            
-            try:
-                query = "INSERT INTO dbo.AssetEarnings(AssetCodeISIN, Type, DeclarationDate, ExDate, CashAmount, Period, PaymentDate, Notes, Hash)" 
-                query+= f" VALUES ('{row['AssetCodeISIN']}', '{row['Type']}','{row['DeclarationDate']}','{row['ExDate']}',{row['CashAmount']},'{row['Period']}','{row['PaymentDate']}' , '{row['Notes']}', '{row['Hash']}');"
-                cursor.execute(query)
-            except Exception as e:
-                print(f"Erro ao inserir o {row['Type']}, {row['AssetCodeISIN']}, {row['Notes']}")
-                print(f"{e}")
-    conn.commit()
+# df_alteracoes_acao['GroupingFactor'] = df_alteracoes_acao['GroupingFactor']/100
 
     
-#Tabela Alterações
- 
-table = cursor.execute('SELECT * FROM dbo.AssetChanges')
+df_dividendos.to_csv("df_dividendos_acoes.csv", sep=";", index = False)
 
-df_alteracoes_acao['DeclarationDate'] = pd.to_datetime(df_alteracoes_acao['DeclarationDate'], format = '%d/%m/%Y', errors='coerce') 
-
-df_alteracoes_acao['ExDate'] = pd.to_datetime(df_alteracoes_acao['ExDate'], format = '%d/%m/%Y', errors='coerce') 
-
-df_alteracoes_acao['GroupingFactor'] = df_alteracoes_acao['GroupingFactor']/100
-
-df_db = pd.DataFrame(tuple(t) for t in table.fetchall())
-
-df_db.head()
-if(df_db.shape[0] <  1):
-    print('entrou')
-    for index,row in df_alteracoes_acao.iterrows():
-        
-        try:
-            query = "INSERT INTO dbo.AssetChanges(AssetCodeISIN, Type, DeclarationDate, ExDate, GroupingFactor, ToAssetISIN, Notes, Hash)" 
-            query+= f" VALUES ('{row['AssetCodeISIN']}', '{row['Type']}','{row['DeclarationDate']}','{row['ExDate']}',{row['GroupingFactor']},'{row['ToAssetISIN']}','{row['Notes']}', '{row['Hash']}');"
-            cursor.execute(query)
-            conn.commit()
-        except:
-            print(f"Erro ao inserir o {row['Type']}, {row['AssetCodeISIN']}, {row['Notes']}")
-        
-    conn.commit()
-else:    
-    columns = [column[0] for column in table.description]
-
-    for index, row in df_dividendos.iterrows():
-        if(False):                    
-            query = f'''
-                       '''
-            try:
-                cursor.execute(query)           
-                conn.commit()
-            except:
-                print(f"Erro ao atualizar a ação {row['CNPJ']}, UnitPrice {row['UnitPrice']}")
-        else:
-            
-            try:
-                query = "INSERT INTO dbo.AssetChanges(AssetCodeISIN, Type, DeclarationDate, ExDate, GroupingFactor, ToAssetISIN, Notes, Hash)" 
-                query+= f" VALUES ('{row['AssetCodeISIN']}', '{row['Type']}','{row['DeclarationDate']}','{row['ExDate']}',{row['GroupingFacotr']}','{row['ToAssetISIN']}','{row['Notes']}', '{row['Hash']}');"
-                cursor.execute(query)
-                conn.commit()
-            except:
-                print(f"Erro ao inserir o {row['Type']}, {row['AssetCodeISIN']}")
-conn.commit()
-
-
-    
-    
-    
-    
+df_alteracoes_acao.to_csv("df_dividendos_acoes.csv", sep=";", index = False)    
     
     
     

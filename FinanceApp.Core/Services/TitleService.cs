@@ -21,6 +21,7 @@ namespace FinanceApp.Core.Services
                                             input.Date,
                                             input.IndexPercentage);
 
+
                 var grossValue = Convert.ToDouble(input.InvestmentValue) * apprecitation;
 
                 var incomeTaxPercentage = GetIncomeTax(input.TypePrivateFixedIncome, input.Date, input.DateInvestment);
@@ -86,7 +87,61 @@ namespace FinanceApp.Core.Services
             }
 
         }
+        public async Task<(DefaultTitleOutput titleOutput, double withdraw)> GetCurrentTitleAfterWithdraw(DefaultTitleInput title, double withdrawValue)
+        {
+            var titleUpdate = await GetCurrentValueOfTitle(title);
 
+            if(titleUpdate.LiquidValue - withdrawValue >= 0.01)
+            {
+                var newLiquidValue = titleUpdate.LiquidValue - withdrawValue;
+
+                var newIof = titleUpdate.IofValue * newLiquidValue / titleUpdate.LiquidValue;
+
+                var newIncomeTax = titleUpdate.IncomeTaxValue * newLiquidValue / titleUpdate.LiquidValue;
+
+                var newGrossValue = newLiquidValue + newIof + newIncomeTax;
+
+                var newInvestmentValue = title.InvestmentValue * newGrossValue / titleUpdate.GrossValue;
+
+                var output = new DefaultTitleOutput()
+                {
+                    GrossValue = newGrossValue,
+                    LiquidValue = newLiquidValue,
+                    IofValue = newIof,
+                    IncomeTaxValue = newIncomeTax,
+                    AdditionalFixedInterest = title.AdditionalFixedInterest,
+                    Date = titleUpdate.Date,
+                    DateInvestment = title.DateInvestment,
+                    Index = titleUpdate.Index,
+                    IndexPercentage=titleUpdate.IndexPercentage,
+                    InvestmentValue = newInvestmentValue
+                
+                };
+                return (output, withdrawValue);
+            }
+            else
+            {
+                var output = new DefaultTitleOutput()
+                {
+                    GrossValue = 0,
+                    LiquidValue = 0,
+                    IofValue = 0,
+                    IncomeTaxValue = 0,
+                    AdditionalFixedInterest = title.AdditionalFixedInterest,
+                    Date = titleUpdate.Date,
+                    DateInvestment = title.DateInvestment,
+                    Index = titleUpdate.Index,
+                    IndexPercentage = titleUpdate.IndexPercentage,
+                    InvestmentValue = 0
+
+                };
+
+                return (output, titleUpdate.LiquidValue);
+            }
+
+
+
+        }
         private double GetIncomeTax(ETypePrivateFixedIncome typePrivateFixedIncome, DateTime date, DateTime dateInvestment)
         {
             var typeTax = EnumHelper<ETypePrivateFixedIncome>.GetInvestmentTax(typePrivateFixedIncome);

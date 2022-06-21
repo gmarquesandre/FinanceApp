@@ -1,9 +1,7 @@
 import pandas as pd
 import requests
 import io
-import pypyodbc 
 from datetime import datetime, timedelta
-import connectionSqlServer
 
 def extrai_dados_bovespa(df):
 
@@ -57,16 +55,9 @@ if datetime.today().weekday() == 5:
 elif datetime.today().weekday() == 6:
     deltaDays = 2
 
-
 today = (datetime.today()- timedelta(days = deltaDays)).strftime('%d%m%Y')
 
-today = '13052022'
-
-
 file = requests.get(f"https://bvmf.bmfbovespa.com.br/InstDados/SerHist/COTAHIST_D{today}.ZIP", stream = True, verify=False)
-
-um teste rolando   
-aaaaaaafaaaaaaaaaaa
 
 if file.content == b'The resource you are looking for has been removed, had its name changed, or is temporarily unavailable.':
     print('Data Indisponivel')
@@ -79,54 +70,3 @@ else:
     # df = df[['data','cod_negociacao_papel','preco_ultimo_negocio','codigo_acao_isin','especificacao_papel','nome_resumido_empresa']]
     # df = df[(df['tipo_mercado'] == '010')][['data','cod_negociacao_papel','preco_ultimo_negocio','codigo_acao_isin','especificacao_papel','nome_resumido_empresa']]
     status = True
-
-print(df.shape)
-print(df.drop_duplicates().shape)
-print(df["codigo_acao_isin"].drop_duplicates().shape)
-if(status):
-    df= df.rename(columns={"data":"DateLastUpdate", 
-                            "cod_negociacao_papel": "AssetCode",
-                            "preco_ultimo_negocio": "UnitPrice",
-                            "codigo_acao_isin":"AssetCodeISIN",
-                            "nome_resumido_empresa": "CompanyName"
-                            })
-        
-        
-    #df[df["AssetCode"] == "MMMC34"][["AssetCode","AssetCodeISIN"]]
-
-    df['DateLastUpdate'] = pd.to_datetime(df['DateLastUpdate'], format = '%Y-%M-%d') 
-
-
-    table_name = 'Assets'
-
-    conn = pypyodbc.connect(connectionSqlServer.getConnectionString())
-
-    cursor = conn.cursor()
-
-    #cursor.execute('DELETE FROM dbo.Assets')
-    #conn.commit()
-
-    print('entrou')
-    for index,row in df.iterrows():
-
-        query = f'''
-            UPDATE dbo.Assets
-            SET DateLastUpdate = '{row['DateLastUpdate']}' , UnitPrice = {row['UnitPrice']}, CompanyName = '{row['CompanyName']}'
-                    WHERE AssetCode = '{row['AssetCode']}'
-            IF @@ROWCOUNT = 0  
-                INSERT INTO dbo.Assets(AssetCodeISIN, AssetCode, CompanyName, UnitPrice, DateLastUpdate) 
-                VALUES ('{row['AssetCodeISIN']}','{row['AssetCode']}', '{row['CompanyName']}',{row['UnitPrice']},'{row['DateLastUpdate']}');
-        '''
-        cursor.execute(query)
-    
-        
-    # Atualizar ações sem movimentação no dia
-    df['DateLastUpdate'][0]
-    cursor.execute(f"UPDATE dbo.Assets SET DateLastUpdate = '{df['DateLastUpdate'][0]}'")
-
-    conn.commit()
-
-        
-    print('Fim Atualização tabela de ações')
-else:
-    print("Fim Atualização tabela de ações - Não há dados")
