@@ -110,7 +110,7 @@ namespace FinanceApp.Shared
             var taxAttribute = fieldInfo.GetCustomAttributes(
                 typeof(TypeInvestmentTaxAttribute), false) as TypeInvestmentTaxAttribute[];
 
-            if (taxAttribute == null || taxAttribute.Length > 0) return ETypeInvestmentTax.DefaultInvestmentTax;
+            if (taxAttribute == null || taxAttribute.Length == 0) return ETypeInvestmentTax.DefaultInvestmentTax;
             return taxAttribute[0].IncomeTax;
         }
 

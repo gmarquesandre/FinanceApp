@@ -7,6 +7,7 @@ using System;
 using System.Globalization;
 using System.Threading.Tasks;
 using Xunit;
+using static FinanceApp.Core.Services.TitleService;
 
 namespace FinanceApp.Tests.TitleTests
 {
@@ -56,32 +57,42 @@ namespace FinanceApp.Tests.TitleTests
             setPrecision.NumberDecimalDigits = 2;
 
 
-            var value = await titleService.GetCurrentValueOfTitle(new DateTime(2022, 05, 31), 395.65, new DateTime(2022, 06, 20), true, 1.00, true);
+            var input = new DefaultTitleInput()
+            {
+                DateInvestment = new DateTime(2022, 05, 31),
+                Date = new DateTime(2022, 06, 20),
+                AdditionalFixedInterest = 0,
+                Index = EIndex.CDI,
+                IndexPercentage = 1.03,
+                InvestmentValue = 395.65,
+                TypePrivateFixedIncome = ETypePrivateFixedIncome.CDB                
+            };
 
             //Valores extaidos da calculadora do cidadão para CDI de 100% https://www3.bcb.gov.br/CALCIDADAO/publico/exibirFormCorrecaoValores.do?method=exibirFormCorrecaoValores&aba=5
-            Assert.True(value.grossValue.ToString("N", setPrecision) == 398.10.ToString("N", setPrecision));
+            
+
+            var value = await titleService.GetCurrentValueOfTitle(input);
+
+            Assert.True(value.GrossValue.ToString("N", setPrecision) == 398.17.ToString("N", setPrecision));
 
 
             //-----------------------
 
-            value = await titleService.GetCurrentValueOfTitle(new DateTime(2022, 05, 31), 395.65, new DateTime(2022, 06, 20), true, 1.03, true);
+            input.InvestmentValue = 345.82;
+            input.DateInvestment = new DateTime(2022, 05, 31);
 
-            //Valores extaidos da calculadora do cidadão para CDI de 100% https://www3.bcb.gov.br/CALCIDADAO/publico/exibirFormCorrecaoValores.do?method=exibirFormCorrecaoValores&aba=5
-            Assert.True(value.grossValue.ToString("N", setPrecision) == 398.17.ToString("N", setPrecision));
+            value = await titleService.GetCurrentValueOfTitle(input);
 
-
-            //-----------------------
-
-            value = await titleService.GetCurrentValueOfTitle(new DateTime(2022, 05, 31), 345.82, new DateTime(2022, 06, 20), true, 1.03, true);
-
-            Assert.True(value.grossValue.ToString("N", setPrecision) == 348.02.ToString("N", setPrecision));
+            Assert.True(value.GrossValue.ToString("N", setPrecision) == 348.02.ToString("N", setPrecision));
 
 
             //-----------------------
 
-            value = await titleService.GetCurrentValueOfTitle(new DateTime(2022, 04, 11), 633.11, new DateTime(2022, 06, 20), true, 1.03, true);
+            input.InvestmentValue = 633.11;
+            input.DateInvestment = new DateTime(2022, 04, 11);
+            value = await titleService.GetCurrentValueOfTitle(input);
 
-            Assert.True(value.grossValue.ToString("N", setPrecision) == 647.39.ToString("N", setPrecision));
+            Assert.True(value.GrossValue.ToString("N", setPrecision) == 647.39.ToString("N", setPrecision));
 
         }
     }

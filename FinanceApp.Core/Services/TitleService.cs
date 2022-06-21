@@ -37,7 +37,16 @@ namespace FinanceApp.Core.Services
 
                 return new DefaultTitleOutput()
                 {
-
+                    DateInvestment = input.DateInvestment,
+                    Date = input.Date,
+                    GrossValue = grossValue,
+                    IncomeTaxValue = incomeTaxValue,
+                    LiquidValue = liquidValue,
+                    InvestmentValue = input.InvestmentValue,
+                    IofValue = iofValue,
+                    AdditionalFixedInterest = input.AdditionalFixedInterest,
+                    Index = input.Index,
+                    IndexPercentage = input.IndexPercentage                    
                 };
             }
             else if (input.InvestmentValue < 0)
@@ -46,7 +55,16 @@ namespace FinanceApp.Core.Services
                 //Aqui poderia colocar o juros de empréstimo da conta
                 return new DefaultTitleOutput()
                 {
-
+                    DateInvestment = input.DateInvestment,
+                    Date = input.Date,
+                    GrossValue = 0,
+                    IncomeTaxValue = 0,
+                    LiquidValue = 0,
+                    InvestmentValue = input.InvestmentValue,
+                    IofValue = 0,
+                    AdditionalFixedInterest = input.AdditionalFixedInterest,
+                    Index = input.Index,
+                    IndexPercentage = input.IndexPercentage
                 };
             }
             else
@@ -54,7 +72,16 @@ namespace FinanceApp.Core.Services
 
                 return new DefaultTitleOutput()
                 {
-
+                    DateInvestment = input.DateInvestment,
+                    Date = input.Date,
+                    GrossValue = 0,
+                    IncomeTaxValue = 0,
+                    LiquidValue = 0,
+                    InvestmentValue = input.InvestmentValue,
+                    IofValue = 0,
+                    AdditionalFixedInterest = input.AdditionalFixedInterest,
+                    Index = input.Index,
+                    IndexPercentage = input.IndexPercentage
                 };
             }
 
