@@ -60,5 +60,57 @@ namespace FinanceApp.Tests.DatesServiceTests
             }
 
         }
+
+
+        [Fact]
+        //Teste insano para garantir que este método está ok
+        public async Task MustReturnAddWorkingDaysCorrectly()
+        {
+            var mapper = GetConfigurationIMapper();
+            var context = await CreateFinanceContext();
+
+            //Instancias 
+            MemoryCacheOptions cacheOptions = new();
+
+            var memoryCache = new MemoryCache(cacheOptions);
+
+            var datesService = new DatesService(context,
+                                                mapper,
+                                                memoryCache);
+
+
+            var holidaysImporter = new HolidaysImporter(context);
+
+            //Importar dados para comparação
+
+            await holidaysImporter.GetHolidays(2022, 2022);
+
+
+
+            //---------------------------------------
+            DateTime newDate = await datesService.AddWorkingDays(new DateTime(2022, 06, 20), 1);
+
+            Assert.True(newDate == new DateTime(2022, 06, 21));
+            //---------------------------------------
+            newDate = await datesService.AddWorkingDays(new DateTime(2022, 06, 20), -1);
+
+            Assert.True(newDate == new DateTime(2022, 06, 17));
+            //---------------------------------------
+            newDate = await datesService.AddWorkingDays(new DateTime(2022, 06, 20), -2);
+
+            Assert.True(newDate == new DateTime(2022, 06, 15));
+            //---------------------------------------
+            newDate = await datesService.AddWorkingDays(new DateTime(2022, 06, 20), 0);
+
+            Assert.True(newDate == new DateTime(2022, 06, 20));
+            //---------------------------------------
+            newDate = await datesService.AddWorkingDays(new DateTime(2022, 06, 20), 5);
+
+            Assert.True(newDate == new DateTime(2022, 06, 27));
+            //---------------------------------------
+
+        }
+
+
     }
 }

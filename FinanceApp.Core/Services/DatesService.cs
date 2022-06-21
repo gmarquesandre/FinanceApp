@@ -45,6 +45,7 @@ namespace FinanceApp.Core.Services
 
             return valuesDto;
         }
+
         public async Task<List<WorkingDaysByYearDto>> GetWorkingDaysByYear(int yearStart, int? yearEnd)
         {
             var values = await GetWorkingDaysByYear();
@@ -98,6 +99,18 @@ namespace FinanceApp.Core.Services
             return holidays.Where(a => a.Date == date).Any();
 
         }
+
+        public async Task<bool> IsHolidayOrWeekend(DateTime date)
+        {
+            var holidays = await GetHolidays();
+
+            if (date.DayOfWeek == DayOfWeek.Sunday || date.DayOfWeek == DayOfWeek.Saturday)
+                return true;
+
+            return holidays.Where(a => a.Date == date).Any();
+
+        }
+
         public async Task<List<HolidayDto>> GetHolidays(DateTime? startDate = null, DateTime? endDate = null)
         {
             var values = await GetHolidays();
@@ -131,6 +144,45 @@ namespace FinanceApp.Core.Services
             if (dateStart.DayOfWeek == DayOfWeek.Sunday) calcWorkingDaysDays--;
 
             return Convert.ToInt32(calcWorkingDaysDays) - holidaysCountBetweenDates;
+        }
+
+
+        public async Task<DateTime> AddWorkingDays(DateTime date, int addDays)
+        {
+            if(addDays > 0)
+            {
+                int days = 0;
+                int addDaysTest = addDays - 1;
+
+                while(days < addDays)
+                {
+                    addDaysTest++;
+
+                    days = await GetWorkingDaysBetweenDates(date, date.AddDays(addDaysTest)) - 1;
+
+                }
+
+                return date.AddDays(addDaysTest);
+            }
+            else if(addDays < 0)
+            {
+                int days = 1;
+                int addDaysTest = addDays + 1;
+
+                while (days > addDays)
+                {
+
+                    addDaysTest--;
+
+                    days = await GetWorkingDaysBetweenDates(date.AddDays(addDaysTest), date) * -1 + 1;
+
+                }
+
+                return date.AddDays(addDaysTest);
+            }
+            
+            return date;
+            
         }
 
     }

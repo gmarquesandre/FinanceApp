@@ -11,5 +11,6 @@ namespace FinanceApp.Core.Services
         Task<List<HolidayDto>> GetHolidays(DateTime? startDate = null, DateTime? endDate = null);
         Task<bool> IsHoliday(DateTime date);
         Task<int> GetWorkingDaysBetweenDates(DateTime dateStart, DateTime dateEnd);
+        Task<DateTime> AddWorkingDays(DateTime date, int addDays);
     }
 }
