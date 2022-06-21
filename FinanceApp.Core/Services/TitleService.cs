@@ -3,7 +3,7 @@ using FinanceApp.Shared.Enum;
 
 namespace FinanceApp.Core.Services
 {
-    public partial class TitleService
+    public partial class TitleService : ITitleService
     {
         public IIndexService _indexService;
 
@@ -46,7 +46,7 @@ namespace FinanceApp.Core.Services
                     IofValue = iofValue,
                     AdditionalFixedInterest = input.AdditionalFixedInterest,
                     Index = input.Index,
-                    IndexPercentage = input.IndexPercentage                    
+                    IndexPercentage = input.IndexPercentage
                 };
             }
             else if (input.InvestmentValue < 0)
@@ -99,7 +99,7 @@ namespace FinanceApp.Core.Services
             {
                 return 0.225;
             }
-            else if(typeTax == ETypeInvestmentTax.DefaultInvestmentTax)
+            else if (typeTax == ETypeInvestmentTax.DefaultInvestmentTax)
             {
                 //Até 180 dias  22.5%
                 //Entre 181 e 360 dias 20.0

@@ -92,7 +92,7 @@ namespace FinanceApp.Tests.TitleTests
             input.DateInvestment = new DateTime(2022, 04, 11);
             value = await titleService.GetCurrentValueOfTitle(input);
 
-            Assert.True(value.GrossValue.ToString("N", setPrecision) == 647.39.ToString("N", setPrecision));
+            Assert.True(value.GrossValue.ToString("N", setPrecision) == 647.40.ToString("N", setPrecision));
 
         }
     }

@@ -2,6 +2,7 @@
 using FinanceApp.Shared.Dto;
 using FinanceApp.Shared.Enum;
 using FinanceApp.Shared.Models.CommonTables;
+using static FinanceApp.Core.Services.TitleService;
 
 namespace FinanceApp.Core.Services.ForecastServices
 {
@@ -12,18 +13,21 @@ namespace FinanceApp.Core.Services.ForecastServices
         public ILoanService _loanService;
         public ICurrentBalanceService _currentBalanceService;
         public IIndexService _indexService;
+        public ITitleService _titleService;
 
         public ForecastService(ISpendingService spendingService,
             IIncomeService incomeService,
             ICurrentBalanceService currentBalanceService,
             ILoanService loanService,
-            IIndexService indexService)
+            IIndexService indexService,
+            ITitleService titleService)
         {
             _spendingService = spendingService;
             _incomeService = incomeService;
             _currentBalanceService = currentBalanceService;
             _loanService = loanService;
             _indexService = indexService;
+            _titleService = titleService; 
         }
 
         public async Task<List<ForecastList>> GetForecast(CustomIdentityUser user)
@@ -36,7 +40,7 @@ namespace FinanceApp.Core.Services.ForecastServices
 
             var balance = await _currentBalanceService.GetAsync(user);
 
-            var balanceTitlesList = new List<BalanceTitle>();
+            var balanceTitlesList = new List<DefaultTitleInput>();
 
             bool updateValueWithCdiIndex = balance.UpdateValueWithCdiIndex;
 
@@ -44,12 +48,14 @@ namespace FinanceApp.Core.Services.ForecastServices
 
             if (balance != null)
             {
-                balanceTitlesList.Add(new BalanceTitle()
+                balanceTitlesList.Add(new DefaultTitleInput()
                 {
-                    DateReference = balance.UpdateDateTime ?? balance.CreationTime,
-                    Value = balance.Value,
-                    PercentageCdi = balance.PercentageCdi,
-                    UpdateValueWithCdiIndex = balance.UpdateValueWithCdiIndex
+                    DateInvestment = balance.UpdateDateTime ?? balance.CreationTime,
+                    InvestmentValue = balance.Value,
+                    IndexPercentage= balance.PercentageCdi?? 0.00,
+                    Index = EIndex.CDI,
+                    AdditionalFixedInterest = 0.00,
+                    TypePrivateFixedIncome = ETypePrivateFixedIncome.BalanceCDB
                 });
             }
 
@@ -109,7 +115,7 @@ namespace FinanceApp.Core.Services.ForecastServices
                             balanceTitlesList.ForEach(async title =>
                                 {
 
-                                    var titleUpdated = await GetCurrentValueOfTitle(title.DateReference, title.Value, date, title!.UpdateValueWithCdiIndex, title.PercentageCdi ?? 1.00);
+                                    var titleUpdated = await _titleService.GetCurrentValueOfTitle(title.DateReference, title.Value, date, title!.UpdateValueWithCdiIndex, title.PercentageCdi ?? 1.00);
 
 
                                     if (titleUpdated.liquidValue > totalSpendingDayValue)
@@ -178,53 +184,4 @@ namespace FinanceApp.Core.Services.ForecastServices
 
             return null;
         }
-
-        //Função apenas para saldo em conta corrente que é atualizado pelo CDI
-        //sempre o IR será considerado como 22,5% e o IOF sempre será utilizado a partir do ultimo dia atualizado
-        private async Task<(double grossValue, double liquidValue, double iof, double incomeTax)> GetCurrentValueOfTitle(DateTime dateInvestment, double investmentValue, DateTime date, bool updateWithCdiIndex, double indexPercentage)
-        {
-            if (investmentValue > 0 && updateWithCdiIndex)
-            {
-                var apprecitation = await _indexService.GetIndexValueBetweenDates(EIndex.CDI,
-                                            dateInvestment,
-                                            date,
-                                            indexPercentage);
-
-                var grossValue = Convert.ToDouble(investmentValue) * apprecitation;
-
-                var incomeTaxPercentage = 0.225;
-
-                var iofPercentage = _indexService.GetIof((date - dateInvestment).Days);
-
-                var iofValue = iofPercentage * (grossValue - Convert.ToDouble(investmentValue));
-
-                var grossValueAfterIof = grossValue - iofValue;
-
-                var incomeTaxValue = incomeTaxPercentage * (grossValueAfterIof - Convert.ToDouble(investmentValue));
-
-                var liquidValue = grossValueAfterIof - incomeTaxValue;
-
-                return (grossValue, liquidValue, iofValue, incomeTaxValue);
-            }
-            else if(investmentValue < 0)
-            {
-
-                //Aqui poderia colocar o juros de empréstimo da conta
-                return (0, 0, 0, 0);
-            }
-            else
-            {
-
-                return (Convert.ToDouble(investmentValue), Convert.ToDouble(investmentValue), 0,0);
-            }
-
-        }
-    }
-    public class BalanceTitle
-    {
-        public DateTime DateReference { get; set; }
-        public double Value { get; set; }
-        public bool UpdateValueWithCdiIndex { get; set; }
-        public double? PercentageCdi { get; set; }
-    }
 }
