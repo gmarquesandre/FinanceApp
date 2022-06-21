@@ -40,7 +40,7 @@ namespace FinanceApp.Core.Services.ForecastServices
 
             bool updateValueWithCdiIndex = balance.UpdateValueWithCdiIndex;
 
-            decimal percentageCdi = balance.PercentageCdi ?? 1.00M;
+            double percentageCdi = balance.PercentageCdi ?? 1.00;
 
             if (balance != null)
             {
@@ -60,9 +60,9 @@ namespace FinanceApp.Core.Services.ForecastServices
                 while (date.Day > 1)
                 {
 
-                    decimal loansDay = 0.00M;
-                    decimal incomesDay = 0.00M;
-                    decimal spendingsDay = 0.00M;
+                    double loansDay = 0.00;
+                    double incomesDay = 0.00;
+                    double spendingsDay = 0.00;
 
                     //variavel responsável por avisar se há alterações no balanço
                     bool updateBalance = false;
@@ -102,14 +102,14 @@ namespace FinanceApp.Core.Services.ForecastServices
                         }
                         else if (incomesDay < loansDay + spendingsDay)
                         {
-                            decimal leftValue = spendingsDay + loansDay - incomesDay;
+                            double leftValue = spendingsDay + loansDay - incomesDay;
 
                             double totalSpendingDayValue = Convert.ToDouble(spendingsDay + loansDay);
 
                             balanceTitlesList.ForEach(async title =>
                                 {
 
-                                    var titleUpdated = await GetCurrentValueOfTitle(title.DateReference, title.Value, date, title!.UpdateValueWithCdiIndex, Convert.ToDouble(title.PercentageCdi ?? 1.00M ));
+                                    var titleUpdated = await GetCurrentValueOfTitle(title.DateReference, title.Value, date, title!.UpdateValueWithCdiIndex, title.PercentageCdi ?? 1.00);
 
 
                                     if (titleUpdated.liquidValue > totalSpendingDayValue)
@@ -125,7 +125,7 @@ namespace FinanceApp.Core.Services.ForecastServices
                                         }
                                         else
                                         {
-                                            title.Value = Convert.ToDecimal(newLiquidValue);
+                                            title.Value = newLiquidValue;
                                         }
 
 
@@ -161,7 +161,7 @@ namespace FinanceApp.Core.Services.ForecastServices
 
 
                         }
-                        //decimal balanceFinal = balanceInitial + incomesDay - spendingsDay - loansDay;
+                        //double balanceFinal = balanceInitial + incomesDay - spendingsDay - loansDay;
 
                         //balanceInitial += balanceInitial;
                     }
@@ -181,7 +181,7 @@ namespace FinanceApp.Core.Services.ForecastServices
 
         //Função apenas para saldo em conta corrente que é atualizado pelo CDI
         //sempre o IR será considerado como 22,5% e o IOF sempre será utilizado a partir do ultimo dia atualizado
-        private async Task<(double grossValue, double liquidValue, double iof, double incomeTax)> GetCurrentValueOfTitle(DateTime dateInvestment, decimal investmentValue, DateTime date, bool updateWithCdiIndex, double indexPercentage)
+        private async Task<(double grossValue, double liquidValue, double iof, double incomeTax)> GetCurrentValueOfTitle(DateTime dateInvestment, double investmentValue, DateTime date, bool updateWithCdiIndex, double indexPercentage)
         {
             if (investmentValue > 0 && updateWithCdiIndex)
             {
@@ -223,8 +223,8 @@ namespace FinanceApp.Core.Services.ForecastServices
     public class BalanceTitle
     {
         public DateTime DateReference { get; set; }
-        public decimal Value { get; set; }
+        public double Value { get; set; }
         public bool UpdateValueWithCdiIndex { get; set; }
-        public decimal? PercentageCdi { get; set; }
+        public double? PercentageCdi { get; set; }
     }
 }

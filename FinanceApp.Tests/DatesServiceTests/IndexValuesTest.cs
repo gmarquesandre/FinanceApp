@@ -56,7 +56,7 @@ namespace FinanceApp.Tests.DatesServiceTests
 
             NumberFormatInfo setPrecision = new();
             
-            setPrecision.NumberDecimalDigits = 8;
+            setPrecision.NumberDecimalDigits= 8;
 
             //Valores extaidos da calculadora do cidadão para CDI de 100% https://www3.bcb.gov.br/CALCIDADAO/publico/exibirFormCorrecaoValores.do?method=exibirFormCorrecaoValores&aba=5
             Assert.True(value.ToString("N", setPrecision) == 1.00034749.ToString("N", setPrecision));
@@ -216,11 +216,11 @@ namespace FinanceApp.Tests.DatesServiceTests
             var value = await indexService.GetIndexValueBetweenDates(EIndex.IPCA, new DateTime(2022, 1, 1), new DateTime(2022, 03, 31));
             
             NumberFormatInfo setPrecision = new();
-            
+
             setPrecision.NumberDecimalDigits = 6;
 
             //Valores extaidos da calculadora do cidadão para CDI de 100% https://www3.bcb.gov.br/CALCIDADAO/publico/exibirFormCorrecaoValores.do?method=exibirFormCorrecaoValores&aba=5
-            
+
             Assert.True(value.ToString("N", setPrecision) == 1.03200650.ToString("N", setPrecision));
             
         }

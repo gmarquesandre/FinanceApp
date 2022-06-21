@@ -3,8 +3,8 @@
     public class LoanSpread : LoanDto
     {
         public DateTime Date {get;set;}
-        public decimal LoanInterestValue { get;set;}
-        public decimal LoanAmortizationValue { get; set; }
-        public decimal LoanValueMonth { get; set; }
+        public double LoanInterestValue { get;set;}
+        public double LoanAmortizationValue { get; set; }
+        public double LoanValueMonth { get; set; }
     }
 }

@@ -11,8 +11,29 @@ namespace FinanceApp.Core.Services.ForecastServices
             _indexService = indexService;
         }
 
-        private async Task<(double grossValue, double liquidValue, double iof, double incomeTax)> 
-            GetCurrentValueOfTitle(DateTime dateInvestment, decimal investmentValue, DateTime date, bool updateWithCdiIndex, double indexPercentage, bool IsBalance = true)
+        public class DefaultTitleOutput
+        {
+            public DateTime Date { get; set; }
+            public double GrossValue { get; set; }
+            public double LiquidValue { get; set; }
+            public double IofValue { get; set; }
+            public double IncomeTaxValue { get; set; }
+        }
+
+        public class DefaultTitleInput
+        {
+            public DateTime DateInvestment { get; set; }
+            public DateTime Date { get; set; }
+            public double InvestmentValue { get; set; }
+            public EIndex Index { get; set; }
+            public double IndexPercentage { get; set; }
+            public double AdditionalFixedInterest { get; set; }
+
+        }
+
+
+        public async Task<(double grossValue, double liquidValue, double iof, double incomeTax)>
+            GetCurrentValueOfTitle(DateTime dateInvestment, double investmentValue, DateTime date, bool updateWithCdiIndex, double indexPercentage, bool IsBalance = true)
         {
             if (investmentValue > 0 && updateWithCdiIndex)
             {
@@ -37,7 +58,7 @@ namespace FinanceApp.Core.Services.ForecastServices
 
                 return (grossValue, liquidValue, iofValue, incomeTaxValue);
             }
-            else if(investmentValue < 0)
+            else if (investmentValue < 0)
             {
 
                 //Aqui poderia colocar o juros de empréstimo da conta
@@ -46,9 +67,9 @@ namespace FinanceApp.Core.Services.ForecastServices
             else
             {
 
-                return (Convert.ToDouble(investmentValue), Convert.ToDouble(investmentValue), 0,0);
+                return (Convert.ToDouble(investmentValue), Convert.ToDouble(investmentValue), 0, 0);
             }
 
         }
-    }   
+    }
 }

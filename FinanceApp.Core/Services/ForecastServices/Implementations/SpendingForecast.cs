@@ -31,7 +31,7 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
         }
         private ForecastList GetMonthlyForecast(List<SpendingDto> spendingDtos, DateTime maxDate, DateTime? minDate = null)
         {
-            decimal cumSum = 0;
+            double cumSum = 0;
 
             var spendingsSpreadList = GetSpendingsSpreadList(spendingDtos, maxDate, minDate);
 
@@ -59,7 +59,7 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
         }
         private ForecastList GetDailyForecast(List<SpendingDto> spendingDtos, DateTime maxDate, DateTime? minDate = null)
         {
-            decimal cumSum = 0;
+            double cumSum = 0;
             var spendingsSpreadList = GetSpendingsSpreadList(spendingDtos, maxDate, minDate);
 
             var dailyValues = spendingsSpreadList.OrderBy(a => a.ReferenceDate).GroupBy(a => new { a.ReferenceDate }, (key, group) =>

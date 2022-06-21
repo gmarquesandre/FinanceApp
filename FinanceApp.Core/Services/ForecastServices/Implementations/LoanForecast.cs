@@ -30,7 +30,7 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
         }
         private ForecastList GetMonthlyForecast(List<LoanDto> loanDtos, DateTime maxDate, DateTime? minDate = null)
         {
-            decimal cumSum = 0;
+            double cumSum = 0;
 
             var loansSpreadList = GetLoansSpreadList(loanDtos, maxDate, minDate);
 
@@ -58,7 +58,7 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
         }
         private ForecastList GetDailyForecast(List<LoanDto> loanDtos, DateTime maxDate, DateTime? minDate = null)
         {
-            decimal cumSum = 0;
+            double cumSum = 0;
             var loansSpreadList = GetLoansSpreadList(loanDtos, maxDate, minDate);
 
             var dailyValues = loansSpreadList.OrderBy(a => a.Date).GroupBy(a => new { a.Date }, (key, group) =>
@@ -114,7 +114,7 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
         {
             var loanSpreadList = new List<LoanSpread>();
 
-            decimal amortization = loan.LoanValue / (decimal)loan.MonthsPayment;
+            double amortization = loan.LoanValue / (double)loan.MonthsPayment;
 
             double monthsInAYear = 12.00;
             double interestRateMonthMultipliler = Math.Pow(1.00 + (Convert.ToDouble(loan.InterestRate) / 100.00), 1.00 / monthsInAYear) - 1;
@@ -127,7 +127,7 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
 
                 int monthsPaid = MonthDiff(loan.InitialDate, date);
 
-                decimal interestValueParcel = (decimal)interestRateMonthMultipliler * loan.LoanValue * (1 - ((decimal)monthsPaid / (decimal)loan.MonthsPayment));
+                double interestValueParcel = (double)interestRateMonthMultipliler * loan.LoanValue * (1 - ((double)monthsPaid / (double)loan.MonthsPayment));
 
                 loanSpread.LoanAmortizationValue = amortization;
                 loanSpread.Date = date;
@@ -150,7 +150,7 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
 
             double InterestValue = Math.Pow(1 + interestRateMonthMultipliler, loan.MonthsPayment);
 
-            decimal valueParcel = loan.LoanValue * (decimal)(InterestValue * interestRateMonthMultipliler / (InterestValue - 1.00));
+            double valueParcel = loan.LoanValue * (double)(InterestValue * interestRateMonthMultipliler / (InterestValue - 1.00));
 
             maxDate = maxDate < loan.InitialDate ? maxDate : loan.InitialDate;
             for (DateTime date = minDate; date <= maxDate; date = date.AddMonths(1))

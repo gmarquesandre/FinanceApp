@@ -115,8 +115,8 @@ namespace FinanceApp.EntityFramework.Migrations
                     Type = table.Column<int>(type: "int", nullable: false),
                     FixedInterestValueBuy = table.Column<double>(type: "float", nullable: false),
                     FixedInterestValueSell = table.Column<double>(type: "float", nullable: false),
-                    UnitPriceBuy = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    UnitPriceSell = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    UnitPriceBuy = table.Column<double>(type: "float", nullable: false),
+                    UnitPriceSell = table.Column<double>(type: "float", nullable: false),
                     ExpirationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastUpdateDateTime = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -135,8 +135,8 @@ namespace FinanceApp.EntityFramework.Migrations
                     Type = table.Column<int>(type: "int", nullable: false),
                     FixedInterestValueBuy = table.Column<double>(type: "float", nullable: false),
                     FixedInterestValueSell = table.Column<double>(type: "float", nullable: false),
-                    UnitPriceBuy = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    UnitPriceSell = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    UnitPriceBuy = table.Column<double>(type: "float", nullable: false),
+                    UnitPriceSell = table.Column<double>(type: "float", nullable: false),
                     ExpirationDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -317,9 +317,9 @@ namespace FinanceApp.EntityFramework.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CurrentValue = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    PercentageCdi = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    CdIncome = table.Column<bool>(type: "bit", nullable: false),
+                    Value = table.Column<double>(type: "float", nullable: false),
+                    PercentageCdi = table.Column<double>(type: "float", nullable: true),
+                    UpdateValueWithCdiIndex = table.Column<bool>(type: "bit", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     CreationDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdateDateTime = table.Column<DateTime>(type: "datetime2", nullable: true)
@@ -341,8 +341,8 @@ namespace FinanceApp.EntityFramework.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CurrentValue = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    MonthlyGrossIncome = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    CurrentValue = table.Column<double>(type: "float", nullable: false),
+                    MonthlyGrossIncome = table.Column<double>(type: "float", nullable: false),
                     AnniversaryWithdraw = table.Column<bool>(type: "bit", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     CreationDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -367,7 +367,7 @@ namespace FinanceApp.EntityFramework.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Recurrence = table.Column<int>(type: "int", nullable: false),
-                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Amount = table.Column<double>(type: "float", nullable: false),
                     InitialDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsEndless = table.Column<bool>(type: "bit", nullable: false),
@@ -396,8 +396,8 @@ namespace FinanceApp.EntityFramework.Migrations
                     InitialDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     MonthsPayment = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LoanValue = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    InterestRate = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    LoanValue = table.Column<double>(type: "float", nullable: false),
+                    InterestRate = table.Column<double>(type: "float", nullable: false),
                     Type = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     CreationDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -422,11 +422,11 @@ namespace FinanceApp.EntityFramework.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Type = table.Column<int>(type: "int", nullable: false),
-                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Amount = table.Column<double>(type: "float", nullable: false),
                     Index = table.Column<int>(type: "int", nullable: false),
                     PreFixedInvestment = table.Column<bool>(type: "bit", nullable: false),
-                    IndexPercentage = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    AdditionalFixedInterest = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    IndexPercentage = table.Column<double>(type: "float", nullable: false),
+                    AdditionalFixedInterest = table.Column<double>(type: "float", nullable: false),
                     InvestmentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ExpirationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LiquidityOnExpiration = table.Column<bool>(type: "bit", nullable: false),
@@ -452,11 +452,11 @@ namespace FinanceApp.EntityFramework.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Type = table.Column<int>(type: "int", nullable: false),
-                    UnitPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    UnitPrice = table.Column<double>(type: "float", nullable: false),
                     ExpirationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     InvestmentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Operation = table.Column<int>(type: "int", nullable: false),
-                    Quantity = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Quantity = table.Column<double>(type: "float", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     CreationDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdateDateTime = table.Column<DateTime>(type: "datetime2", nullable: true)
@@ -480,7 +480,7 @@ namespace FinanceApp.EntityFramework.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Recurrence = table.Column<int>(type: "int", nullable: false),
-                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Amount = table.Column<double>(type: "float", nullable: false),
                     InitialDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsEndless = table.Column<bool>(type: "bit", nullable: false),
@@ -517,7 +517,7 @@ namespace FinanceApp.EntityFramework.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { 1, 0, "30af01d6-7425-47de-ac5e-41d0089995d1", "admin@admin.com", true, false, null, "ADMIN@ADMIN.COM", "ADMIN", "AQAAAAEAACcQAAAAEPinnTrE2M1ISPOug61zuZb4Cb96H5lLf1tJEeN5/gfPOFuHBV7PXTGy2QlbPmE0FA==", null, false, "b295bdcd-c47d-40bb-98cc-86aae45f9965", false, "admin" });
+                values: new object[] { 1, 0, "4fd6ea0c-a105-4735-b798-2697b8ed655b", "admin@admin.com", true, false, null, "ADMIN@ADMIN.COM", "ADMIN", "AQAAAAEAACcQAAAAEIp5W+ddwEkjHyA5gTEOC2JAJbgDtIIVuUHKOaQjmctiZ8X/Mj6pw/BK2fLPfT8JqA==", null, false, "75cc7cd1-6a07-4895-9706-acee6ed70e30", false, "admin" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

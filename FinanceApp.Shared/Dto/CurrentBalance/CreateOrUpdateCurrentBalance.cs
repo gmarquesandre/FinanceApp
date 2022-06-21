@@ -5,7 +5,7 @@ namespace FinanceApp.Shared.Dto.CurrentBalance
     public class CreateOrUpdateCurrentBalance : UpdateDto
     {
 
-        public decimal CurrentBalance { get; set; }
+        public double CurrentBalance { get; set; }
 
     }
 }

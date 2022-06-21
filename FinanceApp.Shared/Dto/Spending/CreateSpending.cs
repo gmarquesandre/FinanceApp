@@ -7,7 +7,7 @@ namespace FinanceApp.Shared.Dto.Spending
     public class CreateSpending : CreateDto
     {
         public string Name { get; set; }
-        public decimal Amount { get; set; }
+        public double Amount { get; set; }
         public DateTime InitialDate { get; set; }
         public EPayment Payment { get; set; }
         public int? CreditCardId { get; set; }

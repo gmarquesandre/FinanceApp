@@ -4,8 +4,8 @@ namespace FinanceApp.Shared.Models.UserTables
 {
     public class FGTS : UserTable
     {
-        public decimal CurrentValue { get; set; }
-        public decimal MonthlyGrossIncome { get; set; }
+        public double CurrentValue { get; set; }
+        public double MonthlyGrossIncome { get; set; }
         public bool AnniversaryWithdraw { get; set; }
     }
 }

@@ -15,7 +15,7 @@ namespace FinanceApp.Shared.Dto.Spending
         public string RecurrenceDisplayValue => EnumHelper<ERecurrence>.GetDisplayValue(Recurrence);
         public CategoryDto? Category { get; set; }
         public bool IsRequired { get; set; }
-        public decimal Amount { get; set; }
+        public double Amount { get; set; }
         public DateTime InitialDate { get; set; }
         public DateTime? EndDate { get; set; }
         public bool IsEndless { get; set; }

@@ -112,8 +112,8 @@ namespace FinanceApp.Core.Importers
                     LastUpdateDateTime = dateLastUpdate,
                     Description = description,
                     Type = EnumHelper<ETreasuryBond>.GetValueFromName(titleName),
-                    UnitPriceBuy = Convert.ToDecimal(unitPriceBuy, _cultureInvariant),
-                    UnitPriceSell = Convert.ToDecimal(unitPriceSell, _cultureInvariant)                    
+                    UnitPriceBuy = Convert.ToDouble(unitPriceBuy, _cultureInvariant),
+                    UnitPriceSell = Convert.ToDouble(unitPriceSell, _cultureInvariant)                    
                 });
             }
         }
@@ -209,8 +209,8 @@ namespace FinanceApp.Core.Importers
                 ExpirationDate = Convert.ToDateTime(a[expirationDate].Replace("\"", ""), _cultureInfoPtBr),
                 FixedInterestValueBuy = Convert.ToDouble(a[interestRateBuy].Replace(",", "."), _cultureInvariant),
                 FixedInterestValueSell = Convert.ToDouble(a[interestRateSell].Replace(",", "."), _cultureInvariant),
-                UnitPriceBuy = Convert.ToDecimal(a[unitPriceBuy].Replace(",","."), _cultureInvariant),
-                UnitPriceSell = Convert.ToDecimal(a[unitPriceSell].Replace(",", "."), _cultureInvariant),
+                UnitPriceBuy = Convert.ToDouble(a[unitPriceBuy].Replace(",","."), _cultureInvariant),
+                UnitPriceSell = Convert.ToDouble(a[unitPriceSell].Replace(",", "."), _cultureInvariant),
                 
                 //DateEnd = Convert.ToDateTime(a[dateEndIndex].Replace("\"", ""), _cultureInfoPtBr),
                 //    Index = index,

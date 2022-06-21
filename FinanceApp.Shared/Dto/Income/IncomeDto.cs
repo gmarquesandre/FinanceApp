@@ -9,7 +9,7 @@ namespace FinanceApp.Shared.Dto.Income
         public string Name { get; set; }
         public ERecurrence Recurrence { get; set; }
         public string RecurrenceDisplayValue => EnumHelper<ERecurrence>.GetDisplayValue(Recurrence);
-        public decimal Amount { get; set; }
+        public double Amount { get; set; }
         public DateTime InitialDate { get; set; }
         public DateTime? EndDate { get; set; }
         public bool IsEndless { get; set; }

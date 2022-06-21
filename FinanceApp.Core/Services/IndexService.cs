@@ -126,7 +126,11 @@ namespace FinanceApp.Core.Services
             }
 
             if (dateEnd.HasValue)
-                return valuesDto.Where(a => a.Date >= dateStart && a.Date <= dateEnd).ToList();
+            {
+
+                var returnValues = valuesDto.Where(a => a.Date >= dateStart && a.Date <= dateEnd).ToList();
+                return returnValues;
+            }
 
             return valuesDto.Where(a => a.Date >= dateStart).ToList();
 
@@ -235,9 +239,8 @@ namespace FinanceApp.Core.Services
                 .Select(a => a.Value * indexPercentage)
                 .ToList()
                 .ForEach(a => cumIndexValue *= (1 + a));
-
-
-            if (dateEnd.AddDays( index == EIndex.CDI ? -2 :-1) > indexLastValue.Date)
+            //Alterar para add business days
+            if (await _datesService.AddWorkingDays(dateEnd, -1) > indexLastValue.Date)
             {
                 var prospect = await GetIndexProspect(index);
 

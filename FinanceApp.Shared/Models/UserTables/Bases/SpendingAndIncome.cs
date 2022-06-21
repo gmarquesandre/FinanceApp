@@ -9,7 +9,7 @@ namespace FinanceApp.Shared.Models.UserTables.Bases
         public string Name { get; set; }
         [Required]
         public ERecurrence Recurrence { get; set; }
-        public decimal Amount { get; set; }
+        public double Amount { get; set; }
         public DateTime InitialDate { get; set; }
         public DateTime? EndDate { get; set; }
         public bool IsEndless { get; set; }

@@ -11,8 +11,8 @@ namespace FinanceApp.Shared.Models.CommonTables
         public string AssetCode { get; set; }
         public EAssetType TypeAsset { get; set; }
         public string CompanyName { get; set; }
-        public decimal UnitPrice { get; set; }
+        public double UnitPrice { get; set; }
         public DateTime Date { get; set; }
-        public decimal OpeningPrice { get; set; }
+        public double OpeningPrice { get; set; }
     }
 }

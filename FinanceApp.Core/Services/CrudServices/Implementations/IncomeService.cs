@@ -112,7 +112,7 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
             else if (model.Recurrence != ERecurrence.NTimes && model.Recurrence != ERecurrence.Once && model.EndDate == null)
                 throw new Exception("A data final deve ser preenchida");
 
-            else if (model.Amount <= 0.00M)
+            else if (model.Amount <= 0.00)
                 throw new Exception("O valor deve ser maior do que zero");
 
         }

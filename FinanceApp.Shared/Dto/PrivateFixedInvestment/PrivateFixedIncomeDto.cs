@@ -14,15 +14,15 @@ namespace FinanceApp.Shared.Dto.PrivateFixedInvestment
         public ETypePrivateFixedIncome Type { get; set; }
         public string TypeDisplayValue => EnumHelper<ETypePrivateFixedIncome>.GetDisplayValue(Type);
         [Required]
-        public decimal Amount { get; set; }
+        public double Amount { get; set; }
         [Required]
         public EIndex Index { get; set; }
         public string IndexDisplayValue => EnumHelper<EIndex>.GetDisplayValue(Index);
         [Required]
         public bool PreFixedInvestment { get; set; }
         [Required]
-        public decimal IndexPercentage { get; set; }
-        public decimal? AdditionalFixedInterest { get; set; }
+        public double IndexPercentage { get; set; }
+        public double? AdditionalFixedInterest { get; set; }
         [Required]
         public DateTime InvestmentDate { get; set; }
         [Required]

@@ -9,7 +9,7 @@ namespace FinanceApp.Shared.Dto.Spending
         public int Type { get; set; }
         public int Payment { get; set; }
         public int? CreditCardId { get; set; }
-        public decimal Amount { get; set; }
+        public double Amount { get; set; }
         public bool IsRequired { get; set; }
         public int? CategoryId { get; set; }
         public DateTime InitialDate { get; set; }

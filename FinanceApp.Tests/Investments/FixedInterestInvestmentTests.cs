@@ -19,11 +19,11 @@ namespace FinanceApp.Tests.Investments
     {
         private readonly CreatePrivateFixedIncome DefaultNewInvestment = new()
         {
-            AdditionalFixedInterest = 0.00M,
-            Amount = 1000.00M,
+            AdditionalFixedInterest = 0.00,
+            Amount = 1000.00,
             ExpirationDate = DateTime.Now.Date.AddDays(90),
             Index = (int)EIndex.CDI,
-            IndexPercentage = 100.00M,
+            IndexPercentage = 100.00,
             InvestmentDate = DateTime.Now.Date,
             LiquidityOnExpiration = true,
             Name = "Teste",

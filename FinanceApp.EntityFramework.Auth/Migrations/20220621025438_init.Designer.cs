@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinanceApp.EntityFramework.Migrations
 {
     [DbContext(typeof(FinanceContext))]
-    [Migration("20220615025430_init")]
+    [Migration("20220621025438_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -96,15 +96,15 @@ namespace FinanceApp.EntityFramework.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "30af01d6-7425-47de-ac5e-41d0089995d1",
+                            ConcurrencyStamp = "4fd6ea0c-a105-4735-b798-2697b8ed655b",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPinnTrE2M1ISPOug61zuZb4Cb96H5lLf1tJEeN5/gfPOFuHBV7PXTGy2QlbPmE0FA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIp5W+ddwEkjHyA5gTEOC2JAJbgDtIIVuUHKOaQjmctiZ8X/Mj6pw/BK2fLPfT8JqA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "b295bdcd-c47d-40bb-98cc-86aae45f9965",
+                            SecurityStamp = "75cc7cd1-6a07-4895-9706-acee6ed70e30",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
@@ -242,11 +242,11 @@ namespace FinanceApp.EntityFramework.Migrations
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("UnitPriceBuy")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("UnitPriceBuy")
+                        .HasColumnType("float");
 
-                    b.Property<decimal>("UnitPriceSell")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("UnitPriceSell")
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 
@@ -279,11 +279,11 @@ namespace FinanceApp.EntityFramework.Migrations
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("UnitPriceBuy")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("UnitPriceBuy")
+                        .HasColumnType("float");
 
-                    b.Property<decimal>("UnitPriceSell")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("UnitPriceSell")
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 
@@ -391,23 +391,23 @@ namespace FinanceApp.EntityFramework.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<bool>("CdIncome")
-                        .HasColumnType("bit");
-
                     b.Property<DateTime>("CreationDateTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal>("CurrentValue")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal?>("PercentageCdi")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double?>("PercentageCdi")
+                        .HasColumnType("float");
 
                     b.Property<DateTime?>("UpdateDateTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("UpdateValueWithCdiIndex")
+                        .HasColumnType("bit");
+
                     b.Property<int>("UserId")
                         .HasColumnType("int");
+
+                    b.Property<double>("Value")
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 
@@ -430,11 +430,11 @@ namespace FinanceApp.EntityFramework.Migrations
                     b.Property<DateTime>("CreationDateTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal>("CurrentValue")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("CurrentValue")
+                        .HasColumnType("float");
 
-                    b.Property<decimal>("MonthlyGrossIncome")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("MonthlyGrossIncome")
+                        .HasColumnType("float");
 
                     b.Property<DateTime?>("UpdateDateTime")
                         .HasColumnType("datetime2");
@@ -458,8 +458,8 @@ namespace FinanceApp.EntityFramework.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("Amount")
+                        .HasColumnType("float");
 
                     b.Property<DateTime>("CreationDateTime")
                         .HasColumnType("datetime2");
@@ -510,11 +510,11 @@ namespace FinanceApp.EntityFramework.Migrations
                     b.Property<DateTime>("InitialDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal>("InterestRate")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("InterestRate")
+                        .HasColumnType("float");
 
-                    b.Property<decimal>("LoanValue")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("LoanValue")
+                        .HasColumnType("float");
 
                     b.Property<int>("MonthsPayment")
                         .HasColumnType("int");
@@ -547,11 +547,11 @@ namespace FinanceApp.EntityFramework.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<decimal>("AdditionalFixedInterest")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("AdditionalFixedInterest")
+                        .HasColumnType("float");
 
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("Amount")
+                        .HasColumnType("float");
 
                     b.Property<DateTime>("CreationDateTime")
                         .HasColumnType("datetime2");
@@ -562,8 +562,8 @@ namespace FinanceApp.EntityFramework.Migrations
                     b.Property<int>("Index")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("IndexPercentage")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("IndexPercentage")
+                        .HasColumnType("float");
 
                     b.Property<DateTime>("InvestmentDate")
                         .HasColumnType("datetime2");
@@ -602,8 +602,8 @@ namespace FinanceApp.EntityFramework.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("Amount")
+                        .HasColumnType("float");
 
                     b.Property<int?>("CategoryId")
                         .HasColumnType("int");
@@ -676,14 +676,14 @@ namespace FinanceApp.EntityFramework.Migrations
                     b.Property<int>("Operation")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("Quantity")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("Quantity")
+                        .HasColumnType("float");
 
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("UnitPrice")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("UnitPrice")
+                        .HasColumnType("float");
 
                     b.Property<DateTime?>("UpdateDateTime")
                         .HasColumnType("datetime2");

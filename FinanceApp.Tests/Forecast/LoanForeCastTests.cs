@@ -31,13 +31,13 @@
 //             },
 //            };
 //            NumberFormatInfo setPrecision = new();
-//            setPrecision.NumberDecimalDigits = 2;
+//            setPrecision.NumberdoubleDigits = 2;
 
 //            var LoanForecast = new LoanForecast(mapper);
 
 //            var values = LoanForecast.GetLoanSpreadList(list, DateTime.Now.AddMonths(12));
 
-//            decimal valueParcel = values.First().LoanValueMonth;
+//            double valueParcel = values.First().LoanValueMonth;
 
 //            Assert.True(valueParcel.ToString("N", setPrecision) == 393.23.ToString("N", setPrecision));
 //        }
@@ -61,14 +61,14 @@
 //            };
 
 //            NumberFormatInfo setPrecision = new();
-//            setPrecision.NumberDecimalDigits = 2;
+//            setPrecision.NumberdoubleDigits = 2;
 
 //            var LoanForecast = new LoanForecast(mapper);
 
 //            var values = LoanForecast.GetLoanSpreadList(list, DateTime.Now.AddMonths(200));
 
-//            decimal valueParcelFirst = values.First().LoanValueMonth;
-//            decimal valueParcelLast = values.Last().LoanValueMonth;
+//            double valueParcelFirst = values.First().LoanValueMonth;
+//            double valueParcelLast = values.Last().LoanValueMonth;
 
 //            Assert.True(valueParcelFirst.ToString("N", setPrecision) == 465.49.ToString("N", setPrecision));
 //            Assert.True(valueParcelLast.ToString("N", setPrecision) == 307.31.ToString("N", setPrecision));

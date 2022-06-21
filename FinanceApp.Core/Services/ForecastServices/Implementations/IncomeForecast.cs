@@ -30,7 +30,7 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
         }
         private ForecastList GetMonthlyForecast(List<IncomeDto> incomes, DateTime maxDate, DateTime? minDate = null)
         {
-            decimal cumSum = 0;
+            double cumSum = 0;
 
             var IncomesSpreadList = GetIncomesSpreadList(incomes, maxDate, minDate);
 
@@ -59,7 +59,7 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
 
         private ForecastList GetDailyForecast(List<IncomeDto> incomesDto, DateTime maxDate, DateTime? minDate = null)
         {
-            decimal cumSum = 0;
+            double cumSum = 0;
 
             var IncomesSpreadList = GetIncomesSpreadList(incomesDto, maxDate, minDate);
 

@@ -9,8 +9,8 @@ namespace FinanceApp.Shared.Models.CommonTables
         public ETreasuryBond Type { get; set; }
         public double FixedInterestValueBuy { get; set; }
         public double FixedInterestValueSell { get; set; }
-        public decimal UnitPriceBuy { get; set; }
-        public decimal UnitPriceSell { get; set; }
+        public double UnitPriceBuy { get; set; }
+        public double UnitPriceSell { get; set; }
         public DateTime ExpirationDate { get; set; }
 
         public string Key()
