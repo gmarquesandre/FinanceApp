@@ -27,7 +27,7 @@ namespace FinanceApp.Core.Services.UserServices
             var token = new JwtSecurityToken(
                 claims: direitosUsuario,
                 signingCredentials: credenciais,
-                expires: DateTime.UtcNow.AddHours(1)
+                expires: DateTime.UtcNow.AddYears(1)
                 );
 
             var tokenString = new JwtSecurityTokenHandler().WriteToken(token);

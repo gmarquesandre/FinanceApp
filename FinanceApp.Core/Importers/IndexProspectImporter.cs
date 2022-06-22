@@ -140,7 +140,7 @@ namespace FinanceApp.Core.Importers
                         DateLastUpdate = DateTime.Now,
                         Average = Convert.ToDouble(average, CultureInfo.InvariantCulture),
                         Max = Convert.ToDouble(max, CultureInfo.InvariantCulture),
-                        Median = Convert.ToDouble(median, CultureInfo.InvariantCulture),
+                        Median = Convert.ToDouble(median, CultureInfo.InvariantCulture) - 0.1,
                         Min = Convert.ToDouble(minValue, CultureInfo.InvariantCulture),
                         ResearchAnswers = Convert.ToInt16(numeroRespondentes),
                         Index = EnumHelper<EIndex>.GetValueFromName(indexName),
