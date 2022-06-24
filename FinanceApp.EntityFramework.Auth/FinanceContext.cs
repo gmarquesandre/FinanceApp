@@ -34,6 +34,7 @@ namespace FinanceApp.EntityFramework
         public DbSet<ProspectIndexValue> ProspectIndexValues { get; set; }
         public DbSet<Holiday> Holidays { get; set; }
         public DbSet<WorkingDaysByYear> WorkingDaysByYear { get; set; }
+        public DbSet<Asset> Assets { get; set; }
         //public DbSet<TreasuryBondTitle> TreasuryBondTitles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)

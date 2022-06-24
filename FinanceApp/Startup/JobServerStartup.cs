@@ -34,6 +34,9 @@ namespace FinanceApp.Api.Startup
 
             var indexImporter = new IndexImporter(context);
 
+            
+
+            RecurringJob.AddOrUpdate<AssetImporter>("get-asserts", importer => importer.GetAssets(), Cron.Yearly);
             RecurringJob.AddOrUpdate<IndexImporter>("get-indexes", importer => importer.GetIndexes(null, null), "0 0 23 * * ?");
             RecurringJob.AddOrUpdate<IndexProspectImporter>("get-indexes-prospect", importer => importer.GetProspectIndexes(), "0 0 23 * * ?");
             RecurringJob.AddOrUpdate<TreasuryBondImporter>("get-treasury-bond", importer => importer.GetLastValueTreasury(), "0 0 23 * * ?");

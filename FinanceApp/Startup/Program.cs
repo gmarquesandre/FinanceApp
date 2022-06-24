@@ -41,8 +41,8 @@ builder.Services.AddHangfire(configuration => configuration.SetDataCompatibility
 
 builder.Services.AddHangfireServer(configuration =>
 {
-    configuration.Queues = new[] { "default" };
-    configuration.WorkerCount = 5;
+    configuration.Queues = new[] { "default", "asset" };
+    configuration.WorkerCount = 20;
     configuration.ServerName = "Default Server";
 });
 

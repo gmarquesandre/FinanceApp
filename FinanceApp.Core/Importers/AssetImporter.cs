@@ -1,111 +1,176 @@
-﻿//using AngleSharp.Html.Parser;
-//using FinancialApi.WebAPI.Data;
-//using FinancialAPI.Data;
-//using System.Globalization;
-//using System.IO.Compression;
-//using System.Net;
-//using System.Text;
+﻿using AutoMapper;
+using FinanceApp.Core.Importers.Base;
+using FinanceApp.Core.Services;
+using FinanceApp.EntityFramework;
+using FinanceApp.Shared.Models.CommonTables;
+using Hangfire;
+using System.Globalization;
+using System.IO.Compression;
+using System.Net;
+using System.Text;
 
-//namespace FinanceApp.Core.Importers
-//{
-//    public class AssetImporter
-//    {
-//        private FinanceContext _context = new FinanceContext();
-//        private HttpClient _client = new();
-//        private HtmlParser _parser = new();
-//        private CultureInfo _cultureInfo = new("pt-br");
-//        public AssetImporter()
-//        {
+namespace FinanceApp.Core.Importers
+{
+    public class AssetImporter : ImporterBase
+    {
+        private FinanceContext _context;
+        private HttpClient _client = new();
+        private HttpClientHandler _handler;
+        private CultureInfo _cultureInfo = new("pt-br");
+        public IDatesService _dateService;
+        public AssetImporter(FinanceContext context, IDatesService dates): base(context)
+        {
+            _context = context;
+            _dateService = dates;
 
-//        }
+        }
 
-//        public async Task GetAssets(DateTime? date = null)
-//        {
-//            if (date == null)
-//                date = DateTime.Now.Date;
+        [AutomaticRetry(Attempts = 0)]
+        public async Task GetAssets()
+        {
 
-//            string dayMonthYear = date.Value.ToString("ddMMyyyy");
+            var dates = _context.Assets.Select(a => a.Date);
 
-//            var response = await _client.GetAsync($"https://bvmf.bmfbovespa.com.br/InstDados/SerHist/COTAHIST_D{dayMonthYear}.ZIP");
+            DateTime dateStart = new(DateTime.Now.Year, 01, 01);
+            DateTime dateEnd = DateTime.Now;
 
-//            if (response.StatusCode == HttpStatusCode.NotFound)
-//                throw new Exception($"Arquivo não encontrado para a Data {date.Value:dd/MM/yyyy}");
+            for(int year = 2000; year < DateTime.Now.Year; year += 1)
+            {
+                BackgroundJob.Enqueue<AssetImporter>(a => a.GetAssetsWithYear(year));
 
-//            var fileStream = await response.Content.ReadAsStreamAsync();
+            }
 
-//            string fileString = Unzip(fileStream);
+            for (DateTime date = dateStart; date < dateEnd; date = date.AddDays(1))
+            {
+                if (await _dateService.IsHolidayOrWeekend(date))
+                    continue;
 
-//            List<string> rows = fileString.Split('\n').Skip(1).Reverse().Skip(2).ToList();
-
-//            //010 filtro para apenas ações comuns, sem opções
-//            List<Asset> assetList = rows.Where(a => a.Substring(24, 3) == "010").Select(a => MapToAsset(a, date.Value)).ToList();           
-
-
-//            await InserOrUpdateAsset(assetList);
+                BackgroundJob.Enqueue<AssetImporter>(a => a.GetAssetsWithDate(date));
 
 
-//        }
+            }
 
-//        private async Task InserOrUpdateAsset(List<Asset> assetList)
-//        {
-//            var listUpdate = _context
-//                .Assets
-//                .Where(a => assetList
-//                    .Select(a => a.AssetCodeISIN)
-//                    .Contains(a.AssetCodeISIN)
-//                )
-//                .ToList();
+        }
 
-//            var listInsert = assetList
-//                .Where(a => !listUpdate.Select(a => a.AssetCodeISIN).Contains(a.AssetCodeISIN)).ToList();
 
-//            await InsertAsset(listInsert);
+        [AutomaticRetry(Attempts = 0)]
+        [Queue("asset")]
+        public async Task GetAssetsWithYear(int year)
+        {
+            _handler = SetDefaultHttpHandler();
 
-//            await UpdateAsset(listUpdate);
+            _client = new HttpClient(_handler);
 
-//        }
+            //https://www.b3.com.br/pt_br/market-data-e-indices/servicos-de-dados/market-data/historico/mercado-a-vista/series-historicas/
 
-//        private async Task UpdateAsset(List<Asset> listUpdate)
-//        {
-//            _context.UpdateRange(listUpdate);
-//            await _context.SaveChangesAsync();
-//        }
+            //https://bvmf.bmfbovespa.com.br/InstDados/SerHist/COTAHIST_A{year}.ZIP para anuaç
+            var response = await _client.GetAsync($"https://bvmf.bmfbovespa.com.br/InstDados/SerHist/COTAHIST_A{year}.ZIP");
 
-//        private async Task InsertAsset(List<Asset> listInsert)
-//        {
-//            await _context.Assets.AddRangeAsync(listInsert);
-//            await _context.SaveChangesAsync();
-//        }
+            if (response.StatusCode != HttpStatusCode.OK)
+                throw new Exception($"Arquivo não encontrado para o ano {year}");
 
-//        private Asset MapToAsset(string a, DateTime date)
-//        {                       
-//            return new Asset()
-//            {
-//                AssetCode = a.Substring(12, 12).Trim(),
-//                AssetCodeISIN = a.Substring(230, 12),
-//                CompanyName = a.Substring(27, 12).Trim(),
-//                DateLastUpdate = DateTime.ParseExact(a.Substring(2,8),"yyyyMMdd", CultureInfo.InvariantCulture),
-//                UnitPrice = Convert.ToDouble(a.Substring(108, 13)) / 100
-//            };                                
-//        }
+            var fileStream = await response.Content.ReadAsStreamAsync();
 
-//        private string Unzip(Stream streammedFile)
-//        {
-//            StringBuilder resp = new StringBuilder();
+            string fileString = Unzip(fileStream);
 
-//            using (var zip = new ZipArchive(streammedFile, ZipArchiveMode.Read, false, Encoding.GetEncoding("ISO-8859-1")))
-//            {
-//                foreach (var archive in zip.Entries)
-//                {
-//                    var fileExported = archive.Open();
-//                    StreamReader newReader = new StreamReader(fileExported);
+            List<string> rows = fileString.Split('\n').Skip(1).Reverse().Skip(2).ToList();
 
-//                    resp.Append(newReader.ReadToEnd());
-//                }
-//            }
+            //010 filtro para apenas ações comuns, sem opções
+            List<Asset> assetList = rows.Where(a => a.Substring(24, 3) == "010").Select(a => MapToAsset(a)).ToList();
 
-//            return resp.ToString();
-//        }
 
-//    }
-//}
+            await InserOrUpdateAsset(assetList);
+        }
+
+        [AutomaticRetry(Attempts = 0)]
+        [Queue("asset")]
+        public async Task GetAssetsWithDate(DateTime date)
+        {
+            _handler = SetDefaultHttpHandler();
+
+            _client = new HttpClient(_handler);
+
+            string dayMonthYear = date.ToString("ddMMyyyy");
+
+            //https://www.b3.com.br/pt_br/market-data-e-indices/servicos-de-dados/market-data/historico/mercado-a-vista/series-historicas/
+
+            //https://bvmf.bmfbovespa.com.br/InstDados/SerHist/COTAHIST_A{year}.ZIP para anuaç
+            var response = await _client.GetAsync($"https://bvmf.bmfbovespa.com.br/InstDados/SerHist/COTAHIST_D{dayMonthYear}.ZIP");
+
+            if (response.StatusCode != HttpStatusCode.OK)
+                throw new Exception($"Arquivo não encontrado para a Data {date:dd/MM/yyyy}");
+
+            var fileStream = await response.Content.ReadAsStreamAsync();
+
+            string fileString = Unzip(fileStream);
+
+            List<string> rows = fileString.Split('\n').Skip(1).Reverse().Skip(2).ToList();
+
+            //010 filtro para apenas ações comuns, sem opções
+            List<Asset> assetList = rows.Where(a => a.Substring(24, 3) == "010").Select(a => MapToAsset(a)).ToList();
+
+
+            await InserOrUpdateAsset(assetList);
+        }
+
+        private async Task InserOrUpdateAsset(List<Asset> assetList)
+        {
+            var dates = assetList.Select(a => a.Date).ToList();
+
+            var datesAlreadyOnDb = _context.Assets.Select(a => a.Date).ToList();
+
+            var listInsert = assetList.Where(a => !datesAlreadyOnDb.Contains(a.Date)).ToList();
+
+            
+            await InsertAsset(listInsert);
+
+            //await UpdateAsset(listUpdate);
+
+        }
+
+        private async Task UpdateAsset(List<Asset> listUpdate)
+        {
+            _context.UpdateRange(listUpdate);
+            await _context.SaveChangesAsync();
+        }
+
+        private async Task InsertAsset(List<Asset> listInsert)
+        {
+            await _context.Assets.AddRangeAsync(listInsert);
+            await _context.SaveChangesAsync();
+        }
+
+        private static Asset MapToAsset(string a)
+        {
+            return new Asset()
+            {
+                AssetCode = a.Substring(12, 12).Trim(),                
+                AssetCodeISIN = a.Substring(230, 12),
+                
+                
+                CompanyName = a.Substring(27, 12).Trim(),
+                Date = DateTime.ParseExact(a.Substring(2, 8), "yyyyMMdd", CultureInfo.InvariantCulture),
+                UnitPrice = Convert.ToDouble(a.Substring(108, 13)) / 100
+            };
+        }
+
+        private string Unzip(Stream streammedFile)
+        {
+            StringBuilder resp = new StringBuilder();
+
+            using (var zip = new ZipArchive(streammedFile, ZipArchiveMode.Read, false, Encoding.GetEncoding("ISO-8859-1")))
+            {
+                foreach (var archive in zip.Entries)
+                {
+                    var fileExported = archive.Open();
+                    StreamReader newReader = new StreamReader(fileExported);
+
+                    resp.Append(newReader.ReadToEnd());
+                }
+            }
+
+            return resp.ToString();
+        }
+
+    }
+}

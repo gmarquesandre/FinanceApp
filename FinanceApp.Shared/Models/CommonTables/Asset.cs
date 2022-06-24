@@ -13,6 +13,5 @@ namespace FinanceApp.Shared.Models.CommonTables
         public string CompanyName { get; set; }
         public double UnitPrice { get; set; }
         public DateTime Date { get; set; }
-        public double OpeningPrice { get; set; }
     }
 }
