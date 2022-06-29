@@ -36,6 +36,7 @@ namespace FinanceApp.Api.Startup
 
             
 
+            RecurringJob.AddOrUpdate<HolidaysImporter>("get-holidays", importer => importer.GetHolidays(2000, DateTime.Now.Year + 40), Cron.Yearly);
             RecurringJob.AddOrUpdate<AssetImporter>("get-asserts", importer => importer.GetAssets(), Cron.Yearly);
             RecurringJob.AddOrUpdate<IndexImporter>("get-indexes", importer => importer.GetIndexes(null, null), "0 0 23 * * ?");
             RecurringJob.AddOrUpdate<IndexProspectImporter>("get-indexes-prospect", importer => importer.GetProspectIndexes(), "0 0 23 * * ?");

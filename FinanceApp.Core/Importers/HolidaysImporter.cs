@@ -27,7 +27,7 @@ namespace FinanceApp.Core.Importers
             _client = new HttpClient(_handler);
 
             int year = 2001;
-            if (yearStart != null)
+            if (yearStart != null && yearStart.Value >= 2001)
                 year = yearStart.Value;
             DateTime dateUpdate = DateTime.Now;
             DeleteAllValues();
@@ -35,6 +35,7 @@ namespace FinanceApp.Core.Importers
             List<Holiday> holidays = new();
             while (true || (yearEnd.HasValue && year >= yearEnd.Value))
             {
+
                 try
                 {
                     string url = $"https://www.anbima.com.br/feriados/fer_nacionais/{year}.asp";
