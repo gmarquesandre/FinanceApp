@@ -40,8 +40,23 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
 
         public async Task<CurrentBalanceDto> GetAsync(CustomIdentityUser user)
         {
-            var values = await _context.CurrentBalances.FirstOrDefaultAsync(a => a.User.Id == user.Id);
-            return _mapper.Map<CurrentBalanceDto>(values);
+            var value = await _context.CurrentBalances.FirstOrDefaultAsync(a => a.User.Id == user.Id);
+            if (value != null)
+            {
+                return _mapper.Map<CurrentBalanceDto>(value);
+            }
+            else
+            {
+                return new CurrentBalanceDto()
+                {
+                    PercentageCdi = 0.00,
+                    UpdateValueWithCdiIndex = false,
+                    Value = 0.00,
+                    CreationDateTime = new DateTime(1900,1,1),
+                    UpdateDateTime = null
+
+                };
+            }
         }
 
 

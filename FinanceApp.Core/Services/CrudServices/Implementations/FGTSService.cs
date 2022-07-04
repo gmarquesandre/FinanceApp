@@ -40,8 +40,20 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
 
         public async Task<FGTSDto> GetAsync(CustomIdentityUser user)
         {
-            var values = await _context.FGTS.FirstOrDefaultAsync(a => a.User.Id == user.Id);
-            return _mapper.Map<FGTSDto>(values);
+            var value = await _context.FGTS.FirstOrDefaultAsync(a => a.User.Id == user.Id);
+            if (value != null)
+            {
+                return _mapper.Map<FGTSDto>(value);
+            }
+            else
+            {
+                return new FGTSDto()
+                {
+                    AnniversaryWithdraw = false,
+                    CurrentBalance = 0.00,
+                    MonthlyGrossIncome = 0.00                     
+                };
+            }
         }
 
 
