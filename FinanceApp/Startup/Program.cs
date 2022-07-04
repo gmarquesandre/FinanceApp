@@ -3,7 +3,6 @@ using FinanceApp.EntityFramework;
 using FinanceApp.Shared.Models.CommonTables;
 using Hangfire;
 using Hangfire.SqlServer;
-using Hangfire.Storage;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -15,8 +14,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 //builder.Services.AddControllers();
-
-builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews();
 builder.Services.AddSession();
 builder.Services.AddMemoryCache();
@@ -24,9 +21,7 @@ builder.Services.AddMemoryCache();
 builder.Services.RegisterServices(builder.Configuration);
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
 var connectionStringHangfire = builder.Configuration.GetConnectionString("HangfireConnection");
-
 builder.Services.AddHangfire(configuration => configuration.SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
     .UseSimpleAssemblyNameTypeSerializer()
     .UseRecommendedSerializerSettings()
@@ -37,8 +32,6 @@ builder.Services.AddHangfire(configuration => configuration.SetDataCompatibility
         QueuePollInterval = TimeSpan.Zero,
         UseRecommendedIsolationLevel = true
     }));
-
-
 builder.Services.AddHangfireServer(configuration =>
 {
     configuration.Queues = new[] { "default", "asset" };
@@ -53,7 +46,6 @@ builder.Services.AddControllersWithViews()
 
 builder.Services.AddMvc();
 
-
 // Add services to the container.
 builder.Services.AddDbContext<FinanceContext>(options =>
 {
@@ -61,12 +53,12 @@ builder.Services.AddDbContext<FinanceContext>(options =>
 
 });
 builder.Services.AddIdentity<CustomIdentityUser, IdentityRole<int>>(opt =>
-    {
-        //opt.SignIn.RequireConfirmedEmail = true;
-        opt.User.RequireUniqueEmail = true;
-    })
+{
+    //opt.SignIn.RequireConfirmedEmail = true;
+    opt.User.RequireUniqueEmail = true;
+})
     .AddSignInManager()
-  
+
     .AddEntityFrameworkStores<FinanceContext>()
     .AddDefaultTokenProviders();
 
@@ -96,8 +88,11 @@ builder.Services.AddSwaggerGen(c =>
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "FinancialAPI", Version = "v1" });
     c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
 });
-
 builder.Services.AddCors();
+
+
+
+
 
 var app = builder.Build();
 
@@ -112,29 +107,11 @@ app.UseCors(options =>
 app.UseSwagger();
 app.UseSwaggerUI();
 //}
-
 app.UseHangfireDashboard();
 
-app.UseRouting();
-
-app.UseStaticFiles();
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller = Home}"
-);
-
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllers();
-    endpoints.MapHangfireDashboard();
-});
-
-app.UseAuthentication(); 
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
-
-app.MapRazorPages();
-
-app.Services.AddDefaultJobs();
 
 app.Run();
