@@ -49,11 +49,11 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
             {
                 return new CurrentBalanceDto()
                 {
-                    PercentageCdi = 0.00,
+                    PercentageCdi = null,
                     UpdateValueWithCdiIndex = false,
                     Value = 0.00,
                     CreationDateTime = new DateTime(1900,1,1),
-                    UpdateDateTime = null
+                    UpdateDateTime = new DateTime(1900, 1, 1),
 
                 };
             }

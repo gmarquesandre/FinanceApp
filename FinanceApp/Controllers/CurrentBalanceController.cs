@@ -45,7 +45,7 @@ namespace FinanceApp.Api.Controllers
             {
                 var user = await _userManager.GetUserAsync(User);
                 var resultado = await _service.AddOrUpdateAsync(input, user);
-                return Ok(resultado);
+                return Created("", resultado);
             }
             catch (Exception ex)
             {
