@@ -1,11 +1,16 @@
 import 'package:finance_app/global_variables.dart';
-import 'package:finance_app/http/current_balance_client.dart';
-import 'package:finance_app/routes.dart';
+import 'package:finance_app/providers/current_balance_provider.dart';
+import 'package:finance_app/route_generator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(
+      create: (context) => CurrentBalanceProvider(),
+    ),
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -60,12 +65,24 @@ class MyApp extends StatelessWidget {
           disabledBorder: const UnderlineInputBorder(
             borderSide: BorderSide(color: Colors.white, width: 2),
           ),
-          helperStyle: const TextStyle(color: Colors.white),
-          floatingLabelStyle: const TextStyle(color: Colors.white),
-          counterStyle: const TextStyle(color: Colors.white),
-          suffixStyle: const TextStyle(color: Colors.white),
-          errorStyle: const TextStyle(color: Colors.white),
-          prefixStyle: const TextStyle(color: Colors.white),
+          helperStyle: const TextStyle(
+            color: Colors.white,
+          ),
+          floatingLabelStyle: const TextStyle(
+            color: Colors.white,
+          ),
+          counterStyle: const TextStyle(
+            color: Colors.white,
+          ),
+          suffixStyle: const TextStyle(
+            color: Colors.white,
+          ),
+          errorStyle: const TextStyle(
+            color: Colors.white,
+          ),
+          prefixStyle: const TextStyle(
+            color: Colors.white,
+          ),
           labelStyle: const TextStyle(
             color: Colors.white,
           ),
@@ -94,14 +111,22 @@ class MyApp extends StatelessWidget {
           backgroundColor: Colors.blueGrey,
           unselectedItemColor: Colors.white,
           selectedItemColor: Colors.white,
-          unselectedIconTheme: IconThemeData(color: Colors.white, size: 32),
-          selectedIconTheme:
-              IconThemeData(color: Colors.yellowAccent, size: 42),
+          unselectedIconTheme: IconThemeData(
+            color: Colors.white,
+            size: 32,
+          ),
+          selectedIconTheme: IconThemeData(
+            color: Colors.yellowAccent,
+            size: 42,
+          ),
           unselectedLabelStyle: TextStyle(
             color: Colors.white,
             fontSize: 12,
           ),
-          selectedLabelStyle: TextStyle(color: Colors.blue, fontSize: 12),
+          selectedLabelStyle: TextStyle(
+            color: Colors.blue,
+            fontSize: 12,
+          ),
         ),
         dataTableTheme: DataTableThemeData(
           headingRowHeight: 100,
@@ -115,7 +140,9 @@ class MyApp extends StatelessWidget {
           // headingRowColor: MaterialStateProperty.all(Colors.blueGrey),
           dataRowColor: MaterialStateProperty.all(Colors.blueGrey[900]),
         ),
-        iconTheme: const IconThemeData(color: Colors.white),
+        iconTheme: const IconThemeData(
+          color: Colors.white,
+        ),
         cardTheme: const CardTheme(
           color: Colors.blueGrey,
           elevation: 12,
@@ -123,28 +150,108 @@ class MyApp extends StatelessWidget {
         cardColor: Colors.white,
         textTheme: const TextTheme(
           subtitle1: TextStyle(
-              fontSize: 18, fontFamily: 'Roboto', color: Colors.white),
+            fontSize: 18,
+            fontFamily: 'Roboto',
+            color: Colors.white,
+          ),
           subtitle2: TextStyle(
-              fontSize: 18, fontFamily: 'Roboto', color: Colors.white),
+            fontSize: 18,
+            fontFamily: 'Roboto',
+            color: Colors.white,
+          ),
           headline1: TextStyle(
-              fontSize: 24, fontFamily: 'Roboto', color: Colors.white),
+            fontSize: 24,
+            fontFamily: 'Roboto',
+            color: Colors.white,
+          ),
           headline2: TextStyle(
-              fontSize: 24, fontFamily: 'Roboto', color: Colors.white),
+            fontSize: 24,
+            fontFamily: 'Roboto',
+            color: Colors.white,
+          ),
           headline3: TextStyle(
-              fontSize: 24, fontFamily: 'Roboto', color: Colors.white),
+            fontSize: 24,
+            fontFamily: 'Roboto',
+            color: Colors.white,
+          ),
           headline4: TextStyle(
-              fontSize: 24, fontFamily: 'Roboto', color: Colors.white),
+            fontSize: 24,
+            fontFamily: 'Roboto',
+            color: Colors.white,
+          ),
           headline5: TextStyle(
-              fontSize: 24, fontFamily: 'Roboto', color: Colors.white),
+            fontSize: 24,
+            fontFamily: 'Roboto',
+            color: Colors.white,
+          ),
           headline6: TextStyle(
-              fontSize: 24, fontFamily: 'Roboto', color: Colors.white),
+            fontSize: 24,
+            fontFamily: 'Roboto',
+            color: Colors.white,
+          ),
           bodyText1: TextStyle(
-              fontSize: 18, fontFamily: 'Roboto', color: Colors.white),
+            fontSize: 18,
+            fontFamily: 'Roboto',
+            color: Colors.white,
+          ),
           bodyText2: TextStyle(
-              fontSize: 12, fontFamily: 'Roboto', color: Colors.white),
+            fontSize: 12,
+            fontFamily: 'Roboto',
+            color: Colors.white,
+          ),
         ),
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
+    );
+  }
+}
+
+class Popup extends StatelessWidget {
+  const Popup({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Popup example'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: const <Widget>[
+          Text("Erro ao buscar dados"),
+        ],
+      ),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: const Text('Close'),
+        ),
+      ],
+    );
+  }
+}
+
+class MyWidget extends StatelessWidget {
+  const MyWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('bla'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const <Widget>[
+            Text(
+              'ae tiu',
+            ),
+            Text('ae'),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -168,66 +275,26 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-  var client = CurrentBalanceClient();
-  void _incrementCounter() {
-    setState(() async {
-      await client.get();
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
       body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
         child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
+          children: const <Widget>[
             Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
+              'You have pushed the button this many times:',
             ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: () {
+          Navigator.of(context).pushNamed(RouteName.currentBalance);
+        },
         tooltip: 'Increment',
         backgroundColor: Colors.green,
         child: const Icon(Icons.add),
