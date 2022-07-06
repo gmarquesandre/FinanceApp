@@ -64,7 +64,8 @@ class DefaultClient {
         throw Exception('Failed');
       }
     } on Exception catch (_) {
-      navigator.currentState?.pushNamed(RouteName.alert);
+      //Checar se tem internet ou a API que está fora.
+      navigator.currentState?.pushReplacementNamed(RouteName.alert);
       throw Exception('Failed');
     }
   }

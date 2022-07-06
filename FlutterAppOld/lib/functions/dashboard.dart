@@ -81,7 +81,6 @@ Future<List<BalanceMonth>> getDashboardData(BuildContext context) async {
   double spendingTotal = 0;
   double incomeTotal = 0;
 
-
   //Saldo Corrente
   List<BalanceDeposits> currentBalance = [];
   final double currentBalanceValue =
@@ -102,13 +101,11 @@ Future<List<BalanceMonth>> getDashboardData(BuildContext context) async {
   double loanTotal = 0;
 
   for (var date in dates) {
-
     //Ações
     double totalStockValue = listAssetMonthly
         .where((item) => item.date == date)
         .map((e) => e.totalValue)
         .fold(0, (previous, current) => previous + current);
-
 
     //Fundos
     double totalFundValue = listFundMonthly
@@ -131,14 +128,15 @@ Future<List<BalanceMonth>> getDashboardData(BuildContext context) async {
         .map((e) => e.amount)
         .fold(0, (previous, current) => previous + current);
 
-    double spendingMonthRequired = monthValues.where((a) => a.isRequiredSpending == 1)
+    double spendingMonthRequired = monthValues
+        .where((a) => a.isRequiredSpending == 1)
         .map((e) => e.amount)
         .fold(0, (previous, current) => previous + current);
 
-    double incomeMonth =  monthValues.where((element) => element.isSpending == 0)
+    double incomeMonth = monthValues
+        .where((element) => element.isSpending == 0)
         .map((e) => e.amount)
         .fold(0, (previous, current) => previous + current);
-
 
     double result = (incomeMonth - spendingMonth);
     spendingTotal += spendingMonth;
@@ -151,8 +149,9 @@ Future<List<BalanceMonth>> getDashboardData(BuildContext context) async {
 
     double fgtsWithdrawTotal = fgtsList.length == 0
         ? 0
-        : fgtsList.firstWhere((element) => element.date == date).withdrawValueTotal;
-
+        : fgtsList
+            .firstWhere((element) => element.date == date)
+            .withdrawValueTotal;
 
     //Renda Fixa
     double fixedInterestNotLiquidityMonth = listFixedInterestCurrent
@@ -211,20 +210,19 @@ Future<List<BalanceMonth>> getDashboardData(BuildContext context) async {
       },
     );
 
-
-
-    if(fgtsList.length > 0)
-    {
+    if (fgtsList.length > 0) {
       debugPrint("Entrou");
-      double fgtsWithdrawMonth = fgtsList.firstWhere((element) => element.date == date).withdrawValueMonth;
+      double fgtsWithdrawMonth = fgtsList
+          .firstWhere((element) => element.date == date)
+          .withdrawValueMonth;
       debugPrint("Valor FGTS Saque ${fgtsWithdrawMonth.toString()}");
-
 
       debugPrint(balanceList.length.toString());
 
       balanceList.add(
         BalanceDeposits(
-            initialDate: DateTime(date.year, date.month, 10), value: fgtsWithdrawMonth),
+            initialDate: DateTime(date.year, date.month, 10),
+            value: fgtsWithdrawMonth),
       );
 
       debugPrint(balanceList.length.toString());
@@ -249,9 +247,11 @@ Future<List<BalanceMonth>> getDashboardData(BuildContext context) async {
 
     debugPrint(date.toString());
     debugPrint("Antes");
-    balanceList.forEach((b) { debugPrint(b.value.toString()); });
+    balanceList.forEach((b) {
+      debugPrint(b.value.toString());
+    });
 
-    debugPrint("result "+result.toString());
+    debugPrint("result " + result.toString());
     //Provisório. Caso o resultado seja negativo terá que subtrair de outros depósitos.
     if (result > 0) {
       balanceList.add(
@@ -260,24 +260,19 @@ Future<List<BalanceMonth>> getDashboardData(BuildContext context) async {
           value: result,
         ),
       );
-    }
-    else if (result < 0) {
+    } else if (result < 0) {
       double resultRemaining = result;
 
       int lengthBalance = balanceList.length;
 
       for (int i = 0; i <= lengthBalance - 1; i++) {
-
         if (i == lengthBalance - 1) {
           balanceList[i].value += resultRemaining;
-        }
-        else {
+        } else {
           if (balanceList[i].value < resultRemaining.abs()) {
             resultRemaining += balanceList[i].value;
             balanceList[i].value = 0;
-
-          }
-          else if (balanceList[i].value >= resultRemaining.abs()) {
+          } else if (balanceList[i].value >= resultRemaining.abs()) {
             balanceList[i].value += resultRemaining;
             resultRemaining = 0;
             break;
@@ -286,8 +281,9 @@ Future<List<BalanceMonth>> getDashboardData(BuildContext context) async {
       }
     }
     debugPrint("Depois");
-    balanceList.forEach((b) { debugPrint(b.value.toString()); });
-
+    balanceList.forEach((b) {
+      debugPrint(b.value.toString());
+    });
 
     double currentBalanceValue = 0;
 
@@ -303,7 +299,6 @@ Future<List<BalanceMonth>> getDashboardData(BuildContext context) async {
     );
 
     if (updateValueWithCdi) {
-
       //Adicionar variavel de juros quando há dividas
       List<BalanceDepositsFutureValue> balanceCurrentValue =
           await updateBalanceValues(date, balanceList.toList());
@@ -321,18 +316,18 @@ Future<List<BalanceMonth>> getDashboardData(BuildContext context) async {
           .map((e) => e.value)
           .fold(0, (previous, current) => previous + current);
 
-
       debugPrint("Tamanho agora " + balanceList.length.toString());
 
-      balanceList.forEach((element) {debugPrint(element.value.toString());});
+      balanceList.forEach((element) {
+        debugPrint(element.value.toString());
+      });
 
-      debugPrint("Valor " +currentBalanceValue.toString());
+      debugPrint("Valor " + currentBalanceValue.toString());
 
       currentBalance = [];
       currentBalance
           .add(BalanceDeposits(initialDate: date, value: currentBalanceValue));
     }
-
 
     loanTotal = loanMonth + loanTotal;
 
@@ -392,7 +387,6 @@ Future<List<BalanceDepositsFutureValue>> updateBalanceValues(
   //Transforma Indices mensais em diarios
 
   if (balanceList.length == 0) return [];
-
 
   final IndexLastValueDao _daoLastValueIndex = IndexLastValueDao();
 
@@ -521,8 +515,7 @@ Future<List<FgtsBalance>> getFgts(List<DateTime> dates) async {
           value = value - withdrawValue;
 
           withdrawValueTotal = withdrawValueTotal + withdrawValue;
-        }
-        else{
+        } else {
           withdrawValueMonth = 0;
         }
 
@@ -686,5 +679,3 @@ Future<List<LoanMonthly>> getLoanMonthly(List<DateTime> dates) async {
 
   return list;
 }
-
-

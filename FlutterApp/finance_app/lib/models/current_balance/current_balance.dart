@@ -13,6 +13,16 @@ class CurrentBalance {
     required this.updateValueWithCdiIndex,
   });
 
+  factory CurrentBalance.copyWith(CurrentBalance element) {
+    return CurrentBalance(
+      percentageCdi: element.percentageCdi,
+      updateDateTime: element.updateDateTime,
+      value: element.value,
+      creationDateTime: element.creationDateTime,
+      updateValueWithCdiIndex: element.updateValueWithCdiIndex,
+    );
+  }
+
   CurrentBalance.fromJson(Map<String, dynamic> json)
       : creationDateTime =
             DateTime.tryParse(json['creationDateTime'].toString())!,
