@@ -58,14 +58,14 @@ class DefaultClient {
         //Tenta logar novamente
 
         //Enviar para tela de login
-        navigator.currentState?.pushReplacementNamed(RouteName.home);
+        // navigator.currentState?.pushReplacementNamed(RouteName.home);
         throw Exception('Failed');
       } else {
         throw Exception('Failed');
       }
     } on Exception catch (_) {
       //Checar se tem internet ou a API que está fora.
-      navigator.currentState?.pushReplacementNamed(RouteName.alert);
+      navigator.currentState?.pushNamed(RouteName.alert);
       throw Exception('Failed');
     }
   }

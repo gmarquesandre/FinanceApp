@@ -12,21 +12,10 @@ class IncomeClient {
   Future<List<Income>> get() async {
     var responseJson = await client.getMany('$controller/Get');
 
-    var itens =
+    var items =
         responseJson.map((dynamic json) => Income.fromJson(json)).toList();
 
-    itens.add(Income(
-      name: 'a',
-      recurrence: 1,
-      recurrenceDisplayValue: "aquela",
-      amount: 150.12,
-      initialDate: DateTime.now(),
-      endDate: null,
-      isEndless: true,
-      timesRecurrence: 1,
-    ));
-
-    return itens;
+    return items;
   }
 
   dynamic myEncode(dynamic item) {
@@ -40,8 +29,8 @@ class IncomeClient {
     final String body = jsonEncode(item, toEncodable: myEncode);
 
     final String path = '$controller/Create';
-    var teste = client.create(path, body);
+    var success = client.create(path, body);
 
-    return teste;
+    return success;
   }
 }

@@ -22,7 +22,7 @@ namespace FinanceApp.Api.Controllers
 
         [HttpGet("Get")]
         [Authorize]
-        public async Task<IActionResult> GetInvestmentsAsync()
+        public async Task<IActionResult> GetsAsync()
         {
             try
             {
@@ -40,7 +40,7 @@ namespace FinanceApp.Api.Controllers
 
         [HttpGet("Get/{id:int}")]
         [Authorize]
-        public async Task<IActionResult> GetInvestmentsAsync(int id)
+        public async Task<IActionResult> GetsAsync(int id)
         {
             try
             {
@@ -57,7 +57,7 @@ namespace FinanceApp.Api.Controllers
 
         [HttpPost("Create")]
         [Authorize]
-        public async Task<IActionResult> AddInvestment(CreateIncome input)
+        public async Task<IActionResult> Add(CreateIncome input)
         {
             try
             {
@@ -73,7 +73,7 @@ namespace FinanceApp.Api.Controllers
 
         [HttpDelete("Delete/{id:int}")]
         [Authorize]
-        public async Task<IActionResult> DeleteInvestment(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             try
             {
@@ -91,7 +91,7 @@ namespace FinanceApp.Api.Controllers
 
         [HttpPut("Update")]
         [Authorize]
-        public async Task<IActionResult> UpdateInvestment(UpdateIncome input)
+        public async Task<IActionResult> Update(UpdateIncome input)
         {
             try
             {
