@@ -4,8 +4,9 @@ class Progress extends StatelessWidget {
   final String message;
 
   const Progress({
+    Key? key,
     this.message = 'Carregando',
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

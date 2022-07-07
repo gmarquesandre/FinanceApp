@@ -38,7 +38,6 @@ class _IncomeFormState extends State<IncomeForm> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     recurrenceList = CommonLists.recurrenceList;
 
@@ -132,7 +131,7 @@ class _IncomeFormState extends State<IncomeForm> {
                       }
                       return null;
                     },
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Recorrência',
                     ),
                     items: recurrenceList.map<DropdownMenuItem<Recurrence>>(
@@ -153,7 +152,7 @@ class _IncomeFormState extends State<IncomeForm> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
-                  child: new TextFormField(
+                  child: TextFormField(
                     readOnly: true,
                     validator: (value) {
                       if (value == '') {
@@ -163,7 +162,7 @@ class _IncomeFormState extends State<IncomeForm> {
                     },
                     controller: _initialDateController,
                     onTap: () async {
-                      FocusScope.of(context).requestFocus(new FocusNode());
+                      FocusScope.of(context).requestFocus(FocusNode());
                       final DateTime? picked = await showDatePicker(
                         context: (context),
                         initialDate: _dateTimeInitial == null
@@ -199,7 +198,7 @@ class _IncomeFormState extends State<IncomeForm> {
                       children: <Widget>[
                         RadioListTile(
                           groupValue: radioItem,
-                          title: Text(
+                          title: const Text(
                             'Número de Recorrencias',
                           ),
                           value: 'recurrenceNumber',
@@ -211,7 +210,7 @@ class _IncomeFormState extends State<IncomeForm> {
                         ),
                         RadioListTile(
                           groupValue: radioItem,
-                          title: Text(
+                          title: const Text(
                             'Data Final',
                           ),
                           value: 'endDate',
@@ -224,7 +223,7 @@ class _IncomeFormState extends State<IncomeForm> {
                         ),
                         RadioListTile(
                           groupValue: radioItem,
-                          title: Text(
+                          title: const Text(
                             'Para Sempre',
                           ),
                           value: 'forever',
@@ -248,15 +247,15 @@ class _IncomeFormState extends State<IncomeForm> {
                     padding: const EdgeInsets.only(top: 8.0),
                     child: TextFormField(
                       validator: (value) {
-                        if (value == '' || value == null)
+                        if (value == '' || value == null) {
                           return 'É necessario um número';
-                        else if (int.tryParse(value)! <= 1) {
+                        } else if (int.tryParse(value)! <= 1) {
                           return 'Recorrencia deve ser maior que 1';
                         }
                         return null;
                       },
                       controller: _timesRecurrenceController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Número de recorrencias',
                       ),
                       keyboardType: TextInputType.number,
@@ -272,7 +271,7 @@ class _IncomeFormState extends State<IncomeForm> {
                       radioItem == 'endDate',
                   child: Padding(
                     padding: const EdgeInsets.only(top: 8.0),
-                    child: new TextFormField(
+                    child: TextFormField(
                       validator: (value) {
                         if (value == '') {
                           return 'Insira a data final';
@@ -281,7 +280,7 @@ class _IncomeFormState extends State<IncomeForm> {
                       },
                       controller: _endDateController,
                       onTap: () async {
-                        FocusScope.of(context).requestFocus(new FocusNode());
+                        FocusScope.of(context).requestFocus(FocusNode());
                         final DateTime? picked = await showDatePicker(
                           context: (context),
                           initialDate: DateTime.now(),
@@ -296,7 +295,7 @@ class _IncomeFormState extends State<IncomeForm> {
                         _endDateController.text =
                             DateFormat('dd/MM/yyyy').format(_dateTimeFinal!);
                       },
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Data Final',
                       ),
                     ),

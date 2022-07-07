@@ -3,6 +3,8 @@ import 'package:finance_app/screens/income/income_list.dart';
 import 'package:flutter/material.dart';
 
 class Dashboard extends StatefulWidget {
+  const Dashboard({Key? key}) : super(key: key);
+
   @override
   State<Dashboard> createState() => _DashboardState();
 }
@@ -41,14 +43,14 @@ class _DashboardState extends State<Dashboard> {
   Widget _getBody(int index) {
     switch (index) {
       case 1:
-        return _HomeScreen();
+        return const _HomeScreen();
       case 0:
         return _TabList(); // Create this function, it should return your first page as a widget
       // case 2:
       //   return PreDashboardScreen(); // Create this function, it should return your second page as a widget
     }
 
-    return Center(
+    return const Center(
       child: Text("There is no page builder for this index."),
     );
   }
@@ -126,14 +128,14 @@ class _TabList extends StatelessWidget {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Cadastros"),
+          title: const Text("Cadastros"),
           bottom: TabBar(
             indicatorColor: Colors.blueGrey,
             isScrollable: true,
             onTap: (value) {
               debugPrint(value.toString());
             },
-            tabs: [
+            tabs: const [
               Tab(text: "Saldo Corrente"),
               Tab(text: "Rendas"),
               // Tab(text: "Gastos"),
@@ -148,7 +150,7 @@ class _TabList extends StatelessWidget {
         ),
         body: TabBarView(
           children: [
-            CurrentBalanceForm(),
+            const CurrentBalanceForm(),
             IncomeList(),
             // SpendingList(),
             // TreasuryList(),

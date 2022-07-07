@@ -51,7 +51,7 @@ class Popup extends StatelessWidget {
       actions: <Widget>[
         TextButton(
           onPressed: () {
-            Navigator.of(context).pop();
+            Navigator.of(context).pushNamed(RouteName.dashboard);
           },
           child: const Text('Close'),
         ),

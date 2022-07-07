@@ -93,21 +93,20 @@ class CurrentBalanceFormState extends State<CurrentBalanceForm> {
                         keyboardType: const TextInputType.numberWithOptions(
                             decimal: true),
                         controller: _value,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Saldo Conta Corrente Atual',
                         ),
                       ),
                     ),
                     _date.year <= 1970
-                        ? Text("")
+                        ? const Text("")
                         : Text(
-                            "Ultima Atualização " +
-                                DateFormat("dd/MM/yyyy").format(_date),
+                            "Ultima Atualização ${DateFormat("dd/MM/yyyy").format(_date)}",
                           ),
                     CheckboxListTile(
-                      contentPadding: EdgeInsets.all(0),
+                      contentPadding: const EdgeInsets.all(0),
                       controlAffinity: ListTileControlAffinity.leading,
-                      title: Text("Atualizar Saldo pelo CDI"),
+                      title: const Text("Atualizar Saldo pelo CDI"),
                       //    <-- label
                       value: _updateValueWithCdi,
                       onChanged: (bool? value) {
@@ -121,12 +120,12 @@ class CurrentBalanceFormState extends State<CurrentBalanceForm> {
                       child: SizedBox(
                         width: double.maxFinite,
                         child: ElevatedButton(
-                          child: Text('Atualizar'),
+                          child: const Text('Atualizar'),
                           onPressed: () async {
                             bool success = await storeValue();
                             if (success) {
-                              var snackBar = SnackBar(
-                                duration: const Duration(seconds: 2),
+                              var snackBar = const SnackBar(
+                                duration: Duration(seconds: 2),
                                 content: Text('Atualizado Com Sucesso.'),
                               );
                               ScaffoldMessenger.of(context)
