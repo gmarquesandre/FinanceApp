@@ -30,23 +30,22 @@ namespace FinanceApp.Core.Services.ForecastServices
             _titleService = titleService;
         }
 
-        public async Task<List<ForecastList>> GetForecast(CustomIdentityUser user)
+        public async Task<List<ForecastList>> GetForecast()
         {
 
             var forecastTotalList = new List<ForecastItem>();
 
             DateTime maxYearMonth = new DateTime(DateTime.Now.Date.Year, DateTime.Now.Date.Month, 1).AddMonths(13).AddDays(-1);
 
-            var spendingsDaily = await _spendingService.GetForecast(user, EForecastType.Daily, maxYearMonth);
-            var incomesDaily = await _incomeService.GetForecast(user, EForecastType.Daily, maxYearMonth);
-            var loanDaily = await _loanService.GetForecast(user, EForecastType.Daily, maxYearMonth);
+            var spendingsDaily = await _spendingService.GetForecast(EForecastType.Daily, maxYearMonth);
+            var incomesDaily = await _incomeService.GetForecast(EForecastType.Daily, maxYearMonth);
+            var loanDaily = await _loanService.GetForecast(EForecastType.Daily, maxYearMonth);
 
-            var balance = await _currentBalanceService.GetAsync(user);
+            var balance = await _currentBalanceService.GetAsync();
 
             var balanceTitlesList = new List<DefaultTitleInput>();
 
-            double valor = 0;
-
+            
             bool updateValueWithCdiIndex = balance.UpdateValueWithCdiIndex;
 
             double percentageCdi = balance.PercentageCdi ?? 1.00;

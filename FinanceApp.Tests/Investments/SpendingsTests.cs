@@ -40,7 +40,7 @@
 //        }
 
 //        [Fact]
-//        public async Task<(FinanceContext userContext, CustomIdentityUser user, Spending investment)> MustAddInvestment()
+//        public async Task<(FinanceContext userContext, Spending investment)> MustAddInvestment()
 //        {
 //            var userContext = await CreateFinanceContext();
 
@@ -50,7 +50,7 @@
 
 //            SpendingService service = GetSpendingService(userContext);
 
-//            await service.AddAsync(investment, user);
+//            await service.AddAsync(investment);
 
 //            var investments = await userContext.Spendings.AsNoTracking().ToListAsync();
 
@@ -73,7 +73,7 @@
 
 //            SpendingService service = GetSpendingService(userContext);
 
-//            await service.AddAsync(investment, user);
+//            await service.AddAsync(investment);
 
 //            var investments = await userContext.Spendings.AsNoTracking().ToListAsync();
 
@@ -85,7 +85,7 @@
 //        [Fact]
 //        public async Task MustUpdateInvestment()
 //        {
-//            (FinanceContext userContext, CustomIdentityUser user, Spending investment) = await MustAddInvestment();
+//            (FinanceContext userContext, Spending investment) = await MustAddInvestment();
 
 //            var updateInvestment = new UpdateSpending()
 //            {
@@ -116,7 +116,7 @@
 //        [Fact]
 //        public async Task MustDeleteInvestment()
 //        {
-//            (FinanceContext userContext, CustomIdentityUser user, Spending investment) = await MustAddInvestment();
+//            (FinanceContext userContext, Spending investment) = await MustAddInvestment();
 
 //            var service = GetSpendingService(userContext);
 

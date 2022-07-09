@@ -26,8 +26,8 @@ namespace FinanceApp.Api.Controllers
         {
             try
             {
-                var user = await _userManager.GetUserAsync(User);
-                var resultado = await _service.GetAsync(user);
+                
+                var resultado = await _service.GetAsync();
 
                 return Ok(resultado);
             }
@@ -43,8 +43,8 @@ namespace FinanceApp.Api.Controllers
         {
             try
             {
-                var user = await _userManager.GetUserAsync(User);
-                var resultado = await _service.AddOrUpdateAsync(input, user);
+                
+                var resultado = await _service.AddOrUpdateAsync(input);
                 return Ok(resultado);
             }
             catch (Exception ex)
@@ -59,8 +59,8 @@ namespace FinanceApp.Api.Controllers
         {
             try
             {
-                var user = await _userManager.GetUserAsync(User);
-                var resultado = await _service.DeleteAsync(user);
+                
+                var resultado = await _service.DeleteAsync();
 
                 return Ok(resultado);
             }

@@ -8,11 +8,11 @@ namespace FinanceApp.Core.Services.CrudServices.Interfaces
 {
     public interface ISpendingService : ITransientService
     {
-        Task<SpendingDto> AddAsync(CreateSpending input, CustomIdentityUser user);
-        Task<Result> DeleteAsync(int id, CustomIdentityUser user);
-        Task<List<SpendingDto>> GetAsync(CustomIdentityUser user);
-        Task<SpendingDto> GetAsync(CustomIdentityUser user, int id);
-        Task<Result> UpdateAsync(UpdateSpending input, CustomIdentityUser user);
-        Task<ForecastList> GetForecast(CustomIdentityUser user, EForecastType forecastType, DateTime maxYearMonth);
+        Task<SpendingDto> AddAsync(CreateSpending input);
+        Task<Result> DeleteAsync(int id);
+        Task<List<SpendingDto>> GetAsync();
+        Task<SpendingDto> GetAsync(int id);
+        Task<Result> UpdateAsync(UpdateSpending input);
+        Task<ForecastList> GetForecast(EForecastType forecastType, DateTime maxYearMonth);
     }
 }

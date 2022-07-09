@@ -6,6 +6,7 @@ using FinanceApp.Shared.Dto.FGTS;
 using FinanceApp.Shared.Models.CommonTables;
 using FinanceApp.Shared.Models.UserTables;
 using FluentResults;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 namespace FinanceApp.Core.Services.CrudServices.Implementations
@@ -13,16 +14,16 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
     public class FGTSService : CrudServiceBase, IFGTSService
     {
 
-        public FGTSService(FinanceContext context, IMapper mapper) : base(context, mapper) { }
+        public FGTSService(FinanceContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor) : base(context, mapper, httpContextAccessor) { }
 
-        public async Task<FGTSDto> AddOrUpdateAsync(CreateOrUpdateFGTS input, CustomIdentityUser user)
+        public async Task<FGTSDto> AddOrUpdateAsync(CreateOrUpdateFGTS input)
         {
-            var value = await _context.FGTS.AsNoTracking().FirstOrDefaultAsync(a => a.User.Id == user.Id);
+            var value = await _context.FGTS.AsNoTracking().FirstOrDefaultAsync(a => a.UserId == _httpContextAccessor.HttpContext.User.GetUserId());
             FGTS model = new();
             if (value == null)
             {
                 model = _mapper.Map<FGTS>(input);
-                model.UserId = user.Id;
+                model.UserId = _httpContextAccessor.HttpContext.User.GetUserId();
                 model.CreationDateTime = DateTime.Now;
                 await _context.FGTS.AddAsync(model);
             }
@@ -30,7 +31,7 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
             {
                 model = _mapper.Map<FGTS>(input);
                 model.Id = value.Id;
-                model.UserId = user.Id;
+                model.UserId = _httpContextAccessor.HttpContext.User.GetUserId();
                 _context.FGTS.Update(model);
             }
             await _context.SaveChangesAsync();
@@ -38,9 +39,9 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
 
         }
 
-        public async Task<FGTSDto> GetAsync(CustomIdentityUser user)
+        public async Task<FGTSDto> GetAsync()
         {
-            var value = await _context.FGTS.FirstOrDefaultAsync(a => a.User.Id == user.Id);
+            var value = await _context.FGTS.FirstOrDefaultAsync();
             if (value != null)
             {
                 return _mapper.Map<FGTSDto>(value);
@@ -57,9 +58,9 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
         }
 
 
-        public async Task<Result> DeleteAsync(CustomIdentityUser user)
+        public async Task<Result> DeleteAsync()
         {
-            var investment = await _context.FGTS.FirstOrDefaultAsync(a => a.UserId == user.Id);
+            var investment = await _context.FGTS.FirstOrDefaultAsync();
             if (investment == null)
                 throw new Exception("Não encotrado");
 

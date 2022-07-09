@@ -14,10 +14,7 @@ namespace FinanceApp.EntityFramework
         public FinanceContext(DbContextOptions<FinanceContext> opt, IHttpContextAccessor httpContextAccessor) : base(opt)
         {
             _httpContextAccessor = httpContextAccessor;
-        }
-        public FinanceContext()
-        {
-        }
+        }    
 
         //User Tables
         public DbSet<PrivateFixedIncome> PrivateFixedIncomes { get; set; }
@@ -63,7 +60,14 @@ namespace FinanceApp.EntityFramework
 
             builder.Entity<CurrentBalance>().HasQueryFilter(a => a.UserId == _httpContextAccessor.HttpContext.User.GetUserId());
             builder.Entity<Income>().HasQueryFilter(a => a.UserId == _httpContextAccessor.HttpContext.User.GetUserId());
-
+            builder.Entity<FGTS>().HasQueryFilter(a => a.UserId == _httpContextAccessor.HttpContext.User.GetUserId());
+            builder.Entity<Loan>().HasQueryFilter(a => a.UserId == _httpContextAccessor.HttpContext.User.GetUserId());
+            builder.Entity<CreditCard>().HasQueryFilter(a => a.UserId == _httpContextAccessor.HttpContext.User.GetUserId());
+            builder.Entity<Spending>().HasQueryFilter(a => a.UserId == _httpContextAccessor.HttpContext.User.GetUserId());
+            builder.Entity<TreasuryBond>().HasQueryFilter(a => a.UserId == _httpContextAccessor.HttpContext.User.GetUserId());
+            builder.Entity<PrivateFixedIncome>().HasQueryFilter(a => a.UserId == _httpContextAccessor.HttpContext.User.GetUserId());
+            
+            
             //builder.Entity<IdentityRole<int>>().HasData(
             //    new IdentityRole<int> { Id = 99999, Name = "admin", NormalizedName = "ADMIN" }
             //);

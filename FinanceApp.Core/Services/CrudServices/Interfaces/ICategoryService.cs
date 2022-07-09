@@ -6,10 +6,10 @@ namespace FinanceApp.Core.Services.CrudServices.Interfaces
 {
     public interface ICategoryService : ITransientService
     {
-        Task<CategoryDto> AddAsync(CreateCategory input, CustomIdentityUser user);
-        Task<Result> DeleteAsync(int id, CustomIdentityUser user);
-        Task<List<CategoryDto>> GetAsync(CustomIdentityUser user);
-        Task<CategoryDto> GetAsync(CustomIdentityUser user, int id);
-        Task<Result> UpdateAsync(UpdateCategory input, CustomIdentityUser user);
+        Task<CategoryDto> AddAsync(CreateCategory input);
+        Task<Result> DeleteAsync(int id);
+        Task<List<CategoryDto>> GetAsync();
+        Task<CategoryDto> GetAsync(int id);
+        Task<Result> UpdateAsync(UpdateCategory input);
     }
 }

@@ -9,6 +9,7 @@ using FinanceApp.Shared.Enum;
 using FinanceApp.Shared.Models.CommonTables;
 using FinanceApp.Shared.Models.UserTables;
 using FluentResults;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 namespace FinanceApp.Core.Services.CrudServices.Implementations
@@ -17,47 +18,47 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
     {
 
         public IIncomeForecast _forecast;
-        public IncomeService(FinanceContext context, IMapper mapper, IIncomeForecast forecast) : base(context, mapper) 
+        public IncomeService(FinanceContext context, IMapper mapper, IIncomeForecast forecast, IHttpContextAccessor httpContextAccessor) : base(context, mapper, httpContextAccessor) 
         {
             _forecast = forecast;
         }
 
-        public async Task<IncomeDto> AddAsync(CreateIncome input, CustomIdentityUser user)
+        public async Task<IncomeDto> AddAsync(CreateIncome input)
         {
 
             Income model = _mapper.Map<Income>(input);
 
             CheckValue(model);
 
-            model.UserId = user.Id;
+            model.UserId = _httpContextAccessor.HttpContext.User.GetUserId();
             await _context.Incomes.AddAsync(model);
             await _context.SaveChangesAsync();
             return _mapper.Map<IncomeDto>(model);
 
         }
-        public async Task<ForecastList> GetForecast(CustomIdentityUser user, EForecastType forecastType, DateTime maxYearMonth)
+        public async Task<ForecastList> GetForecast(EForecastType forecastType, DateTime maxYearMonth)
         {
-            var values = await GetAsync(user);
+            var values = await GetAsync();
 
             var forecast = _forecast.GetForecast(values, forecastType, maxYearMonth);
 
             return forecast;
         }
 
-        public async Task<Result> UpdateAsync(UpdateIncome input, CustomIdentityUser user)
+        public async Task<Result> UpdateAsync(UpdateIncome input)
         {
             var oldModel = _context.Incomes.AsNoTracking().FirstOrDefault(x => x.Id == input.Id);
 
             if (oldModel == null)
                 return Result.Fail("Já foi deletado");
-            else if (oldModel.UserId != user.Id)
+            else if (oldModel.UserId != _httpContextAccessor.HttpContext.User.GetUserId())
                 return Result.Fail("Usuário Inválido");
 
             var model = _mapper.Map<Income>(input);
 
             CheckValue(model);
 
-            model.User = user;
+            model.UserId = _httpContextAccessor.HttpContext.User.GetUserId();
             model.CreationDateTime = oldModel.CreationDateTime;
 
             _context.Incomes.Update(model);
@@ -67,15 +68,15 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
 
 
 
-        public async Task<List<IncomeDto>> GetAsync(CustomIdentityUser user)
+        public async Task<List<IncomeDto>> GetAsync()
         {
             var values = await _context.Incomes.ToListAsync();
             return _mapper.Map<List<IncomeDto>>(values);
         }
 
-        public async Task<IncomeDto> GetAsync(CustomIdentityUser user, int id)
+        public async Task<IncomeDto> GetAsync(int id)
         {
-            var value = await _context.Incomes.FirstOrDefaultAsync(a => a.User.Id == user.Id && a.Id == id);
+            var value = await _context.Incomes.FirstOrDefaultAsync();
 
             if (value == null)
                 throw new Exception("Registro Não Encontrado");
@@ -84,7 +85,7 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
 
         }
 
-        public async Task<Result> DeleteAsync(int id, CustomIdentityUser user)
+        public async Task<Result> DeleteAsync(int id)
         {
             var investment = await _context.Incomes.FirstOrDefaultAsync(a => a.Id == id);
 
@@ -93,7 +94,7 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
                 return Result.Fail("Não Encontrado");
             }
 
-            if (investment.UserId != user.Id)
+            if (investment.UserId != _httpContextAccessor.HttpContext.User.GetUserId())
             {
                 return Result.Fail("Usuário Inválido");
             }

@@ -1,25 +1,23 @@
 ﻿using AutoMapper;
+using FinanceApp.Core.Services.CrudServices.Base;
 using FinanceApp.EntityFramework;
 using FinanceApp.Shared.Dto.PrivateFixedInvestment;
 using FinanceApp.Shared.Enum;
 using FinanceApp.Shared.Models.CommonTables;
 using FinanceApp.Shared.Models.UserTables;
 using FluentResults;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 namespace FinanceApp.Core.Services
 {
-    public class PrivateFixedIncomeService
+    public class PrivateFixedIncomeService : CrudServiceBase
     {
-        private FinanceContext _context;
-        private IMapper _mapper;
-        public PrivateFixedIncomeService(FinanceContext context, IMapper mapper) 
-        {
-            _context = context;
-            _mapper = mapper;   
+        public PrivateFixedIncomeService(FinanceContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor) : base(context, mapper, httpContextAccessor)
+        { 
         }
 
-        public async Task<PrivateFixedIncomeDto> AddInvestmentAsync(CreatePrivateFixedIncome input, CustomIdentityUser user)
+        public async Task<PrivateFixedIncomeDto> AddInvestmentAsync(CreatePrivateFixedIncome input)
         {
             PrivateFixedIncome model = _mapper.Map<PrivateFixedIncome>(input);
 
@@ -28,24 +26,22 @@ namespace FinanceApp.Core.Services
             if (model.PreFixedInvestment && model.Index != EIndex.Prefixado)
                 model.Index = EIndex.Prefixado;
 
-            model.UserId = user.Id;
+            model.UserId = _httpContextAccessor.HttpContext.User.GetUserId();
             await _context.PrivateFixedIncomes.AddAsync(model);
             await _context.SaveChangesAsync();
             return _mapper.Map<PrivateFixedIncomeDto>(model);
             
         }
-        public async Task<Result> UpdateInvestmentAsync(UpdatePrivateFixedIncome input, CustomIdentityUser user)
+        public async Task<Result> UpdateInvestmentAsync(UpdatePrivateFixedIncome input)
         {
             var oldModel = _context.PrivateFixedIncomes.AsNoTracking().FirstOrDefault(x => x.Id == input.Id);
 
             if (oldModel == null)
                 return Result.Fail("Já foi deletado");
-            else if (oldModel.UserId != user.Id)
-                return Result.Fail("Usuário Inválido");
 
             var model = _mapper.Map<PrivateFixedIncome>(input);
 
-            model.User = user;
+            model.UserId = _httpContextAccessor.HttpContext.User.GetUserId();
             model.CreationDateTime = oldModel.CreationDateTime;
             
 
@@ -77,12 +73,12 @@ namespace FinanceApp.Core.Services
 
         }
 
-        public async Task<List<PrivateFixedIncomeDto>> GetAllFixedIncomeAsync(CustomIdentityUser user)
+        public async Task<List<PrivateFixedIncomeDto>> GetAllFixedIncomeAsync()
         {
-            var values = await _context.PrivateFixedIncomes.Where(a => a.User.Id == user.Id).ToListAsync();
+            var values = await _context.PrivateFixedIncomes.ToListAsync();
             return _mapper.Map<List<PrivateFixedIncomeDto>>(values);
         }
-        public async Task<Result> DeleteInvestmentAsync(int id, CustomIdentityUser user)
+        public async Task<Result> DeleteInvestmentAsync(int id)
         {
             var investment = await _context.PrivateFixedIncomes.FirstOrDefaultAsync(a => a.Id == id);
 
@@ -91,11 +87,7 @@ namespace FinanceApp.Core.Services
                 return Result.Fail("Não Encontrado");
             }
 
-            if(investment.UserId != user.Id)
-            {
-                return Result.Fail("Usuário Inválido");
-            }
-
+            
             _context.PrivateFixedIncomes.Remove(investment);
             await _context.SaveChangesAsync();
             return Result.Ok().WithSuccess("Investimento deletado");

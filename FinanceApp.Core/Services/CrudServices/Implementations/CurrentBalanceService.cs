@@ -14,19 +14,19 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
 {
     public class CurrentBalanceService : CrudServiceBase, ICurrentBalanceService
     {
-        public IHttpContextAccessor _userContext;
-        public CurrentBalanceService(FinanceContext context, IMapper mapper, IHttpContextAccessor userContext) : base(context, mapper) {
-            _userContext = userContext;
-        }
+        public CurrentBalanceService(FinanceContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor) : base(context, mapper, httpContextAccessor) {}
 
-        public async Task<CurrentBalanceDto> AddOrUpdateAsync(CreateOrUpdateCurrentBalance input, CustomIdentityUser user)
+        public async Task<CurrentBalanceDto> AddOrUpdateAsync(CreateOrUpdateCurrentBalance input)
         {
-            var value = await _context.CurrentBalances.AsNoTracking().FirstOrDefaultAsync(a => a.User.Id == user.Id);
+            var value = await _context.CurrentBalances.AsNoTracking().FirstOrDefaultAsync(a => a.UserId == _httpContextAccessor.HttpContext.User.GetUserId());
+            
+            
+            
             CurrentBalance model = new();
             if (value == null)
             {
                 model = _mapper.Map<CurrentBalance>(input);
-                model.UserId = user.Id;
+                model.UserId = _httpContextAccessor.HttpContext.User.GetUserId();
                 model.CreationDateTime = DateTime.Now;
                 await _context.CurrentBalances.AddAsync(model);
             }
@@ -34,7 +34,7 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
             {
                 model = _mapper.Map<CurrentBalance>(input);
                 model.Id = value.Id;
-                model.UserId = user.Id;
+                model.UserId = _httpContextAccessor.HttpContext.User.GetUserId();
                 _context.CurrentBalances.Update(model);
             }
             await _context.SaveChangesAsync();
@@ -42,7 +42,7 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
 
         }
 
-        public async Task<CurrentBalanceDto> GetAsync(CustomIdentityUser user)
+        public async Task<CurrentBalanceDto> GetAsync()
         {
 
             //string? a = _userContext!.HttpContext!.User!.FindFirst(ClaimTypes.NameIdentifier).Value;
@@ -66,9 +66,9 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
         }
 
 
-        public async Task<Result> DeleteAsync(CustomIdentityUser user)
+        public async Task<Result> DeleteAsync()
         {
-            var investment = await _context.CurrentBalances.FirstOrDefaultAsync(a => a.UserId == user.Id);
+            var investment = await _context.CurrentBalances.FirstOrDefaultAsync(a => a.UserId == _httpContextAccessor.HttpContext.User.GetUserId());
             if (investment == null)
                 throw new Exception("Não encotrado");
 

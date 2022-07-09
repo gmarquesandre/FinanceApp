@@ -7,6 +7,7 @@ using FinanceApp.Shared.Enum;
 using FinanceApp.Shared.Models.CommonTables;
 using FinanceApp.Shared.Models.UserTables;
 using FluentResults;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 namespace FinanceApp.Core.Services.CrudServices.Implementations
@@ -14,32 +15,30 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
     public class TreasuryBondService : CrudServiceBase, ITreasuryBondService
     {
 
-        public TreasuryBondService(FinanceContext context, IMapper mapper) : base(context, mapper) { }
+        public TreasuryBondService(FinanceContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor) : base(context, mapper, httpContextAccessor) { }
 
-        public async Task<TreasuryBondDto> AddAsync(CreateTreasuryBond input, CustomIdentityUser user)
+        public async Task<TreasuryBondDto> AddAsync(CreateTreasuryBond input)
         {
             TreasuryBond model = _mapper.Map<TreasuryBond>(input);
 
             CheckInvestment(model);
 
-            model.UserId = user.Id;
+            model.UserId = _httpContextAccessor.HttpContext.User.GetUserId();
             await _context.TreasuryBonds.AddAsync(model);
             await _context.SaveChangesAsync();
             return _mapper.Map<TreasuryBondDto>(model);
 
         }
-        public async Task<Result> UpdateAsync(UpdateTreasuryBond input, CustomIdentityUser user)
+        public async Task<Result> UpdateAsync(UpdateTreasuryBond input)
         {
             var oldModel = _context.TreasuryBonds.AsNoTracking().FirstOrDefault(x => x.Id == input.Id);
 
             if (oldModel == null)
                 return Result.Fail("Já foi deletado");
-            else if (oldModel.UserId != user.Id)
-                return Result.Fail("Usuário Inválido");
 
             var model = _mapper.Map<TreasuryBond>(input);
 
-            model.User = user;
+            model.UserId = _httpContextAccessor.HttpContext.User.GetUserId();
             model.CreationDateTime = oldModel.CreationDateTime;
 
             CheckInvestment(model);
@@ -69,15 +68,15 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
 
         }
 
-        public async Task<List<TreasuryBondDto>> GetAsync(CustomIdentityUser user)
+        public async Task<List<TreasuryBondDto>> GetAsync()
         {
-            var values = await _context.TreasuryBonds.Where(a => a.User.Id == user.Id).ToListAsync();
+            var values = await _context.TreasuryBonds.ToListAsync();
             return _mapper.Map<List<TreasuryBondDto>>(values);
         }
 
-        public async Task<TreasuryBondDto> GetAsync(CustomIdentityUser user, int id)
+        public async Task<TreasuryBondDto> GetAsync(int id)
         {
-            var value = await _context.TreasuryBonds.FirstOrDefaultAsync(a => a.User.Id == user.Id && a.Id == id);
+            var value = await _context.TreasuryBonds.FirstOrDefaultAsync();
 
             if (value == null)
                 throw new Exception("Registro Não Encontrado");
@@ -86,7 +85,7 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
 
         }
 
-        public async Task<Result> DeleteAsync(int id, CustomIdentityUser user)
+        public async Task<Result> DeleteAsync(int id)
         {
             var investment = await _context.TreasuryBonds.FirstOrDefaultAsync(a => a.Id == id);
 
@@ -95,7 +94,7 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
                 return Result.Fail("Não Encontrado");
             }
 
-            if (investment.UserId != user.Id)
+            if (investment.UserId != _httpContextAccessor.HttpContext.User.GetUserId())
             {
                 return Result.Fail("Usuário Inválido");
             }

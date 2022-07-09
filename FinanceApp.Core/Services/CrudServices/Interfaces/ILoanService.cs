@@ -8,11 +8,11 @@ namespace FinanceApp.Core.Services.CrudServices.Interfaces
 {
     public interface ILoanService : ITransientService
     {
-        Task<LoanDto> AddAsync(CreateLoan input, CustomIdentityUser user);
-        Task<Result> DeleteAsync(int id, CustomIdentityUser user);
-        Task<List<LoanDto>> GetAsync(CustomIdentityUser user);
-        Task<LoanDto> GetAsync(CustomIdentityUser user, int id);
-        Task<Result> UpdateAsync(UpdateLoan input, CustomIdentityUser user);
-        Task<ForecastList> GetForecast(CustomIdentityUser user, EForecastType forecastType, DateTime maxYearMonth);
+        Task<LoanDto> AddAsync(CreateLoan input);
+        Task<Result> DeleteAsync(int id);
+        Task<List<LoanDto>> GetAsync();
+        Task<LoanDto> GetAsync(int id);
+        Task<Result> UpdateAsync(UpdateLoan input);
+        Task<ForecastList> GetForecast(EForecastType forecastType, DateTime maxYearMonth);
     }
 }

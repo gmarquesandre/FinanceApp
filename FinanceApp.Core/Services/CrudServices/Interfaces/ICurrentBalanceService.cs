@@ -6,8 +6,8 @@ namespace FinanceApp.Core.Services.CrudServices.Interfaces
 {
     public interface ICurrentBalanceService : ITransientService
     {
-        Task<CurrentBalanceDto> AddOrUpdateAsync(CreateOrUpdateCurrentBalance input, CustomIdentityUser user);
-        Task<Result> DeleteAsync(CustomIdentityUser user);
-        Task<CurrentBalanceDto> GetAsync(CustomIdentityUser user);
+        Task<CurrentBalanceDto> AddOrUpdateAsync(CreateOrUpdateCurrentBalance input);
+        Task<Result> DeleteAsync();
+        Task<CurrentBalanceDto> GetAsync();
     }
 }

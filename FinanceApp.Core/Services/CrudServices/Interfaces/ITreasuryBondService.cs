@@ -6,10 +6,10 @@ namespace FinanceApp.Core.Services.CrudServices.Interfaces
 {
     public interface ITreasuryBondService : ITransientService
     {
-        Task<TreasuryBondDto> AddAsync(CreateTreasuryBond input, CustomIdentityUser user);
-        Task<Result> DeleteAsync(int id, CustomIdentityUser user);
-        Task<List<TreasuryBondDto>> GetAsync(CustomIdentityUser user);
-        Task<TreasuryBondDto> GetAsync(CustomIdentityUser user, int id);
-        Task<Result> UpdateAsync(UpdateTreasuryBond input, CustomIdentityUser user);
+        Task<TreasuryBondDto> AddAsync(CreateTreasuryBond input);
+        Task<Result> DeleteAsync(int id);
+        Task<List<TreasuryBondDto>> GetAsync();
+        Task<TreasuryBondDto> GetAsync(int id);
+        Task<Result> UpdateAsync(UpdateTreasuryBond input);
     }
 }

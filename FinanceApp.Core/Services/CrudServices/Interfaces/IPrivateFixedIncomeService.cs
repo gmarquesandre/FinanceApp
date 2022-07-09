@@ -6,10 +6,10 @@ namespace FinanceApp.Core.Services.CrudServices.Interfaces
 {
     public interface IPrivateFixedIncomeService : ITransientService
     {
-        Task<PrivateFixedIncomeDto> AddAsync(CreatePrivateFixedIncome input, CustomIdentityUser user);
-        Task<Result> DeleteAsync(int id, CustomIdentityUser user);
-        Task<List<PrivateFixedIncomeDto>> GetAsync(CustomIdentityUser user);
-        Task<PrivateFixedIncomeDto> GetAsync(CustomIdentityUser user, int id);
-        Task<Result> UpdateAsync(UpdatePrivateFixedIncome input, CustomIdentityUser user);
+        Task<PrivateFixedIncomeDto> AddAsync(CreatePrivateFixedIncome input);
+        Task<Result> DeleteAsync(int id);
+        Task<List<PrivateFixedIncomeDto>> GetAsync();
+        Task<PrivateFixedIncomeDto> GetAsync(int id);
+        Task<Result> UpdateAsync(UpdatePrivateFixedIncome input);
     }
 }

@@ -25,8 +25,8 @@ namespace FinanceApp.Api.Controllers
         {
             try
             {
-                var user = await _userManager.GetUserAsync(User);
-                var resultado = await _service.GetForecast(user);
+                
+                var resultado = await _service.GetForecast();
 
                 return Ok(resultado);
             }
