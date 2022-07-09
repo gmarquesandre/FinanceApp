@@ -19,7 +19,7 @@ builder.Services.AddSession();
 builder.Services.AddMemoryCache();
 
 builder.Services.RegisterServices(builder.Configuration);
-
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 var connectionStringHangfire = builder.Configuration.GetConnectionString("HangfireConnection");
 builder.Services.AddHangfire(configuration => configuration.SetDataCompatibilityLevel(CompatibilityLevel.Version_170)

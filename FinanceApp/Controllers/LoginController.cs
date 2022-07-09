@@ -18,9 +18,9 @@ namespace FinanceApp.Api.Controllers
         }
 
         [HttpPost]
-        public IActionResult LogaUsuario(LoginRequestDto request)
+        public async Task<IActionResult> LogaUsuarioAsync(LoginRequestDto request)
         {
-            Result resultado = _loginService.LogaUsuario(request);
+            Result resultado = await _loginService.LogaUsuarioAsync(request);
             if (resultado.IsFailed) return Unauthorized(resultado.Errors);
             return Ok(resultado.Successes);
         }

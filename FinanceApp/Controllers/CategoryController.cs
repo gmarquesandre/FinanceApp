@@ -88,6 +88,22 @@ namespace FinanceApp.Api.Controllers
             }
         }
 
+        [HttpDelete("Delete")]
+        [Authorize]
+        public async Task<IActionResult> DeleteInvestment(List<int> ids)
+        {
+            try
+            {
+                var user = await _userManager.GetUserAsync(User);
+                //var resultado = await _service.DeleteAsync(id, user);
+                return Ok();        
+                //return Ok(resultado);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
         [HttpPut("Update")]
         [Authorize]

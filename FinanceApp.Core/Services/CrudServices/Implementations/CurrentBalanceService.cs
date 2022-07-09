@@ -6,14 +6,18 @@ using FinanceApp.Shared.Dto.CurrentBalance;
 using FinanceApp.Shared.Models.CommonTables;
 using FinanceApp.Shared.Models.UserTables;
 using FluentResults;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace FinanceApp.Core.Services.CrudServices.Implementations
 {
     public class CurrentBalanceService : CrudServiceBase, ICurrentBalanceService
     {
-
-        public CurrentBalanceService(FinanceContext context, IMapper mapper) : base(context, mapper) { }
+        public IHttpContextAccessor _userContext;
+        public CurrentBalanceService(FinanceContext context, IMapper mapper, IHttpContextAccessor userContext) : base(context, mapper) {
+            _userContext = userContext;
+        }
 
         public async Task<CurrentBalanceDto> AddOrUpdateAsync(CreateOrUpdateCurrentBalance input, CustomIdentityUser user)
         {
@@ -40,7 +44,9 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
 
         public async Task<CurrentBalanceDto> GetAsync(CustomIdentityUser user)
         {
-            var value = await _context.CurrentBalances.FirstOrDefaultAsync(a => a.User.Id == user.Id);
+
+            //string? a = _userContext!.HttpContext!.User!.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var value = await _context.CurrentBalances.FirstOrDefaultAsync();
             if (value != null)
             {
                 return _mapper.Map<CurrentBalanceDto>(value);

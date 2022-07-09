@@ -18,11 +18,11 @@ namespace FinanceApp.Core.Services.UserServices
             _tokenService = tokenService;
         }
 
-        public Result LogaUsuario(LoginRequestDto request)
+        public async Task<Result> LogaUsuarioAsync(LoginRequestDto request)
         {
-            var resultadoIdentity = _signInManager
+            var resultadoIdentity = await _signInManager
                 .PasswordSignInAsync(request.Username, request.Password, false, false);
-            if (resultadoIdentity.Result.Succeeded)
+            if (resultadoIdentity.Succeeded)
             {
                 var identityUser = _signInManager
                     .UserManager

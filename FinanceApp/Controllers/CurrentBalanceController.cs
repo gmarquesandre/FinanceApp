@@ -69,5 +69,6 @@ namespace FinanceApp.Api.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
     }
 }

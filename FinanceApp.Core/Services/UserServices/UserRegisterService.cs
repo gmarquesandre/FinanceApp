@@ -36,7 +36,7 @@ namespace FinanceApp.Core.Services.UserServices
             IdentityResult resultadoIdentity = await _userManager
                 .CreateAsync(usuarioIdentity, createDto.Password);
 
-            await _userManager.AddToRoleAsync(usuarioIdentity, "regular");
+            //await _userManager.AddToRoleAsync(usuarioIdentity, "regular");
 
 
             if (resultadoIdentity.Succeeded)

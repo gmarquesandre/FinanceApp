@@ -69,7 +69,7 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
 
         public async Task<List<IncomeDto>> GetAsync(CustomIdentityUser user)
         {
-            var values = await _context.Incomes.Where(a => a.User.Id == user.Id).ToListAsync();
+            var values = await _context.Incomes.ToListAsync();
             return _mapper.Map<List<IncomeDto>>(values);
         }
 

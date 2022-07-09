@@ -6,14 +6,19 @@ using FinanceApp.Shared.Dto.Category;
 using FinanceApp.Shared.Models.CommonTables;
 using FinanceApp.Shared.Models.UserTables;
 using FluentResults;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 namespace FinanceApp.Core.Services.CrudServices.Implementations
 {
     public class CategoryService : CrudServiceBase, ICategoryService
     {
-
-        public CategoryService(FinanceContext context, IMapper mapper) : base(context, mapper) { }
+        public IHttpContextAccessor _userContext;
+        public CategoryService(FinanceContext context, IMapper mapper, IHttpContextAccessor userContext)
+            : base(context, mapper) 
+        {
+            _userContext = userContext;
+        }
 
         public async Task<CategoryDto> AddAsync(CreateCategory input, CustomIdentityUser user)
         {
@@ -49,6 +54,8 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
 
         public async Task<List<CategoryDto>> GetAsync(CustomIdentityUser user)
         {
+            string? a = _userContext!.HttpContext!.User!.Identity!.Name;
+
             var values = await _context.Categories.Where(a => a.User.Id == user.Id).ToListAsync();
             return _mapper.Map<List<CategoryDto>>(values);
         }

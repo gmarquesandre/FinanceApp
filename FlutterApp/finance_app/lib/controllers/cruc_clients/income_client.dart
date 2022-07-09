@@ -26,7 +26,7 @@ class IncomeClient {
   }
 
   Future<bool> create(CreateIncome item) async {
-    final String body = jsonEncode(item, toEncodable: myEncode);
+    final String body = jsonEncode(item.toJson());
 
     final String path = '$controller/Create';
     var success = client.create(path, body);

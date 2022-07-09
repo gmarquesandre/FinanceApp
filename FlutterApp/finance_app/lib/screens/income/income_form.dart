@@ -1,10 +1,9 @@
 import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:finance_app/common_lists.dart';
-import 'package:finance_app/controllers/income_client.dart';
+import 'package:finance_app/controllers/cruc_clients/income_client.dart';
 import 'package:finance_app/models/income/create_income.dart';
 import 'package:finance_app/models/income/income.dart';
 import 'package:finance_app/models/recurrence.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';

@@ -1,4 +1,5 @@
 class Income {
+  int id;
   String name;
   int recurrence;
   String recurrenceDisplayValue;
@@ -9,7 +10,8 @@ class Income {
   int timesRecurrence;
 
   Income(
-      {required this.name,
+      {required this.id,
+      required this.name,
       required this.recurrence,
       required this.recurrenceDisplayValue,
       required this.amount,
@@ -20,6 +22,7 @@ class Income {
 
   factory Income.copyWith(Income element) {
     return Income(
+        id: element.id,
         name: element.name,
         recurrence: element.recurrence,
         recurrenceDisplayValue: element.recurrenceDisplayValue,
@@ -31,7 +34,8 @@ class Income {
   }
 
   Income.fromJson(Map<String, dynamic> json)
-      : name = json['name'].toString(),
+      : id = json['id'],
+        name = json['name'].toString(),
         recurrence = json['recurrence'],
         recurrenceDisplayValue = json['recurrenceDisplayValue'].toString(),
         amount = json['amount'].toDouble(),

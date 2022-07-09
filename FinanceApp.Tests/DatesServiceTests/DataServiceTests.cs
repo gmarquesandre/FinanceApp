@@ -2,7 +2,6 @@ using FinanceApp.Core.Importers;
 using FinanceApp.Core.Services;
 using FinanceApp.Shared.Enum;
 using FinanceApp.Tests.Base;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Linq;
