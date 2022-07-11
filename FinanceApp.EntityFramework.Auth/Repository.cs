@@ -1,4 +1,4 @@
-﻿using FinanceApp.Api;
+﻿using FinanceApp.Shared;
 using FinanceApp.Shared.Models.UserTables;
 using Microsoft.AspNetCore.Http;
 

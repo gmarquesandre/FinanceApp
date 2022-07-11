@@ -1,9 +1,9 @@
 ﻿using FinanceApp.Core.Importers.Base;
-using FinanceApp.Api;
 using FinanceApp.Shared.Models.CommonTables;
 using System.Globalization;
 using System.Net;
 using System.Text.RegularExpressions;
+using FinanceApp.EntityFramework;
 
 namespace FinanceApp.Core.Importers
 {

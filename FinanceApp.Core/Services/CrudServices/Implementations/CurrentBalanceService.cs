@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using FinanceApp.Api;
 using FinanceApp.Core.Services.CrudServices.Base;
 using FinanceApp.Core.Services.CrudServices.Interfaces;
 using FinanceApp.Shared.Dto.CurrentBalance;
@@ -8,6 +7,7 @@ using FluentResults;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using FinanceApp.EntityFramework;
+using FinanceApp.Shared;
 
 namespace FinanceApp.Core.Services.CrudServices.Implementations
 {

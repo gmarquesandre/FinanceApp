@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
 using FinanceApp.Core.Importers.Base;
 using FinanceApp.Core.Services;
-using FinanceApp.Api;
 using FinanceApp.Shared.Models.CommonTables;
 using Hangfire;
 using System.Globalization;
 using System.IO.Compression;
 using System.Net;
 using System.Text;
+using FinanceApp.EntityFramework;
 
 namespace FinanceApp.Core.Importers
 {

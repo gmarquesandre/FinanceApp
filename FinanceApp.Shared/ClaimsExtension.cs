@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 
-namespace FinanceApp.Api
+namespace FinanceApp.Shared
 {
     public static class ClaimsPrincipalExtensions
     {

@@ -1,4 +1,3 @@
-using FinanceApp.Api;
 using FinanceApp.Api.Startup;
 using FinanceApp.Shared.Models.CommonTables;
 using Hangfire;

@@ -1,8 +1,8 @@
 ﻿using FinanceApp.Core.Importers.Base;
-using FinanceApp.Api;
 using FinanceApp.Shared.Enum;
 using FinanceApp.Shared.Models.CommonTables;
 using System.Text;
+using FinanceApp.EntityFramework;
 
 namespace FinanceApp.Core.Importers
 {

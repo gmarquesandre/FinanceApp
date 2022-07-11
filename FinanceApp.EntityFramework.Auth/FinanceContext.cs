@@ -1,4 +1,5 @@
-﻿using FinanceApp.Shared.Models.CommonTables;
+﻿using FinanceApp.Shared;
+using FinanceApp.Shared.Models.CommonTables;
 using FinanceApp.Shared.Models.UserTables;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -6,7 +7,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
-namespace FinanceApp.Api
+namespace FinanceApp.EntityFramework
 {
     public class FinanceContext : IdentityDbContext<CustomIdentityUser, IdentityRole<int>, int>
     {
@@ -64,13 +65,13 @@ namespace FinanceApp.Api
             builder.Entity<CustomIdentityUser>().HasData(admin);
 
 
-            builder.Entity<CurrentBalance>(a => 
+            builder.Entity<CurrentBalance>(a =>
             {
                 //a.Property(a => a.UserId).HasDefaultValue(_httpContextAccessor.HttpContext.User.GetUserId());
                 a.Property(a => a.CreationDateTime).HasDefaultValueSql("getdate()");
                 a.Property(a => a.UpdateDateTime).HasDefaultValueSql("getdate()");
 
-            }); 
+            });
 
             builder.Entity<CurrentBalance>().HasQueryFilter(a => a.UserId == _httpContextAccessor.HttpContext.User.GetUserId());
 
@@ -82,8 +83,8 @@ namespace FinanceApp.Api
             builder.Entity<Spending>().HasQueryFilter(a => a.UserId == _httpContextAccessor.HttpContext.User.GetUserId());
             builder.Entity<TreasuryBond>().HasQueryFilter(a => a.UserId == _httpContextAccessor.HttpContext.User.GetUserId());
             builder.Entity<PrivateFixedIncome>().HasQueryFilter(a => a.UserId == _httpContextAccessor.HttpContext.User.GetUserId());
-            
-            
+
+
             //builder.Entity<IdentityRole<int>>().HasData(
             //    new IdentityRole<int> { Id = 99999, Name = "admin", NormalizedName = "ADMIN" }
             //);
@@ -134,7 +135,7 @@ namespace FinanceApp.Api
 
 
         }
-  
+
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
             if (!options.IsConfigured)

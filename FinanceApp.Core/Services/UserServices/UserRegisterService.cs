@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using FinanceApp.Core.Services.UserServices.Interfaces;
-using FinanceApp.Api;
 using FinanceApp.Shared.Dto;
 using FinanceApp.Shared.Models.CommonTables;
 using FinanceApp.Shared.Models.UserTables;
 using FluentResults;
 using Microsoft.AspNetCore.Identity;
+using FinanceApp.EntityFramework;
 
 namespace FinanceApp.Core.Services.UserServices
 {

@@ -1,11 +1,11 @@
 ﻿using FinanceApp.Core.Importers.Base;
-using FinanceApp.Api;
 using FinanceApp.Shared;
 using FinanceApp.Shared.Enum;
 using FinanceApp.Shared.Models.CommonTables;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
 using System.Globalization;
+using FinanceApp.EntityFramework;
 
 namespace FinanceApp.Core.Importers
 {

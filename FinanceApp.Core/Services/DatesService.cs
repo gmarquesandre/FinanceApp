@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using FinanceApp.Api;
+using FinanceApp.EntityFramework;
 using FinanceApp.Shared;
 using FinanceApp.Shared.Dto;
 using FinanceApp.Shared.Enum;

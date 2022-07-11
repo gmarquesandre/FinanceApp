@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using FinanceApp.Api;
+using FinanceApp.EntityFramework;
 using Microsoft.AspNetCore.Http;
 
 namespace FinanceApp.Core.Services.CrudServices.Base
