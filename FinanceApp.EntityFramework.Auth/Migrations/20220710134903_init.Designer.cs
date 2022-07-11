@@ -4,6 +4,7 @@ using FinanceApp.Api;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinanceApp.Api.Migrations
 {
     [DbContext(typeof(FinanceContext))]
-    partial class FinanceContextModelSnapshot : ModelSnapshot
+    [Migration("20220710134903_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -128,15 +130,15 @@ namespace FinanceApp.Api.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3732a0e6-318f-4cc3-ad4f-5aa5a60c18b0",
+                            ConcurrencyStamp = "ff63be55-dd8d-46e8-8bf7-791cb0aa847d",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMtskipkDHA9QuVV/xyVecCHTdCHEzkXh9haR3siwzx4wA26lXZ2Qa3Yevuw9Bhjeg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEI4joUumZvTQS6V7vapRnYdCu69cuiSUuMkdYuMXPMeQre85aamVo9Z6T4ET6ldnJA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "c2721024-6eb6-45ad-9c48-ffdc53519387",
+                            SecurityStamp = "02f5ed54-2452-4599-9369-c394020f935f",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
@@ -431,16 +433,14 @@ namespace FinanceApp.Api.Migrations
 
                     b.Property<DateTime>("CreationDateTime")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime2");
 
                     b.Property<double?>("PercentageCdi")
                         .HasColumnType("float");
 
                     b.Property<DateTime?>("UpdateDateTime")
                         .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("UpdateValueWithCdiIndex")
                         .HasColumnType("bit");

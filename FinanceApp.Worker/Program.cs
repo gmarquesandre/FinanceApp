@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using FinanceApp.Core.Importers;
-using FinanceApp.EntityFramework;
+using FinanceApp.Api;
 
 Console.WriteLine("boa");
 var context = new FinanceContext();

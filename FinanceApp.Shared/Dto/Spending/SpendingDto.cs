@@ -7,7 +7,6 @@ namespace FinanceApp.Shared.Dto.Spending
 {
     public class SpendingDto : StandardDto
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public ERecurrence Recurrence { get; set; }
         public EPayment Payment { get; set; }

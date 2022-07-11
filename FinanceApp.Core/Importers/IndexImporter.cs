@@ -1,5 +1,5 @@
 ﻿using FinanceApp.Core.Importers.Base;
-using FinanceApp.EntityFramework;
+using FinanceApp.Api;
 using FinanceApp.Shared.Enum;
 using FinanceApp.Shared.Models.CommonTables;
 using System.Text;

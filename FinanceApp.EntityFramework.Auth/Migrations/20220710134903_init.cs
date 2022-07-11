@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace FinanceApp.EntityFramework.Migrations
+namespace FinanceApp.Api.Migrations
 {
     public partial class init : Migration
     {
@@ -48,6 +48,24 @@ namespace FinanceApp.EntityFramework.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Assets",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AssetCodeISIN = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AssetCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TypeAsset = table.Column<int>(type: "int", nullable: false),
+                    CompanyName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UnitPrice = table.Column<double>(type: "float", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Assets", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -517,7 +535,7 @@ namespace FinanceApp.EntityFramework.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { 1, 0, "4fd6ea0c-a105-4735-b798-2697b8ed655b", "admin@admin.com", true, false, null, "ADMIN@ADMIN.COM", "ADMIN", "AQAAAAEAACcQAAAAEIp5W+ddwEkjHyA5gTEOC2JAJbgDtIIVuUHKOaQjmctiZ8X/Mj6pw/BK2fLPfT8JqA==", null, false, "75cc7cd1-6a07-4895-9706-acee6ed70e30", false, "admin" });
+                values: new object[] { 1, 0, "ff63be55-dd8d-46e8-8bf7-791cb0aa847d", "admin@admin.com", true, false, null, "ADMIN@ADMIN.COM", "ADMIN", "AQAAAAEAACcQAAAAEI4joUumZvTQS6V7vapRnYdCu69cuiSUuMkdYuMXPMeQre85aamVo9Z6T4ET6ldnJA==", null, false, "02f5ed54-2452-4599-9369-c394020f935f", false, "admin" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -673,6 +691,9 @@ namespace FinanceApp.EntityFramework.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Assets");
 
             migrationBuilder.DropTable(
                 name: "CurrentBalances");

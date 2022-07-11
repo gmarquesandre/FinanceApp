@@ -2,7 +2,7 @@
 using FinanceApp.Core.Services.CrudServices.Base;
 using FinanceApp.Core.Services.CrudServices.Interfaces;
 using FinanceApp.Core.Services.ForecastServices.Interfaces;
-using FinanceApp.EntityFramework;
+using FinanceApp.Api;
 using FinanceApp.Shared.Dto;
 using FinanceApp.Shared.Dto.Loan;
 using FinanceApp.Shared.Enum;

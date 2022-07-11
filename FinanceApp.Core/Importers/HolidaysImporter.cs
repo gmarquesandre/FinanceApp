@@ -1,5 +1,5 @@
 ﻿using FinanceApp.Core.Importers.Base;
-using FinanceApp.EntityFramework;
+using FinanceApp.Api;
 using FinanceApp.Shared.Models.CommonTables;
 using System.Globalization;
 using System.Net;
@@ -66,7 +66,7 @@ namespace FinanceApp.Core.Importers
 
                     year++;
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     break;
                 }

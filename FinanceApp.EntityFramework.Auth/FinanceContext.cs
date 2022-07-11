@@ -1,12 +1,12 @@
-﻿using FinanceApp.Shared.Dto;
-using FinanceApp.Shared.Models.CommonTables;
+﻿using FinanceApp.Shared.Models.CommonTables;
 using FinanceApp.Shared.Models.UserTables;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
-namespace FinanceApp.EntityFramework
+namespace FinanceApp.Api
 {
     public class FinanceContext : IdentityDbContext<CustomIdentityUser, IdentityRole<int>, int>
     {
@@ -14,7 +14,12 @@ namespace FinanceApp.EntityFramework
         public FinanceContext(DbContextOptions<FinanceContext> opt, IHttpContextAccessor httpContextAccessor) : base(opt)
         {
             _httpContextAccessor = httpContextAccessor;
-        }    
+        }
+
+        public FinanceContext()
+        {
+
+        }
 
         //User Tables
         public DbSet<PrivateFixedIncome> PrivateFixedIncomes { get; set; }
@@ -58,7 +63,18 @@ namespace FinanceApp.EntityFramework
 
             builder.Entity<CustomIdentityUser>().HasData(admin);
 
+
+            builder.Entity<CurrentBalance>(a => 
+            {
+                //a.Property(a => a.UserId).HasDefaultValue(_httpContextAccessor.HttpContext.User.GetUserId());
+                a.Property(a => a.CreationDateTime).HasDefaultValueSql("getdate()");
+                a.Property(a => a.UpdateDateTime).HasDefaultValueSql("getdate()");
+
+            }); 
+
             builder.Entity<CurrentBalance>().HasQueryFilter(a => a.UserId == _httpContextAccessor.HttpContext.User.GetUserId());
+
+
             builder.Entity<Income>().HasQueryFilter(a => a.UserId == _httpContextAccessor.HttpContext.User.GetUserId());
             builder.Entity<FGTS>().HasQueryFilter(a => a.UserId == _httpContextAccessor.HttpContext.User.GetUserId());
             builder.Entity<Loan>().HasQueryFilter(a => a.UserId == _httpContextAccessor.HttpContext.User.GetUserId());
@@ -118,7 +134,7 @@ namespace FinanceApp.EntityFramework
 
 
         }
-
+  
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
             if (!options.IsConfigured)

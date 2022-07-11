@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using FinanceApp.EntityFramework;
+using FinanceApp.Api;
 
 namespace FinanceApp.Core.Services.CrudServices.Base
 {

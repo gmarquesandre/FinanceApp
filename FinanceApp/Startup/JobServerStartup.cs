@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using FinanceApp.Core.Importers;
-using FinanceApp.EntityFramework;
+using FinanceApp.Api;
 using Hangfire;
 using Hangfire.Storage;
 

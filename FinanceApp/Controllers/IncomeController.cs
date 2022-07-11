@@ -45,7 +45,7 @@ namespace FinanceApp.Api.Controllers
             try
             {
                 
-                var resultado = await _service.GetAsync( id);
+                var resultado = await _service.GetAsync(id);
 
                 return Ok(resultado);
             }

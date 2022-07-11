@@ -1,5 +1,5 @@
 ﻿using FinanceApp.Core.Importers.Base;
-using FinanceApp.EntityFramework;
+using FinanceApp.Api;
 using FinanceApp.Shared;
 using FinanceApp.Shared.Enum;
 using FinanceApp.Shared.Models.CommonTables;
@@ -28,7 +28,7 @@ namespace FinanceApp.Core.Importers
             _client = new HttpClient(_handler);
 
             //Swagger da API
-            https://olinda.bcb.gov.br/olinda/servico/Expectativas/versao/v1/swagger-ui3#/
+            //https://olinda.bcb.gov.br/olinda/servico/Expectativas/versao/v1/swagger-ui3#/
 
             await DeleteAllValues();
 

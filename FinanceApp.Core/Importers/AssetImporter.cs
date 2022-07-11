@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using FinanceApp.Core.Importers.Base;
 using FinanceApp.Core.Services;
-using FinanceApp.EntityFramework;
+using FinanceApp.Api;
 using FinanceApp.Shared.Models.CommonTables;
 using Hangfire;
 using System.Globalization;
@@ -13,7 +13,6 @@ namespace FinanceApp.Core.Importers
 {
     public class AssetImporter : ImporterBase
     {
-        private FinanceContext _context;
         private HttpClient _client = new();
         private HttpClientHandler _handler;
         private CultureInfo _cultureInfo = new("pt-br");

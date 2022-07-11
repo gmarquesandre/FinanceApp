@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using FinanceApp.Core.Services.UserServices.Interfaces;
-using FinanceApp.EntityFramework;
+using FinanceApp.Api;
 using FinanceApp.Shared.Dto;
 using FinanceApp.Shared.Models.CommonTables;
 using FinanceApp.Shared.Models.UserTables;

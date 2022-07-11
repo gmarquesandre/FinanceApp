@@ -1,115 +1,115 @@
-using FinanceApp.Core.Importers;
-using FinanceApp.Core.Services;
-using FinanceApp.Shared.Enum;
-using FinanceApp.Tests.Base;
-using Microsoft.Extensions.Caching.Memory;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Xunit;
+//using FinanceApp.Core.Importers;
+//using FinanceApp.Core.Services;
+//using FinanceApp.Shared.Enum;
+//using FinanceApp.Tests.Base;
+//using Microsoft.Extensions.Caching.Memory;
+//using System;
+//using System.Linq;
+//using System.Threading.Tasks;
+//using Xunit;
 
-namespace FinanceApp.Tests.DatesServiceTests
-{
-    public class DataServiceTests : TestsBase
-    {
-        [Fact]
-        //Teste insano para garantir que este método está ok
-        public async Task MustCalculateWorkingDaysBetweenDatesCorrectly()
-        {
-            var mapper = GetConfigurationIMapper();
-            var context = await CreateFinanceContext();
+//namespace FinanceApp.Tests.DatesServiceTests
+//{
+//    public class DataServiceTests : TestsBase
+//    {
+//        [Fact]
+//        //Teste insano para garantir que este método está ok
+//        public async Task MustCalculateWorkingDaysBetweenDatesCorrectly()
+//        {
+//            var mapper = GetConfigurationIMapper();
+//            var context = await CreateFinanceContext();
 
-            //Instancias 
-            MemoryCacheOptions cacheOptions = new();
+//            //Instancias 
+//            MemoryCacheOptions cacheOptions = new();
 
-            var memoryCache = new MemoryCache(cacheOptions);
+//            var memoryCache = new MemoryCache(cacheOptions);
 
-            var datesService = new DatesService(context,
-                                                mapper,
-                                                memoryCache);
+//            var datesService = new DatesService(context,
+//                                                mapper,
+//                                                memoryCache);
 
 
-            var indexesImporter = new IndexImporter(context);
+//            var indexesImporter = new IndexImporter(context);
 
-            var holidaysImporter = new HolidaysImporter(context);
+//            var holidaysImporter = new HolidaysImporter(context);
 
-            //Importar dados para comparação
+//            //Importar dados para comparação
 
-            await holidaysImporter.GetHolidays(2002,DateTime.Now.Year);
+//            await holidaysImporter.GetHolidays(2002,DateTime.Now.Year);
 
-            await indexesImporter.GetIndexes();
+//            await indexesImporter.GetIndexes();
 
-            // pega dados para referencia
+//            // pega dados para referencia
 
-            var selicIndexes = context.IndexValues.Where(a => a.Index == EIndex.Selic && a.Date.Year >= 2001);
+//            var selicIndexes = context.IndexValues.Where(a => a.Index == EIndex.Selic && a.Date.Year >= 2001);
 
-            // pega resultado do método
-            for (DateTime date = new(2002,1,1); date < DateTime.Now.AddYears(-1).AddDays(-1); date = date.AddDays(1))
-            {
+//            // pega resultado do método
+//            for (DateTime date = new(2002,1,1); date < DateTime.Now.AddYears(-1).AddDays(-1); date = date.AddDays(1))
+//            {
 
-                DateTime dateStart = date;
-                DateTime dateEnd = date.AddYears(1);
+//                DateTime dateStart = date;
+//                DateTime dateEnd = date.AddYears(1);
 
-                var result = await datesService.GetWorkingDaysBetweenDates(dateStart, dateEnd);
+//                var result = await datesService.GetWorkingDaysBetweenDates(dateStart, dateEnd);
 
-                int resultCompare = selicIndexes.Where(a => a.Date >= dateStart && a.Date <= dateEnd).Count();
+//                int resultCompare = selicIndexes.Where(a => a.Date >= dateStart && a.Date <= dateEnd).Count();
                
-                Assert.True(result == resultCompare);
+//                Assert.True(result == resultCompare);
 
-            }
+//            }
 
-        }
-
-
-        [Fact]
-        //Teste insano para garantir que este método está ok
-        public async Task MustReturnAddWorkingDaysCorrectly()
-        {
-            var mapper = GetConfigurationIMapper();
-            var context = await CreateFinanceContext();
-
-            //Instancias 
-            MemoryCacheOptions cacheOptions = new();
-
-            var memoryCache = new MemoryCache(cacheOptions);
-
-            var datesService = new DatesService(context,
-                                                mapper,
-                                                memoryCache);
+//        }
 
 
-            var holidaysImporter = new HolidaysImporter(context);
+//        [Fact]
+//        //Teste insano para garantir que este método está ok
+//        public async Task MustReturnAddWorkingDaysCorrectly()
+//        {
+//            var mapper = GetConfigurationIMapper();
+//            var context = await CreateFinanceContext();
 
-            //Importar dados para comparação
+//            //Instancias 
+//            MemoryCacheOptions cacheOptions = new();
 
-            await holidaysImporter.GetHolidays(2022, 2022);
+//            var memoryCache = new MemoryCache(cacheOptions);
 
-
-
-            //---------------------------------------
-            DateTime newDate = await datesService.AddWorkingDays(new DateTime(2022, 06, 20), 1);
-
-            Assert.True(newDate == new DateTime(2022, 06, 21));
-            //---------------------------------------
-            newDate = await datesService.AddWorkingDays(new DateTime(2022, 06, 20), -1);
-
-            Assert.True(newDate == new DateTime(2022, 06, 17));
-            //---------------------------------------
-            newDate = await datesService.AddWorkingDays(new DateTime(2022, 06, 20), -2);
-
-            Assert.True(newDate == new DateTime(2022, 06, 15));
-            //---------------------------------------
-            newDate = await datesService.AddWorkingDays(new DateTime(2022, 06, 20), 0);
-
-            Assert.True(newDate == new DateTime(2022, 06, 20));
-            //---------------------------------------
-            newDate = await datesService.AddWorkingDays(new DateTime(2022, 06, 20), 5);
-
-            Assert.True(newDate == new DateTime(2022, 06, 27));
-            //---------------------------------------
-
-        }
+//            var datesService = new DatesService(context,
+//                                                mapper,
+//                                                memoryCache);
 
 
-    }
-}
+//            var holidaysImporter = new HolidaysImporter(context);
+
+//            //Importar dados para comparação
+
+//            await holidaysImporter.GetHolidays(2022, 2022);
+
+
+
+//            //---------------------------------------
+//            DateTime newDate = await datesService.AddWorkingDays(new DateTime(2022, 06, 20), 1);
+
+//            Assert.True(newDate == new DateTime(2022, 06, 21));
+//            //---------------------------------------
+//            newDate = await datesService.AddWorkingDays(new DateTime(2022, 06, 20), -1);
+
+//            Assert.True(newDate == new DateTime(2022, 06, 17));
+//            //---------------------------------------
+//            newDate = await datesService.AddWorkingDays(new DateTime(2022, 06, 20), -2);
+
+//            Assert.True(newDate == new DateTime(2022, 06, 15));
+//            //---------------------------------------
+//            newDate = await datesService.AddWorkingDays(new DateTime(2022, 06, 20), 0);
+
+//            Assert.True(newDate == new DateTime(2022, 06, 20));
+//            //---------------------------------------
+//            newDate = await datesService.AddWorkingDays(new DateTime(2022, 06, 20), 5);
+
+//            Assert.True(newDate == new DateTime(2022, 06, 27));
+//            //---------------------------------------
+
+//        }
+
+
+//    }
+//}

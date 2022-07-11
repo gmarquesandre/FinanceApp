@@ -5,7 +5,6 @@ namespace FinanceApp.Shared.Dto.Loan
 {
     public class LoanDto : StandardDto
     {
-        public int Id { get; set; }
         public DateTime InitialDate { get; set; }
         public int MonthsPayment { get; set; }
         public string Name { get; set; }

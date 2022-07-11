@@ -18,6 +18,7 @@ class CurrentBalanceFormState extends State<CurrentBalanceForm> {
   );
 
   bool _updateValueWithCdi = false;
+  int _id = 0;
   bool isLoading = false;
 
   DateTime _date = DateTime.now();
@@ -36,6 +37,8 @@ class CurrentBalanceFormState extends State<CurrentBalanceForm> {
         _date = balance.updateDateTime;
 
         _updateValueWithCdi = balance.updateValueWithCdiIndex;
+
+        _id = balance.id;
       },
     );
     unsetLoading();
@@ -57,6 +60,7 @@ class CurrentBalanceFormState extends State<CurrentBalanceForm> {
     setLoading();
 
     CreateOrUpdateCurrentBalance newValue = CreateOrUpdateCurrentBalance(
+        id: _id,
         percentageCdi: 1,
         value: _value.numberValue,
         updateValueWithCdiIndex: _updateValueWithCdi);

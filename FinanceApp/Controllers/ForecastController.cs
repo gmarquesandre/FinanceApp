@@ -11,11 +11,9 @@ namespace FinanceApp.Api.Controllers
     public class ForecastController : ControllerBase
     {
         private readonly IForecastService _service;
-        private readonly UserManager<CustomIdentityUser> _userManager;
 
-        public ForecastController(IForecastService service, UserManager<CustomIdentityUser> userManager)
+        public ForecastController(IForecastService service)
         {
-            _userManager = userManager;
             _service = service;
         }
 

@@ -1,5 +1,5 @@
+using FinanceApp.Api;
 using FinanceApp.Api.Startup;
-using FinanceApp.EntityFramework;
 using FinanceApp.Shared.Models.CommonTables;
 using Hangfire;
 using Hangfire.SqlServer;
@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using FinanceApp.EntityFramework;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +18,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddSession();
 builder.Services.AddMemoryCache();
+
+builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
 
 builder.Services.RegisterServices(builder.Configuration);
 builder.Services.AddHttpContextAccessor();

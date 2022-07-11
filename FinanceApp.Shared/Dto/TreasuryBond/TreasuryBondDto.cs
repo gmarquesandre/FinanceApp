@@ -5,7 +5,6 @@ namespace FinanceApp.Shared.Dto.TreasuryBond
 {
     public class TreasuryBondDto : StandardDto
     {
-        public int Id { get; set; }
         public ETreasuryBond Type { get; set; }
         public string TypeDisplayValue => EnumHelper<ETreasuryBond>.GetDisplayValue(Type);
         public double UnitPrice { get; set; }
