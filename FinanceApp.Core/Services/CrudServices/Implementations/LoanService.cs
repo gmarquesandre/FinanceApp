@@ -17,8 +17,10 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
 {
     public class LoanService : CrudServiceBase, ILoanService
     {
-        public ILoanForecast _forecast;
-        public LoanService(FinanceContext context, IMapper mapper, ILoanForecast forecast, IHttpContextAccessor httpContextAccessor) : base(context, mapper, httpContextAccessor) {
+        private ILoanForecast _forecast;
+        private IRepository<Loan> _repository;
+        private IMapper _mapper;
+        public LoanService(FinanceContext context, IMapper mapper, ILoanForecast forecast) {
             _forecast = forecast;            
         }
 

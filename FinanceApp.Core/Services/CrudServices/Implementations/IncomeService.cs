@@ -1,26 +1,24 @@
 ﻿using AutoMapper;
-using FinanceApp.Core.Services.CrudServices.Base;
 using FinanceApp.Core.Services.CrudServices.Interfaces;
 using FinanceApp.Core.Services.ForecastServices.Interfaces;
 using FinanceApp.Shared.Dto;
 using FinanceApp.Shared.Dto.Income;
 using FinanceApp.Shared.Enum;
-using FinanceApp.Shared.Models.CommonTables;
 using FinanceApp.Shared.Models.UserTables;
 using FluentResults;
-using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
-using FinanceApp.Shared;
 using FinanceApp.EntityFramework;
 
 namespace FinanceApp.Core.Services.CrudServices.Implementations
 {
-    public class IncomeService : CrudServiceBase, IIncomeService
+    public class IncomeService : IIncomeService
     {
-
-        public IIncomeForecast _forecast;
-        public IncomeService(FinanceContext context, IMapper mapper, IIncomeForecast forecast, IHttpContextAccessor httpContextAccessor) : base(context, mapper, httpContextAccessor) 
+        private IRepository<Income> _repository;
+        private IMapper _mapper;
+        private IIncomeForecast _forecast;
+        public IncomeService(IRepository<Income> repository, IMapper mapper, IIncomeForecast forecast)
         {
+            _repository = repository;
+            _mapper = mapper;
             _forecast = forecast;
         }
 
@@ -31,9 +29,7 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
 
             CheckValue(model);
 
-            model.UserId = _httpContextAccessor.HttpContext.User.GetUserId();
-            await _context.Incomes.AddAsync(model);
-            await _context.SaveChangesAsync();
+            await _repository.InsertAsync(model);
             return _mapper.Map<IncomeDto>(model);
 
         }
@@ -48,22 +44,16 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
 
         public async Task<Result> UpdateAsync(UpdateIncome input)
         {
-            var oldModel = _context.Incomes.AsNoTracking().FirstOrDefault(x => x.Id == input.Id);
+            var oldModel = _repository.GetById(input.Id);
 
             if (oldModel == null)
-                return Result.Fail("Já foi deletado");
-            else if (oldModel.UserId != _httpContextAccessor.HttpContext.User.GetUserId())
-                return Result.Fail("Usuário Inválido");
+                return Result.Fail("Não Encontrado");
 
             var model = _mapper.Map<Income>(input);
 
             CheckValue(model);
 
-            model.UserId = _httpContextAccessor.HttpContext.User.GetUserId();
-            model.CreationDateTime = oldModel.CreationDateTime;
-
-            _context.Incomes.Update(model);
-            await _context.SaveChangesAsync();
+            _repository.Update(oldModel.Id, model);
             return Result.Ok().WithSuccess("Investimento atualizado com sucesso");
         }
 
@@ -71,13 +61,13 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
 
         public async Task<List<IncomeDto>> GetAsync()
         {
-            var values = await _context.Incomes.ToListAsync();
+            var values = await _repository.GetAllAsync();
             return _mapper.Map<List<IncomeDto>>(values);
         }
 
         public async Task<IncomeDto> GetAsync(int id)
         {
-            var value = await _context.Incomes.FirstOrDefaultAsync();
+            var value = await _repository.GetById(id);
 
             if (value == null)
                 throw new Exception("Registro Não Encontrado");
@@ -88,20 +78,14 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
 
         public async Task<Result> DeleteAsync(int id)
         {
-            var investment = await _context.Incomes.FirstOrDefaultAsync(a => a.Id == id);
+            var income = await _repository.GetById(id);
 
-            if (investment == null)
+            if (income == null)
             {
                 return Result.Fail("Não Encontrado");
             }
 
-            if (investment.UserId != _httpContextAccessor.HttpContext.User.GetUserId())
-            {
-                return Result.Fail("Usuário Inválido");
-            }
-
-            _context.Incomes.Remove(investment);
-            await _context.SaveChangesAsync();
+            _repository.Remove(income);
             return Result.Ok().WithSuccess("Investimento deletado");
         }
 

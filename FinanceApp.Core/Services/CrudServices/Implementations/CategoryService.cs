@@ -1,51 +1,39 @@
 ﻿using AutoMapper;
-using FinanceApp.Core.Services.CrudServices.Base;
 using FinanceApp.Core.Services.CrudServices.Interfaces;
 using FinanceApp.Shared.Dto.Category;
-using FinanceApp.Shared.Models.CommonTables;
 using FinanceApp.Shared.Models.UserTables;
 using FluentResults;
-using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
-using FinanceApp.Shared;
 using FinanceApp.EntityFramework;
 
 namespace FinanceApp.Core.Services.CrudServices.Implementations
 {
-    public class CategoryService : CrudServiceBase, ICategoryService
+    public class CategoryService : ICategoryService
     {
-        public CategoryService(FinanceContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor)
-            : base(context, mapper, httpContextAccessor) 
+        private IRepository<Category> _repository;
+        private IMapper _mapper;
+        public CategoryService(IRepository<Category> repository, IMapper mapper)
         {
+            _repository = repository;
+            _mapper = mapper;
         }
 
         public async Task<CategoryDto> AddAsync(CreateCategory input)
         {
-
             Category model = _mapper.Map<Category>(input);
-
-            model.UserId = _httpContextAccessor.HttpContext.User.GetUserId();
-            await _context.Categories.AddAsync(model);
-            await _context.SaveChangesAsync();
+            await _repository.InsertAsync(model);
             return _mapper.Map<CategoryDto>(model);
 
         }
         public async Task<Result> UpdateAsync(UpdateCategory input)
         {
-            var oldModel = _context.Categories.AsNoTracking().FirstOrDefault(x => x.Id == input.Id);
+            var oldModel = _repository.GetById(input.Id);
 
             if (oldModel == null)
-                return Result.Fail("Já foi deletado");
-            else if (oldModel.UserId != _httpContextAccessor.HttpContext.User.GetUserId())
-                return Result.Fail("Usuário Inválido");
+                return Result.Fail("Não encontrado");
 
             var model = _mapper.Map<Category>(input);
 
-            model.UserId = _httpContextAccessor.HttpContext.User.GetUserId();
-            model.CreationDateTime = oldModel.CreationDateTime;
-
-            _context.Categories.Update(model);
-            await _context.SaveChangesAsync();
+            _repository.Update(oldModel.Id, model);
             return Result.Ok().WithSuccess("Investimento atualizado com sucesso");
         }
 
@@ -53,13 +41,13 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
 
         public async Task<List<CategoryDto>> GetAsync()
         {            
-            var values = await _context.Categories.ToListAsync();
+            var values = await _repository.GetAllAsync();
             return _mapper.Map<List<CategoryDto>>(values);
         }
 
         public async Task<CategoryDto> GetAsync(int id)
         {
-            var value = await _context.Categories.FirstOrDefaultAsync();
+            var value = await _repository.FirstOrDefaultAsync();
 
             if (value == null)
                 throw new Exception("Registro Não Encontrado");
@@ -70,20 +58,14 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
 
         public async Task<Result> DeleteAsync(int id)
         {
-            var investment = await _context.Categories.FirstOrDefaultAsync(a => a.Id == id);
+            var investment = await _repository.GetById(id);
 
             if (investment == null)
             {
                 return Result.Fail("Não Encontrado");
             }
 
-            if (investment.UserId != _httpContextAccessor.HttpContext.User.GetUserId())
-            {
-                return Result.Fail("Usuário Inválido");
-            }
-
-            _context.Categories.Remove(investment);
-            await _context.SaveChangesAsync();
+            _repository.Remove(investment);
             return Result.Ok().WithSuccess("Investimento deletado");
         }
     }

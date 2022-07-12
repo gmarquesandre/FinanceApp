@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
 using FinanceApp.Core.Importers;
-using FinanceApp.Api;
 using Hangfire;
-using Hangfire.Storage;
+using FinanceApp.EntityFramework;
 
 namespace FinanceApp.Api.Startup
 {

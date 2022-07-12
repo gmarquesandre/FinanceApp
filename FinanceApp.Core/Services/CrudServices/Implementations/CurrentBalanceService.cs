@@ -11,43 +11,36 @@ using FinanceApp.Shared;
 
 namespace FinanceApp.Core.Services.CrudServices.Implementations
 {
-    public class CurrentBalanceService : CrudServiceBase, ICurrentBalanceService
+    public class CurrentBalanceService : ICurrentBalanceService
     {
-        public IRepository<CurrentBalance> _repository;
-        public CurrentBalanceService(FinanceContext context, IMapper mapper, IRepository<CurrentBalance> repository, IHttpContextAccessor httpContextAccessor) : base(context, mapper, httpContextAccessor) {
+        private IRepository<CurrentBalance> _repository;
+        private IMapper _mapper;
+        public CurrentBalanceService(IMapper mapper, IRepository<CurrentBalance> repository) 
+        {
+            _mapper = mapper;
             _repository = repository;
         }
 
         public async Task<CurrentBalanceDto> AddOrUpdateAsync(CreateOrUpdateCurrentBalance input)
         {
-            var value = await _context.CurrentBalances.AsNoTracking().FirstOrDefaultAsync();
-            
-            try { 
-                CurrentBalance model = _mapper.Map<CurrentBalance>(input);
-                if (value == null)
-                {
-                    await _repository.InsertAsync(model);
-                }
-                else
-                {
-                    model.Id = value.Id;
-                    _repository.Update(model);
-                }
-                await _context.SaveChangesAsync();
-                return _mapper.Map<CurrentBalanceDto>(model);
-            }
-            catch(Exception ex)
+            var value = await _repository.FirstOrDefaultAsync();
+            CurrentBalance model = _mapper.Map<CurrentBalance>(input);
+            if (value == null)
             {
-                Console.WriteLine(ex.Message);
-                throw;
+                await _repository.InsertAsync(model);
             }
+            else
+            {
+                _repository.Update(value.Id, model);
+            }
+            return _mapper.Map<CurrentBalanceDto>(model);
+            
         }
 
         public async Task<CurrentBalanceDto> GetAsync()
         {
 
-            //string? a = _userContext!.HttpContext!.User!.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var value = await _context.CurrentBalances.FirstOrDefaultAsync();
+            var value = await _repository.FirstOrDefaultAsync();
             if (value != null)
             {
                 return _mapper.Map<CurrentBalanceDto>(value);
@@ -70,12 +63,12 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
 
         public async Task<Result> DeleteAsync()
         {
-            var investment = await _context.CurrentBalances.FirstOrDefaultAsync(a => a.UserId == _httpContextAccessor.HttpContext.User.GetUserId());
+            var investment = await _repository.FirstOrDefaultAsync();
+
             if (investment == null)
                 throw new Exception("Não encotrado");
 
-            _context.CurrentBalances.Remove(investment);
-            await _context.SaveChangesAsync();
+            _repository.Remove(investment);
             return Result.Ok().WithSuccess("Investimento deletado");
         }
     }

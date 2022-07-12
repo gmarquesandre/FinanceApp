@@ -8,13 +8,11 @@ namespace FinanceApp.Core.Services.CrudServices.Base
     {
         public FinanceContext _context;
         public IMapper _mapper;
-        public IHttpContextAccessor _httpContextAccessor;
 
-        public CrudServiceBase(FinanceContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor)
+        public CrudServiceBase(FinanceContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
-            _httpContextAccessor = httpContextAccessor;
         }
 
     }

@@ -64,18 +64,8 @@ namespace FinanceApp.EntityFramework
 
             builder.Entity<CustomIdentityUser>().HasData(admin);
 
-
-            builder.Entity<CurrentBalance>(a =>
-            {
-                //a.Property(a => a.UserId).HasDefaultValue(_httpContextAccessor.HttpContext.User.GetUserId());
-                a.Property(a => a.CreationDateTime).HasDefaultValueSql("getdate()");
-                a.Property(a => a.UpdateDateTime).HasDefaultValueSql("getdate()");
-
-            });
-
+         
             builder.Entity<CurrentBalance>().HasQueryFilter(a => a.UserId == _httpContextAccessor.HttpContext.User.GetUserId());
-
-
             builder.Entity<Income>().HasQueryFilter(a => a.UserId == _httpContextAccessor.HttpContext.User.GetUserId());
             builder.Entity<FGTS>().HasQueryFilter(a => a.UserId == _httpContextAccessor.HttpContext.User.GetUserId());
             builder.Entity<Loan>().HasQueryFilter(a => a.UserId == _httpContextAccessor.HttpContext.User.GetUserId());
