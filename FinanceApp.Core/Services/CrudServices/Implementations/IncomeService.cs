@@ -44,7 +44,7 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
 
         public async Task<Result> UpdateAsync(UpdateIncome input)
         {
-            var oldModel = _repository.GetById(input.Id);
+            var oldModel = _repository.GetByIdAsync(input.Id);
 
             if (oldModel == null)
                 return Result.Fail("Não Encontrado");
@@ -61,13 +61,13 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
 
         public async Task<List<IncomeDto>> GetAsync()
         {
-            var values = await _repository.GetAllAsync();
+            var values = await _repository.GetAllListAsync();
             return _mapper.Map<List<IncomeDto>>(values);
         }
 
         public async Task<IncomeDto> GetAsync(int id)
         {
-            var value = await _repository.GetById(id);
+            var value = await _repository.GetByIdAsync(id);
 
             if (value == null)
                 throw new Exception("Registro Não Encontrado");
@@ -78,7 +78,7 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
 
         public async Task<Result> DeleteAsync(int id)
         {
-            var income = await _repository.GetById(id);
+            var income = await _repository.GetByIdAsync(id);
 
             if (income == null)
             {

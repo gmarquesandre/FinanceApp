@@ -4,16 +4,15 @@ using FinanceApp.Shared.Enum;
 using FinanceApp.Shared.Models.UserTables;
 using FluentResults;
 using Microsoft.EntityFrameworkCore;
-using FinanceApp.Shared;
 using FinanceApp.EntityFramework;
 
 namespace FinanceApp.Core.Services
 {
     public class PrivateFixedIncomeService : IPrivateFixedIncomeService1
     {
-        private IRepository<Income> _repository;
+        private IRepository<PrivateFixedIncome> _repository;
         private IMapper _mapper;
-        public PrivateFixedIncomeService(IRepository<Income> repository, IMapper mapper)
+        public PrivateFixedIncomeService(IRepository<PrivateFixedIncome> repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;
@@ -27,34 +26,29 @@ namespace FinanceApp.Core.Services
 
             if (model.PreFixedInvestment && model.Index != EIndex.Prefixado)
                 model.Index = EIndex.Prefixado;
-
-            model.UserId = _httpContextAccessor.HttpContext.User.GetUserId();
-            await _context.PrivateFixedIncomes.AddAsync(model);
-            await _context.SaveChangesAsync();
+            
+            await _repository.InsertAsync(model);
+            
             return _mapper.Map<PrivateFixedIncomeDto>(model);
 
         }
-        public async Task<Result> UpdateInvestmentAsync(UpdatePrivateFixedIncome input)
+        public Task<Result> UpdateInvestmentAsync(UpdatePrivateFixedIncome input)
         {
-            var oldModel = _context.PrivateFixedIncomes.AsNoTracking().FirstOrDefault(x => x.Id == input.Id);
+            var oldModel = _repository.GetByIdAsync(input.Id);
 
             if (oldModel == null)
-                return Result.Fail("Já foi deletado");
+                return Task.FromResult(Result.Fail("Já foi deletado"));
 
             var model = _mapper.Map<PrivateFixedIncome>(input);
-
-            model.UserId = _httpContextAccessor.HttpContext.User.GetUserId();
-            model.CreationDateTime = oldModel.CreationDateTime;
-
+           
 
             CheckInvestment(model);
 
             if (model.PreFixedInvestment && model.Index != EIndex.Prefixado)
                 model.Index = EIndex.Prefixado;
 
-            _context.PrivateFixedIncomes.Update(model);
-            await _context.SaveChangesAsync();
-            return Result.Ok().WithSuccess("Investimento atualizado com sucesso");
+            _repository.Update(model.Id, model);
+            return Task.FromResult(Result.Ok().WithSuccess("Investimento atualizado com sucesso"));
         }
 
         private void CheckInvestment(PrivateFixedIncome model)
@@ -77,21 +71,19 @@ namespace FinanceApp.Core.Services
 
         public async Task<List<PrivateFixedIncomeDto>> GetAllFixedIncomeAsync()
         {
-            var values = await _context.PrivateFixedIncomes.ToListAsync();
+            var values = await _repository.GetAllListAsync();
             return _mapper.Map<List<PrivateFixedIncomeDto>>(values);
         }
         public async Task<Result> DeleteInvestmentAsync(int id)
         {
-            var investment = await _context.PrivateFixedIncomes.FirstOrDefaultAsync(a => a.Id == id);
+            var investment = await _repository.GetByIdAsync(id);
 
             if (investment == null)
             {
                 return Result.Fail("Não Encontrado");
             }
 
-
-            _context.PrivateFixedIncomes.Remove(investment);
-            await _context.SaveChangesAsync();
+            _repository.Remove(investment);
             return Result.Ok().WithSuccess("Investimento deletado");
         }
     }

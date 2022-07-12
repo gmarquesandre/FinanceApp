@@ -8,7 +8,8 @@ namespace FinanceApp.EntityFramework
         TEntity Update(int id, TEntity entity);
         Task<TEntity> FirstOrDefaultAsync();
         void Remove(TEntity entity);
-        Task<List<TEntity>> GetAllAsync();
-        Task<TEntity> GetById(int id);
+        Task<List<TEntity>> GetAllListAsync();
+        IQueryable<TEntity> GetAll();
+        Task<TEntity> GetByIdAsync(int id);
     }
 }

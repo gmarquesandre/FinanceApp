@@ -42,7 +42,7 @@ namespace FinanceApp.EntityFramework
             return item;
         }
 
-        public async Task<List<TEntity>> GetAllAsync()
+        public async Task<List<TEntity>> GetAllListAsync()
         {
             var items = await _context.Set<TEntity>().AsNoTracking().ToListAsync();
 
@@ -56,11 +56,18 @@ namespace FinanceApp.EntityFramework
             _context.SaveChanges();
         }
         
-        public async Task<TEntity> GetById(int id)
+        public async Task<TEntity> GetByIdAsync(int id)
         {
             var item = await _context.Set<TEntity>().AsNoTracking().FirstOrDefaultAsync(a => a.Id == id);
 
             return item;
+        }
+
+        public IQueryable<TEntity> GetAll()
+        {
+            var items = _context.Set<TEntity>().AsNoTracking();
+
+            return items;
         }
     }
 }

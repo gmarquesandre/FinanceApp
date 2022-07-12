@@ -30,15 +30,13 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
         {
             Spending model = _mapper.Map<Spending>(input);
             CheckValue(model);
-            model.UserId = _httpContextAccessor.HttpContext.User.GetUserId();
-            await _context.Spendings.AddAsync(model);
-            await _context.SaveChangesAsync();
+            await _repository.InsertAsync(model);
             return _mapper.Map<SpendingDto>(model);
 
         }
         public async Task<Result> UpdateAsync(UpdateSpending input)
         {
-            var oldModel = _context.Spendings.AsNoTracking().FirstOrDefault(x => x.Id == input.Id);
+            var oldModel = _repository.GetByIdAsync(input.Id);
 
             if (oldModel == null)
                 return Result.Fail("Já foi deletado");
@@ -47,47 +45,32 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
 
             CheckValue(model);
 
-            model.UserId = _httpContextAccessor.HttpContext.User.GetUserId();
-            model.CreationDateTime = oldModel.CreationDateTime;
-
-            _context.Spendings.Update(model);
-            await _context.SaveChangesAsync();
+            _repository.Update(model.Id, model);
             return Result.Ok().WithSuccess("Investimento atualizado com sucesso");
         }
 
         public async Task<List<SpendingDto>> GetAsync()
         {
-            var values = await _context
-                .Spendings
+            var values = await _repository.GetAll()
                 .Include(a => a.Category)
-                .Include(a => a.CreditCard)
-                
+                .Include(a => a.CreditCard)                
                 .ToListAsync();
+
             return _mapper.Map<List<SpendingDto>>(values);
         }
 
         public async Task<SpendingDto> GetAsync(int id)
         {
-            var value = await _context.Spendings.Include(a => a.Category).FirstOrDefaultAsync();
-
-            if (value == null)
-                throw new Exception("Registro Não Encontrado");
-
+            var value = await _repository.GetByIdAsync(id);
             return _mapper.Map<SpendingDto>(value);
 
         }
 
         public async Task<Result> DeleteAsync(int id)
         {
-            var investment = await _context.Spendings.FirstOrDefaultAsync(a => a.Id == id);
+            var investment = await _repository.GetByIdAsync(id);
 
-            if (investment == null)
-            {
-                return Result.Fail("Não Encontrado");
-            }
-            
-            _context.Spendings.Remove(investment);
-            await _context.SaveChangesAsync();
+            _repository.Remove(investment);
             return Result.Ok().WithSuccess("Investimento deletado");
         }
         public async Task<ForecastList> GetForecast(EForecastType forecastType, DateTime maxYearMonth)

@@ -48,7 +48,7 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
 
         public async Task<PrivateFixedIncomeDto> GetAsync(int id)
         {
-            var value = await _repository.GetById(id);
+            var value = await _repository.GetByIdAsync(id);
             
             return _mapper.Map<PrivateFixedIncomeDto>(value);
 
@@ -74,12 +74,12 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
 
         public async Task<List<PrivateFixedIncomeDto>> GetAsync()
         {
-            var values = await _repository.GetAllAsync();
+            var values = await _repository.GetAllListAsync();
             return _mapper.Map<List<PrivateFixedIncomeDto>>(values);
         }
         public async Task<Result> DeleteAsync(int id)
         {
-            var investment = await _repository.GetById(id);
+            var investment = await _repository.GetByIdAsync(id);
 
             _repository.Remove(investment);
             return Result.Ok().WithSuccess("Investimento deletado");

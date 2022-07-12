@@ -35,7 +35,7 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
 
         public async Task<List<CategoryDto>> GetAsync()
         {            
-            var values = await _repository.GetAllAsync();
+            var values = await _repository.GetAllListAsync();
             return _mapper.Map<List<CategoryDto>>(values);
         }
 
@@ -52,7 +52,7 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
 
         public async Task<Result> DeleteAsync(int id)
         {
-            var investment = await _repository.GetById(id);
+            var investment = await _repository.GetByIdAsync(id);
 
             if (investment == null)
             {

@@ -34,7 +34,7 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
         }
         public async Task<Result> UpdateAsync(UpdateLoan input)
         {
-            var oldModel = _repository.GetById(input.Id);
+            var oldModel = _repository.GetByIdAsync(input.Id);
 
             var model = _mapper.Map<Loan>(input);
             _repository.Update(model.Id, model);
@@ -43,7 +43,7 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
 
         public async Task<LoanDto> GetAsync(int id)
         {
-            var value = await _repository.GetById(id);
+            var value = await _repository.GetByIdAsync(id);
             
             return _mapper.Map<LoanDto>(value);
 
@@ -51,12 +51,12 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
 
         public async Task<List<LoanDto>> GetAsync()
         {
-            var values = await _repository.GetAllAsync();
+            var values = await _repository.GetAllListAsync();
             return _mapper.Map<List<LoanDto>>(values);
         }
         public async Task<Result> DeleteAsync(int id)
         {
-            var investment = await _repository.GetById(id);
+            var investment = await _repository.GetByIdAsync(id);
             _repository.Remove(investment);
             return Result.Ok().WithSuccess("Investimento deletado");
         }
