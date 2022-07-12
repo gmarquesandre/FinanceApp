@@ -15,7 +15,7 @@ using FinanceApp.EntityFramework;
 
 namespace FinanceApp.Core.Services.CrudServices.Implementations
 {
-    public class LoanService : CrudServiceBase, ILoanService
+    public class LoanService : ILoanService
     {
         private ILoanForecast _forecast;
         private IRepository<Loan> _repository;
@@ -28,57 +28,36 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
         {
             Loan model = _mapper.Map<Loan>(input);
 
-            model.UserId = _httpContextAccessor.HttpContext.User.GetUserId();
-            await _context.Loans.AddAsync(model);
-            await _context.SaveChangesAsync();
+            await _repository.InsertAsync(model);
             return _mapper.Map<LoanDto>(model);
 
         }
         public async Task<Result> UpdateAsync(UpdateLoan input)
         {
-            var oldModel = _context.Loans.AsNoTracking().FirstOrDefault(x => x.Id == input.Id);
-
-            if (oldModel == null)
-                return Result.Fail("Já foi deletado");
-            else if (oldModel.UserId != _httpContextAccessor.HttpContext.User.GetUserId())
-                return Result.Fail("Usuário Inválido");
+            var oldModel = _repository.GetById(input.Id);
 
             var model = _mapper.Map<Loan>(input);
-            model.CreationDateTime = oldModel.CreationDateTime;
-            model.UserId = _httpContextAccessor.HttpContext.User.GetUserId();            
-
-            _context.Loans.Update(model);
-            await _context.SaveChangesAsync();
+            _repository.Update(model.Id, model);
             return Result.Ok().WithSuccess("Investimento atualizado com sucesso");
         }
 
         public async Task<LoanDto> GetAsync(int id)
         {
-            var value = await _context.Loans.FirstOrDefaultAsync();
-
-            if (value == null)
-                throw new Exception("Registro Não Encontrado");
-
+            var value = await _repository.GetById(id);
+            
             return _mapper.Map<LoanDto>(value);
 
         }
 
         public async Task<List<LoanDto>> GetAsync()
         {
-            var values = await _context.Loans.ToListAsync();
+            var values = await _repository.GetAllAsync();
             return _mapper.Map<List<LoanDto>>(values);
         }
         public async Task<Result> DeleteAsync(int id)
         {
-            var investment = await _context.Loans.FirstOrDefaultAsync(a => a.Id == id);
-
-            if (investment == null)
-            {
-                return Result.Fail("Não Encontrado");
-            }
-
-            _context.Loans.Remove(investment);
-            await _context.SaveChangesAsync();
+            var investment = await _repository.GetById(id);
+            _repository.Remove(investment);
             return Result.Ok().WithSuccess("Investimento deletado");
         }
 

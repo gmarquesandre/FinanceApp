@@ -15,12 +15,14 @@ using FinanceApp.EntityFramework;
 
 namespace FinanceApp.Core.Services.CrudServices.Implementations
 {
-    public class SpendingService : CrudServiceBase, ISpendingService
+    public class SpendingService : ISpendingService
     {
-        public ISpendingForecast _forecast;
-
-        public SpendingService(FinanceContext context, IMapper mapper, ISpendingForecast forecast, IHttpContextAccessor httpContextAccessor) : base(context, mapper, httpContextAccessor) 
+        private ISpendingForecast _forecast;
+        private IRepository<Spending> _repository;
+        private IMapper _mapper;
+        public SpendingService(IRepository<Spending> repository, IMapper mapper, ISpendingForecast forecast) 
         {
+
             _forecast = forecast;
         }
 

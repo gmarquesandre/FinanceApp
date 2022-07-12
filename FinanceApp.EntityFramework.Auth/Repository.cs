@@ -55,7 +55,7 @@ namespace FinanceApp.EntityFramework
 
             _context.SaveChanges();
         }
-
+        
         public async Task<TEntity> GetById(int id)
         {
             var item = await _context.Set<TEntity>().AsNoTracking().FirstOrDefaultAsync(a => a.Id == id);

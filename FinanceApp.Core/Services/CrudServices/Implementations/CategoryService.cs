@@ -25,15 +25,9 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
 
         }
         public async Task<Result> UpdateAsync(UpdateCategory input)
-        {
-            var oldModel = _repository.GetById(input.Id);
-
-            if (oldModel == null)
-                return Result.Fail("Não encontrado");
-
+        {         
             var model = _mapper.Map<Category>(input);
-
-            _repository.Update(oldModel.Id, model);
+            _repository.Update(input.Id, model);
             return Result.Ok().WithSuccess("Investimento atualizado com sucesso");
         }
 

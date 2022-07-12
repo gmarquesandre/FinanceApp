@@ -1,21 +1,22 @@
 ﻿using AutoMapper;
-using FinanceApp.Core.Services.CrudServices.Base;
 using FinanceApp.Shared.Dto.PrivateFixedInvestment;
 using FinanceApp.Shared.Enum;
-using FinanceApp.Shared.Models.CommonTables;
 using FinanceApp.Shared.Models.UserTables;
 using FluentResults;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using FinanceApp.Shared;
 using FinanceApp.EntityFramework;
 
 namespace FinanceApp.Core.Services
 {
-    public class PrivateFixedIncomeService : CrudServiceBase
+    public class PrivateFixedIncomeService : IPrivateFixedIncomeService1
     {
-        public PrivateFixedIncomeService(FinanceContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor) : base(context, mapper, httpContextAccessor)
-        { 
+        private IRepository<Income> _repository;
+        private IMapper _mapper;
+        public PrivateFixedIncomeService(IRepository<Income> repository, IMapper mapper)
+        {
+            _repository = repository;
+            _mapper = mapper;
         }
 
         public async Task<PrivateFixedIncomeDto> AddInvestmentAsync(CreatePrivateFixedIncome input)
@@ -31,7 +32,7 @@ namespace FinanceApp.Core.Services
             await _context.PrivateFixedIncomes.AddAsync(model);
             await _context.SaveChangesAsync();
             return _mapper.Map<PrivateFixedIncomeDto>(model);
-            
+
         }
         public async Task<Result> UpdateInvestmentAsync(UpdatePrivateFixedIncome input)
         {
@@ -44,7 +45,7 @@ namespace FinanceApp.Core.Services
 
             model.UserId = _httpContextAccessor.HttpContext.User.GetUserId();
             model.CreationDateTime = oldModel.CreationDateTime;
-            
+
 
             CheckInvestment(model);
 
@@ -70,7 +71,7 @@ namespace FinanceApp.Core.Services
             {
                 throw new Exception("A data de vencimento deve ser maior do que hoje");
             }
-            
+
 
         }
 
@@ -83,12 +84,12 @@ namespace FinanceApp.Core.Services
         {
             var investment = await _context.PrivateFixedIncomes.FirstOrDefaultAsync(a => a.Id == id);
 
-            if(investment == null)
+            if (investment == null)
             {
                 return Result.Fail("Não Encontrado");
             }
 
-            
+
             _context.PrivateFixedIncomes.Remove(investment);
             await _context.SaveChangesAsync();
             return Result.Ok().WithSuccess("Investimento deletado");
