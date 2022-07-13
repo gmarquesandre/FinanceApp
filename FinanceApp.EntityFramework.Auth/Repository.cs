@@ -28,7 +28,8 @@ namespace FinanceApp.EntityFramework
         {
             entity.Id = id;
             entity.UserId = _httpContextAccessor.HttpContext.User.GetUserId();
-            entity.UpdateDateTime = DateTime.Now; 
+            entity.UpdateDateTime = DateTime.Now;
+            entity.CreationDateTime = entity.CreationDateTime;
             var updatedRow = _context.Set<TEntity>().Update(entity).Entity;
             _context.SaveChanges();
             return updatedRow;

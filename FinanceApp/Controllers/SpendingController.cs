@@ -71,7 +71,7 @@ namespace FinanceApp.Api.Controllers
             }
         }
 
-        [HttpDelete("Delete/{id:int}")]
+        [HttpDelete("Delete")]
         [Authorize]
         public async Task<IActionResult> DeleteInvestment(int id)
         {

@@ -1,8 +1,9 @@
 import 'package:extended_masked_text/extended_masked_text.dart';
 import 'package:finance_app/common_lists.dart';
-import 'package:finance_app/controllers/cruc_clients/income_client.dart';
+import 'package:finance_app/controllers/crud_clients/income_client.dart';
 import 'package:finance_app/models/income/create_income.dart';
 import 'package:finance_app/models/income/income.dart';
+import 'package:finance_app/models/income/update_income.dart';
 import 'package:finance_app/models/recurrence.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -54,7 +55,7 @@ class _IncomeFormState extends State<IncomeForm> {
 
       _nameController.text = widget.income!.name;
       _dateTimeFinal = widget.income!.endDate;
-      _endDateController.text = (widget.income!.recurrence != 1
+      _endDateController.text = (widget.income!.endDate != null
           ? DateFormat('dd/MM/yyyy').format(widget.income!.endDate!)
           : '');
 
@@ -332,7 +333,7 @@ class _IncomeFormState extends State<IncomeForm> {
                                 name: name,
                                 amount: incomeValue,
                                 initialDate: initialDate,
-                                endDate: endDate,
+                                endDate: _dateTimeFinal,
                                 recurrence: recurrenceId!,
                                 isEndless: isEndless,
                                 timesRecurrence: timesRecurrence);
@@ -342,18 +343,19 @@ class _IncomeFormState extends State<IncomeForm> {
                             _daoIncome.create(newIncome).then((created) =>
                                 Navigator.pop(context, newIncome.toString()));
                           } else {
-                            // final CreateIncome newIncome = CreateIncome(
-                            //     name: name,
-                            //     amount: incomeValue,
-                            //     initialDate: initialDate,
-                            //     endDate: endDate,
-                            //     recurrenceId: recurrenceId,
-                            //     isEndless: isEndless,
-                            //     timesRecurrence: timesRecurrence);
+                            final UpdateIncome newIncome = UpdateIncome(
+                                id: widget.income!.id,
+                                name: name,
+                                amount: incomeValue,
+                                initialDate: initialDate,
+                                endDate: _dateTimeFinal,
+                                recurrence: recurrenceId!,
+                                isEndless: isEndless,
+                                timesRecurrence: timesRecurrence);
 
-                            // newIncome.id = widget.income!.id;
-                            // _daoIncome.updateRow(newIncome).then((id) =>
-                            //     Navigator.pop(context, newIncome.toString()));
+                            newIncome.id = widget.income!.id;
+                            _daoIncome.update(newIncome).then((id) =>
+                                Navigator.pop(context, newIncome.toString()));
                           }
                         }
                       },

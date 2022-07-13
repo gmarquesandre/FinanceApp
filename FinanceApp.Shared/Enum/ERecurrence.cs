@@ -4,9 +4,6 @@ namespace FinanceApp.Shared.Enum
 {
     public enum ERecurrence
     {
-
-        [Display(Name = "N Repetições")]
-        NTimes = 0,
         [Display(Name = "Uma vez")]
         Once = 1,
         [Display(Name = "Diário")]

@@ -13,7 +13,7 @@ class DefaultClient {
     'Authorization': 'Bearer $token',
   };
   static String token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJleHAiOjE2ODkwNDkwMDR9.eAXY7LfAHUYYXPRYeBCNP2x_P2vqDccvnJw7DKjBuTw";
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYW5kcmUiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjIiLCJleHAiOjE2ODkxOTYxNzd9.Fnd4dkdJxEaaefIkhRHaSWdLg8lhdehKZyYD92p39rE";
 
   // static String token =
   // "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYW5kcmUiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjIiLCJleHAiOjE2ODg5NjQ1MTV9.KuMesEoru4GqKrIlYOCnBrOjBlwrNeDeL4fmWQwfjm8";
@@ -47,6 +47,31 @@ class DefaultClient {
     return false;
   }
 
+  Future<bool> delete(String path, Map<String, dynamic> queryParams) async {
+    var uri = Uri.https(baseUrl, path, queryParams);
+
+    final response = await http.delete(uri, headers: headers);
+
+    if (response.statusCode == StatusCode.OK) {
+      return true;
+    }
+    return false;
+  }
+
+  Future<bool> update(String path, String body) async {
+    var uri = Uri.https(baseUrl, path);
+
+    final response = await http.put(uri, body: body, headers: headers);
+
+    if (response.statusCode == StatusCode.OK) {
+      return true;
+    }
+    if (response.statusCode == StatusCode.CREATED) {
+      return true;
+    }
+    return false;
+  }
+
   Future<String> _get(String path, {Map<String, dynamic>? parameters}) async {
     var uri = Uri.https(baseUrl, path, parameters);
     try {
@@ -67,7 +92,7 @@ class DefaultClient {
       }
     } on Exception catch (_) {
       //Checar se tem internet ou a API que está fora.
-      navigator.currentState?.pushNamed(RouteName.alert);
+      navigator.currentState?.pushReplacementNamed(RouteName.alert);
       throw Exception('Failed');
     }
   }

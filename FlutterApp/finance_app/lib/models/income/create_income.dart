@@ -21,7 +21,7 @@ class CreateIncome {
         'recurrence': recurrence,
         'amount': amount,
         'initialDate': initialDate.toString(),
-        'endDate': endDate!.year == 1900 ? '' : null,
+        'endDate': endDate?.toString(),
         'isEndless': isEndless,
         'timesRecurrence': timesRecurrence,
       };

@@ -44,7 +44,7 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
 
         public async Task<Result> UpdateAsync(UpdateIncome input)
         {
-            var oldModel = _repository.GetByIdAsync(input.Id);
+            var oldModel = await _repository.GetByIdAsync(input.Id);
 
             if (oldModel == null)
                 return Result.Fail("Não Encontrado");
@@ -92,11 +92,8 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
 
         public void CheckValue(Income model)
         {
-            if (model.Recurrence == ERecurrence.NTimes && (model.TimesRecurrence == null || model.TimesRecurrence == 0))
-                throw new Exception("A quantidade de repetições deve ser maior que zero para o tipo de recorrência selecionado");
-
-            else if (model.Recurrence != ERecurrence.NTimes && model.Recurrence != ERecurrence.Once && model.EndDate == null)
-                throw new Exception("A data final deve ser preenchida");
+            if (model.Recurrence != ERecurrence.Once && model.EndDate == null && !model.IsEndless && (model.TimesRecurrence == null || model.TimesRecurrence == 0))
+                throw new Exception("Inválido");
 
             else if (model.Amount <= 0.00)
                 throw new Exception("O valor deve ser maior do que zero");

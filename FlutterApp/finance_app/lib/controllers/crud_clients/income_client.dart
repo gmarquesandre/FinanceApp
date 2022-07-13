@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:finance_app/models/income/create_income.dart';
 import 'package:finance_app/models/income/income.dart';
+import 'package:finance_app/models/income/update_income.dart';
 
 import 'default_request/default_client.dart';
 
@@ -29,7 +30,24 @@ class IncomeClient {
     final String body = jsonEncode(item.toJson());
 
     final String path = '$controller/Create';
-    var success = client.create(path, body);
+    var success = await client.create(path, body);
+
+    return success;
+  }
+
+  Future<bool> delete(int id) async {
+    final String path = '$controller/Delete';
+
+    var success = await client.delete(path, {'id': id.toString()});
+
+    return success;
+  }
+
+  Future<bool> update(UpdateIncome item) async {
+    final String body = jsonEncode(item.toJson());
+
+    final String path = '$controller/Update';
+    var success = await client.update(path, body);
 
     return success;
   }
