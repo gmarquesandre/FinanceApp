@@ -1,7 +1,5 @@
 ﻿using FinanceApp.Core.Services.ForecastServices;
-using FinanceApp.Shared.Models.CommonTables;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinanceApp.Api.Controllers

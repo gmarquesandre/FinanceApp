@@ -12,6 +12,7 @@ namespace FinanceApp.Shared.Dto.Spending
         public EPayment Payment { get; set; }
         public CreditCardDto? CreditCard { get; set; }
         public string RecurrenceDisplayValue => EnumHelper<ERecurrence>.GetDisplayValue(Recurrence);
+        public string PaymentName => EnumHelper<EPayment>.GetDisplayValue(Payment);
         public CategoryDto? Category { get; set; }
         public bool IsRequired { get; set; }
         public double Amount { get; set; }

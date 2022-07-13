@@ -1,6 +1,4 @@
-﻿using FinanceApp.Shared.Models.UserTables.Bases;
-
-namespace FinanceApp.Shared.Dto
+﻿namespace FinanceApp.Shared.Dto
 {
     public class WorkingDaysByYearDto
     {

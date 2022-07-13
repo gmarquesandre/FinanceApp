@@ -4,8 +4,6 @@ using FinanceApp.Shared.Dto.PrivateFixedInvestment;
 using FinanceApp.Shared.Enum;
 using FinanceApp.Shared.Models.UserTables;
 using FluentResults;
-using Microsoft.EntityFrameworkCore;
-using FinanceApp.Shared;
 using FinanceApp.EntityFramework;
 
 namespace FinanceApp.Core.Services.CrudServices.Implementations
@@ -42,7 +40,7 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
             if (model.PreFixedInvestment && model.Index != EIndex.Prefixado)
                 model.Index = EIndex.Prefixado;
 
-            _repository.Update(model.Id, model);
+            await _repository.UpdateAsync(model.Id, model);
             return Result.Ok().WithSuccess("Investimento atualizado com sucesso");
         }
 

@@ -1,5 +1,4 @@
 ﻿using FinanceApp.Shared.Dto.Category;
-using FinanceApp.Shared.Models.CommonTables;
 using FluentResults;
 
 namespace FinanceApp.Core.Services.CrudServices.Interfaces

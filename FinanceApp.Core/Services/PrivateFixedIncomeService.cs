@@ -3,7 +3,6 @@ using FinanceApp.Shared.Dto.PrivateFixedInvestment;
 using FinanceApp.Shared.Enum;
 using FinanceApp.Shared.Models.UserTables;
 using FluentResults;
-using Microsoft.EntityFrameworkCore;
 using FinanceApp.EntityFramework;
 
 namespace FinanceApp.Core.Services
@@ -32,12 +31,12 @@ namespace FinanceApp.Core.Services
             return _mapper.Map<PrivateFixedIncomeDto>(model);
 
         }
-        public Task<Result> UpdateInvestmentAsync(UpdatePrivateFixedIncome input)
+        public async Task<Result>  UpdateInvestmentAsync(UpdatePrivateFixedIncome input)
         {
             var oldModel = _repository.GetByIdAsync(input.Id);
 
             if (oldModel == null)
-                return Task.FromResult(Result.Fail("Já foi deletado"));
+                return Result.Fail("Já foi deletado");
 
             var model = _mapper.Map<PrivateFixedIncome>(input);
            
@@ -47,8 +46,8 @@ namespace FinanceApp.Core.Services
             if (model.PreFixedInvestment && model.Index != EIndex.Prefixado)
                 model.Index = EIndex.Prefixado;
 
-            _repository.Update(model.Id, model);
-            return Task.FromResult(Result.Ok().WithSuccess("Investimento atualizado com sucesso"));
+            await _repository.UpdateAsync(model.Id, model);
+            return Result.Ok().WithSuccess("Investimento atualizado com sucesso");
         }
 
         private void CheckInvestment(PrivateFixedIncome model)

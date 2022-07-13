@@ -1,7 +1,6 @@
 ﻿using FinanceApp.Shared.Dto;
 using FinanceApp.Shared.Dto.Loan;
 using FinanceApp.Shared.Enum;
-using FinanceApp.Shared.Models.CommonTables;
 using FluentResults;
 
 namespace FinanceApp.Core.Services.CrudServices.Interfaces

@@ -1,5 +1,4 @@
 ﻿using FinanceApp.Shared.Dto.Base;
-using FinanceApp.Shared.Dto.TreasuryBond;
 using FinanceApp.Shared.Enum;
 
 namespace FinanceApp.Shared.Dto.Spending

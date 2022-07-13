@@ -1,16 +1,12 @@
 ﻿using AutoMapper;
-using FinanceApp.Core.Services.CrudServices.Base;
 using FinanceApp.Core.Services.CrudServices.Interfaces;
 using FinanceApp.Core.Services.ForecastServices.Interfaces;
 using FinanceApp.Shared.Dto;
 using FinanceApp.Shared.Dto.Spending;
 using FinanceApp.Shared.Enum;
-using FinanceApp.Shared.Models.CommonTables;
 using FinanceApp.Shared.Models.UserTables;
 using FluentResults;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using FinanceApp.Shared;
 using FinanceApp.EntityFramework;
 
 namespace FinanceApp.Core.Services.CrudServices.Implementations
@@ -22,7 +18,8 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
         private IMapper _mapper;
         public SpendingService(IRepository<Spending> repository, IMapper mapper, ISpendingForecast forecast) 
         {
-
+            _repository = repository;
+            _mapper = mapper;
             _forecast = forecast;
         }
 
@@ -45,7 +42,7 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
 
             CheckValue(model);
 
-            _repository.Update(model.Id, model);
+            await _repository.UpdateAsync(model.Id, model);
             return Result.Ok().WithSuccess("Investimento atualizado com sucesso");
         }
 

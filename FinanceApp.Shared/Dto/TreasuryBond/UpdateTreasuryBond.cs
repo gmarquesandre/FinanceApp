@@ -4,7 +4,6 @@ namespace FinanceApp.Shared.Dto.TreasuryBond
 {
     public class UpdateTreasuryBond : UpdateDto
     {
-        public int Id { get; set; }
         public int Type { get; set; }
         public double UnitPrice { get; set; }
         public DateTime ExpirationDate { get; set; }

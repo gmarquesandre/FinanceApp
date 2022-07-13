@@ -2,6 +2,8 @@
 {
     public class UpdateDto
     {
-        public DateTime UpdateDateTime => DateTime.Now;
+        public int Id { get; set; }
+        public DateTime UpdateDateTime { get; set; }
+        public DateTime CreationDateTime { get; set; }
     }
 }

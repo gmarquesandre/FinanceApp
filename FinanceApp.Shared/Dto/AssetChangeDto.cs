@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace FinanceApp.Shared.Dto
+﻿namespace FinanceApp.Shared.Dto
 {
     public class AssetChangeDto
     {

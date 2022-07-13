@@ -1,5 +1,6 @@
 import 'package:finance_app/screens/currentBalance_screens/current_value_form.dart';
 import 'package:finance_app/screens/income/income_list.dart';
+import 'package:finance_app/screens/spending_screens/spending_list.dart';
 import 'package:flutter/material.dart';
 
 class Dashboard extends StatefulWidget {
@@ -125,7 +126,7 @@ class _TabList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2,
+      length: 3,
       child: Scaffold(
         appBar: AppBar(
           title: const Text("Cadastros"),
@@ -138,7 +139,7 @@ class _TabList extends StatelessWidget {
             tabs: const [
               Tab(text: "Saldo Corrente"),
               Tab(text: "Rendas"),
-              // Tab(text: "Gastos"),
+              Tab(text: "Gastos"),
               // Tab(text: "Tesouro Direto"),
               // Tab(text: "Renda Fixa"),
               // Tab(text: "Ativos"),
@@ -152,7 +153,7 @@ class _TabList extends StatelessWidget {
           children: [
             const CurrentBalanceForm(),
             IncomeList(),
-            // SpendingList(),
+            SpendingList(),
             // TreasuryList(),
             // FixedInterestList(),
             // AssetsList(),

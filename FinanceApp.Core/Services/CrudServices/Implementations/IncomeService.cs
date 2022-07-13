@@ -53,7 +53,7 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
 
             CheckValue(model);
 
-            _repository.Update(oldModel.Id, model);
+            await _repository.UpdateAsync(oldModel.Id, model);
             return Result.Ok().WithSuccess("Investimento atualizado com sucesso");
         }
 

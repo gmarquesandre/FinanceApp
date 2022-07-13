@@ -1,6 +1,4 @@
-﻿using FinanceApp.Shared.Models.UserTables.Bases;
-
-namespace FinanceApp.Shared.Models.UserTables
+﻿namespace FinanceApp.Shared.Models.UserTables
 {
     public class CurrentBalance : UserTable
     {

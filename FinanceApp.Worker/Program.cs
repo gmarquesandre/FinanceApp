@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using FinanceApp.Core.Importers;
-using FinanceApp.Api;
 using FinanceApp.EntityFramework;
 
 Console.WriteLine("boa");

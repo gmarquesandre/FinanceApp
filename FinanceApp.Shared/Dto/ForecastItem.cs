@@ -1,6 +1,4 @@
-﻿using FinanceApp.Shared.Enum;
-
-namespace FinanceApp.Shared.Dto
+﻿namespace FinanceApp.Shared.Dto
 {
     public class ForecastItem
     {

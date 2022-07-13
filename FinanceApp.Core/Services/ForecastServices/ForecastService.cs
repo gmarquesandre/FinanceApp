@@ -1,7 +1,6 @@
 ﻿using FinanceApp.Core.Services.CrudServices.Interfaces;
 using FinanceApp.Shared.Dto;
 using FinanceApp.Shared.Enum;
-using FinanceApp.Shared.Models.CommonTables;
 using static FinanceApp.Core.Services.TitleService;
 
 namespace FinanceApp.Core.Services.ForecastServices

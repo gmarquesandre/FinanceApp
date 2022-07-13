@@ -24,12 +24,15 @@ namespace FinanceApp.EntityFramework
             return newRow;
         }
 
-        public TEntity Update(int id, TEntity entity)
+        public async Task<TEntity> UpdateAsync(int id, TEntity entity)
         {
             entity.Id = id;
+
+            var oldEntity = await GetByIdAsync(id);
+
             entity.UserId = _httpContextAccessor.HttpContext.User.GetUserId();
             entity.UpdateDateTime = DateTime.Now;
-            entity.CreationDateTime = entity.CreationDateTime;
+            entity.CreationDateTime = oldEntity.CreationDateTime;
             var updatedRow = _context.Set<TEntity>().Update(entity).Entity;
             _context.SaveChanges();
             return updatedRow;

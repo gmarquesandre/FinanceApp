@@ -27,7 +27,7 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
             }
             else
             {
-                _repository.Update(value.Id, model);
+                await _repository.UpdateAsync(value.Id, model);
             }
             return _mapper.Map<FGTSDto>(model);
 

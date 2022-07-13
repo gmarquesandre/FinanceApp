@@ -1,13 +1,9 @@
 ﻿using AutoMapper;
-using FinanceApp.Core.Services.CrudServices.Base;
 using FinanceApp.Core.Services.CrudServices.Interfaces;
 using FinanceApp.Shared.Dto.CurrentBalance;
 using FinanceApp.Shared.Models.UserTables;
 using FluentResults;
-using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 using FinanceApp.EntityFramework;
-using FinanceApp.Shared;
 
 namespace FinanceApp.Core.Services.CrudServices.Implementations
 {
@@ -31,7 +27,7 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
             }
             else
             {
-                _repository.Update(value.Id, model);
+                await _repository.UpdateAsync(value.Id, model);
             }
             return _mapper.Map<CurrentBalanceDto>(model);
             

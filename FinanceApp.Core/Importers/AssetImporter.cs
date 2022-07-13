@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using FinanceApp.Core.Importers.Base;
+﻿using FinanceApp.Core.Importers.Base;
 using FinanceApp.Core.Services;
 using FinanceApp.Shared.Models.CommonTables;
 using Hangfire;

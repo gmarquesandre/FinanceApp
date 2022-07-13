@@ -1,16 +1,11 @@
 ﻿using AutoMapper;
-using FinanceApp.Core.Services.CrudServices.Base;
 using FinanceApp.Core.Services.CrudServices.Interfaces;
 using FinanceApp.Core.Services.ForecastServices.Interfaces;
 using FinanceApp.Shared.Dto;
 using FinanceApp.Shared.Dto.Loan;
 using FinanceApp.Shared.Enum;
-using FinanceApp.Shared.Models.CommonTables;
 using FinanceApp.Shared.Models.UserTables;
 using FluentResults;
-using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
-using FinanceApp.Shared;
 using FinanceApp.EntityFramework;
 
 namespace FinanceApp.Core.Services.CrudServices.Implementations
@@ -20,8 +15,10 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
         private ILoanForecast _forecast;
         private IRepository<Loan> _repository;
         private IMapper _mapper;
-        public LoanService(FinanceContext context, IMapper mapper, ILoanForecast forecast) {
+        public LoanService(IRepository<Loan> repository, IMapper mapper, ILoanForecast forecast) {            
             _forecast = forecast;            
+            _repository = repository;
+            _mapper = mapper;
         }
 
         public async Task<LoanDto> AddAsync(CreateLoan input)
@@ -33,11 +30,9 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
 
         }
         public async Task<Result> UpdateAsync(UpdateLoan input)
-        {
-            var oldModel = _repository.GetByIdAsync(input.Id);
-
+        {            
             var model = _mapper.Map<Loan>(input);
-            _repository.Update(model.Id, model);
+            await _repository.UpdateAsync(model.Id, model);
             return Result.Ok().WithSuccess("Investimento atualizado com sucesso");
         }
 
