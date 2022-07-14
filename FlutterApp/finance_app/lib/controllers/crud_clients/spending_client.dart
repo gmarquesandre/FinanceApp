@@ -1,9 +1,8 @@
 import 'dart:convert';
+import 'package:finance_app/controllers/default_request/default_client.dart';
 import 'package:finance_app/models/spending/create_spending.dart';
 import 'package:finance_app/models/spending/spending.dart';
 import 'package:finance_app/models/spending/update_spending.dart';
-
-import 'default_request/default_client.dart';
 
 class SpendingClient {
   static DefaultClient client = DefaultClient();

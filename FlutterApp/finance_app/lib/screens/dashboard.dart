@@ -1,4 +1,5 @@
 import 'package:finance_app/screens/currentBalance_screens/current_value_form.dart';
+import 'package:finance_app/screens/forecast/forecast.dart';
 import 'package:finance_app/screens/income/income_list.dart';
 import 'package:finance_app/screens/spending_screens/spending_list.dart';
 import 'package:flutter/material.dart';
@@ -47,8 +48,8 @@ class _DashboardState extends State<Dashboard> {
         return const _HomeScreen();
       case 0:
         return _TabList(); // Create this function, it should return your first page as a widget
-      // case 2:
-      //   return PreDashboardScreen(); // Create this function, it should return your second page as a widget
+      case 2:
+        return ForecastScreen(); // Create this function, it should return your second page as a widget
     }
 
     return const Center(

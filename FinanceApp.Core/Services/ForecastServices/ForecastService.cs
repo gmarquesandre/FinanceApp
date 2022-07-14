@@ -55,7 +55,7 @@ namespace FinanceApp.Core.Services.ForecastServices
                 {
                     DateInvestment = balance.UpdateDateTime ?? balance.CreationDateTime,
                     InvestmentValue = balance.Value,
-                    IndexPercentage = balance.PercentageCdi ?? 0.00,
+                    IndexPercentage = balance.UpdateValueWithCdiIndex ? balance.PercentageCdi ?? 0.00 : 0,
                     Index = EIndex.CDI,
                     AdditionalFixedInterest = 0.00,
                     TypePrivateFixedIncome = ETypePrivateFixedIncome.BalanceCDB
@@ -86,7 +86,7 @@ namespace FinanceApp.Core.Services.ForecastServices
                             {
                                 DateInvestment = date,
                                 InvestmentValue = incomesDay - loansDay - spendingsDay,
-                                IndexPercentage = balance.PercentageCdi ?? 0.00,
+                                IndexPercentage = balance.UpdateValueWithCdiIndex ? balance.PercentageCdi ?? 0.00: 0,
                                 Index = EIndex.CDI,
                                 AdditionalFixedInterest = 0.00,
                                 TypePrivateFixedIncome = ETypePrivateFixedIncome.BalanceCDB
