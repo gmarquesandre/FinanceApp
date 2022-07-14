@@ -24,7 +24,6 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
         public async Task<LoanDto> AddAsync(CreateLoan input)
         {
             Loan model = _mapper.Map<Loan>(input);
-
             await _repository.InsertAsync(model);
             return _mapper.Map<LoanDto>(model);
 
@@ -38,10 +37,8 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
 
         public async Task<LoanDto> GetAsync(int id)
         {
-            var value = await _repository.GetByIdAsync(id);
-            
+            var value = await _repository.GetByIdAsync(id);            
             return _mapper.Map<LoanDto>(value);
-
         }
 
         public async Task<List<LoanDto>> GetAsync()

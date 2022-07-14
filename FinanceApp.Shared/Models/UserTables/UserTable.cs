@@ -11,5 +11,11 @@ namespace FinanceApp.Shared.Models.UserTables
         public CustomIdentityUser User { get; set; }
         public DateTime CreationDateTime { get; set; }
         public DateTime UpdateDateTime { get; set; }
+
+        public bool CheckValue()
+        {
+            return true;
+        }
+
     }
 }

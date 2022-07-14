@@ -146,13 +146,13 @@ namespace FinanceApp.Core.Services
 
                 if (index == EIndex.TR)
                 {
-                    DateTime maxDate = _context.IndexValues.Where(a => a.Date.Day == 1).Max(a => a.Date);
+                    DateTime maxDate = _context.IndexValues.Where(a => a.Index == index && a.Date.Day == 1).Max(a => a.Date);
                     value = await _context.IndexValues.FirstOrDefaultAsync(a => a.Index == index && a.Date.Day == 1 && a.DateEnd.Day == 1);
                 }
                 else
                 {
 
-                    DateTime maxDate = _context.IndexValues.Max(a => a.Date);
+                    DateTime maxDate = _context.IndexValues.Where(a => a.Index == index).Max(a => a.Date);
                     value = await _context.IndexValues.FirstOrDefaultAsync(a => a.Index == index && a.Date == maxDate);
                 }
 

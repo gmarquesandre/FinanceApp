@@ -40,7 +40,7 @@ namespace FinanceApp.Core.Services
                 valuesDto = _mapper.Map<List<WorkingDaysByYearDto>>(values);
 
                 //setting cache entries
-                _memoryCache.Set(cacheKey, values, cacheExpiryOptions);
+                _memoryCache.Set(cacheKey, valuesDto, cacheExpiryOptions);
             }
 
             return valuesDto;
@@ -87,7 +87,7 @@ namespace FinanceApp.Core.Services
                 valuesDto = _mapper.Map<List<HolidayDto>>(values);
 
                 //setting cache entries
-                _memoryCache.Set(cacheKey, values, cacheExpiryOptions);
+                _memoryCache.Set(cacheKey, valuesDto, cacheExpiryOptions);
             }
 
             return valuesDto;

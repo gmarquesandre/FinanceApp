@@ -116,4 +116,5 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+app.Services.AddDefaultJobs();
 app.Run();

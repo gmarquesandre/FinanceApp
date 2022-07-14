@@ -73,7 +73,7 @@ namespace FinanceApp.Core.Services.ForecastServices
 
                 //variavel responsável por avisar se há alterações no balanço
                 bool updateBalance = false;
-                CheckIfMustUpdateBalance(spendingsDaily, incomesDaily, loanDaily, date, ref loansDay, ref incomesDay, ref spendingsDay, ref updateBalance);
+                updateBalance = CheckIfMustUpdateBalance(spendingsDaily, incomesDaily, loanDaily, date, ref loansDay, ref incomesDay, ref spendingsDay);
 
                 if (updateBalance)
                 {
@@ -85,7 +85,7 @@ namespace FinanceApp.Core.Services.ForecastServices
                             balanceTitlesList.Add(new DefaultTitleInput()
                             {
                                 DateInvestment = date,
-                                InvestmentValue = incomesDay,
+                                InvestmentValue = incomesDay - loansDay - spendingsDay,
                                 IndexPercentage = balance.PercentageCdi ?? 0.00,
                                 Index = EIndex.CDI,
                                 AdditionalFixedInterest = 0.00,
@@ -167,18 +167,19 @@ namespace FinanceApp.Core.Services.ForecastServices
 
             var output = new List<ForecastList>()
             {
+                totalDaily,
                 incomesDaily,
                 spendingsDaily,
                 loanDaily,
-                totalDaily
 
             };
 
             return output;
         }
 
-        private static void CheckIfMustUpdateBalance(ForecastList spendingsDaily, ForecastList incomesDaily, ForecastList loanDaily, DateTime date, ref double loansDay, ref double incomesDay, ref double spendingsDay, ref bool updateBalance)
+        private bool CheckIfMustUpdateBalance(ForecastList spendingsDaily, ForecastList incomesDaily, ForecastList loanDaily, DateTime date, ref double loansDay, ref double incomesDay, ref double spendingsDay)
         {
+            bool updateBalance = false;
             if (incomesDaily.Items.Any(a => a.DateReference == date))
             {
                 incomesDay = incomesDaily.Items.Where(a => a.DateReference == date).Sum(a => a.Amount);
@@ -194,6 +195,8 @@ namespace FinanceApp.Core.Services.ForecastServices
                 loansDay = loanDaily.Items.Where(a => a.DateReference == date).Sum(a => a.Amount);
                 updateBalance = true;
             }
+
+            return updateBalance;
         }
     }
 }

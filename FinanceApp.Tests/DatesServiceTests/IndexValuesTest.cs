@@ -6,7 +6,7 @@
 //using Microsoft.Extensions.Caching.Memory;
 //using System;
 //using System.Collections.Generic;
-//using System.Globalization;
+////using System.Globalization;
 //using System.Threading.Tasks;
 //using Xunit;
 
@@ -39,7 +39,7 @@
 //            var indexesImporter = new IndexImporter(context);
 
 //            var holidaysImporter = new HolidaysImporter(context);
-            
+
 //            //Importar dados para comparação
 
 //            await holidaysImporter.GetHolidays(2022, 2022);
@@ -49,20 +49,20 @@
 //            //Importar dados para comparação
 
 //            var value = await indexService.GetIndexValueBetweenDates(EIndex.Selic, new DateTime(2022, 1, 1), new DateTime(2022, 01, 04));
-            
+
 //            var value2 = await indexService.GetIndexValueBetweenDates(EIndex.Selic, new DateTime(2022, 1, 1), new DateTime(2022, 02, 01));
-            
+
 //            var value3 = await indexService.GetIndexValueBetweenDates(EIndex.Selic, new DateTime(2022, 1, 1), new DateTime(2022, 03, 01));
 
 //            NumberFormatInfo setPrecision = new();
-            
-//            setPrecision.NumberDecimalDigits= 8;
+
+//            setPrecision.NumberDecimalDigits = 8;
 
 //            //Valores extaidos da calculadora do cidadão para CDI de 100% https://www3.bcb.gov.br/CALCIDADAO/publico/exibirFormCorrecaoValores.do?method=exibirFormCorrecaoValores&aba=5
 //            Assert.True(value.ToString("N", setPrecision) == 1.00034749.ToString("N", setPrecision));
 //            Assert.True(value2.ToString("N", setPrecision) == 1.00732270.ToString("N", setPrecision));
 //            Assert.True(value3.ToString("N", setPrecision) == 1.01492840.ToString("N", setPrecision));
-            
+
 //        }
 
 
@@ -92,7 +92,7 @@
 //            //Importar dados para comparação
 
 //            await holidaysImporter.GetHolidays(2022, 2022);
-            
+
 //            //Importar dados para comparação
 
 //            context.ProspectIndexValues.Add(new ProspectIndexValue()
@@ -105,7 +105,8 @@
 //                Index = EIndex.Selic,
 //                IndexRecurrence = EIndexRecurrence.Yearly,
 //            });
-//            context.WorkingDaysByYear.Add(new WorkingDaysByYear() {
+//            context.WorkingDaysByYear.Add(new WorkingDaysByYear()
+//            {
 //                WorkingDays = 252,
 //                Year = 2022
 //            });
@@ -116,7 +117,7 @@
 //                    IndexRecurrence = EIndexRecurrence.Daily,
 //                    Date = new DateTime(2022,3,17),
 //                    DateEnd = new DateTime(2022,3,17),
-//                    Value = 0.00043739                    
+//                    Value = 0.00043739
 //                },
 //            });
 
@@ -175,7 +176,7 @@
 
 //            //Valores extaidos da calculadora do cidadão para CDI de 100% https://www3.bcb.gov.br/CALCIDADAO/publico/exibirFormCorrecaoValores.do?method=exibirFormCorrecaoValores&aba=5
 //            Assert.True(value.ToString("N", setPrecision) == 1.00585936.ToString("N", setPrecision));
-           
+
 //        }
 
 
@@ -214,7 +215,7 @@
 //            //Importar dados para comparação
 
 //            var value = await indexService.GetIndexValueBetweenDates(EIndex.IPCA, new DateTime(2022, 1, 1), new DateTime(2022, 03, 31));
-            
+
 //            NumberFormatInfo setPrecision = new();
 
 //            setPrecision.NumberDecimalDigits = 6;
@@ -222,7 +223,7 @@
 //            //Valores extaidos da calculadora do cidadão para CDI de 100% https://www3.bcb.gov.br/CALCIDADAO/publico/exibirFormCorrecaoValores.do?method=exibirFormCorrecaoValores&aba=5
 
 //            Assert.True(value.ToString("N", setPrecision) == 1.03200650.ToString("N", setPrecision));
-            
+
 //        }
 
 //    }

@@ -24,7 +24,7 @@ class UpdateIncome {
         'recurrence': recurrence,
         'amount': amount,
         'initialDate': initialDate.toString(),
-        'endDate': endDate!.year != 1900 ? endDate.toString() : null,
+        'endDate': endDate?.toString(),
         'isEndless': isEndless,
         'timesRecurrence': timesRecurrence,
       };
