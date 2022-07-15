@@ -44,7 +44,7 @@ namespace FinanceApp.Core.Services.ForecastServices
 
             var balanceTitlesList = new List<DefaultTitleInput>();
 
-            
+
             bool updateValueWithCdiIndex = balance.UpdateValueWithCdiIndex;
 
             double percentageCdi = balance.PercentageCdi ?? 1.00;
@@ -71,22 +71,38 @@ namespace FinanceApp.Core.Services.ForecastServices
                 double incomesDay = 0.00;
                 double spendingsDay = 0.00;
 
+                // Titulos negativos
+                double owingValue = 0.00;
+
                 //variavel responsável por avisar se há alterações no balanço
                 bool updateBalance = false;
                 updateBalance = CheckIfMustUpdateBalance(spendingsDaily, incomesDaily, loanDaily, date, ref loansDay, ref incomesDay, ref spendingsDay);
 
                 if (updateBalance)
                 {
-                    //atualizar saldo inicial de titulos liquidos pelo indice
-                    if (incomesDay >= loansDay + spendingsDay)
+                    if (balanceTitlesList.Any(a => a.InvestmentValue < 0.00))
                     {
-                        if (incomesDay > loansDay + spendingsDay)
+
+                        owingValue = balanceTitlesList.Where(a => a.InvestmentValue < 0.00).Select(async a =>
                         {
+                            a.Date = date;
+                            return await _titleService.GetCurrentValueOfTitle(a);
+                        }).Select(a => a.Result).Sum(a => a.LiquidValue);                        
+
+                    }
+
+                    //atualizar saldo inicial de titulos liquidos pelo indice
+                    if (incomesDay >= loansDay + spendingsDay + owingValue)
+                    {
+                        if (incomesDay > (loansDay + spendingsDay + owingValue))
+                        {
+                            balanceTitlesList = balanceTitlesList.Where(a => a.InvestmentValue > 0.00).ToList();
+
                             balanceTitlesList.Add(new DefaultTitleInput()
                             {
                                 DateInvestment = date,
-                                InvestmentValue = incomesDay - loansDay - spendingsDay,
-                                IndexPercentage = balance.UpdateValueWithCdiIndex ? balance.PercentageCdi ?? 0.00: 0,
+                                InvestmentValue = incomesDay - loansDay - spendingsDay - owingValue,
+                                IndexPercentage = balance != null && balance.UpdateValueWithCdiIndex ? balance.PercentageCdi ?? 0.00 : 0,
                                 Index = EIndex.CDI,
                                 AdditionalFixedInterest = 0.00,
                                 TypePrivateFixedIncome = ETypePrivateFixedIncome.BalanceCDB
@@ -94,47 +110,55 @@ namespace FinanceApp.Core.Services.ForecastServices
                         }
 
                     }
-                    else if (incomesDay < loansDay + spendingsDay)
+                    else if (incomesDay < loansDay + spendingsDay + owingValue)
                     {
-                        double leftValue = spendingsDay + loansDay - incomesDay;
+                        double leftValue = spendingsDay + loansDay + owingValue - incomesDay;
 
-                        double totalSpendingDayValue = Convert.ToDouble(spendingsDay + loansDay);
+                        //double totalSpendingDayValue = spendingsDay + loansDay + owingValue;
 
-                        balanceTitlesList.ForEach(async title =>
+
+                        foreach(var title in balanceTitlesList.Where(a => a.InvestmentValue > 0.00).ToList())
                         {
-                            if (totalSpendingDayValue <= 0.00)
-                                return;
+                            if (leftValue <= 0.00)
+                                break;
 
                             title.Date = date;
-                            var (titleOutput, withdraw) = await _titleService.GetCurrentTitleAfterWithdraw(title, totalSpendingDayValue);
+                            var (titleOutput, withdraw) = await _titleService.GetCurrentTitleAfterWithdraw(title, leftValue);
 
                             var titleUpdated = titleOutput;
                             var withdrawTotal = withdraw;
 
+                            title.InvestmentValue = titleUpdated.InvestmentValue;
+
                             if (titleUpdated.LiquidValue > 0.00)
                             {
                                 title.InvestmentValue = titleUpdated.InvestmentValue;
-                                totalSpendingDayValue = 0.00;
-                                return;
+                                leftValue = 0.00;
+                                break;
                             }
                             else if (titleUpdated.LiquidValue == 0.00)
                             {
-                                totalSpendingDayValue -= withdrawTotal;
-                                balanceTitlesList.Remove(title);
+                                leftValue -= withdrawTotal;
+                                title.InvestmentValue = 0.00;
                             }
+
                         }
-                        );
+
+                        //Remove "Titulos" zerados
+                        balanceTitlesList = balanceTitlesList.Where(a => a.InvestmentValue != 0.00).ToList();
 
 
-                        if (totalSpendingDayValue > 0)
+                        if (leftValue > 0)
                         {
+                            //Remove titulo de divida atual e atualiza
+                            balanceTitlesList = balanceTitlesList.Where(a => a.InvestmentValue > 0.00).ToList();
                             balanceTitlesList.Add(new DefaultTitleInput()
                             {
                                 DateInvestment = date,
-                                InvestmentValue = -totalSpendingDayValue,
-                                IndexPercentage = 0.00,
+                                InvestmentValue = -leftValue,
+                                IndexPercentage = 3.00,
                                 Index = EIndex.CDI,
-                                AdditionalFixedInterest = 12.00,
+                                AdditionalFixedInterest = 0.00,
                                 TypePrivateFixedIncome = ETypePrivateFixedIncome.BalanceCDB
                             });
                         }
@@ -144,11 +168,12 @@ namespace FinanceApp.Core.Services.ForecastServices
                 if (date.AddDays(1).Day == 1)
                 {
 
-                    var valorTitulos = balanceTitlesList.Select(async a => {
-                            a.Date = date;
-                            return await _titleService.GetCurrentValueOfTitle(a);
-                        }).Select(a => a.Result).Sum(a => a.LiquidValue);
-                    
+                    var valorTitulos = balanceTitlesList.Select(async a =>
+                    {
+                        a.Date = date;
+                        return await _titleService.GetCurrentValueOfTitle(a);
+                    }).Select(a => a.Result).Sum(a => a.LiquidValue);
+
                     forecastTotalList.Add(new ForecastItem()
                     {
                         Amount = valorTitulos,

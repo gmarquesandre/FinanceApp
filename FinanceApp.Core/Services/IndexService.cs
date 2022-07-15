@@ -94,7 +94,6 @@ namespace FinanceApp.Core.Services
                 //setting cache entries
                 _memoryCache.Set(cacheKey, valuesDto, cacheExpiryOptions);
             }
-            //_context.ProspectIndexValues.Load();
             return valuesDto;
         }
         public async Task<List<IndexValueDto>> GetIndex(EIndex index, DateTime dateStart, DateTime? dateEnd = null)
@@ -104,7 +103,7 @@ namespace FinanceApp.Core.Services
             //checks if cache entries exists
             if (!_memoryCache.TryGetValue(cacheKey, out List<IndexValueDto> valuesDto))
             {
-                List<IndexValue> values = new();
+                |List<IndexValue> values = new();
 
                 if (index == EIndex.TR)
                     values = await _context.IndexValues.Where(a => a.Index == index && a.Date.Day == 1 && a.DateEnd.Day == 1).ToListAsync();
@@ -135,30 +134,35 @@ namespace FinanceApp.Core.Services
             return valuesDto.Where(a => a.Date >= dateStart).ToList();
 
         }
-        public async Task<IndexValueDto> GetIndexLastValue(EIndex index)
+        private async Task<IndexValueDto> GetIndexLastValue(EIndex index)
         {
             var cacheKey = EnumHelper<EDataCacheKey>.GetDescriptionValue(EDataCacheKey.IndexesLastValue) + index.ToString();
 
             //checks if cache entries exists
             if (!_memoryCache.TryGetValue(cacheKey, out IndexValueDto valueDto))
             {
-                IndexValue value = new();
 
                 if (index == EIndex.TR)
-                {
-                    DateTime maxDate = _context.IndexValues.Where(a => a.Index == index && a.Date.Day == 1).Max(a => a.Date);
-                    value = await _context.IndexValues.FirstOrDefaultAsync(a => a.Index == index && a.Date.Day == 1 && a.DateEnd.Day == 1);
+                {                    
+                    
+                    var values = await GetIndex(index, DateTime.Now.AddMonths(-1));
+
+                    var value = values.OrderByDescending(a => a.Date)
+                            .Where(a => a.Index == index && a.Date.Day == 1 && a.DateEnd.Day == 1)
+                    .FirstOrDefault();
+
+
+                    valueDto = _mapper.Map<IndexValueDto>(value);
                 }
                 else
                 {
+                    var values = await GetIndex(index, DateTime.Now.AddMonths(-1));
 
-                    DateTime maxDate = _context.IndexValues.Where(a => a.Index == index).Max(a => a.Date);
-                    value = await _context.IndexValues.FirstOrDefaultAsync(a => a.Index == index && a.Date == maxDate);
+                    var value = values.OrderByDescending(a => a.Date).FirstOrDefault();
+
+                    valueDto = _mapper.Map<IndexValueDto>(value);
                 }
-
-                if (value == null)
-                    throw new Exception($"Erro ao buscar ultimo valor do indice {index}");
-
+                
                 //setting up cache options
                 var cacheExpiryOptions = new MemoryCacheEntryOptions
                 {
@@ -167,7 +171,6 @@ namespace FinanceApp.Core.Services
                     SlidingExpiration = TimeSpan.FromHours(1)
                 };
 
-                valueDto = _mapper.Map<IndexValueDto>(value);
 
                 //setting cache entries
                 _memoryCache.Set(cacheKey, valueDto, cacheExpiryOptions);
@@ -244,9 +247,9 @@ namespace FinanceApp.Core.Services
             {
                 var prospect = await GetIndexProspect(index);
 
-                prospect.Min(a => a.DateStart);                
-
-                for(DateTime date = indexLastValue.Date.AddDays(1); date < dateEnd; date = date.AddDays(1))
+                prospect.Min(a => a.DateStart);
+                DateTime dateStartProspect = dateStart > indexLastValue.Date ? dateStart : indexLastValue.Date;
+                for(DateTime date = dateStartProspect.AddDays(1); date < dateEnd; date = date.AddDays(1))
                 {
                     if (await _datesService.IsHoliday(date) || 
                         date.DayOfWeek == DayOfWeek.Sunday || 
@@ -264,7 +267,7 @@ namespace FinanceApp.Core.Services
         }
         private async Task<double> AddMissingFutureValues(IndexValueDto indexLastValue, double cumIndexValue, List<ProspectIndexValueDto> prospect, DateTime date, double indexPercentage)
         {
-            var indexProspectDate = prospect.FirstOrDefault(a => date >= a.DateStart && date <= a.DateEnd);
+            var indexProspectDate = prospect.OrderBy(a => a.DateEnd).FirstOrDefault(a => date >= a.DateStart);
 
             if (indexProspectDate == null)
             {

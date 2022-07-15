@@ -2,7 +2,7 @@
 
 namespace FinanceApp.Core.Services
 {
-    public interface IDatesService : IScopedService
+    public interface IDatesService : ITransientService
     {
         Task<WorkingDaysByYearDto> GetWorkingDaysOfAYear(int year);
         Task<List<WorkingDaysByYearDto>> GetWorkingDaysByYear(int yearStart, int? yearEnd);

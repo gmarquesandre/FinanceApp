@@ -53,14 +53,24 @@ namespace FinanceApp.Core.Services
             else if (input.InvestmentValue < 0)
             {
 
+
+                var apprecitation = await _indexService.GetIndexValueBetweenDates(EIndex.CDI,
+                                            input.DateInvestment,
+                                            input.Date,
+                                            input.IndexPercentage);
+
+                var grossValue = Convert.ToDouble(input.InvestmentValue) * apprecitation;
+
+
+                //TODO: Valor em dividas
                 //Aqui poderia colocar o juros de empréstimo da conta
                 return new DefaultTitleOutput()
                 {
                     DateInvestment = input.DateInvestment,
                     Date = input.Date,
-                    GrossValue = 0,
+                    GrossValue = grossValue,
                     IncomeTaxValue = 0,
-                    LiquidValue = 0,
+                    LiquidValue = grossValue,
                     InvestmentValue = input.InvestmentValue,
                     IofValue = 0,
                     AdditionalFixedInterest = input.AdditionalFixedInterest,

@@ -50,10 +50,10 @@ builder.Services.AddMvc();
 
 // Add services to the container.
 builder.Services.AddDbContext<FinanceContext>(options =>
-{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
+         options.UseSqlServer(builder.Configuration.GetConnectionString("Default"))
+         //,ServiceLifetime.Transient
+         );
 
-});
 builder.Services.AddIdentity<CustomIdentityUser, IdentityRole<int>>(opt =>
 {
     //opt.SignIn.RequireConfirmedEmail = true;
