@@ -103,7 +103,7 @@ namespace FinanceApp.Core.Services
             //checks if cache entries exists
             if (!_memoryCache.TryGetValue(cacheKey, out List<IndexValueDto> valuesDto))
             {
-                |List<IndexValue> values = new();
+                List<IndexValue> values = new();
 
                 if (index == EIndex.TR)
                     values = await _context.IndexValues.Where(a => a.Index == index && a.Date.Day == 1 && a.DateEnd.Day == 1).ToListAsync();
