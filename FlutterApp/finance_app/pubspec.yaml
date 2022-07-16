@@ -33,7 +33,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   intl: 
-  extended_masked_text: 
+  flutter_masked_text2: 
   syncfusion_flutter_charts: 
   syncfusion_localizations: 
   provider:

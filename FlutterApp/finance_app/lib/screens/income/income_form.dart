@@ -1,4 +1,4 @@
-import 'package:extended_masked_text/extended_masked_text.dart';
+import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:finance_app/common_lists.dart';
 import 'package:finance_app/controllers/crud_clients/income_client.dart';
 import 'package:finance_app/models/income/create_income.dart';

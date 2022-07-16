@@ -33,5 +33,5 @@ class CurrentBalance {
         updateDateTime = DateTime.tryParse(json['updateDateTime'].toString())!,
         percentageCdi = json['percentageCdi']?.toDouble(),
         value = json['value'].toDouble(),
-        updateValueWithCdiIndex = json['updateValueWithCdiIndex'] == '1';
+        updateValueWithCdiIndex = json['updateValueWithCdiIndex'];
 }

@@ -1,5 +1,5 @@
 import 'dart:math';
-import 'package:extended_masked_text/extended_masked_text.dart';
+import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:finance_app/common_lists.dart';
 import 'package:finance_app/controllers/crud_clients/loan_client.dart';
 import 'package:finance_app/models/loan/loan.dart';
@@ -63,7 +63,9 @@ class _LoanFormState extends State<LoanForm> {
       _monthsController.text = widget.loan!.monthsPayment.toString();
 
       _interestRateController = MoneyMaskedTextController(
-          leftSymbol: '', initialValue: widget.loan!.interestRate);
+          precision: 0,
+          leftSymbol: '',
+          initialValue: widget.loan!.interestRate);
 
       _date = widget.loan!.initialDate;
 
@@ -199,7 +201,7 @@ class _LoanFormState extends State<LoanForm> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
-                  child: new TextField(
+                  child: TextField(
                     controller: _interestRateController,
                     autocorrect: true,
                     decoration: const InputDecoration(

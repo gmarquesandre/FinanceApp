@@ -1,4 +1,4 @@
-import 'package:extended_masked_text/extended_masked_text.dart';
+import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:finance_app/components/progress.dart';
 import 'package:finance_app/controllers/crud_clients/current_balance_client.dart';
 import 'package:finance_app/models/current_balance/create_or_update_current_balance.dart';
@@ -23,6 +23,7 @@ class CurrentBalanceFormState extends State<CurrentBalanceForm> {
 
   DateTime _date = DateTime.now();
   CurrentBalanceClient client = CurrentBalanceClient();
+  var _interestRateController = MoneyMaskedTextController(initialValue: 0);
 
   void _loadBalance() async {
     setLoading();
@@ -33,6 +34,11 @@ class CurrentBalanceFormState extends State<CurrentBalanceForm> {
           leftSymbol: 'R\$ ',
           initialValue: balance.value,
         );
+        _interestRateController = MoneyMaskedTextController(
+            precision: 0,
+            decimalSeparator: '',
+            leftSymbol: '',
+            initialValue: balance.percentageCdi! * 100);
 
         _date = balance.updateDateTime;
 
@@ -61,7 +67,7 @@ class CurrentBalanceFormState extends State<CurrentBalanceForm> {
 
     CreateOrUpdateCurrentBalance newValue = CreateOrUpdateCurrentBalance(
         id: _id,
-        percentageCdi: 1,
+        percentageCdi: _interestRateController.numberValue / 100,
         value: _value.numberValue,
         updateValueWithCdiIndex: _updateValueWithCdi);
     var success = await client.create(newValue);
@@ -102,6 +108,21 @@ class CurrentBalanceFormState extends State<CurrentBalanceForm> {
                         ),
                       ),
                     ),
+                    !_updateValueWithCdi
+                        ? const SizedBox()
+                        : Padding(
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: TextField(
+                              controller: _interestRateController,
+                              autocorrect: true,
+                              decoration: const InputDecoration(
+                                labelText: 'CDI ( % )',
+                              ),
+                              keyboardType:
+                                  const TextInputType.numberWithOptions(
+                                      decimal: true),
+                            ),
+                          ),
                     _date.year <= 1970
                         ? const Text("")
                         : Text(

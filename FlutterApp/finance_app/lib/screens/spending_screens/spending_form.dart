@@ -1,4 +1,4 @@
-import 'package:extended_masked_text/extended_masked_text.dart';
+import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:finance_app/common_lists.dart';
 import 'package:finance_app/controllers/crud_clients/spending_client.dart';
 import 'package:finance_app/models/recurrence.dart';
@@ -28,7 +28,7 @@ class _SpendingFormState extends State<SpendingForm> {
   TextEditingController _initialDateController = TextEditingController();
   TextEditingController _endDateController = TextEditingController();
   TextEditingController _timesRecurrenceController = TextEditingController();
-  Recurrence? _recurrenceController;
+  Recurrence? recurrenceController;
   Category? _categoryController;
   // bool _isEndlessController = false;
   bool _isRequiredSpending = false;
@@ -61,17 +61,16 @@ class _SpendingFormState extends State<SpendingForm> {
 
   @override
   void initState() {
-    // TODO: implement initState]
     super.initState();
 
     getCategory();
 
     if (widget.spending != null) {
-      _recurrenceController = recurrenceList
+      recurrenceController = recurrenceList
           .firstWhere((element) => element.id == widget.spending!.recurrence);
       _dateTimeInitial = widget.spending!.initialDate;
 
-      _isRequiredSpending = widget.spending!.isRequired == 1;
+      _isRequiredSpending = widget.spending!.isRequired;
 
       _spendingValueController = MoneyMaskedTextController(
           leftSymbol: 'R\$ ', initialValue: widget.spending!.amount);
@@ -143,13 +142,13 @@ class _SpendingFormState extends State<SpendingForm> {
                           );
                         },
                       ),
-                      Text('Gasto Obrigatório'),
+                      const Text('Gasto Obrigatório'),
                     ],
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
-                  child: new TextFormField(
+                  child: TextFormField(
                     validator: (value) {
                       double? valueCompare = double.tryParse(value
                           .toString()
@@ -163,11 +162,11 @@ class _SpendingFormState extends State<SpendingForm> {
                     },
                     controller: _spendingValueController,
                     autocorrect: true,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Valor',
                     ),
                     keyboardType:
-                        TextInputType.numberWithOptions(decimal: true),
+                        const TextInputType.numberWithOptions(decimal: true),
                   ),
                 ),
                 Padding(
@@ -180,7 +179,7 @@ class _SpendingFormState extends State<SpendingForm> {
                     // }
                     // return null;
                     // },
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Categoria',
                     ),
                     items: categoryList
@@ -202,35 +201,35 @@ class _SpendingFormState extends State<SpendingForm> {
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0, left: 0),
                   child: DropdownButtonFormField<Recurrence>(
-                    value: _recurrenceController,
+                    value: recurrenceController,
                     validator: (value) {
                       if (value == null) {
                         return 'Selecione uma recorrencia';
                       }
                       return null;
                     },
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Recorrência',
                     ),
                     items: recurrenceList.map<DropdownMenuItem<Recurrence>>(
-                        (_recurrenceController) {
+                        (recurrenceController) {
                       return DropdownMenuItem<Recurrence>(
-                        value: _recurrenceController,
+                        value: recurrenceController,
                         child: Text(
-                          _recurrenceController.name,
+                          recurrenceController.name,
                         ),
                       );
                     }).toList(),
                     onChanged: (Recurrence? newValue) {
                       setState(() {
-                        _recurrenceController = newValue!;
+                        recurrenceController = newValue!;
                       });
                     },
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
-                  child: new TextFormField(
+                  child: TextFormField(
                     readOnly: true,
                     validator: (value) {
                       if (value == '') {
@@ -257,14 +256,14 @@ class _SpendingFormState extends State<SpendingForm> {
                       _initialDateController.text =
                           DateFormat('dd/MM/yyyy').format(_dateTimeInitial!);
                     },
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Data Inicial',
                     ),
                   ),
                 ),
                 Visibility(
-                  visible: _recurrenceController != null &&
-                      _recurrenceController!.id! > 1,
+                  visible: recurrenceController != null &&
+                      recurrenceController!.id! > 1,
                   child: Padding(
                     padding: const EdgeInsets.only(top: 8.0),
                     child: Column(
@@ -273,7 +272,7 @@ class _SpendingFormState extends State<SpendingForm> {
                       children: <Widget>[
                         RadioListTile(
                           groupValue: radioItem,
-                          title: Text(
+                          title: const Text(
                             'Número de Recorrencias',
                           ),
                           value: 'recurrenceNumber',
@@ -285,7 +284,7 @@ class _SpendingFormState extends State<SpendingForm> {
                         ),
                         RadioListTile(
                           groupValue: radioItem,
-                          title: Text(
+                          title: const Text(
                             'Data Final',
                           ),
                           value: 'endDate',
@@ -298,7 +297,7 @@ class _SpendingFormState extends State<SpendingForm> {
                         ),
                         RadioListTile(
                           groupValue: radioItem,
-                          title: Text(
+                          title: const Text(
                             'Para Sempre',
                           ),
                           value: 'forever',
@@ -313,8 +312,8 @@ class _SpendingFormState extends State<SpendingForm> {
                   ),
                 ),
                 Visibility(
-                  visible: _recurrenceController != null &&
-                      _recurrenceController!.id! > 1 &&
+                  visible: recurrenceController != null &&
+                      recurrenceController!.id! > 1 &&
                       radioItem ==
                           'recurre'
                               'nceNumber',
@@ -330,7 +329,7 @@ class _SpendingFormState extends State<SpendingForm> {
                         return null;
                       },
                       controller: _timesRecurrenceController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Número de recorrencias',
                       ),
                       keyboardType: TextInputType.number,
@@ -341,12 +340,12 @@ class _SpendingFormState extends State<SpendingForm> {
                   ),
                 ),
                 Visibility(
-                  visible: _recurrenceController != null &&
-                      _recurrenceController!.id != 1 &&
+                  visible: recurrenceController != null &&
+                      recurrenceController!.id != 1 &&
                       radioItem == 'endDate',
                   child: Padding(
                     padding: const EdgeInsets.only(top: 8.0),
-                    child: new TextFormField(
+                    child: TextFormField(
                       validator: (value) {
                         if (value == '') {
                           return 'Insira a data final';
@@ -370,7 +369,7 @@ class _SpendingFormState extends State<SpendingForm> {
                         _endDateController.text =
                             DateFormat('dd/MM/yyyy').format(_dateTimeFinal!);
                       },
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Data Final',
                       ),
                     ),
@@ -381,16 +380,16 @@ class _SpendingFormState extends State<SpendingForm> {
                   child: SizedBox(
                     width: double.maxFinite,
                     child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           final String name = _nameController.text;
-                          final int? recurrenceId = int.tryParse(
-                              _recurrenceController!.id.toString());
+                          final int? recurrenceId =
+                              int.tryParse(recurrenceController!.id.toString());
                           final int? categoryId = _categoryController?.id;
                           final double spendingValue =
                               _spendingValueController.numberValue;
                           final DateTime endDate =
-                              _recurrenceController!.id == 1 ||
+                              recurrenceController!.id == 1 ||
                                       _dateTimeFinal == null ||
                                       radioItem != 'endDate'
                                   ? DateTime(
@@ -422,7 +421,7 @@ class _SpendingFormState extends State<SpendingForm> {
                                 isRequired: _isRequiredSpending,
                                 timesRecurrence: timesRecurrence);
 
-                            _daoSpending.create(newSpend).then((id) =>
+                            await _daoSpending.create(newSpend).then((id) =>
                                 Navigator.pop(context, newSpend.toString()));
                           } else {
                             final UpdateSpending newSpend = UpdateSpending(
@@ -438,12 +437,12 @@ class _SpendingFormState extends State<SpendingForm> {
                                 isRequired: _isRequiredSpending,
                                 timesRecurrence: timesRecurrence);
 
-                            _daoSpending.update(newSpend).then((id) =>
+                            await _daoSpending.update(newSpend).then((id) =>
                                 Navigator.pop(context, newSpend.toString()));
                           }
                         }
                       },
-                      child: Text('Adicionar'),
+                      child: const Text('Adicionar'),
                     ),
                   ),
                 )
