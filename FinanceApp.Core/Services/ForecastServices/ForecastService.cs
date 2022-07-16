@@ -83,7 +83,7 @@ namespace FinanceApp.Core.Services.ForecastServices
                     if (balanceTitlesList.Any(a => a.InvestmentValue < 0.00))
                     {
 
-                        owingValue = balanceTitlesList.Where(a => a.InvestmentValue < 0.00).Select(async a =>
+                        owingValue = -balanceTitlesList.Where(a => a.InvestmentValue < 0.00).Select(async a =>
                         {
                             a.Date = date;
                             return await _titleService.GetCurrentValueOfTitle(a);

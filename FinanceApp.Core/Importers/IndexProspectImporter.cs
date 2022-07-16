@@ -57,6 +57,12 @@ namespace FinanceApp.Core.Importers
                 .Where(a=> a.Index == EIndex.Selic)
                 .ToList();
 
+            valuesSelic.ForEach(a =>
+            {
+                a.Id = 0;
+                a.Index = EIndex.CDI;
+            });
+
             await InsertOrUpdateIndex(valuesSelic);
 
         }
