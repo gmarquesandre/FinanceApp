@@ -65,8 +65,6 @@ namespace FinanceApp.Core.Services.ForecastServices
 
             for (DateTime date = DateTime.Now.Date; date <= maxYearMonth; date = date.AddDays(1))
             {
-
-
                 double loansDay = 0.00;
                 double incomesDay = 0.00;
                 double spendingsDay = 0.00;

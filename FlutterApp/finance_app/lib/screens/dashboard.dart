@@ -1,6 +1,7 @@
 import 'package:finance_app/screens/currentBalance_screens/current_value_form.dart';
 import 'package:finance_app/screens/forecast/forecast.dart';
 import 'package:finance_app/screens/income/income_list.dart';
+import 'package:finance_app/screens/loan_screens/loan_list.dart';
 import 'package:finance_app/screens/spending_screens/spending_list.dart';
 import 'package:flutter/material.dart';
 
@@ -127,7 +128,7 @@ class _TabList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: _tabs.length,
       child: Scaffold(
         appBar: AppBar(
           title: const Text("Cadastros"),
@@ -137,17 +138,7 @@ class _TabList extends StatelessWidget {
             onTap: (value) {
               debugPrint(value.toString());
             },
-            tabs: const [
-              Tab(text: "Saldo Corrente"),
-              Tab(text: "Rendas"),
-              Tab(text: "Gastos"),
-              // Tab(text: "Tesouro Direto"),
-              // Tab(text: "Renda Fixa"),
-              // Tab(text: "Ativos"),
-              // Tab(text: "Fundos"),
-              // Tab(text: "Empréstimo/Financiamento"),
-              // Tab(text: "FGTS"),
-            ],
+            tabs: _tabs,
           ),
         ),
         body: TabBarView(
@@ -159,11 +150,25 @@ class _TabList extends StatelessWidget {
             // FixedInterestList(),
             // AssetsList(),
             // FundList(),
-            // LoanList(),
+            LoanList(),
             // FgtsForm(),
           ],
         ),
       ),
     );
+  }
+
+  List<Widget> get _tabs {
+    return const [
+      Tab(text: "Saldo Corrente"),
+      Tab(text: "Rendas"),
+      Tab(text: "Gastos"),
+      // Tab(text: "Tesouro Direto"),
+      // Tab(text: "Renda Fixa"),
+      // Tab(text: "Ativos"),
+      // Tab(text: "Fundos"),
+      Tab(text: "Empréstimo/Financiamento"),
+      // Tab(text: "FGTS"),
+    ];
   }
 }
