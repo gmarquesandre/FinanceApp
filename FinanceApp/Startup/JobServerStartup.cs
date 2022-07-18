@@ -31,9 +31,7 @@ namespace FinanceApp.Api.Startup
 
             IMapper mapper = new Mapper(configuration);
 
-            var indexImporter = new IndexImporter(context);
-
-            
+            var indexImporter = new IndexImporter(context);            
 
             RecurringJob.AddOrUpdate<HolidaysImporter>("get-holidays", importer => importer.GetHolidays(2000, DateTime.Now.Year + 40), Cron.Yearly);
             RecurringJob.AddOrUpdate<AssetImporter>("get-asserts", importer => importer.GetAssets(), Cron.Yearly);

@@ -1,5 +1,4 @@
 ﻿using FinanceApp.Core.Importers.Base;
-using FinanceApp.Core.Services;
 using FinanceApp.Shared.Models.CommonTables;
 using Hangfire;
 using System.Globalization;
@@ -7,6 +6,7 @@ using System.IO.Compression;
 using System.Net;
 using System.Text;
 using FinanceApp.EntityFramework;
+using FinanceApp.Core.Services.DefaultServices.Interfaces;
 
 namespace FinanceApp.Core.Importers
 {

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FinanceApp.Core.Services.DefaultServices.Interfaces;
 using FinanceApp.EntityFramework;
 using FinanceApp.Shared;
 using FinanceApp.Shared.Dto;

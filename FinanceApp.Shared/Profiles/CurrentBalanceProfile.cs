@@ -4,9 +4,9 @@ using FinanceApp.Shared.Models.UserTables;
 
 namespace FinanceApp.Shared.Profiles
 {
-    public class FGTSProfile : Profile
+    public class CurrentBalaceProfile : Profile
     {
-        public FGTSProfile()
+        public CurrentBalaceProfile()
         {
             CreateMap<CreateOrUpdateCurrentBalance, FGTS>();
             CreateMap<FGTS, CreateOrUpdateCurrentBalance>();

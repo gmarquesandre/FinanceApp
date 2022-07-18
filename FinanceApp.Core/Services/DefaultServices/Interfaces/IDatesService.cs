@@ -1,6 +1,6 @@
 ﻿using FinanceApp.Shared.Dto;
 
-namespace FinanceApp.Core.Services
+namespace FinanceApp.Core.Services.DefaultServices.Interfaces
 {
     public interface IDatesService : ITransientService
     {

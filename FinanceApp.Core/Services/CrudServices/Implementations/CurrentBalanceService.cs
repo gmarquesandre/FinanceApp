@@ -49,7 +49,6 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
                     PercentageCdi = null,
                     UpdateValueWithCdiIndex = false,
                     Value = 0.00,
-                    CreationDateTime = new DateTime(1900,1,1),
                     UpdateDateTime = new DateTime(1900, 1, 1),
 
                 };

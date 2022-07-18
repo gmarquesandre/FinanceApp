@@ -77,7 +77,7 @@ class GetPatrimony extends StatelessWidget {
       collapsedIconColor: Colors.white,
       iconColor: Colors.white,
       title: const Text(
-        "Patrimônio",
+        "Patrimônio Liquido",
       ),
       leading: const Icon(Icons.bar_chart_outlined, color: Colors.white),
       children: [
@@ -89,7 +89,7 @@ class GetPatrimony extends StatelessWidget {
           tooltipBehavior: _tooltipBehavior,
           series: <ChartSeries>[
             StackedColumnSeries<ForecastItem, DateTime>(
-                name: 'Patrimônio',
+                name: 'Patrimônio Liquido',
                 dataSource: spending.items,
                 color: Colors.white,
                 xValueMapper: (ForecastItem value, _) => value.dateReference,
@@ -102,7 +102,7 @@ class GetPatrimony extends StatelessWidget {
             intervalType: DateTimeIntervalType.months,
           ),
           primaryYAxis: NumericAxis(
-            numberFormat: NumberFormat.compact(),
+            numberFormat: NumberFormat.simpleCurrency(),
           ),
           axes: <ChartAxis>[
             NumericAxis(
@@ -111,7 +111,7 @@ class GetPatrimony extends StatelessWidget {
                 maximum: 110.00,
                 labelFormat: '{value}%',
                 opposedPosition: true,
-                maximumLabels: 3)
+                maximumLabels: 2)
           ],
         ),
       ],

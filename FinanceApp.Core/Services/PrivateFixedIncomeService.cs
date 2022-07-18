@@ -4,6 +4,7 @@ using FinanceApp.Shared.Enum;
 using FinanceApp.Shared.Models.UserTables;
 using FluentResults;
 using FinanceApp.EntityFramework;
+using FinanceApp.Core.Services.DefaultServices.Interfaces;
 
 namespace FinanceApp.Core.Services
 {

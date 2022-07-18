@@ -7,7 +7,6 @@ namespace FinanceApp.Shared.Dto.CurrentBalance
         public double Value { get; set; }
         public double? PercentageCdi { get; set; }
         public bool UpdateValueWithCdiIndex { get; set; }
-        public DateTime CreationDateTime { get; set; }
-        public DateTime? UpdateDateTime { get; set; }
+        public DateTime UpdateDateTime { get; set; }
     }
 }

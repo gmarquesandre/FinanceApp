@@ -37,6 +37,8 @@ namespace FinanceApp.Core.Importers
             await GetSelic();
 
             await GetCdi();
+
+            await _context.SaveChangesAsync();
             
 
         }
@@ -47,7 +49,6 @@ namespace FinanceApp.Core.Importers
             var data = _context.ProspectIndexValues.ToList();
 
             _context.ProspectIndexValues.RemoveRange(data);
-            await _context.SaveChangesAsync();
         }
 
         private async Task GetCdi()
@@ -204,8 +205,6 @@ namespace FinanceApp.Core.Importers
             list = list.Where(a => a.DateResearch == list.Select(a => a.DateResearch).Max()).ToList();
 
             await _context.ProspectIndexValues.AddRangeAsync(list);
-
-            await _context.SaveChangesAsync();
         }       
     }
 }

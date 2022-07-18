@@ -1,4 +1,5 @@
-﻿using FinanceApp.Shared;
+﻿using FinanceApp.Core.Services.DefaultServices.Interfaces;
+using FinanceApp.Shared;
 using FinanceApp.Shared.Enum;
 
 namespace FinanceApp.Core.Services

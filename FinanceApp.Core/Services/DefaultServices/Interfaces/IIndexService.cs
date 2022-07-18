@@ -1,7 +1,7 @@
 ﻿using FinanceApp.Shared.Dto;
 using FinanceApp.Shared.Enum;
 
-namespace FinanceApp.Core.Services
+namespace FinanceApp.Core.Services.DefaultServices.Interfaces
 {
     public interface IIndexService : ITransientService
     {
