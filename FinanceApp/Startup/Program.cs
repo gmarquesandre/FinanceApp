@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using FinanceApp.EntityFramework;
+using Hangfire.MySql;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,16 +25,26 @@ builder.Services.RegisterServices(builder.Configuration);
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 var connectionStringHangfire = builder.Configuration.GetConnectionString("HangfireConnection");
-builder.Services.AddHangfire(configuration => configuration.SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+
+
+
+builder.Services.AddHangfire(configuration => 
+
+    configuration.SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
     .UseSimpleAssemblyNameTypeSerializer()
     .UseRecommendedSerializerSettings()
-    .UseSqlServerStorage(connectionStringHangfire, new SqlServerStorageOptions
+    //.UseSqlServerStorage(connectionStringHangfire, new SqlServerStorageOptions
+    //{
+    //    CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
+    //    SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
+    //    QueuePollInterval = TimeSpan.Zero,
+    //    UseRecommendedIsolationLevel = true
+    //})
+    .UseStorage(new MySqlStorage(connectionStringHangfire, new MySqlStorageOptions
     {
-        CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
-        SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
-        QueuePollInterval = TimeSpan.Zero,
-        UseRecommendedIsolationLevel = true
-    }));
+        TablesPrefix = "Hangfire"
+    }))
+    );
 builder.Services.AddHangfireServer(configuration =>
 {
     configuration.Queues = new[] { "default", "asset" };
@@ -48,10 +59,11 @@ builder.Services.AddControllersWithViews()
 
 builder.Services.AddMvc();
 
+string connection = builder.Configuration.GetConnectionString("Default");
+
 // Add services to the container.
 builder.Services.AddDbContext<FinanceContext>(options =>
-         options.UseSqlServer(builder.Configuration.GetConnectionString("Default"))
-         //,ServiceLifetime.Transient
+         options.UseMySql(connection, ServerVersion.AutoDetect(connection))
          );
 
 builder.Services.AddIdentity<CustomIdentityUser, IdentityRole<int>>(opt =>
@@ -115,6 +127,5 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
 app.Services.AddDefaultJobs();
 app.Run();

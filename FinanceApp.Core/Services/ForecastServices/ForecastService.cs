@@ -36,7 +36,6 @@ namespace FinanceApp.Core.Services.ForecastServices
 
         public async Task<List<ForecastList>> GetForecast()
         {
-
             var forecastTotalList = new List<ForecastItem>();
 
 
@@ -208,6 +207,7 @@ namespace FinanceApp.Core.Services.ForecastServices
             };
 
             return output;
+      
         }
 
         private bool CheckIfMustUpdateBalance(ForecastList spendingsDaily, ForecastList incomesDaily, ForecastList loanDaily, DateTime date, ref double loansDay, ref double incomesDay, ref double spendingsDay)

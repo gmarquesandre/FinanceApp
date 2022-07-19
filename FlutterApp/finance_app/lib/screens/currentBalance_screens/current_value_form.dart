@@ -38,7 +38,9 @@ class CurrentBalanceFormState extends State<CurrentBalanceForm> {
             precision: 0,
             decimalSeparator: '',
             leftSymbol: '',
-            initialValue: balance.percentageCdi! * 100);
+            initialValue: balance.percentageCdi != null
+                ? balance.percentageCdi! * 100
+                : 0);
 
         _date = balance.updateDateTime;
 
@@ -122,6 +124,11 @@ class CurrentBalanceFormState extends State<CurrentBalanceForm> {
                                   const TextInputType.numberWithOptions(
                                       decimal: true),
                             ),
+                          ),
+                    !_updateValueWithCdi
+                        ? const Text("")
+                        : const Text(
+                            "Será considerado IR de 22,5% em qualquer prazo do investimento",
                           ),
                     _date.year <= 1970
                         ? const Text("")
