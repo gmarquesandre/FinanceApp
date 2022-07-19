@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:finance_app/global_variables.dart';
 import 'package:finance_app/route_generator.dart';
 import 'package:finance_app/screens/dashboard.dart';
@@ -31,6 +33,15 @@ class MyApp extends StatelessWidget {
       home: const Dashboard(),
     );
     return materialApp;
+  }
+}
+
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
   }
 }
 

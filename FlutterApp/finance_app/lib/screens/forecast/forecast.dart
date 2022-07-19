@@ -71,7 +71,7 @@ class GetPatrimony extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ExpansionTile(
-      initiallyExpanded: false,
+      initiallyExpanded: true,
       collapsedTextColor: Colors.white,
       textColor: Colors.white,
       collapsedIconColor: Colors.white,
@@ -93,23 +93,27 @@ class GetPatrimony extends StatelessWidget {
                 dataSource: spending.items,
                 color: Colors.white,
                 xValueMapper: (ForecastItem value, _) => value.dateReference,
-                yValueMapper: (ForecastItem value, _) => value.amount,
+                yValueMapper: (ForecastItem value, _) => value.realAmount,
                 enableTooltip: true),
           ],
           primaryXAxis: DateTimeCategoryAxis(
+            title: AxisTitle(
+                text: 'Mês', textStyle: const TextStyle(fontSize: 12)),
             edgeLabelPlacement: EdgeLabelPlacement.shift,
-            dateFormat: DateFormat("d/M/yy"),
+            dateFormat: DateFormat("M/yy"),
             intervalType: DateTimeIntervalType.months,
           ),
           primaryYAxis: NumericAxis(
-            numberFormat: NumberFormat.simpleCurrency(),
+            decimalPlaces: 0,
+            numberFormat:
+                NumberFormat.simpleCurrency(decimalDigits: 0, locale: 'pt-BR'),
           ),
           axes: <ChartAxis>[
             NumericAxis(
                 name: 'um',
                 minimum: 0.00,
                 maximum: 110.00,
-                labelFormat: '{value}%',
+                // labelFormat: '{value}%',
                 opposedPosition: true,
                 maximumLabels: 2)
           ],

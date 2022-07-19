@@ -21,7 +21,6 @@ class _SpendingListState extends State<SpendingList> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 

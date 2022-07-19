@@ -55,34 +55,7 @@ class _LoanListState extends State<LoanList> {
                         horizontalMargin: 5,
                         columnSpacing: 0,
                         showCheckboxColumn: false,
-                        columns: [
-                          DataColumn(
-                            label: Container(
-                              child:
-                                  const Text('Nome', textAlign: TextAlign.left),
-                            ),
-                          ),
-                          const DataColumn(
-                            label: Expanded(
-                              child:
-                                  Text('Parcelas', textAlign: TextAlign.center),
-                            ),
-                          ),
-                          const DataColumn(
-                            label: Expanded(
-                              child: Text('Data Inicial',
-                                  textAlign: TextAlign.center),
-                            ),
-                          ),
-                          const DataColumn(
-                            label: Expanded(
-                              child: Text('Valor', textAlign: TextAlign.center),
-                            ),
-                          ),
-                          const DataColumn(
-                            label: Text(''),
-                          ),
-                        ],
+                        columns: header,
                         rows: spending
                             .map<DataRow>(
                               (element) => DataRow(
@@ -100,11 +73,8 @@ class _LoanListState extends State<LoanList> {
                                 },
                                 cells: [
                                   DataCell(
-                                    Container(
-                                      width: 50,
-                                      child: Text(
-                                        element.name.toString(),
-                                      ),
+                                    Text(
+                                      element.name.toString(),
                                     ),
                                   ),
                                   DataCell(
@@ -179,5 +149,20 @@ class _LoanListState extends State<LoanList> {
         ),
       ),
     );
+  }
+
+  List<String> get headerTexts =>
+      ['Nome', 'Parcelas', 'Data Inicial', 'Valor', ''];
+
+  List<DataColumn> get header {
+    return headerTexts
+        .map(
+          (headerText) => DataColumn(
+            label: Expanded(
+              child: Text(headerText, textAlign: TextAlign.left),
+            ),
+          ),
+        )
+        .toList();
   }
 }

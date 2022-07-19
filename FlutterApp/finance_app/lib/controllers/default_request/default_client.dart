@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:finance_app/global_variables.dart';
 import 'package:finance_app/route_generator.dart';
+import 'package:http/io_client.dart';
 import 'package:http_status_code/http_status_code.dart';
-import 'package:http/http.dart' as http;
+// import 'package:http/http.dart' as http;
 
 class DefaultClient {
   static String baseUrl = GlobalVariables.baseUrlLocal;
@@ -12,6 +14,14 @@ class DefaultClient {
     'Accept': 'application/json',
     'Authorization': 'Bearer $token',
   };
+
+  bool trustSelfSigned = true;
+  static final HttpClient httpClient = HttpClient()
+    ..badCertificateCallback =
+        ((X509Certificate cert, String host, int port) => true);
+
+  IOClient http = IOClient(httpClient);
+
   static String token =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYW5kcmUiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjIiLCJleHAiOjE2ODkxOTYxNzd9.Fnd4dkdJxEaaefIkhRHaSWdLg8lhdehKZyYD92p39rE";
 

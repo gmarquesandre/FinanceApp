@@ -43,10 +43,10 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
                 {
                     Id = value.Id,
                     MonthsSavingWarning = value.MonthsSavingWarning ?? 0,
-                    PercentageCdiFixedInteresIncometSavings = value.PercentageCdiFixedInteresIncometSavings ?? 0,
-                    PercentageCdiLoan = value.PercentageCdiLoan ?? 3,
-                    PercentageCdiVariableIncome = value.PercentageCdiVariableIncome ?? 0,
-                    SavingsLiquidPercentage = value.SavingsLiquidPercentage ?? 0,
+                    PercentageCdiFixedInteresIncometSavings = value.PercentageCdiFixedInteresIncometSavings ?? 0.00,
+                    PercentageCdiLoan = value.PercentageCdiLoan ?? 3.00,
+                    PercentageCdiVariableIncome = value.PercentageCdiVariableIncome ?? 0.00,
+                    SavingsLiquidPercentage = value.SavingsLiquidPercentage ?? 0.00,
                 };
                 //return _mapper.Map<ForecastParametersDto>(value);
             }
@@ -56,9 +56,9 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
                 {
                     Id = 0,
                     MonthsSavingWarning = 0,
-                    PercentageCdiFixedInteresIncometSavings = 1,
-                    PercentageCdiLoan = 3,
-                    PercentageCdiVariableIncome = 1,
+                    PercentageCdiFixedInteresIncometSavings = 0.00,
+                    PercentageCdiLoan = 3.00,
+                    PercentageCdiVariableIncome = 0.00,
                     SavingsLiquidPercentage = 0.6                    
                 };
             }

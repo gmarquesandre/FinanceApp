@@ -2,9 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e1afd87c-6605-49de-9a66-309de2e45107" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../FinanceApp/Controllers/IncomeController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../FinanceApp/Controllers/IncomeController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/finance_app/lib/controllers/default_request/default_client.dart" beforeDir="false" afterPath="$PROJECT_DIR$/finance_app/lib/controllers/default_request/default_client.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/finance_app/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/finance_app/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FinanceApp.Core/Services/CrudServices/Implementations/ForecastParametersService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../FinanceApp.Core/Services/CrudServices/Implementations/ForecastParametersService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FinanceApp.Core/Services/DefaultServices/Interfaces/IIndexService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../FinanceApp.Core/Services/DefaultServices/Interfaces/IIndexService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FinanceApp.Core/Services/ForecastServices/ForecastService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../FinanceApp.Core/Services/ForecastServices/ForecastService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FinanceApp.Core/Services/ForecastServices/Implementations/IncomeForecast.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../FinanceApp.Core/Services/ForecastServices/Implementations/IncomeForecast.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FinanceApp.Core/Services/ForecastServices/Implementations/LoanForecast.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../FinanceApp.Core/Services/ForecastServices/Implementations/LoanForecast.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FinanceApp.Core/Services/ForecastServices/Implementations/SpendingForecast.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../FinanceApp.Core/Services/ForecastServices/Implementations/SpendingForecast.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FinanceApp.Core/Services/IndexService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../FinanceApp.Core/Services/IndexService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FinanceApp.EntityFramework.Auth/FinanceContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../FinanceApp.EntityFramework.Auth/FinanceContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FinanceApp.EntityFramework.Auth/Migrations/FinanceContextModelSnapshot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../FinanceApp.EntityFramework.Auth/Migrations/FinanceContextModelSnapshot.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FinanceApp.Shared/Dto/ForecastItem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../FinanceApp.Shared/Dto/ForecastItem.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/FlutterApp.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/FlutterApp.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/finance_app/lib/models/forecast/forecast_item.dart" beforeDir="false" afterPath="$PROJECT_DIR$/finance_app/lib/models/forecast/forecast_item.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/finance_app/lib/screens/forecast/forecast.dart" beforeDir="false" afterPath="$PROJECT_DIR$/finance_app/lib/screens/forecast/forecast.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/finance_app/lib/screens/income/income_form.dart" beforeDir="false" afterPath="$PROJECT_DIR$/finance_app/lib/screens/income/income_form.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/finance_app/lib/screens/income/income_list.dart" beforeDir="false" afterPath="$PROJECT_DIR$/finance_app/lib/screens/income/income_list.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -13,6 +26,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2BYREQk8gaiYzNSGdnMnCyOUclq" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -25,7 +41,9 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "dart.analysis.tool.window.visible": "false",
-    "last_opened_file_path": "C:/Users/gmarq/OneDrive/Desktop/Projetos Pessoais/FinanceApp/FlutterApp/finance_app"
+    "last_opened_file_path": "C:/Users/gmarq/Desktop/Projetos Pessoais/FinanceApp/FlutterApp/finance_app",
+    "settings.editor.selected.configurable": "flutter.settings",
+    "show.migrate.to.gradle.popup": "false"
   }
 }]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -38,5 +56,9 @@
       <updated>1657080924610</updated>
     </task>
     <servers />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

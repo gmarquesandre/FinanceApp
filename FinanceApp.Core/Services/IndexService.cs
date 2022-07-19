@@ -319,6 +319,34 @@ namespace FinanceApp.Core.Services
 
         }
 
+        public async Task<double> GetRealValue(DateTime date, double currentValue)
+        {
+             var prospectList = await GetIndexProspect(EIndex.IPCA);
+
+            DateTime yearMonth = new(date.Year, date.Month, 1);
+            DateTime currentYearMonth = new(DateTime.Now.Year, DateTime.Now.Month, 1);
+
+            if (yearMonth.Month == currentYearMonth.Month && yearMonth.Year == currentYearMonth.Year)
+                return currentValue;
+
+            else if(yearMonth < currentYearMonth)
+                throw new NotImplementedException();
+            else
+            {
+                var prospectListFilter = prospectList
+                .Where(prospect => prospect.DateStart > currentYearMonth
+                    && prospect.DateStart <= yearMonth).ToList();
+               
+                var realValue = currentValue;
+
+                prospectListFilter.ForEach(a => realValue /= (1 + a.Median/100));
+
+                return realValue;
+
+            }
+
+        }
+
         //public async Task<List<TreasuryBondValue>> GetTreasuryBondLastValue()
         //{
         //    var cacheKey = EnumHelper<EDataCacheKey>.GetDescriptionValue(EDataCacheKey.TreasuryBond);

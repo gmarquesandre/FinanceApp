@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:finance_app/models/forecast/forecast_item.dart';
 
 class ForecastList {

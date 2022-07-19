@@ -120,10 +120,7 @@ namespace FinanceApp.Core.Services.ForecastServices
                     }
                     else if (incomesDay < loansDay + spendingsDay + owingValue)
                     {
-                        double leftValue = spendingsDay + loansDay + owingValue - incomesDay;
-
-                        //double totalSpendingDayValue = spendingsDay + loansDay + owingValue;
-
+                        double leftValue = spendingsDay + loansDay + owingValue - incomesDay;                        
 
                         foreach(var title in balanceTitlesList.Where(a => a.InvestmentValue > 0.00).ToList())
                         {
@@ -182,9 +179,12 @@ namespace FinanceApp.Core.Services.ForecastServices
                         return await _titleService.GetCurrentValueOfTitle(a);
                     }).Select(a => a.Result).Sum(a => a.LiquidValue);
 
+                    double valorTitulosReal = await _indexService.GetRealValue(date, valorTitulos);
+
                     forecastTotalList.Add(new ForecastItem()
                     {
-                        Amount = valorTitulos,
+                        RealAmount = valorTitulosReal,
+                        NominalAmount = valorTitulos,
                         CumulatedAmount = valorTitulos,
                         DateReference = date,
                     });
@@ -215,17 +215,17 @@ namespace FinanceApp.Core.Services.ForecastServices
             bool updateBalance = false;
             if (incomesDaily.Items.Any(a => a.DateReference == date))
             {
-                incomesDay = incomesDaily.Items.Where(a => a.DateReference == date).Sum(a => a.Amount);
+                incomesDay = incomesDaily.Items.Where(a => a.DateReference == date).Sum(a => a.NominalAmount);
                 updateBalance = true;
             }
             if (spendingsDaily.Items.Any(a => a.DateReference == date))
             {
-                spendingsDay = spendingsDaily.Items.Where(a => a.DateReference == date).Sum(a => a.Amount);
+                spendingsDay = spendingsDaily.Items.Where(a => a.DateReference == date).Sum(a => a.NominalAmount);
                 updateBalance = true;
             }
             if (loanDaily.Items.Any(a => a.DateReference == date))
             {
-                loansDay = loanDaily.Items.Where(a => a.DateReference == date).Sum(a => a.Amount);
+                loansDay = loanDaily.Items.Where(a => a.DateReference == date).Sum(a => a.NominalAmount);
                 updateBalance = true;
             }
 

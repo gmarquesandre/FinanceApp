@@ -41,6 +41,6 @@ class Income {
         amount = json['amount'].toDouble(),
         initialDate = DateTime.tryParse(json['initialDate'].toString())!,
         endDate = DateTime.tryParse(json['endDate'].toString()),
-        isEndless = json['isEndless'] == 1,
+        isEndless = json['isEndless'],
         timesRecurrence = json['timesRecurrence'];
 }

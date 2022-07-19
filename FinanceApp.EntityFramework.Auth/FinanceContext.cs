@@ -31,6 +31,7 @@ namespace FinanceApp.EntityFramework
         public DbSet<Loan> Loans { get; set; }
         public DbSet<CurrentBalance> CurrentBalances { get; set; }
         public DbSet<CreditCard> CreditCards { get; set; }
+        public DbSet<ForecastParameters> ForecastParameters { get; set; }
 
         //Common Tables
         public DbSet<IndexValue> IndexValues { get; set; }
@@ -72,6 +73,7 @@ namespace FinanceApp.EntityFramework
             builder.Entity<Spending>().HasQueryFilter(a => a.UserId == _httpContextAccessor.HttpContext.User.GetUserId());
             builder.Entity<TreasuryBond>().HasQueryFilter(a => a.UserId == _httpContextAccessor.HttpContext.User.GetUserId());
             builder.Entity<PrivateFixedIncome>().HasQueryFilter(a => a.UserId == _httpContextAccessor.HttpContext.User.GetUserId());
+            builder.Entity<ForecastParameters>().HasQueryFilter(a => a.UserId == _httpContextAccessor.HttpContext.User.GetUserId());
 
 
             //builder.Entity<IdentityRole<int>>().HasData(

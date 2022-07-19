@@ -24,12 +24,14 @@ class _IncomeFormState extends State<IncomeForm> {
   bool _firstPress = true;
   DateTime? _dateTimeInitial;
   DateTime? _dateTimeFinal;
-  TextEditingController _nameController = TextEditingController();
-  TextEditingController _initialDateController = TextEditingController();
-  TextEditingController _endDateController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _initialDateController = TextEditingController();
+  final TextEditingController _endDateController = TextEditingController();
   Recurrence? _recurrenceController = CommonLists.recurrenceList.first;
-  TextEditingController _timesRecurrenceController = TextEditingController();
+  final TextEditingController _timesRecurrenceController =
+      TextEditingController();
 
+  String radioItem = 'Item 1';
   // bool _isEndlessController = false;
 
   List<Recurrence> recurrenceList = [];
@@ -59,19 +61,16 @@ class _IncomeFormState extends State<IncomeForm> {
           ? DateFormat('dd/MM/yyyy').format(widget.income!.endDate!)
           : '');
 
-      if (widget.income!.recurrence == 1) {
-        radioItem = '';
-      } else {
-        radioItem = widget.income!.isEndless
-            ? 'forever'
-            : widget.income!.timesRecurrence > 0
-                ? 'recurrenceNumber'
-                : 'endDate';
-      }
+      radioItem = widget.income!.recurrence == 1
+          ? ''
+          : widget.income!.isEndless
+              ? 'forever'
+              : widget.income!.timesRecurrence > 0
+                  ? 'recurrenceNumber'
+                  : 'endDate';
     }
   }
 
-  String radioItem = 'Item 1';
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -202,9 +201,9 @@ class _IncomeFormState extends State<IncomeForm> {
                             'Número de Recorrencias',
                           ),
                           value: 'recurrenceNumber',
-                          onChanged: (String? val) {
+                          onChanged: (val) {
                             setState(() {
-                              radioItem = val!;
+                              radioItem = val as String;
                             });
                           },
                         ),
@@ -214,10 +213,10 @@ class _IncomeFormState extends State<IncomeForm> {
                             'Data Final',
                           ),
                           value: 'endDate',
-                          onChanged: (String? val) {
+                          onChanged: (val) {
                             setState(() {
                               _endDateController.text = '';
-                              radioItem = val!;
+                              radioItem = val as String;
                             });
                           },
                         ),
@@ -227,9 +226,9 @@ class _IncomeFormState extends State<IncomeForm> {
                             'Para Sempre',
                           ),
                           value: 'forever',
-                          onChanged: (String? val) {
+                          onChanged: (val) {
                             setState(() {
-                              radioItem = val!;
+                              radioItem = val as String;
                             });
                           },
                         ),
@@ -306,7 +305,7 @@ class _IncomeFormState extends State<IncomeForm> {
                   child: SizedBox(
                     width: double.maxFinite,
                     child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         if (_formKey.currentState!.validate() && _firstPress) {
                           final String name = _nameController.text;
                           final int? recurrenceId = int.tryParse(
@@ -340,7 +339,7 @@ class _IncomeFormState extends State<IncomeForm> {
 
                             _firstPress = false;
 
-                            _daoIncome.create(newIncome).then((created) =>
+                            await _daoIncome.create(newIncome).then((created) =>
                                 Navigator.pop(context, newIncome.toString()));
                           } else {
                             final UpdateIncome newIncome = UpdateIncome(
@@ -354,7 +353,7 @@ class _IncomeFormState extends State<IncomeForm> {
                                 timesRecurrence: timesRecurrence);
 
                             newIncome.id = widget.income!.id;
-                            _daoIncome.update(newIncome).then((id) =>
+                            await _daoIncome.update(newIncome).then((id) =>
                                 Navigator.pop(context, newIncome.toString()));
                           }
                         }
