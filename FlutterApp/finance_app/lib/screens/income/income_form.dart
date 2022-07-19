@@ -15,10 +15,10 @@ class IncomeForm extends StatefulWidget {
   IncomeForm([this.income]);
 
   @override
-  _IncomeFormState createState() => _IncomeFormState();
+  IncomeFormState createState() => IncomeFormState();
 }
 
-class _IncomeFormState extends State<IncomeForm> {
+class IncomeFormState extends State<IncomeForm> {
   var _incomeValueController = MoneyMaskedTextController(leftSymbol: 'R\$ ');
 
   bool _firstPress = true;
@@ -86,72 +86,17 @@ class _IncomeFormState extends State<IncomeForm> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: TextFormField(
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'É necessário um nome';
-                      }
-                      return null;
-                    },
-                    controller: _nameController,
-                    decoration: const InputDecoration(
-                      labelText: 'Nome da Renda',
-                    ),
-                  ),
+                _padding(
+                  nameTextFormField(),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: TextFormField(
-                    validator: (value) {
-                      double valueCompare = _incomeValueController.numberValue;
-                      if (valueCompare < 0.01) {
-                        return 'O Valor deve ser maior que zero';
-                      }
-                      return null;
-                    },
-                    controller: _incomeValueController,
-                    autocorrect: true,
-                    decoration: const InputDecoration(
-                      labelText: 'Renda Liquida',
-                    ),
-                    keyboardType:
-                        const TextInputType.numberWithOptions(decimal: true),
-                  ),
+                _padding(
+                  valueFormField(),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0, left: 0),
-                  child: DropdownButtonFormField<Recurrence>(
-                    value: _recurrenceController,
-                    validator: (value) {
-                      if (value == null) {
-                        return 'Selecione uma recorrencia';
-                      }
-                      return null;
-                    },
-                    decoration: const InputDecoration(
-                      labelText: 'Recorrência',
-                    ),
-                    items: recurrenceList.map<DropdownMenuItem<Recurrence>>(
-                        (_recurrenceController) {
-                      return DropdownMenuItem<Recurrence>(
-                        value: _recurrenceController,
-                        child: Text(
-                          _recurrenceController.name,
-                        ),
-                      );
-                    }).toList(),
-                    onChanged: (Recurrence? newValue) {
-                      setState(() {
-                        _recurrenceController = newValue!;
-                      });
-                    },
-                  ),
+                _padding(
+                  recurrenceDropdown(),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: TextFormField(
+                _padding(
+                  TextFormField(
                     readOnly: true,
                     validator: (value) {
                       if (value == '') {
@@ -189,51 +134,8 @@ class _IncomeFormState extends State<IncomeForm> {
                 Visibility(
                   visible: _recurrenceController != null &&
                       _recurrenceController!.id! > 1,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        RadioListTile(
-                          groupValue: radioItem,
-                          title: const Text(
-                            'Número de Recorrencias',
-                          ),
-                          value: 'recurrenceNumber',
-                          onChanged: (val) {
-                            setState(() {
-                              radioItem = val as String;
-                            });
-                          },
-                        ),
-                        RadioListTile(
-                          groupValue: radioItem,
-                          title: const Text(
-                            'Data Final',
-                          ),
-                          value: 'endDate',
-                          onChanged: (val) {
-                            setState(() {
-                              _endDateController.text = '';
-                              radioItem = val as String;
-                            });
-                          },
-                        ),
-                        RadioListTile(
-                          groupValue: radioItem,
-                          title: const Text(
-                            'Para Sempre',
-                          ),
-                          value: 'forever',
-                          onChanged: (val) {
-                            setState(() {
-                              radioItem = val as String;
-                            });
-                          },
-                        ),
-                      ],
-                    ),
+                  child: _padding(
+                    radioItemColumn(),
                   ),
                 ),
                 Visibility(
@@ -242,35 +144,16 @@ class _IncomeFormState extends State<IncomeForm> {
                       radioItem ==
                           'recurre'
                               'nceNumber',
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: TextFormField(
-                      validator: (value) {
-                        if (value == '' || value == null) {
-                          return 'É necessario um número';
-                        } else if (int.tryParse(value)! <= 1) {
-                          return 'Recorrencia deve ser maior que 1';
-                        }
-                        return null;
-                      },
-                      controller: _timesRecurrenceController,
-                      decoration: const InputDecoration(
-                        labelText: 'Número de recorrencias',
-                      ),
-                      keyboardType: TextInputType.number,
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
-                      ],
-                    ),
+                  child: _padding(
+                    recurrenceTextFormField(),
                   ),
                 ),
                 Visibility(
                   visible: _recurrenceController != null &&
                       _recurrenceController!.id != 1 &&
                       radioItem == 'endDate',
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: TextFormField(
+                  child: _padding(
+                    TextFormField(
                       validator: (value) {
                         if (value == '') {
                           return 'Insira a data final';
@@ -367,6 +250,142 @@ class _IncomeFormState extends State<IncomeForm> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  TextFormField recurrenceTextFormField() {
+    return TextFormField(
+      validator: (value) {
+        if (value == '' || value == null) {
+          return 'É necessario um número';
+        } else if (int.tryParse(value)! <= 1) {
+          return 'Recorrencia deve ser maior que 1';
+        }
+        return null;
+      },
+      controller: _timesRecurrenceController,
+      decoration: const InputDecoration(
+        labelText: 'Número de recorrencias',
+      ),
+      keyboardType: TextInputType.number,
+      inputFormatters: <TextInputFormatter>[
+        FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
+      ],
+    );
+  }
+
+  Column radioItemColumn() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        RadioListTile(
+          groupValue: radioItem,
+          title: const Text(
+            'Número de Recorrencias',
+          ),
+          value: 'recurrenceNumber',
+          onChanged: (val) {
+            setState(() {
+              radioItem = val as String;
+            });
+          },
+        ),
+        RadioListTile(
+          groupValue: radioItem,
+          title: const Text(
+            'Data Final',
+          ),
+          value: 'endDate',
+          onChanged: (val) {
+            setState(() {
+              _endDateController.text = '';
+              radioItem = val as String;
+            });
+          },
+        ),
+        RadioListTile(
+          groupValue: radioItem,
+          title: const Text(
+            'Para Sempre',
+          ),
+          value: 'forever',
+          onChanged: (val) {
+            setState(() {
+              radioItem = val as String;
+            });
+          },
+        ),
+      ],
+    );
+  }
+
+  DropdownButtonFormField<Recurrence> recurrenceDropdown() {
+    return DropdownButtonFormField<Recurrence>(
+      value: _recurrenceController,
+      validator: (value) {
+        if (value == null) {
+          return 'Selecione uma recorrencia';
+        }
+        return null;
+      },
+      decoration: const InputDecoration(
+        labelText: 'Recorrência',
+      ),
+      items: recurrenceList
+          .map<DropdownMenuItem<Recurrence>>((_recurrenceController) {
+        return DropdownMenuItem<Recurrence>(
+          value: _recurrenceController,
+          child: Text(
+            _recurrenceController.name,
+          ),
+        );
+      }).toList(),
+      onChanged: (Recurrence? newValue) {
+        setState(() {
+          _recurrenceController = newValue!;
+        });
+      },
+    );
+  }
+
+  TextFormField valueFormField() {
+    return TextFormField(
+      validator: (value) {
+        double valueCompare = _incomeValueController.numberValue;
+        if (valueCompare < 0.01) {
+          return 'O Valor deve ser maior que zero';
+        }
+        return null;
+      },
+      controller: _incomeValueController,
+      autocorrect: true,
+      decoration: const InputDecoration(
+        labelText: 'Renda Liquida',
+      ),
+      keyboardType: const TextInputType.numberWithOptions(decimal: true),
+    );
+  }
+
+  Padding _padding(Widget form, {double topPadding = 8.0}) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 8.0),
+      child: form,
+    );
+  }
+
+  TextFormField nameTextFormField() {
+    return TextFormField(
+      validator: (value) {
+        if (value!.isEmpty) {
+          return 'É necessário um nome';
+        }
+        return null;
+      },
+      controller: _nameController,
+      decoration: const InputDecoration(
+        labelText: 'Nome da Renda',
       ),
     );
   }

@@ -37,7 +37,7 @@ class _SpendingListState extends State<SpendingList> {
                   case ConnectionState.none:
                     break;
                   case ConnectionState.waiting:
-                    return Progress();
+                    return const Progress();
                   case ConnectionState.active:
                     // TODO: Handle this case.
                     break;
@@ -45,7 +45,7 @@ class _SpendingListState extends State<SpendingList> {
                     final List<Spending> spending =
                         snapshot.data as List<Spending>;
                     if (spending.isEmpty) {
-                      return Text("Não há dados para mostrar.");
+                      return const Text("Não há dados para mostrar.");
                     }
                     return Container(
                       width: (MediaQuery.of(context).size.width),
@@ -61,24 +61,26 @@ class _SpendingListState extends State<SpendingList> {
                           DataColumn(
                             label: Container(
                               width: 60,
-                              child: Text('Nome', textAlign: TextAlign.left),
+                              child:
+                                  const Text('Nome', textAlign: TextAlign.left),
                             ),
                           ),
-                          DataColumn(
-                            label: Expanded(
+                          const DataColumn(
+                            label: const Expanded(
                               child: Text('Data Inicial',
                                   textAlign: TextAlign.center),
                             ),
                           ),
-                          DataColumn(
+                          const DataColumn(
                             label: Expanded(
-                              child: Text('Valor', textAlign: TextAlign.center),
+                              child: const Text('Valor',
+                                  textAlign: TextAlign.center),
                             ),
                           ),
-                          DataColumn(
+                          const DataColumn(
                             label: Text('Recorrência'),
                           ),
-                          DataColumn(
+                          const DataColumn(
                             label: Text(''),
                           ),
                         ],
@@ -134,7 +136,7 @@ class _SpendingListState extends State<SpendingList> {
                                     ),
                                   ),
                                   DataCell(
-                                    Icon(Icons.delete),
+                                    const Icon(Icons.delete),
                                     onTap: () {
                                       confirmDialog(context).then(
                                         (response) {
@@ -157,7 +159,7 @@ class _SpendingListState extends State<SpendingList> {
                       ),
                     );
                 }
-                return Text('Erro Desconhecido');
+                return const Text('Erro Desconhecido');
               },
             ),
           ),
@@ -175,7 +177,7 @@ class _SpendingListState extends State<SpendingList> {
                 (newSpend) => setState(() {}),
               );
         },
-        child: Icon(
+        child: const Icon(
           Icons.add,
         ),
       ),
