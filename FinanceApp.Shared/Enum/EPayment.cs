@@ -5,8 +5,8 @@ namespace FinanceApp.Shared.Enum
     public enum EPayment
     {
         [Display(Name ="Dinheiro / Cartão de Débito")]
-        Cash = 0,
+        Cash = 1,
         [Display(Name ="Cartão de Crédito")]
-        Credit = 1
+        Credit = 2
     }
 }

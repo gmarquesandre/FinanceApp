@@ -1,17 +1,17 @@
 ﻿using AutoMapper;
-using FinanceApp.Shared.Dto.CurrentBalance;
+using FinanceApp.Shared.Dto.FGTS;
 using FinanceApp.Shared.Models.UserTables;
 
 namespace FinanceApp.Shared.Profiles
 {
-    public class CurrentBalanceProfile : Profile
+    public class FGTSProfile : Profile
     {
-        public CurrentBalanceProfile()
+        public FGTSProfile()
         {
-            CreateMap<CreateOrUpdateCurrentBalance, CurrentBalance>();
-            CreateMap<CurrentBalance, CreateOrUpdateCurrentBalance>();
-            CreateMap<CurrentBalanceDto, CurrentBalance>();
-            CreateMap<CurrentBalance, CurrentBalanceDto>();
+            CreateMap<CreateOrUpdateFGTS, FGTS>();
+            CreateMap<FGTS, CreateOrUpdateFGTS>();
+            CreateMap<FGTSDto, FGTS>();
+            CreateMap<FGTS, FGTSDto>();
         }
     }
 }

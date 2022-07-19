@@ -4,14 +4,14 @@ using FinanceApp.Shared.Models.UserTables;
 
 namespace FinanceApp.Shared.Profiles
 {
-    public class CurrentBalaceProfile : Profile
+    public class CurrentBalanceProfile : Profile
     {
-        public CurrentBalaceProfile()
+        public CurrentBalanceProfile()
         {
-            CreateMap<CreateOrUpdateCurrentBalance, FGTS>();
-            CreateMap<FGTS, CreateOrUpdateCurrentBalance>();
-            CreateMap<CurrentBalanceDto, FGTS>();
-            CreateMap<FGTS, CurrentBalanceDto>();
+            CreateMap<CreateOrUpdateCurrentBalance, CurrentBalance>();
+            CreateMap<CurrentBalance, CreateOrUpdateCurrentBalance>();
+            CreateMap<CurrentBalanceDto, CurrentBalance>();
+            CreateMap<CurrentBalance, CurrentBalanceDto>();
         }
     }
 }

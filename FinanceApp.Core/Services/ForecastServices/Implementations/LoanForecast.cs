@@ -129,10 +129,10 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
 
                 double interestValueParcel = (double)interestRateMonthMultipliler * loan.LoanValue * (1 - ((double)monthsPaid / (double)loan.MonthsPayment));
 
-                loanSpread.LoanAmortizationValue = amortization;
+                loanSpread.LoanAmortizationValue = Math.Round(amortization,2);
                 loanSpread.Date = date;
-                loanSpread.LoanInterestValue = interestValueParcel;
-                loanSpread.LoanValueMonth = amortization + interestValueParcel;
+                loanSpread.LoanInterestValue = Math.Round(interestValueParcel,2);
+                loanSpread.LoanValueMonth = Math.Round(amortization + interestValueParcel,2);
 
                 loanSpreadList.Add(loanSpread);
 
