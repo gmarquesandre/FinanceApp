@@ -34,7 +34,7 @@ namespace FinanceApp.Core.Services.ForecastServices
             _forecastParametersService = forecastParametersService;
         }
 
-        public async Task<List<ForecastList>> GetForecast()
+        public async Task<List<ForecastList>> GetForecast(DateTime currentDate)
         {
             var forecastTotalList = new List<ForecastItem>();
 
@@ -43,9 +43,9 @@ namespace FinanceApp.Core.Services.ForecastServices
 
             DateTime maxYearMonth = new DateTime(DateTime.Now.Date.Year, DateTime.Now.Date.Month, 1).AddMonths(13).AddDays(-1);
 
-            var spendingsDaily = await _spendingService.GetForecast(EForecastType.Daily, maxYearMonth);
-            var incomesDaily = await _incomeService.GetForecast(EForecastType.Daily, maxYearMonth);
-            var loanDaily = await _loanService.GetForecast(EForecastType.Daily, maxYearMonth);
+            var spendingsDaily = await _spendingService.GetForecast(EForecastType.Daily, maxYearMonth, currentDate);
+            var incomesDaily = await _incomeService.GetForecast(EForecastType.Daily, maxYearMonth, currentDate);
+            var loanDaily = await _loanService.GetForecast(EForecastType.Daily, maxYearMonth, currentDate);
 
             var balance = await _currentBalanceService.GetAsync();
 
@@ -70,7 +70,7 @@ namespace FinanceApp.Core.Services.ForecastServices
             }
 
 
-            for (DateTime date = DateTime.Now.Date; date <= maxYearMonth; date = date.AddDays(1))
+            for (DateTime date = DateTime.Now.Date.AddDays(1); date <= maxYearMonth; date = date.AddDays(1))
             {
                 double loansDay = 0.00;
                 double incomesDay = 0.00;
@@ -108,7 +108,7 @@ namespace FinanceApp.Core.Services.ForecastServices
                             balanceTitlesList.Add(new DefaultTitleInput()
                             {
                                 DateInvestment = date,
-                                InvestmentValue = newInvestmentValue,
+                                InvestmentValue = Math.Round(newInvestmentValue),
                                 IndexPercentage = forecastParameters.PercentageCdiFixedInteresIncometSavings,
                                 Index = EIndex.CDI,
                                 AdditionalFixedInterest = 0.00,
@@ -123,7 +123,7 @@ namespace FinanceApp.Core.Services.ForecastServices
 
                         foreach(var title in balanceTitlesList.Where(a => a.InvestmentValue > 0.00).ToList())
                         {
-                            if (leftValue <= 0.00)
+                            if (Math.Round(leftValue,2) <= 0.00)
                                 break;
 
                             title.Date = date;
@@ -149,13 +149,13 @@ namespace FinanceApp.Core.Services.ForecastServices
                         }
 
                         //Remove "Titulos" zerados
-                        balanceTitlesList = balanceTitlesList.Where(a => a.InvestmentValue != 0.00).ToList();
+                        balanceTitlesList = balanceTitlesList.Where(a => Math.Round(a.InvestmentValue,2) != 0.00).ToList();
 
 
                         if (leftValue > 0)
                         {
                             //Remove titulo de divida atual e atualiza
-                            balanceTitlesList = balanceTitlesList.Where(a => a.InvestmentValue > 0.00).ToList();
+                            balanceTitlesList = balanceTitlesList.Where(a => Math.Round(a.InvestmentValue,2) > 0.00).ToList();
                             balanceTitlesList.Add(new DefaultTitleInput()
                             {
                                 DateInvestment = date,

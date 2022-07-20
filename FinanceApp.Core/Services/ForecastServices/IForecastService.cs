@@ -4,6 +4,6 @@ namespace FinanceApp.Core.Services.ForecastServices
 {
     public interface IForecastService : ITransientService
     {
-        Task<List<ForecastList>> GetForecast();
+        Task<List<ForecastList>> GetForecast(DateTime currentDate);
     }
 }

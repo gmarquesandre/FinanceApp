@@ -65,7 +65,7 @@ class _HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Inicio")),
+      appBar: AppBar(title: const Text("Inicio")),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -144,7 +144,7 @@ class _TabList extends StatelessWidget {
         body: TabBarView(
           children: [
             const CurrentBalanceForm(),
-            IncomeList(),
+            const IncomeList(),
             SpendingList(),
             // TreasuryList(),
             // FixedInterestList(),

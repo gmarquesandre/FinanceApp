@@ -33,11 +33,11 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
             return _mapper.Map<IncomeDto>(model);
 
         }
-        public async Task<ForecastList> GetForecast(EForecastType forecastType, DateTime maxYearMonth)
+        public async Task<ForecastList> GetForecast(EForecastType forecastType, DateTime maxYearMonth, DateTime currentDate)
         {
             var values = await GetAsync();
 
-            var forecast = _forecast.GetForecast(values, forecastType, maxYearMonth);
+            var forecast = _forecast.GetForecast(values, forecastType, maxYearMonth, currentDate);
 
             return forecast;
         }

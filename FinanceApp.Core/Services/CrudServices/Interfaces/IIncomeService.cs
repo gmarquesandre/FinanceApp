@@ -12,6 +12,6 @@ namespace FinanceApp.Core.Services.CrudServices.Interfaces
         Task<List<IncomeDto>> GetAsync();
         Task<IncomeDto> GetAsync(int id);
         Task<Result> UpdateAsync(UpdateIncome input);
-        Task<ForecastList> GetForecast(EForecastType forecastType, DateTime maxYearMonth);
+        Task<ForecastList> GetForecast(EForecastType forecastType, DateTime maxYearMonth, DateTime currentDate);
     }
 }

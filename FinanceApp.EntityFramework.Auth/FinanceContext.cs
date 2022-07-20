@@ -127,10 +127,5 @@ namespace FinanceApp.EntityFramework
 
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder options)
-        {
-            //if (!options.IsConfigured)
-                //options.UseSqlServer("Server=localhost;Initial Catalog=FinanceDb;Trusted_Connection=True;");
-        }
     }
 }

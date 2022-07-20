@@ -1,5 +1,6 @@
 import 'package:finance_app/controllers/default_request/default_client.dart';
 import 'package:finance_app/models/forecast/forecast_list.dart';
+import 'package:intl/intl.dart';
 
 class ForecastClient {
   static DefaultClient client = DefaultClient();
@@ -7,7 +8,11 @@ class ForecastClient {
   static String controller = 'Forecast';
 
   Future<List<ForecastList>> get() async {
-    var responseJson = await client.getMany('$controller/Get');
+    Map<String, String> queryParameters = {
+      'currentDate': DateFormat('yyyy-MM-dd').format(DateTime.now()).toString()
+    };
+
+    var responseJson = await client.getMany('$controller/Get', queryParameters);
 
     var items = responseJson
         .map((dynamic json) => ForecastList.fromJson(json))

@@ -28,7 +28,7 @@ class DefaultClient {
   static int timeout = GlobalVariables.requestTimeout;
 
   Future<dynamic> getSingle(String path,
-      {Map<String, dynamic>? parameters}) async {
+      {Map<String, String>? parameters}) async {
     String responseBody = await _get(path, parameters: parameters);
 
     dynamic decodedJson = jsonDecode(responseBody);
@@ -37,7 +37,7 @@ class DefaultClient {
   }
 
   Future<List<dynamic>> getMany(String path,
-      {Map<String, dynamic>? parameters}) async {
+      [Map<String, String>? parameters]) async {
     String responseBody = await _get(path, parameters: parameters);
 
     List<dynamic> decodedJson = jsonDecode(responseBody);
@@ -80,7 +80,7 @@ class DefaultClient {
     return false;
   }
 
-  Future<String> _get(String path, {Map<String, dynamic>? parameters}) async {
+  Future<String> _get(String path, {Map<String, String>? parameters}) async {
     var uri = Uri.https(baseUrl, path, parameters);
     try {
       final response = await http

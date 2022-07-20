@@ -13,11 +13,11 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
         public LoanForecast(IMapper mapper)
         {
             _mapper = mapper;
-        }
 
+        }
         public static EItemType Item => EItemType.Loan;
 
-        public ForecastList GetForecast(List<LoanDto> loanDtos, EForecastType forecastType, DateTime maxDate, DateTime? minDate = null)
+        public ForecastList GetForecast(List<LoanDto> loanDtos, EForecastType forecastType, DateTime maxDate, DateTime minDate)
         {
 
             if (forecastType == EForecastType.Daily)
@@ -28,7 +28,7 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
             throw new Exception("Tipo de previsão inválido");
 
         }
-        private ForecastList GetMonthlyForecast(List<LoanDto> loanDtos, DateTime maxDate, DateTime? minDate = null)
+        private ForecastList GetMonthlyForecast(List<LoanDto> loanDtos, DateTime maxDate, DateTime minDate)
         {
             double cumSum = 0;
 
@@ -56,7 +56,7 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
                 Items = monthlyValues
             };
         }
-        private ForecastList GetDailyForecast(List<LoanDto> loanDtos, DateTime maxDate, DateTime? minDate = null)
+        private ForecastList GetDailyForecast(List<LoanDto> loanDtos, DateTime maxDate, DateTime minDate)
         {
             double cumSum = 0;
             var loansSpreadList = GetLoansSpreadList(loanDtos, maxDate, minDate);
@@ -84,11 +84,10 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
             };
 
         }
-        public List<LoanSpread> GetLoansSpreadList(List<LoanDto> loanDto, DateTime maxYearMonth, DateTime? minDateInput = null)
+        public List<LoanSpread> GetLoansSpreadList(List<LoanDto> loanDto, DateTime maxYearMonth, DateTime minDate)
         {
 
             maxYearMonth = new DateTime(maxYearMonth.Year, maxYearMonth.Month, 1).AddMonths(1).AddDays(-1);
-            DateTime minDate = minDateInput ?? DateTime.Now.Date;
 
             var loanSpreadList = new List<LoanSpread>();
 
@@ -119,7 +118,7 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
             double monthsInAYear = 12.00;
             double interestRateMonthMultipliler = Math.Pow(1.00 + (Convert.ToDouble(loan.InterestRate) / 100.00), 1.00 / monthsInAYear) - 1;
 
-            maxDate = maxDate < loan.InitialDate.AddMonths(loan.MonthsPayment) ? maxDate : loan.InitialDate.AddMonths(loan.MonthsPayment);
+            maxDate = maxDate < loan.InitialDate.AddMonths(loan.MonthsPayment + 1) ? maxDate : loan.InitialDate.AddMonths(loan.MonthsPayment + 1);
 
             for (DateTime date = minDate; date <= maxDate; date = date.AddMonths(1))
             {
@@ -152,7 +151,7 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
 
             double valueParcel = loan.LoanValue * (double)(InterestValue * interestRateMonthMultipliler / (InterestValue - 1.00));
 
-            maxDate = maxDate < loan.InitialDate ? maxDate : loan.InitialDate;
+            maxDate = maxDate < loan.InitialDate.AddMonths(loan.MonthsPayment + 1) ? maxDate : loan.InitialDate.AddMonths(loan.MonthsPayment + 1);
             for (DateTime date = minDate; date <= maxDate; date = date.AddMonths(1))
             {
                 var loanSpread = _mapper.Map<LoanSpread>(loan);

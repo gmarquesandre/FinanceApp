@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinanceApp.Api", "FinanceAp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinanceApp.Shared", "FinanceApp.Shared\FinanceApp.Shared.csproj", "{289D4B2F-BD14-46C9-892D-5C1D11436E40}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinanceApp.Worker", "FinanceApp.Worker\FinanceApp.Worker.csproj", "{287F14D8-E182-4613-AE6E-FA7D360E4777}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinanceApp.Core", "FinanceApp.Core\FinanceApp.Core.csproj", "{7FDF2909-62AE-44AF-A5E0-E68D72B5E9D6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinanceApp.EntityFramework", "FinanceApp.EntityFramework.Auth\FinanceApp.EntityFramework.csproj", "{EFA3254A-F20D-43FF-A885-71BB32BFE53E}"
@@ -29,10 +27,6 @@ Global
 		{289D4B2F-BD14-46C9-892D-5C1D11436E40}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{289D4B2F-BD14-46C9-892D-5C1D11436E40}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{289D4B2F-BD14-46C9-892D-5C1D11436E40}.Release|Any CPU.Build.0 = Release|Any CPU
-		{287F14D8-E182-4613-AE6E-FA7D360E4777}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{287F14D8-E182-4613-AE6E-FA7D360E4777}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{287F14D8-E182-4613-AE6E-FA7D360E4777}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{287F14D8-E182-4613-AE6E-FA7D360E4777}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7FDF2909-62AE-44AF-A5E0-E68D72B5E9D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7FDF2909-62AE-44AF-A5E0-E68D72B5E9D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7FDF2909-62AE-44AF-A5E0-E68D72B5E9D6}.Release|Any CPU.ActiveCfg = Release|Any CPU

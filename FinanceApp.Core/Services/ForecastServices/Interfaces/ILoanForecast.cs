@@ -6,7 +6,7 @@ namespace FinanceApp.Core.Services.ForecastServices.Interfaces
 {
     public interface ILoanForecast : ITransientService
     {
-        ForecastList GetForecast(List<LoanDto> loanDtos, EForecastType forecastType, DateTime maxDate, DateTime? minDate = null);
-        List<LoanSpread> GetLoansSpreadList(List<LoanDto> loanDto, DateTime maxYearMonth, DateTime? minDateInput = null);
+        ForecastList GetForecast(List<LoanDto> loanDtos, EForecastType forecastType, DateTime maxDate, DateTime minDate);
+        List<LoanSpread> GetLoansSpreadList(List<LoanDto> loanDto, DateTime maxYearMonth, DateTime minDateInput);
     }
 }

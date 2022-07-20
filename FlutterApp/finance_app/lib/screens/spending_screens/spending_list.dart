@@ -10,10 +10,10 @@ import 'package:intl/intl.dart';
 
 class SpendingList extends StatefulWidget {
   @override
-  _SpendingListState createState() => _SpendingListState();
+  SpendingListState createState() => SpendingListState();
 }
 
-class _SpendingListState extends State<SpendingList> {
+class SpendingListState extends State<SpendingList> {
   final SpendingClient _daoSpending = SpendingClient();
   var currencyFormat = NumberFormat.currency(locale: "pt_BR", symbol: "R\$");
 

@@ -17,12 +17,11 @@ namespace FinanceApp.Api.Controllers
 
         [HttpGet("Get")]
         [Authorize]
-        public async Task<IActionResult> GetInvestmentsAsync()
+        public async Task<IActionResult> GetInvestmentsAsync([FromQuery]DateTime currentDate)
         {
             try
-            {
-                
-                var resultado = await _service.GetForecast();
+            {                
+                var resultado = await _service.GetForecast(currentDate);
 
                 return Ok(resultado);
             }
