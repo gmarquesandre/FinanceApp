@@ -102,9 +102,21 @@ namespace FinanceApp.Tests.TitleTests
             Assert.True(value.GrossValue.ToString("N", SetPrecision) == 647.40.ToString("N", SetPrecision));
 
         }
+        public static readonly object[][] TestWithdrawCenario =
+        {
+            new object[] { 1074.93, new DateTime(2022, 04, 29), new DateTime(2022, 06, 06), 1.03, 1083.45, 3.03, 1080.42, 1069.98, 5},
+        };
 
-        [Fact]
-        public async Task MustReturnTitleValueAfterWithdraw()
+        [Theory, MemberData(nameof(TestWithdrawCenario))]
+        public async Task MustReturnTitleValueAfterWithdraw(double investmentValue, 
+            DateTime dateInvestment, 
+            DateTime currentDate, 
+            double indexPercentage, 
+            double newGrossValue,
+            double newIncomeTaxValue,
+            double newLiquidValue,
+            double newInvestmentValue,
+            double withdraw)
         {
             var context = await CreateFinanceContext();
 
@@ -123,31 +135,26 @@ namespace FinanceApp.Tests.TitleTests
             await indexesImporter.GetIndexes(indexImport: EIndex.CDI, dateStart: new DateTime(2022, 01, 01));
 
 
-            //Precisão
-            NumberFormatInfo SetPrecision = new();
-
-            SetPrecision.NumberDecimalDigits = 2;
-
             //------------ Teste 1
             var input = new DefaultTitleInput()
             {
-                DateInvestment = new DateTime(2022, 04, 29),
-                Date = new DateTime(2022, 06, 06),
+                DateInvestment = dateInvestment,
+                Date = currentDate,
                 AdditionalFixedInterest = 0,
                 Index = EIndex.CDI,
-                IndexPercentage = 1.03,
-                InvestmentValue = 1074.93,
+                IndexPercentage = indexPercentage,
+                InvestmentValue = investmentValue,
                 TypePrivateFixedIncome = ETypePrivateFixedIncome.CDB
             };
 
             //Valores extaidos da calculadora do cidadão para CDI de 100% https://www3.bcb.gov.br/CALCIDADAO/publico/exibirFormCorrecaoValores.do?method=exibirFormCorrecaoValores&aba=5
 
-            var value = await titleService.GetCurrentTitleAfterWithdraw(input, 5);
+            var value = await titleService.GetCurrentTitleAfterWithdraw(input, withdraw);
 
-            Assert.True(value.titleOutput.GrossValue.ToString("N", SetPrecision) == 1083.45.ToString("N", SetPrecision));
-            Assert.True(value.titleOutput.IncomeTaxValue.ToString("N", SetPrecision) == 3.03.ToString("N", SetPrecision));
-            Assert.True(value.titleOutput.LiquidValue.ToString("N", SetPrecision) == 1080.42.ToString("N", SetPrecision));
-            Assert.True(value.titleOutput.InvestmentValue.ToString("N", SetPrecision) == 1069.98.ToString("N", SetPrecision));
+            Assert.True(value.titleOutput.GrossValue.ToString("N", SetPrecision) == newGrossValue.ToString("N", SetPrecision));
+            Assert.True(value.titleOutput.IncomeTaxValue.ToString("N", SetPrecision) == newIncomeTaxValue.ToString("N", SetPrecision));
+            Assert.True(value.titleOutput.LiquidValue.ToString("N", SetPrecision) == newLiquidValue.ToString("N", SetPrecision));
+            Assert.True(value.titleOutput.InvestmentValue.ToString("N", SetPrecision) == newInvestmentValue.ToString("N", SetPrecision));
 
             //----------------- Teste 2
 
