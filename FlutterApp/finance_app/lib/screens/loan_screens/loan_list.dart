@@ -7,128 +7,126 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class LoanList extends StatefulWidget {
+  const LoanList({Key? key}) : super(key: key);
+
   @override
-  _LoanListState createState() => _LoanListState();
+  LoanListState createState() => LoanListState();
 }
 
-class _LoanListState extends State<LoanList> {
+class LoanListState extends State<LoanList> {
   final LoanClient _dao = LoanClient();
   var currencyFormat = NumberFormat.currency(locale: "pt_BR", symbol: "R\$");
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: SingleChildScrollView(
-          child: Container(
-            child: FutureBuilder(
-              future: _dao.get(),
-              builder: (context, snapshot) {
-                switch (snapshot.connectionState) {
-                  case ConnectionState.none:
-                    break;
-                  case ConnectionState.waiting:
-                    return const Progress();
-                  case ConnectionState.active:
-                    // TODO: Handle this case.
-                    break;
-                  case ConnectionState.done:
-                    final List<Loan> spending = snapshot.data as List<Loan>;
-                    if (spending.isEmpty) {
-                      return const Text("Não há dados para mostrar.");
-                    }
-                    return SizedBox(
-                      width: (MediaQuery.of(context).size.width),
-                      child: DataTable(
-                        headingTextStyle: const TextStyle(color: Colors.white),
-                        dataTextStyle: const TextStyle(color: Colors.white),
-                        sortColumnIndex: 2,
-                        headingRowHeight: 40,
-                        dividerThickness: 1,
-                        dataRowHeight: 40,
-                        horizontalMargin: 5,
-                        columnSpacing: 0,
-                        showCheckboxColumn: false,
-                        columns: header,
-                        rows: spending
-                            .map<DataRow>(
-                              (element) => DataRow(
-                                onSelectChanged: (value) {
-                                  Navigator.of(context)
-                                      .push(
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              LoanForm(element),
-                                        ),
-                                      )
-                                      .then(
-                                        (newSpend) => setState(() {}),
-                                      );
-                                },
-                                cells: [
-                                  DataCell(
-                                    Text(
-                                      element.name.toString(),
-                                    ),
+          child: FutureBuilder(
+            future: _dao.get(),
+            builder: (context, snapshot) {
+              switch (snapshot.connectionState) {
+                case ConnectionState.none:
+                  break;
+                case ConnectionState.waiting:
+                  return const Progress();
+                case ConnectionState.active:
+                  break;
+                case ConnectionState.done:
+                  final List<Loan> spending = snapshot.data as List<Loan>;
+                  if (spending.isEmpty) {
+                    return const Text("Não há dados para mostrar.");
+                  }
+                  return SizedBox(
+                    width: (MediaQuery.of(context).size.width),
+                    child: DataTable(
+                      headingTextStyle: const TextStyle(color: Colors.white),
+                      dataTextStyle: const TextStyle(color: Colors.white),
+                      sortColumnIndex: 2,
+                      headingRowHeight: 40,
+                      dividerThickness: 1,
+                      dataRowHeight: 40,
+                      horizontalMargin: 5,
+                      columnSpacing: 0,
+                      showCheckboxColumn: false,
+                      columns: header,
+                      rows: spending
+                          .map<DataRow>(
+                            (element) => DataRow(
+                              onSelectChanged: (value) {
+                                Navigator.of(context)
+                                    .push(
+                                      MaterialPageRoute(
+                                        builder: (context) => LoanForm(element),
+                                      ),
+                                    )
+                                    .then(
+                                      (newSpend) => setState(() {}),
+                                    );
+                              },
+                              cells: [
+                                DataCell(
+                                  Text(
+                                    element.name.toString(),
                                   ),
-                                  DataCell(
-                                    Align(
-                                      child: Text(
-                                          element.monthsPayment.toString(),
-                                          textAlign: TextAlign.center),
-                                    ),
+                                ),
+                                DataCell(
+                                  Align(
+                                    child: Text(
+                                        element.monthsPayment.toString(),
+                                        textAlign: TextAlign.center),
                                   ),
-                                  DataCell(
-                                    Align(
-                                      child: Text(
-                                          DateFormat('dd/MM/yy')
-                                              .format(element.initialDate),
-                                          textAlign: TextAlign.center),
-                                    ),
+                                ),
+                                DataCell(
+                                  Align(
+                                    child: Text(
+                                        DateFormat('dd/MM/yy')
+                                            .format(element.initialDate),
+                                        textAlign: TextAlign.center),
                                   ),
-                                  DataCell(
-                                    Text(
-                                      currencyFormat
-                                          .format(element.loanValue)
-                                          .toString(),
-                                    ),
+                                ),
+                                DataCell(
+                                  Text(
+                                    currencyFormat
+                                        .format(element.loanValue)
+                                        .toString(),
                                   ),
-                                  DataCell(
-                                    const Icon(
-                                      Icons.delete,
-                                      color: Colors.white,
-                                    ),
-                                    onTap: () {
-                                      confirmDialog(context).then(
-                                        (response) {
-                                          if (response!) {
-                                            setState(
-                                              () {
-                                                _dao.delete(element.id);
-                                              },
-                                            );
-                                          }
-                                        },
-                                      );
-                                      //
-                                    },
+                                ),
+                                DataCell(
+                                  const Icon(
+                                    Icons.delete,
+                                    color: Colors.white,
                                   ),
-                                ],
-                              ),
-                            )
-                            .toList(),
-                      ),
-                    );
-                }
-                return const Text('Erro Desconhecido');
-              },
-            ),
+                                  onTap: () {
+                                    confirmDialog(context).then(
+                                      (response) {
+                                        if (response!) {
+                                          setState(
+                                            () {
+                                              _dao.delete(element.id);
+                                            },
+                                          );
+                                        }
+                                      },
+                                    );
+                                    //
+                                  },
+                                ),
+                              ],
+                            ),
+                          )
+                          .toList(),
+                    ),
+                  );
+              }
+              return const Text('Erro Desconhecido');
+            },
           ),
         ),
       ),

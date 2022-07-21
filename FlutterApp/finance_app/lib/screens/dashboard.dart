@@ -1,5 +1,5 @@
 import 'package:finance_app/screens/currentBalance_screens/current_value_form.dart';
-import 'package:finance_app/screens/forecast/forecast.dart';
+import 'package:finance_app/screens/forecast/forecast_options.dart';
 import 'package:finance_app/screens/income/income_list.dart';
 import 'package:finance_app/screens/loan_screens/loan_list.dart';
 import 'package:finance_app/screens/spending_screens/spending_list.dart';
@@ -50,7 +50,7 @@ class _DashboardState extends State<Dashboard> {
       case 0:
         return _TabList(); // Create this function, it should return your first page as a widget
       case 2:
-        return ForecastScreen(); // Create this function, it should return your second page as a widget
+        return const ForecastOptions(); // Create this function, it should return your second page as a widget
     }
 
     return const Center(
@@ -135,16 +135,13 @@ class _TabList extends StatelessWidget {
           bottom: TabBar(
             indicatorColor: Colors.blueGrey,
             isScrollable: true,
-            onTap: (value) {
-              debugPrint(value.toString());
-            },
             tabs: _tabs,
           ),
         ),
-        body: TabBarView(
+        body: const TabBarView(
           children: [
-            const CurrentBalanceForm(),
-            const IncomeList(),
+            CurrentBalanceForm(),
+            IncomeList(),
             SpendingList(),
             // TreasuryList(),
             // FixedInterestList(),

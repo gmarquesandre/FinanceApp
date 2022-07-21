@@ -15,19 +15,20 @@ class SpendingForm extends StatefulWidget {
   SpendingForm([this.spending]);
 
   @override
-  _SpendingFormState createState() => _SpendingFormState();
+  SpendingFormState createState() => SpendingFormState();
 }
 
-class _SpendingFormState extends State<SpendingForm> {
+class SpendingFormState extends State<SpendingForm> {
   var _spendingValueController = MoneyMaskedTextController(leftSymbol: 'R\$ ');
 
   DateTime? _dateTimeInitial;
   DateTime? _dateTimeFinal;
 
-  TextEditingController _nameController = TextEditingController();
-  TextEditingController _initialDateController = TextEditingController();
-  TextEditingController _endDateController = TextEditingController();
-  TextEditingController _timesRecurrenceController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _initialDateController = TextEditingController();
+  final TextEditingController _endDateController = TextEditingController();
+  final TextEditingController _timesRecurrenceController =
+      TextEditingController();
   Recurrence? recurrenceController;
   Category? _categoryController;
   // bool _isEndlessController = false;
@@ -183,11 +184,11 @@ class _SpendingFormState extends State<SpendingForm> {
                       labelText: 'Categoria',
                     ),
                     items: categoryList
-                        .map<DropdownMenuItem<Category>>((_categoryController) {
+                        .map<DropdownMenuItem<Category>>((categoryController) {
                       return DropdownMenuItem<Category>(
-                        value: _categoryController,
+                        value: categoryController,
                         child: Text(
-                          _categoryController.name,
+                          categoryController.name,
                         ),
                       );
                     }).toList(),
@@ -239,7 +240,7 @@ class _SpendingFormState extends State<SpendingForm> {
                     },
                     controller: _initialDateController,
                     onTap: () async {
-                      FocusScope.of(context).requestFocus(new FocusNode());
+                      FocusScope.of(context).requestFocus(FocusNode());
                       final DateTime? picked = await showDatePicker(
                         context: (context),
                         initialDate: _dateTimeInitial == null
@@ -321,9 +322,9 @@ class _SpendingFormState extends State<SpendingForm> {
                     padding: const EdgeInsets.only(top: 8.0),
                     child: TextFormField(
                       validator: (value) {
-                        if (value == null || value == '')
+                        if (value == null || value == '') {
                           return 'É necessario um número';
-                        else if (int.tryParse(value)! <= 1) {
+                        } else if (int.tryParse(value)! <= 1) {
                           return 'Recorrencia deve ser maior que 1';
                         }
                         return null;
@@ -354,7 +355,7 @@ class _SpendingFormState extends State<SpendingForm> {
                       },
                       controller: _endDateController,
                       onTap: () async {
-                        FocusScope.of(context).requestFocus(new FocusNode());
+                        FocusScope.of(context).requestFocus(FocusNode());
                         final DateTime? picked = await showDatePicker(
                           context: (context),
                           initialDate: DateTime.now(),

@@ -16,10 +16,10 @@ class LoanForm extends StatefulWidget {
   LoanForm([this.loan]);
 
   @override
-  _LoanFormState createState() => _LoanFormState();
+  LoanFormState createState() => LoanFormState();
 }
 
-class _LoanFormState extends State<LoanForm> {
+class LoanFormState extends State<LoanForm> {
   final LoanClient _dao = LoanClient();
   var _totalValueController = MoneyMaskedTextController(leftSymbol: 'R\$ ');
   final _formKey = GlobalKey<FormState>();
@@ -33,7 +33,7 @@ class _LoanFormState extends State<LoanForm> {
   DateTime? _date;
   final TextEditingController _monthsController = TextEditingController();
 
-  TextEditingController _nameController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
 
   TextEditingController _paymentMonthly =
       MoneyMaskedTextController(leftSymbol: 'R\$ ');
@@ -44,11 +44,10 @@ class _LoanFormState extends State<LoanForm> {
   TextEditingController _lastPayment =
       MoneyMaskedTextController(leftSymbol: 'R\$ ');
 
-  TextEditingController _dateController = TextEditingController();
+  final TextEditingController _dateController = TextEditingController();
 
   @override
   void initState() {
-    // TODO: implement initState]
     super.initState();
 
     if (widget.loan != null) {
@@ -85,8 +84,8 @@ class _LoanFormState extends State<LoanForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-            (widget.loan == null ? "Adicionar" : "Editar") + " Empréstimo"),
+        title:
+            Text("${widget.loan == null ? "Adicionar" : "Editar"} Empréstimo"),
       ),
       body: Form(
         key: _formKey,
@@ -99,7 +98,7 @@ class _LoanFormState extends State<LoanForm> {
                   padding: const EdgeInsets.only(top: 8.0),
                   child: TextFormField(
                     validator: (value) {
-                      if (value!.length == 0) {
+                      if (value!.isEmpty) {
                         return 'É necessario um nome';
                       }
                       return null;
@@ -112,7 +111,7 @@ class _LoanFormState extends State<LoanForm> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
-                  child: new TextFormField(
+                  child: TextFormField(
                     validator: (value) {
                       double valueCompare = _totalValueController.numberValue;
                       if (valueCompare < 0.01) {
@@ -169,7 +168,7 @@ class _LoanFormState extends State<LoanForm> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
-                  child: new TextFormField(
+                  child: TextFormField(
                     readOnly: true,
                     validator: (value) {
                       if (value == '') {
@@ -180,7 +179,7 @@ class _LoanFormState extends State<LoanForm> {
                     },
                     controller: _dateController,
                     onTap: () async {
-                      FocusScope.of(context).requestFocus(new FocusNode());
+                      FocusScope.of(context).requestFocus(FocusNode());
                       final DateTime? picked = await showDatePicker(
                           context: (context),
                           initialDate: _date == null ? DateTime.now() : _date!,
@@ -238,11 +237,11 @@ class _LoanFormState extends State<LoanForm> {
                         ),
                         items: paymentTypeList
                             .map<DropdownMenuItem<LoanPaymentType>>(
-                                (_paymentController) {
+                                (paymentController) {
                           return DropdownMenuItem<LoanPaymentType>(
-                            value: _paymentController,
+                            value: paymentController,
                             child: Text(
-                              _paymentController.name,
+                              paymentController.name,
                               style: Theme.of(context).textTheme.subtitle2,
                             ),
                           );
@@ -259,7 +258,7 @@ class _LoanFormState extends State<LoanForm> {
                           });
                         },
                       ),
-                      Container(
+                      SizedBox(
                         width: double.maxFinite,
                         child: Text(_paymentType.description,
                             textAlign: TextAlign.left,
@@ -270,7 +269,7 @@ class _LoanFormState extends State<LoanForm> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0, left: 0),
-                  child: new TextFormField(
+                  child: TextFormField(
                     controller: _paymentMonthly,
                     enabled: false,
                     decoration: InputDecoration(
@@ -286,7 +285,7 @@ class _LoanFormState extends State<LoanForm> {
                   visible: _paymentType.id == 0,
                   child: Padding(
                     padding: const EdgeInsets.only(top: 8.0, left: 0),
-                    child: new TextFormField(
+                    child: TextFormField(
                       controller: _lastPayment,
                       enabled: false,
                       decoration:
@@ -298,7 +297,7 @@ class _LoanFormState extends State<LoanForm> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0, left: 0),
-                  child: new TextFormField(
+                  child: TextFormField(
                     controller: _paymentTotal,
                     enabled: false,
                     decoration:

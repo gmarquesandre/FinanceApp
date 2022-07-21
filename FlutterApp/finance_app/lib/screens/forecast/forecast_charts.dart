@@ -7,16 +7,19 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 @override
-class ForecastScreen extends StatefulWidget {
+class ForecastCharts extends StatefulWidget {
+  const ForecastCharts({Key? key}) : super(key: key);
+
   @override
-  State<ForecastScreen> createState() => _ForecastScreenState();
+  State<ForecastCharts> createState() => _ForecastChartsState();
 }
 
-class _ForecastScreenState extends State<ForecastScreen> {
+class _ForecastChartsState extends State<ForecastCharts> {
   final currencyFormat = NumberFormat.currency(locale: "pt_BR", symbol: "R\$");
 
   ForecastClient forecastClient = ForecastClient();
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -34,7 +37,6 @@ class _ForecastScreenState extends State<ForecastScreen> {
                 case ConnectionState.waiting:
                   return const Progress();
                 case ConnectionState.active:
-                  // TODO: Handle this case.
                   break;
                 case ConnectionState.done:
                   final List<ForecastList> spending =
@@ -59,7 +61,7 @@ class _ForecastScreenState extends State<ForecastScreen> {
 }
 
 class GetPatrimony extends StatelessWidget {
-  GetPatrimony(this.spending);
+  GetPatrimony(this.spending, {Key? key}) : super(key: key);
 
   final ForecastList spending;
   final TooltipBehavior _tooltipBehavior = TooltipBehavior(

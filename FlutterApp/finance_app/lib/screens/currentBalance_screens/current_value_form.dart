@@ -89,8 +89,8 @@ class CurrentBalanceFormState extends State<CurrentBalanceForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Conta Corrente'),
-      ),
+          // title: const Text('Conta Corrente'),
+          ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
         child: isLoading
@@ -154,15 +154,16 @@ class CurrentBalanceFormState extends State<CurrentBalanceForm> {
                         child: ElevatedButton(
                           child: const Text('Atualizar'),
                           onPressed: () async {
-                            bool success = await storeValue();
-                            if (success) {
-                              var snackBar = const SnackBar(
-                                duration: Duration(seconds: 2),
-                                content: Text('Atualizado Com Sucesso.'),
-                              );
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(snackBar);
-                            }
+                            storeValue().then((success) {
+                              if (success) {
+                                var snackBar = const SnackBar(
+                                  duration: Duration(seconds: 2),
+                                  content: Text('Atualizado Com Sucesso.'),
+                                );
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
+                              }
+                            });
                           },
                         ),
                       ),

@@ -53,7 +53,6 @@ class IncomeFormState extends State<IncomeForm> {
           widget.income!.timesRecurrence.toString();
       _incomeValueController = MoneyMaskedTextController(
           leftSymbol: 'R\$ ', initialValue: widget.income!.amount);
-      // _isEndlessController = widget.income!.isEndless == 1;
 
       _nameController.text = widget.income!.name;
       _dateTimeFinal = widget.income!.endDate;
@@ -196,12 +195,6 @@ class IncomeFormState extends State<IncomeForm> {
                           final double incomeValue =
                               _incomeValueController.numberValue;
 
-                          final DateTime endDate =
-                              _recurrenceController!.id == 1 ||
-                                      _dateTimeFinal == null ||
-                                      radioItem != 'endDate'
-                                  ? DateTime(1900, 1, 1)
-                                  : _dateTimeFinal!;
                           final int timesRecurrence =
                               radioItem == 'recurrenceNumber'
                                   ? int.parse(_timesRecurrenceController.text)
@@ -334,11 +327,11 @@ class IncomeFormState extends State<IncomeForm> {
         labelText: 'Recorrência',
       ),
       items: recurrenceList
-          .map<DropdownMenuItem<Recurrence>>((_recurrenceController) {
+          .map<DropdownMenuItem<Recurrence>>((recurrenceController) {
         return DropdownMenuItem<Recurrence>(
-          value: _recurrenceController,
+          value: recurrenceController,
           child: Text(
-            _recurrenceController.name,
+            recurrenceController.name,
           ),
         );
       }).toList(),
@@ -368,7 +361,7 @@ class IncomeFormState extends State<IncomeForm> {
     );
   }
 
-  Padding _padding(Widget form, {double topPadding = 8.0}) {
+  Padding _padding(Widget form) {
     return Padding(
       padding: const EdgeInsets.only(top: 8.0),
       child: form,
