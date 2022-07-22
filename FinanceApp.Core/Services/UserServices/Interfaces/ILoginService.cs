@@ -3,7 +3,7 @@ using FluentResults;
 
 namespace FinanceApp.Core.Services.UserServices.Interfaces
 {
-    public interface ILoginService : ITransientService
+    public interface ILoginService : IScopedService
     {
         Task<Result> LogaUsuarioAsync(LoginRequestDto request);
         Result ResetaSenhaUsuario(EfetuaResetDto request);

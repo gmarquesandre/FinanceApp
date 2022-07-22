@@ -2,7 +2,7 @@
 
 namespace FinanceApp.Core.Services.ForecastServices
 {
-    public interface IForecastService : ITransientService
+    public interface IForecastService : IScopedService
     {
         Task<List<ForecastList>> GetForecast(DateTime currentDate);
     }

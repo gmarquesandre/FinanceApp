@@ -4,7 +4,7 @@ using FinanceApp.Shared.Enum;
 
 namespace FinanceApp.Core.Services.ForecastServices.Interfaces
 {
-    public interface IIncomeForecast : ITransientService
+    public interface IIncomeForecast : IScopedService
     {
         EItemType Item { get; }
         ForecastList GetForecast(List<IncomeDto> incomeDtos, EForecastType forecastType, DateTime maxDate, DateTime? minDate = null);

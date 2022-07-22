@@ -3,7 +3,7 @@ using FluentResults;
 
 namespace FinanceApp.Core.Services.CrudServices.Interfaces
 {
-    public interface IFGTSService : ITransientService
+    public interface IFGTSService : IScopedService
     {
         Task<FGTSDto> AddOrUpdateAsync(CreateOrUpdateFGTS input);
         Task<Result> DeleteAsync();

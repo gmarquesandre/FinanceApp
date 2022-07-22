@@ -3,7 +3,7 @@ using FinanceApp.Shared.Enum;
 
 namespace FinanceApp.Core.Services.DefaultServices.Interfaces
 {
-    public interface IIndexService : ITransientService
+    public interface IIndexService : IScopedService
     {
         double GetIof(int day);
         Task<double> GetRealValue(DateTime date, double currentValue);

@@ -2,7 +2,7 @@
 
 namespace FinanceApp.Core.Services.UserServices.Interfaces
 {
-    public interface ITokenService : ITransientService
+    public interface ITokenService : IScopedService
     {
         Token CreateToken(CustomIdentityUser usuario, string role);
     }
