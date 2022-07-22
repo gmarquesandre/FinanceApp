@@ -411,7 +411,7 @@ class SpendingFormState extends State<SpendingForm> {
                           if (widget.spending == null) {
                             final CreateSpending newSpend = CreateSpending(
                                 creditCardId: null,
-                                payment: 0,
+                                payment: 1,
                                 name: name,
                                 amount: spendingValue,
                                 initialDate: initialDate,
@@ -426,7 +426,7 @@ class SpendingFormState extends State<SpendingForm> {
                                 Navigator.pop(context, newSpend.toString()));
                           } else {
                             final UpdateSpending newSpend = UpdateSpending(
-                                payment: 0,
+                                payment: 1,
                                 id: widget.spending!.id,
                                 name: name,
                                 amount: spendingValue,
