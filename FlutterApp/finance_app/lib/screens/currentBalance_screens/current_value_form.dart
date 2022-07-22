@@ -34,9 +34,9 @@ class CurrentBalanceFormState extends State<CurrentBalanceForm> {
           leftSymbol: 'R\$ ',
           initialValue: balance.value,
         );
+
         _interestRateController = MoneyMaskedTextController(
-            precision: 0,
-            decimalSeparator: '',
+            precision: 2,
             leftSymbol: '',
             initialValue: balance.percentageCdi != null
                 ? balance.percentageCdi! * 100

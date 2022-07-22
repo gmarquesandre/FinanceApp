@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinanceApp.EntityFramework.Migrations
 {
     [DbContext(typeof(FinanceContext))]
-    [Migration("20220719150922_init")]
+    [Migration("20220722020558_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -122,15 +122,15 @@ namespace FinanceApp.EntityFramework.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "4f8b359f-2a73-48c7-bb2c-d8e7a30063a8",
+                            ConcurrencyStamp = "6e40c8b4-e53f-4834-a6ab-07f8e8a747ec",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAECYCjI1ZqB6quhqZ7QtIjYMsNAWovsZF9zv72hJT8hF9xNNxbk1LSVrLPI9rD0SFpw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEw0NcciwNorRX00BNqhHgc3ufnm+tV+sZU4w0HuDVRrGp25Kyqo1voZQzt9nkgwDQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "44b00026-0a1e-4d6f-bc84-b8345802cf58",
+                            SecurityStamp = "b77b491d-12e8-4e24-acfd-15f1d1c8fa3a",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
@@ -465,19 +465,19 @@ namespace FinanceApp.EntityFramework.Migrations
                     b.Property<DateTime>("CreationDateTime")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int?>("MonthsSavingWarning")
+                    b.Property<int>("MonthsSavingWarning")
                         .HasColumnType("int");
 
-                    b.Property<double?>("PercentageCdiFixedInteresIncometSavings")
+                    b.Property<double>("PercentageCdiFixedInteresIncometSavings")
                         .HasColumnType("double");
 
-                    b.Property<double?>("PercentageCdiLoan")
+                    b.Property<double>("PercentageCdiLoan")
                         .HasColumnType("double");
 
-                    b.Property<double?>("PercentageCdiVariableIncome")
+                    b.Property<double>("PercentageCdiVariableIncome")
                         .HasColumnType("double");
 
-                    b.Property<double?>("SavingsLiquidPercentage")
+                    b.Property<double>("SavingsLiquidPercentage")
                         .HasColumnType("double");
 
                     b.Property<DateTime?>("UpdateDateTime")

@@ -432,11 +432,11 @@ namespace FinanceApp.EntityFramework.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    PercentageCdiLoan = table.Column<double>(type: "double", nullable: true),
-                    PercentageCdiFixedInteresIncometSavings = table.Column<double>(type: "double", nullable: true),
-                    PercentageCdiVariableIncome = table.Column<double>(type: "double", nullable: true),
-                    SavingsLiquidPercentage = table.Column<double>(type: "double", nullable: true),
-                    MonthsSavingWarning = table.Column<int>(type: "int", nullable: true),
+                    PercentageCdiLoan = table.Column<double>(type: "double", nullable: false),
+                    PercentageCdiFixedInteresIncometSavings = table.Column<double>(type: "double", nullable: false),
+                    PercentageCdiVariableIncome = table.Column<double>(type: "double", nullable: false),
+                    SavingsLiquidPercentage = table.Column<double>(type: "double", nullable: false),
+                    MonthsSavingWarning = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     CreationDateTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     UpdateDateTime = table.Column<DateTime>(type: "datetime(6)", nullable: true)
@@ -620,7 +620,7 @@ namespace FinanceApp.EntityFramework.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { 1, 0, "4f8b359f-2a73-48c7-bb2c-d8e7a30063a8", "admin@admin.com", true, false, null, "ADMIN@ADMIN.COM", "ADMIN", "AQAAAAEAACcQAAAAECYCjI1ZqB6quhqZ7QtIjYMsNAWovsZF9zv72hJT8hF9xNNxbk1LSVrLPI9rD0SFpw==", null, false, "44b00026-0a1e-4d6f-bc84-b8345802cf58", false, "admin" });
+                values: new object[] { 1, 0, "6e40c8b4-e53f-4834-a6ab-07f8e8a747ec", "admin@admin.com", true, false, null, "ADMIN@ADMIN.COM", "ADMIN", "AQAAAAEAACcQAAAAEEw0NcciwNorRX00BNqhHgc3ufnm+tV+sZU4w0HuDVRrGp25Kyqo1voZQzt9nkgwDQ==", null, false, "b77b491d-12e8-4e24-acfd-15f1d1c8fa3a", false, "admin" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

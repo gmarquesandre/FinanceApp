@@ -20,7 +20,9 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
         public async Task<ForecastParametersDto> AddOrUpdateAsync(CreateOrUpdateForecastParameters input)
         {
             var value = await _repository.FirstOrDefaultAsync();
+
             ForecastParameters model = _mapper.Map<ForecastParameters>(input);
+
             if (value == null)
             {
                 await _repository.InsertAsync(model);
@@ -42,11 +44,11 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
                 return new ForecastParametersDto()
                 {
                     Id = value.Id,
-                    MonthsSavingWarning = value.MonthsSavingWarning ?? 0,
-                    PercentageCdiFixedInteresIncometSavings = value.PercentageCdiFixedInteresIncometSavings ?? 0.00,
-                    PercentageCdiLoan = value.PercentageCdiLoan ?? 3.00,
-                    PercentageCdiVariableIncome = value.PercentageCdiVariableIncome ?? 0.00,
-                    SavingsLiquidPercentage = value.SavingsLiquidPercentage ?? 0.00,
+                    MonthsSavingWarning = value.MonthsSavingWarning,
+                    PercentageCdiFixedInteresIncometSavings = value.PercentageCdiFixedInteresIncometSavings,
+                    PercentageCdiLoan = value.PercentageCdiLoan,
+                    PercentageCdiVariableIncome = value.PercentageCdiVariableIncome,
+                    SavingsLiquidPercentage = value.SavingsLiquidPercentage,
                 };
                 //return _mapper.Map<ForecastParametersDto>(value);
             }

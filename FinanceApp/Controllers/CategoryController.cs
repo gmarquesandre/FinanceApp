@@ -58,9 +58,9 @@ namespace FinanceApp.Api.Controllers
         public async Task<IActionResult> AddInvestment(CreateCategory input)
         {
             try
-            {
-                
+            {                
                 var resultado = await _service.AddAsync(input);
+
                 return Ok(resultado);
             }
             catch (Exception ex)
@@ -74,8 +74,7 @@ namespace FinanceApp.Api.Controllers
         public async Task<IActionResult> DeleteInvestment(int id)
         {
             try
-            {
-                
+            {                
                 var resultado = await _service.DeleteAsync(id);
 
                 return Ok(resultado);
@@ -92,8 +91,7 @@ namespace FinanceApp.Api.Controllers
         public async Task<IActionResult> UpdateInvestment(UpdateCategory input)
         {
             try
-            {
-                
+            {                
                 var resultado = await _service.UpdateAsync(input);
 
                 return Ok(resultado);
