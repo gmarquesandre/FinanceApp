@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FinanceApp.EntityFramework
 {
+
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : UserTable
     {
         public IHttpContextAccessor _httpContextAccessor;
@@ -35,7 +36,7 @@ namespace FinanceApp.EntityFramework
             entity.UpdateDateTime = DateTime.Now;
             entity.CreationDateTime = oldEntity.CreationDateTime;
             var updatedRow = _context.Set<TEntity>().Update(entity).Entity;
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return updatedRow;
 
         }
