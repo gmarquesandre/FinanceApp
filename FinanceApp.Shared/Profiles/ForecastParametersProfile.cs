@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using FinanceApp.Shared.Dto.CurrentBalance;
+using FinanceApp.Shared.Dto.ForecastParameters;
 using FinanceApp.Shared.Models.UserTables;
 
 namespace FinanceApp.Shared.Profiles
@@ -8,10 +8,10 @@ namespace FinanceApp.Shared.Profiles
     {
         public ForecastParametersProfile()
         {
-            CreateMap<CreateOrUpdateCurrentBalance, ForecastParameters>();
-            CreateMap<ForecastParameters, CreateOrUpdateCurrentBalance>();
-            CreateMap<CurrentBalanceDto, ForecastParameters>();
-            CreateMap<ForecastParameters, CurrentBalanceDto>();
+            CreateMap<CreateOrUpdateForecastParameters, ForecastParameters>();
+            CreateMap<ForecastParameters, CreateOrUpdateForecastParameters>();
+            CreateMap<ForecastParametersDto, ForecastParameters>();
+            CreateMap<ForecastParameters, ForecastParametersDto>();
         }
     }
 }

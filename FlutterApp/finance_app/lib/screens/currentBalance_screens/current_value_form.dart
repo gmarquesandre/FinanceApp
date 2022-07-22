@@ -88,9 +88,9 @@ class CurrentBalanceFormState extends State<CurrentBalanceForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          // title: const Text('Conta Corrente'),
-          ),
+      // appBar: AppBar(
+      // title: const Text('Conta Corrente'),
+      // ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
         child: isLoading

@@ -20,7 +20,6 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
         public async Task<ForecastParametersDto> AddOrUpdateAsync(CreateOrUpdateForecastParameters input)
         {
             var value = await _repository.FirstOrDefaultAsync();
-
             ForecastParameters model = _mapper.Map<ForecastParameters>(input);
 
             if (value == null)
@@ -32,7 +31,7 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
                 await _repository.UpdateAsync(value.Id, model);
             }
             return _mapper.Map<ForecastParametersDto>(model);
-            
+          
         }
 
         public async Task<ForecastParametersDto> GetAsync()

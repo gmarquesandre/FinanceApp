@@ -15,7 +15,7 @@ class ForecastParameters extends StatefulWidget {
 
 class _ForecastParametersState extends State<ForecastParameters> {
   final currencyFormat = NumberFormat.currency(locale: "pt_BR", symbol: "R\$");
-  bool _updateValueWithCdi = false;
+
   ForecastParametersClient client = ForecastParametersClient();
   bool isLoading = false;
 
