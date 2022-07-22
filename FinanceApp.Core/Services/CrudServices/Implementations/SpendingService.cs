@@ -33,7 +33,7 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
         }
         public async Task<Result> UpdateAsync(UpdateSpending input)
         {
-            var oldModel = _repository.GetByIdAsync(input.Id);
+            var oldModel = await _repository.GetByIdAsync(input.Id);
 
             if (oldModel == null)
                 return Result.Fail("Já foi deletado");

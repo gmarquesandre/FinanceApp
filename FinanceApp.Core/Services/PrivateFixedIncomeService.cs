@@ -32,9 +32,9 @@ namespace FinanceApp.Core.Services
             return _mapper.Map<PrivateFixedIncomeDto>(model);
 
         }
-        public async Task<Result>  UpdateInvestmentAsync(UpdatePrivateFixedIncome input)
+        public async Task<Result> UpdateInvestmentAsync(UpdatePrivateFixedIncome input)
         {
-            var oldModel = _repository.GetByIdAsync(input.Id);
+            var oldModel = await _repository.GetByIdAsync(input.Id);
 
             if (oldModel == null)
                 return Result.Fail("Já foi deletado");
