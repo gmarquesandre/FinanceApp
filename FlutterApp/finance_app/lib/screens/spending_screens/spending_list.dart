@@ -1,7 +1,7 @@
 import 'package:finance_app/common_lists.dart';
 import 'package:finance_app/components/dialog.dart';
 import 'package:finance_app/components/progress.dart';
-import 'package:finance_app/controllers/crud_clients/spending_client.dart';
+import 'package:finance_app/clients/crud_clients/spending_client.dart';
 import 'package:finance_app/models/recurrence.dart';
 import 'package:finance_app/models/spending/spending.dart';
 import 'package:finance_app/screens/spending_screens/spending_form.dart';

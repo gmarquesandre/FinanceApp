@@ -1,7 +1,7 @@
 import 'package:finance_app/common_lists.dart';
 import 'package:finance_app/components/dialog.dart';
 import 'package:finance_app/components/progress.dart';
-import 'package:finance_app/controllers/crud_clients/income_client.dart';
+import 'package:finance_app/clients/crud_clients/income_client.dart';
 import 'package:finance_app/models/income/income.dart';
 import 'package:finance_app/models/recurrence.dart';
 import 'package:finance_app/screens/income/income_form.dart';

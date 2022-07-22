@@ -1,6 +1,6 @@
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:finance_app/common_lists.dart';
-import 'package:finance_app/controllers/crud_clients/income_client.dart';
+import 'package:finance_app/clients/crud_clients/income_client.dart';
 import 'package:finance_app/models/income/create_income.dart';
 import 'package:finance_app/models/income/income.dart';
 import 'package:finance_app/models/income/update_income.dart';

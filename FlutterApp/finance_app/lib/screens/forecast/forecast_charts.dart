@@ -1,5 +1,5 @@
 import 'package:finance_app/components/progress.dart';
-import 'package:finance_app/controllers/forecast_client/forecast_client.dart';
+import 'package:finance_app/clients/forecast_client/forecast_client.dart';
 import 'package:finance_app/models/forecast/forecast_item.dart';
 import 'package:finance_app/models/forecast/forecast_list.dart';
 import 'package:flutter/material.dart';

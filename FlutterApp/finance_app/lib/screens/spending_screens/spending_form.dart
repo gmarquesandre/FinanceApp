@@ -1,6 +1,6 @@
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:finance_app/common_lists.dart';
-import 'package:finance_app/controllers/crud_clients/spending_client.dart';
+import 'package:finance_app/clients/crud_clients/spending_client.dart';
 import 'package:finance_app/models/recurrence.dart';
 import 'package:finance_app/models/spending/create_spending.dart';
 import 'package:finance_app/models/spending/spending.dart';

@@ -1,4 +1,4 @@
-import 'package:finance_app/controllers/default_request/default_client.dart';
+import 'package:finance_app/clients/default_request/default_client.dart';
 import 'package:finance_app/models/current_balance/create_or_update_current_balance.dart';
 import 'package:finance_app/models/current_balance/current_balance.dart';
 

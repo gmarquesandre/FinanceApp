@@ -1,4 +1,4 @@
-import 'package:finance_app/controllers/default_request/default_client.dart';
+import 'package:finance_app/clients/default_request/default_client.dart';
 import 'package:finance_app/models/forecast/forecast_list.dart';
 import 'package:intl/intl.dart';
 

@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:finance_app/common_lists.dart';
-import 'package:finance_app/controllers/crud_clients/loan_client.dart';
+import 'package:finance_app/clients/crud_clients/loan_client.dart';
 import 'package:finance_app/models/loan/loan.dart';
 import 'package:finance_app/models/loan/create_loan.dart';
 import 'package:finance_app/models/loan/update_loan.dart';

@@ -1,4 +1,4 @@
-import 'package:finance_app/controllers/default_request/default_client.dart';
+import 'package:finance_app/clients/default_request/default_client.dart';
 import 'package:finance_app/models/forecast_parameters/create_or_update_forecast_parameters.dart';
 import 'package:finance_app/models/forecast_parameters/forecast_parameters.dart';
 

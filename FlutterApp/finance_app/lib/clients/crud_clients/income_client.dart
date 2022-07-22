@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:finance_app/controllers/default_request/default_client.dart';
+import 'package:finance_app/clients/default_request/default_client.dart';
 import 'package:finance_app/models/income/create_income.dart';
 import 'package:finance_app/models/income/income.dart';
 import 'package:finance_app/models/income/update_income.dart';

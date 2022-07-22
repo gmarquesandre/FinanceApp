@@ -1,6 +1,6 @@
 import 'package:finance_app/components/dialog.dart';
 import 'package:finance_app/components/progress.dart';
-import 'package:finance_app/controllers/crud_clients/loan_client.dart';
+import 'package:finance_app/clients/crud_clients/loan_client.dart';
 import 'package:finance_app/models/loan/loan.dart';
 import 'package:finance_app/screens/loan_screens/loan_form.dart';
 import 'package:flutter/material.dart';

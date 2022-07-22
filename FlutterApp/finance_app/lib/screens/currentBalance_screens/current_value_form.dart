@@ -1,6 +1,6 @@
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:finance_app/components/progress.dart';
-import 'package:finance_app/controllers/crud_clients/current_balance_client.dart';
+import 'package:finance_app/clients/crud_clients/current_balance_client.dart';
 import 'package:finance_app/models/current_balance/create_or_update_current_balance.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
