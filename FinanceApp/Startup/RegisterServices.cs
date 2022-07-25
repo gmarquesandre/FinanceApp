@@ -6,7 +6,7 @@ namespace FinanceApp.Api.Startup
     {
 
         //https://dev.to/tomfletcher9/net-6-register-services-using-reflection-3156
-        public static void RegisterServices(this IServiceCollection services, IConfiguration configuration)
+        public static void RegisterServices(this IServiceCollection services)
         {
             // Define types that need matching
             Type scopedService = typeof(IScopedService);

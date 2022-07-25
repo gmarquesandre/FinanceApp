@@ -3,6 +3,7 @@ using FinanceApp.Shared.Models.CommonTables;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Moq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -16,7 +17,7 @@ namespace FinanceApp.Tests.Base
         public async Task<FinanceContext> CreateFinanceContext()
         {
             var options = new DbContextOptionsBuilder<FinanceContext>()
-               .UseInMemoryDatabase("FinanceContext")
+               .UseInMemoryDatabase(Guid.NewGuid().ToString())
                .Options;
 
 
