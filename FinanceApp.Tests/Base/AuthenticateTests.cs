@@ -27,7 +27,6 @@ namespace FinanceApp.Tests.Base
 
             await context.Database.EnsureCreatedAsync();
 
-
             return context;
         }
 
@@ -48,10 +47,10 @@ namespace FinanceApp.Tests.Base
             return mockContextAcessor;
         }
 
-        public async Task DeleteDataDb(FinanceContext context)
-        {
-            await context.Database.EnsureDeletedAsync();
-        }
+        //public async Task DeleteDataDb(FinanceContext context)
+        //{
+        //    await context.Database.EnsureDeletedAsync();
+        //}
 
 
         public async Task<CustomIdentityUser> ReturnDefaultUser(FinanceContext userContext)

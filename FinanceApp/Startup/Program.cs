@@ -33,6 +33,7 @@ builder.Services.AddHangfire(configuration =>
     configuration.SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
     .UseSimpleAssemblyNameTypeSerializer()
     .UseRecommendedSerializerSettings()
+     
     //.UseSqlServerStorage(connectionStringHangfire, new SqlServerStorageOptions
     //{
     //    CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
@@ -69,7 +70,7 @@ builder.Services.AddDbContext<FinanceContext>(options =>
 builder.Services.AddIdentity<CustomIdentityUser, IdentityRole<int>>(opt =>
 {
     //opt.SignIn.RequireConfirmedEmail = true;
-    opt.User.RequireUniqueEmail = true;
+    opt.User.RequireUniqueEmail = true;    
 })
     .AddSignInManager()
 

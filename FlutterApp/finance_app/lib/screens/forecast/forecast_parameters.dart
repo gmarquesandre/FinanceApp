@@ -96,7 +96,7 @@ class _ForecastParametersState extends State<ForecastParameters> {
                       autocorrect: true,
                       decoration: const InputDecoration(
                         labelText:
-                            'Rentabilidade de Novos Investimentos - CDI ( % )',
+                            'Rentabilidade Recebimentos Futuros - CDI ( % )',
                       ),
                       keyboardType:
                           const TextInputType.numberWithOptions(decimal: true),

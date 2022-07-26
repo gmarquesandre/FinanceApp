@@ -1,3 +1,4 @@
+import 'package:finance_app/login.dart';
 import 'package:finance_app/main.dart';
 import 'package:finance_app/screens/currentBalance_screens/current_value_form.dart';
 import 'package:finance_app/screens/dashboard.dart';
@@ -11,6 +12,8 @@ class RouteName {
   static const String currentBalance = 'currentBalance';
 
   static const String dashboard = 'dashboard';
+
+  static const String login = 'login';
 }
 
 class RouteGenerator {
@@ -26,6 +29,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const CurrentBalanceForm());
       case RouteName.dashboard:
         return MaterialPageRoute(builder: (_) => const Dashboard());
+      case RouteName.login:
+        return MaterialPageRoute(builder: (_) => const Login());
       default:
         return _errorRoute();
     }

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:finance_app/global_variables.dart';
+import 'package:finance_app/login.dart';
 import 'package:finance_app/route_generator.dart';
 import 'package:finance_app/screens/dashboard.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
       locale: const Locale('pt'),
       themeMode: ThemeMode.dark,
       darkTheme: _darkTheme,
-      home: const Dashboard(),
+      home: const Login(),
     );
     return materialApp;
   }
@@ -62,7 +63,7 @@ class Popup extends StatelessWidget {
       actions: <Widget>[
         TextButton(
           onPressed: () {
-            Navigator.of(context).pushReplacementNamed(RouteName.dashboard);
+            Navigator.of(context).pushReplacementNamed(RouteName.login);
           },
           child: const Text('Close'),
         ),
