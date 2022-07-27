@@ -1,5 +1,4 @@
 ﻿using FinanceApp.Shared;
-using FinanceApp.Shared.Models.UserTables;
 using FinanceApp.Shared.Models.UserTables.Bases;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -43,14 +42,14 @@ namespace FinanceApp.EntityFramework
 
         public async Task<TEntity> FirstOrDefaultAsync()
         {
-            var item = (await _context.Set<TEntity>().AsNoTracking().FirstOrDefaultAsync());
+            var item = (await _context.Set<TEntity>().AsNoTracking().Where(a => a.UserId == _httpContextAccessor.HttpContext.User.GetUserId()).FirstOrDefaultAsync());
 
             return item;
         }
 
         public async Task<List<TEntity>> GetAllListAsync()
         {
-            var items = await _context.Set<TEntity>().AsNoTracking().ToListAsync();
+            var items = await _context.Set<TEntity>().AsNoTracking().Where(a => a.UserId == _httpContextAccessor.HttpContext.User.GetUserId()).ToListAsync();
 
             return items;
         }
@@ -64,14 +63,14 @@ namespace FinanceApp.EntityFramework
         
         public async Task<TEntity> GetByIdAsync(int id)
         {
-            var item = await _context.Set<TEntity>().AsNoTracking().FirstOrDefaultAsync(a => a.Id == id);
+            var item = await _context.Set<TEntity>().AsNoTracking().Where(a => a.UserId == _httpContextAccessor.HttpContext.User.GetUserId()).FirstOrDefaultAsync(a => a.Id == id);
 
             return item;
         }
 
         public IQueryable<TEntity> GetAll()
         {
-            var items = _context.Set<TEntity>().AsNoTracking();
+            var items = _context.Set<TEntity>().AsNoTracking().Where(a => a.UserId == _httpContextAccessor.HttpContext.User.GetUserId());
 
             return items;
         }
