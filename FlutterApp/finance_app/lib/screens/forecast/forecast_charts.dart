@@ -107,8 +107,8 @@ class GetPatrimony extends StatelessWidget {
           ),
           primaryYAxis: NumericAxis(
             decimalPlaces: 0,
-            numberFormat:
-                NumberFormat.simpleCurrency(decimalDigits: 0, locale: 'pt-BR'),
+            numberFormat: NumberFormat.compactCurrency(
+                decimalDigits: 0, locale: 'pt-BR', symbol: 'R\$'),
           ),
           axes: <ChartAxis>[
             NumericAxis(

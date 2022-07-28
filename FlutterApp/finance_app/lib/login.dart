@@ -72,25 +72,28 @@ class _LoginState extends State<Login> {
                 child: ElevatedButton(
                   child: const Text('Entrar'),
                   onPressed: () async {
-                    await loginClient
-                        .login(username.text, password.text)
-                        .then((resp) async => {
-                              if (resp)
-                                {
-                                  await onSubmit(),
-                                }
-                              else
-                                {}
-                            });
+                    await loginClient.login(username.text, password.text).then(
+                      (resp) async {
+                        if (resp) {
+                          await onSubmit();
 
-                    Navigator.of(context)
-                        .pushReplacementNamed(RouteName.dashboard);
+                          Navigator.of(context)
+                              .pushReplacementNamed(RouteName.dashboard);
 
-                    const snackBar = SnackBar(
-                      duration: Duration(seconds: 2),
-                      content: Text('Bem Vindo.'),
+                          const snackBar = SnackBar(
+                            duration: Duration(seconds: 2),
+                            content: Text('Bem Vindo.'),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        } else {
+                          const snackBar = SnackBar(
+                            duration: Duration(seconds: 2),
+                            content: Text('Usuário ou senha incorretos'),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        }
+                      },
                     );
-                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   },
                 ),
               ),

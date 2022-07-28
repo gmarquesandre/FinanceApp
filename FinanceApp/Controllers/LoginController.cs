@@ -22,7 +22,7 @@ namespace FinanceApp.Api.Controllers
         {
             Result resultado = await _loginService.LogaUsuarioAsync(request);
             if (resultado.IsFailed) return Unauthorized(resultado.Errors);
-            return Ok(resultado.Successes);
+            return Ok(resultado.Successes.First());
         }
 
         [HttpPost("ResetRequest")]

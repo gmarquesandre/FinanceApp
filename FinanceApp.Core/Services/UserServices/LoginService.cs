@@ -24,7 +24,7 @@ namespace FinanceApp.Core.Services.UserServices
                 .PasswordSignInAsync(request.Username, request.Password, false, false);
             if (resultadoIdentity.Succeeded)
             {
-                var identityUser = _signInManager
+                var identityUser = _signInManager   
                     .UserManager
                     .Users
                     .FirstOrDefault(usuario =>

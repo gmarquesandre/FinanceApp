@@ -1,9 +1,7 @@
 import 'dart:io';
-
 import 'package:finance_app/global_variables.dart';
 import 'package:finance_app/login.dart';
 import 'package:finance_app/route_generator.dart';
-import 'package:finance_app/screens/dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -135,6 +133,10 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 final ThemeData _darkTheme = ThemeData(
+  pageTransitionsTheme: const PageTransitionsTheme(builders: {
+    TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+    TargetPlatform.android: OpenUpwardsPageTransitionsBuilder(),
+  }),
   brightness: Brightness.dark,
   canvasColor: Colors.blueGrey,
   timePickerTheme: const TimePickerThemeData(),

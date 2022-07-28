@@ -13,18 +13,15 @@ class _SimulationParametersState extends State<SimulationParameters> {
   final currencyFormat = NumberFormat.currency(locale: "pt_BR", symbol: "R\$");
   bool _updateValueWithCdi = false;
 
-
   void storeValue() async {
-    final prefs = await SharedPreferences.getInstance();
+    final client = ForecastParametersClient();
     setState(() {
-
       prefs.setBool(
           GlobalVariables.updateCurrentValueWithCdi, _updateValueWithCdi);
     });
   }
 
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Balanço Mensal'),

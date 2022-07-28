@@ -9,4 +9,6 @@ class GlobalVariables {
   static String baseUrlLocal = 'localhost:7167';
 
   static int requestTimeout = 3000;
+
+  static String userToken = 'USER_TOKEN';
 }

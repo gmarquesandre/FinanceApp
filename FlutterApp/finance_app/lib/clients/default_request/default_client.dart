@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:finance_app/global_variables.dart';
 import 'package:finance_app/route_generator.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:http/http.dart';
 import 'package:http/io_client.dart';
 import 'package:http_status_code/http_status_code.dart';
 // import 'package:http/http.dart' as http;
@@ -9,21 +11,13 @@ import 'package:http_status_code/http_status_code.dart';
 class DefaultClient {
   static String baseUrl = GlobalVariables.baseUrlLocal;
 
-  static Map<String, String> headers = {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json',
-    'Authorization': 'Bearer $token',
-  };
-
   bool trustSelfSigned = true;
   static final HttpClient httpClient = HttpClient()
     ..badCertificateCallback =
         ((X509Certificate cert, String host, int port) => true);
 
   IOClient http = IOClient(httpClient);
-
-  static String token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJleHAiOjE2ODk5OTE2NzB9.cPHSkFY0OEvNsdsjuaWWjmiijNL84-eB79tVeZkdOjk";
+  final secureStorage = const FlutterSecureStorage();
 
   static int timeout = GlobalVariables.requestTimeout;
 
@@ -47,7 +41,9 @@ class DefaultClient {
   Future<bool> create(String path, String body) async {
     var uri = Uri.https(baseUrl, path);
 
-    final response = await http.post(uri, body: body, headers: headers);
+    var headersToken = await getHeaders();
+
+    final response = await http.post(uri, body: body, headers: headersToken);
 
     if (response.statusCode == StatusCode.CREATED) {
       return true;
@@ -57,8 +53,9 @@ class DefaultClient {
 
   Future<bool> delete(String path, Map<String, dynamic> queryParams) async {
     var uri = Uri.https(baseUrl, path, queryParams);
+    var headersToken = await getHeaders();
 
-    final response = await http.delete(uri, headers: headers);
+    final response = await http.delete(uri, headers: headersToken);
 
     if (response.statusCode == StatusCode.OK) {
       return true;
@@ -69,7 +66,9 @@ class DefaultClient {
   Future<bool> update(String path, String body) async {
     var uri = Uri.https(baseUrl, path);
 
-    final response = await http.put(uri, body: body, headers: headers);
+    var headersToken = await getHeaders();
+
+    final response = await http.put(uri, body: body, headers: headersToken);
 
     if (response.statusCode == StatusCode.OK) {
       return true;
@@ -83,17 +82,19 @@ class DefaultClient {
   Future<String> _get(String path, {Map<String, String>? parameters}) async {
     var uri = Uri.https(baseUrl, path, parameters);
     try {
+      var headersToken = await getHeaders();
+
       final response = await http
-          .get(uri, headers: headers)
+          .get(uri, headers: headersToken)
           .timeout(Duration(seconds: timeout));
 
       if (response.statusCode == StatusCode.OK) {
         return response.body;
       } else if (response.statusCode == StatusCode.UNAUTHORIZED) {
         //Tenta logar novamente
-
+        await secureStorage.delete(key: GlobalVariables.userToken);
         //Enviar para tela de login
-        // navigator.currentState?.pushReplacementNamed(RouteName.home);
+        navigator.currentState?.pushReplacementNamed(RouteName.login);
         throw Exception('Failed');
       } else {
         throw Exception('Failed');
@@ -105,25 +106,16 @@ class DefaultClient {
     }
   }
 
-  // Future<void> post() async {
-  //   var uri = Uri.https(baseUrl, '/mvp/PostAssetEarnings');
-
-  //   final String json = jsonEncode(list.map((e) => e.toJson()).toList());
-
-  //   final response = await http.post(
-  //     uri,
-  //     body: json.toString(),
-  //     headers: {'Content-type': 'application/json'},
-  //   );
-
-  //   if (response.statusCode == 200) {
-  //     final List<dynamic> decodedJson = jsonDecode(response.body);
-
-  //     return decodedJson
-  //         .map((dynamic json) => AssetEarnings.fromJson(json))
-  //         .toList();
-  //   } else {
-  //     throw Exception('Failed');
-  //   }
-  // }
+  getHeaders() async {
+    String token = await secureStorage.read(key: "USER_TOKEN") ?? "";
+    if (token == "") {
+      navigator.currentState?.pushReplacementNamed(RouteName.login);
+    }
+    Map<String, String> headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token'
+    };
+    return headers;
+  }
 }

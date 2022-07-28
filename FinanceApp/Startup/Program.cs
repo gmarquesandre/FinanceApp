@@ -45,7 +45,7 @@ builder.Services.AddHangfire(configuration =>
     {
         TablesPrefix = "Hangfire"
     }))
-    );
+);
 builder.Services.AddHangfireServer(configuration =>
 {
     configuration.Queues = new[] { "default", "asset" };
