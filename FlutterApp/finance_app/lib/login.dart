@@ -1,4 +1,5 @@
 import 'package:finance_app/clients/login_client.dart';
+import 'package:finance_app/components/padding.dart';
 import 'package:finance_app/route_generator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -40,22 +41,19 @@ class _LoginState extends State<Login> {
       appBar: AppBar(
         title: const Text("Login"),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
+      body: defaultBodyPadding(
+        Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 8.0),
-              child: TextField(
+            defaultInputPadding(
+              TextField(
                 controller: username,
                 decoration: const InputDecoration(
                   labelText: 'Usuário',
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 8.0),
-              child: TextField(
+            defaultInputPadding(
+              TextField(
                 controller: password,
                 obscureText: true,
                 enableSuggestions: false,
@@ -65,9 +63,8 @@ class _LoginState extends State<Login> {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 16.0),
-              child: SizedBox(
+            defaultInputPadding(
+              SizedBox(
                 width: double.maxFinite,
                 child: ElevatedButton(
                   child: const Text('Entrar'),

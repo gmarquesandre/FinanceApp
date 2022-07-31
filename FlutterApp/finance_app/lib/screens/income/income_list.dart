@@ -1,5 +1,6 @@
 import 'package:finance_app/common_lists.dart';
 import 'package:finance_app/components/dialog.dart';
+import 'package:finance_app/components/padding.dart';
 import 'package:finance_app/components/progress.dart';
 import 'package:finance_app/clients/crud_clients/income_client.dart';
 import 'package:finance_app/models/income/income.dart';
@@ -30,9 +31,8 @@ class IncomeListState extends State<IncomeList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: FutureBuilder(
+      body: defaultBodyPadding(
+        FutureBuilder(
           future: _dao.get(),
           builder: (context, snapshot) {
             switch (snapshot.connectionState) {
@@ -73,7 +73,6 @@ class IncomeListState extends State<IncomeList> {
                                       );
                                 },
                                 cells: [
-                                  // DataCell(Text(element.id.toString())),
                                   DataCell(Text(element.name.toString(),
                                       textAlign: TextAlign.left)),
                                   DataCell(Align(

@@ -1,3 +1,4 @@
+import 'package:finance_app/components/padding.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:finance_app/common_lists.dart';
 import 'package:finance_app/clients/crud_clients/spending_client.dart';
@@ -31,7 +32,7 @@ class SpendingFormState extends State<SpendingForm> {
       TextEditingController();
   Recurrence? recurrenceController;
   Category? _categoryController;
-  // bool _isEndlessController = false;
+
   bool _isRequiredSpending = false;
 
   List<Category> categoryList = [];
@@ -42,29 +43,10 @@ class SpendingFormState extends State<SpendingForm> {
   final _formKey = GlobalKey<FormState>();
 
   final SpendingClient _daoSpending = SpendingClient();
-  // final CategoryDao _daoCategory = CategoryDao();
-
-  void getCategory() async {
-    // var list = await _daoCategory.findAll();
-
-    // setState(
-    //   () {
-    //     categoryList = list;
-
-    //     if (widget.spending != null) {
-    //       _categoryController = categoryList.firstWhere(
-    //           (element) => element.id == widget.spending!.categoryId);
-    //     }
-    //   },
-    // );
-    // return '';
-  }
 
   @override
   void initState() {
     super.initState();
-
-    getCategory();
 
     if (widget.spending != null) {
       recurrenceController = recurrenceList
@@ -103,19 +85,17 @@ class SpendingFormState extends State<SpendingForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:
-            Text("${widget.spending == null ? "Adicionar" : "Editar"} Gasto"),
+        title: Text(
+            "${widget.spending == null ? "Adicionar" : "Atualizar"} Gasto"),
       ),
       body: Form(
         key: _formKey,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
-          child: SingleChildScrollView(
+        child: defaultBodyPadding(
+          SingleChildScrollView(
             child: Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: TextFormField(
+                defaultInputPadding(
+                  TextFormField(
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'É necessario um nome';
@@ -128,9 +108,8 @@ class SpendingFormState extends State<SpendingForm> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: Row(
+                defaultInputPadding(
+                  Row(
                     children: [
                       Checkbox(
                         checkColor: Colors.white,
@@ -147,9 +126,8 @@ class SpendingFormState extends State<SpendingForm> {
                     ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: TextFormField(
+                defaultInputPadding(
+                  TextFormField(
                     validator: (value) {
                       double? valueCompare = double.tryParse(value
                           .toString()
@@ -170,38 +148,8 @@ class SpendingFormState extends State<SpendingForm> {
                         const TextInputType.numberWithOptions(decimal: true),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0, left: 0),
-                  child: DropdownButtonFormField<Category>(
-                    value: _categoryController,
-                    // validator: (value) {
-                    // if (value == null) {
-                    //   return 'Selecione uma categoria';
-                    // }
-                    // return null;
-                    // },
-                    decoration: const InputDecoration(
-                      labelText: 'Categoria',
-                    ),
-                    items: categoryList
-                        .map<DropdownMenuItem<Category>>((categoryController) {
-                      return DropdownMenuItem<Category>(
-                        value: categoryController,
-                        child: Text(
-                          categoryController.name,
-                        ),
-                      );
-                    }).toList(),
-                    onChanged: (newValue) {
-                      setState(() {
-                        _categoryController = newValue!;
-                      });
-                    },
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0, left: 0),
-                  child: DropdownButtonFormField<Recurrence>(
+                defaultInputPadding(
+                  DropdownButtonFormField<Recurrence>(
                     value: recurrenceController,
                     validator: (value) {
                       if (value == null) {
@@ -228,9 +176,8 @@ class SpendingFormState extends State<SpendingForm> {
                     },
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: TextFormField(
+                defaultInputPadding(
+                  TextFormField(
                     readOnly: true,
                     validator: (value) {
                       if (value == '') {
@@ -265,9 +212,8 @@ class SpendingFormState extends State<SpendingForm> {
                 Visibility(
                   visible: recurrenceController != null &&
                       recurrenceController!.id! > 1,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: Column(
+                  child: defaultInputPadding(
+                    Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
@@ -318,9 +264,8 @@ class SpendingFormState extends State<SpendingForm> {
                       radioItem ==
                           'recurre'
                               'nceNumber',
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: TextFormField(
+                  child: defaultInputPadding(
+                    TextFormField(
                       validator: (value) {
                         if (value == null || value == '') {
                           return 'É necessario um número';
@@ -344,9 +289,8 @@ class SpendingFormState extends State<SpendingForm> {
                   visible: recurrenceController != null &&
                       recurrenceController!.id != 1 &&
                       radioItem == 'endDate',
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: TextFormField(
+                  child: defaultInputPadding(
+                    TextFormField(
                       validator: (value) {
                         if (value == '') {
                           return 'Insira a data final';
@@ -376,9 +320,8 @@ class SpendingFormState extends State<SpendingForm> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 24.0),
-                  child: SizedBox(
+                defaultBodyPadding(
+                  SizedBox(
                     width: double.maxFinite,
                     child: ElevatedButton(
                       onPressed: () async {

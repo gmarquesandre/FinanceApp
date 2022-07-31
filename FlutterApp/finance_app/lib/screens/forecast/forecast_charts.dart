@@ -1,3 +1,4 @@
+import 'package:finance_app/components/padding.dart';
 import 'package:finance_app/components/progress.dart';
 import 'package:finance_app/clients/forecast_client/forecast_client.dart';
 import 'package:finance_app/models/forecast/forecast_item.dart';
@@ -25,9 +26,8 @@ class _ForecastChartsState extends State<ForecastCharts> {
       appBar: AppBar(
         title: const Text('Simulação'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: SingleChildScrollView(
+      body: defaultBodyPadding(
+        SingleChildScrollView(
           child: FutureBuilder(
             future: forecastClient.get(),
             builder: (context, snapshot) {

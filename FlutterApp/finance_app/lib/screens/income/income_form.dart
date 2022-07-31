@@ -1,3 +1,4 @@
+import 'package:finance_app/components/padding.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:finance_app/common_lists.dart';
 import 'package:finance_app/clients/crud_clients/income_client.dart';
@@ -32,43 +33,10 @@ class IncomeFormState extends State<IncomeForm> {
       TextEditingController();
 
   String radioItem = 'Item 1';
-  // bool _isEndlessController = false;
 
   List<Recurrence> recurrenceList = [];
 
   final IncomeClient _daoIncome = IncomeClient();
-
-  @override
-  void initState() {
-    super.initState();
-    recurrenceList = CommonLists.recurrenceList;
-
-    if (widget.income != null) {
-      _recurrenceController = recurrenceList
-          .firstWhere((element) => element.id == widget.income!.recurrence);
-      _dateTimeInitial = widget.income!.initialDate;
-      _initialDateController.text =
-          DateFormat('dd/MM/yyyy').format(widget.income!.initialDate);
-      _timesRecurrenceController.text =
-          widget.income!.timesRecurrence.toString();
-      _incomeValueController = MoneyMaskedTextController(
-          leftSymbol: 'R\$ ', initialValue: widget.income!.amount);
-
-      _nameController.text = widget.income!.name;
-      _dateTimeFinal = widget.income!.endDate;
-      _endDateController.text = (widget.income!.endDate != null
-          ? DateFormat('dd/MM/yyyy').format(widget.income!.endDate!)
-          : '');
-
-      radioItem = widget.income!.recurrence == 1
-          ? ''
-          : widget.income!.isEndless
-              ? 'forever'
-              : widget.income!.timesRecurrence > 0
-                  ? 'recurrenceNumber'
-                  : 'endDate';
-    }
-  }
 
   final _formKey = GlobalKey<FormState>();
 
@@ -76,25 +44,25 @@ class IncomeFormState extends State<IncomeForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("${widget.income == null ? "Adicionar" : "Editar"} Renda"),
+        title:
+            Text("${widget.income == null ? "Adicionar" : "Atualizar"} Renda"),
       ),
       body: Form(
         key: _formKey,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
-          child: SingleChildScrollView(
+        child: defaultBodyPadding(
+          SingleChildScrollView(
             child: Column(
               children: [
-                _padding(
+                defaultInputPadding(
                   nameTextFormField(),
                 ),
-                _padding(
+                defaultInputPadding(
                   valueFormField(),
                 ),
-                _padding(
+                defaultInputPadding(
                   recurrenceDropdown(),
                 ),
-                _padding(
+                defaultInputPadding(
                   TextFormField(
                     readOnly: true,
                     validator: (value) {
@@ -133,17 +101,15 @@ class IncomeFormState extends State<IncomeForm> {
                 Visibility(
                   visible: _recurrenceController != null &&
                       _recurrenceController!.id! > 1,
-                  child: _padding(
+                  child: defaultInputPadding(
                     radioItemColumn(),
                   ),
                 ),
                 Visibility(
                   visible: _recurrenceController != null &&
                       _recurrenceController!.id! > 1 &&
-                      radioItem ==
-                          'recurre'
-                              'nceNumber',
-                  child: _padding(
+                      radioItem == 'recurrenceNumber',
+                  child: defaultInputPadding(
                     recurrenceTextFormField(),
                   ),
                 ),
@@ -151,7 +117,7 @@ class IncomeFormState extends State<IncomeForm> {
                   visible: _recurrenceController != null &&
                       _recurrenceController!.id != 1 &&
                       radioItem == 'endDate',
-                  child: _padding(
+                  child: defaultInputPadding(
                     TextFormField(
                       validator: (value) {
                         if (value == '') {
@@ -182,56 +148,14 @@ class IncomeFormState extends State<IncomeForm> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 24.0),
-                  child: SizedBox(
+                defaultInputPadding(
+                  padding: 24.0,
+                  SizedBox(
                     width: double.maxFinite,
                     child: ElevatedButton(
                       onPressed: () async {
                         if (_formKey.currentState!.validate() && _firstPress) {
-                          final String name = _nameController.text;
-                          final int? recurrenceId = int.tryParse(
-                              _recurrenceController!.id.toString());
-                          final double incomeValue =
-                              _incomeValueController.numberValue;
-
-                          final int timesRecurrence =
-                              radioItem == 'recurrenceNumber'
-                                  ? int.parse(_timesRecurrenceController.text)
-                                  : 0;
-                          final DateTime initialDate = _dateTimeInitial!;
-
-                          final bool isEndless = radioItem == 'forever';
-
-                          if (widget.income == null) {
-                            final CreateIncome newIncome = CreateIncome(
-                                name: name,
-                                amount: incomeValue,
-                                initialDate: initialDate,
-                                endDate: _dateTimeFinal,
-                                recurrence: recurrenceId!,
-                                isEndless: isEndless,
-                                timesRecurrence: timesRecurrence);
-
-                            _firstPress = false;
-
-                            await _daoIncome.create(newIncome).then((created) =>
-                                Navigator.pop(context, newIncome.toString()));
-                          } else {
-                            final UpdateIncome newIncome = UpdateIncome(
-                                id: widget.income!.id,
-                                name: name,
-                                amount: incomeValue,
-                                initialDate: initialDate,
-                                endDate: _dateTimeFinal,
-                                recurrence: recurrenceId!,
-                                isEndless: isEndless,
-                                timesRecurrence: timesRecurrence);
-
-                            newIncome.id = widget.income!.id;
-                            await _daoIncome.update(newIncome).then((id) =>
-                                Navigator.pop(context, newIncome.toString()));
-                          }
+                          await createOrUpdate(context);
                         }
                       },
                       child: Text(
@@ -245,6 +169,84 @@ class IncomeFormState extends State<IncomeForm> {
         ),
       ),
     );
+  }
+
+  Future<void> createOrUpdate(BuildContext context) async {
+    final String name = _nameController.text;
+    final int? recurrenceId =
+        int.tryParse(_recurrenceController!.id.toString());
+    final double incomeValue = _incomeValueController.numberValue;
+
+    final int timesRecurrence = radioItem == 'recurrenceNumber'
+        ? int.parse(_timesRecurrenceController.text)
+        : 0;
+    final DateTime initialDate = _dateTimeInitial!;
+
+    final bool isEndless = radioItem == 'forever';
+
+    if (widget.income == null) {
+      final CreateIncome newIncome = CreateIncome(
+          name: name,
+          amount: incomeValue,
+          initialDate: initialDate,
+          endDate: _dateTimeFinal,
+          recurrence: recurrenceId!,
+          isEndless: isEndless,
+          timesRecurrence: timesRecurrence);
+
+      _firstPress = false;
+
+      await _daoIncome
+          .create(newIncome)
+          .then((created) => Navigator.pop(context, newIncome.toString()));
+    } else {
+      final UpdateIncome newIncome = UpdateIncome(
+          id: widget.income!.id,
+          name: name,
+          amount: incomeValue,
+          initialDate: initialDate,
+          endDate: _dateTimeFinal,
+          recurrence: recurrenceId!,
+          isEndless: isEndless,
+          timesRecurrence: timesRecurrence);
+
+      newIncome.id = widget.income!.id;
+      await _daoIncome
+          .update(newIncome)
+          .then((id) => Navigator.pop(context, newIncome.toString()));
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    recurrenceList = CommonLists.recurrenceList;
+
+    if (widget.income != null) {
+      _recurrenceController = recurrenceList
+          .firstWhere((element) => element.id == widget.income!.recurrence);
+      _dateTimeInitial = widget.income!.initialDate;
+      _initialDateController.text =
+          DateFormat('dd/MM/yyyy').format(widget.income!.initialDate);
+      _timesRecurrenceController.text =
+          widget.income!.timesRecurrence.toString();
+      _incomeValueController = MoneyMaskedTextController(
+          leftSymbol: 'R\$ ', initialValue: widget.income!.amount);
+
+      _nameController.text = widget.income!.name;
+      _dateTimeFinal = widget.income!.endDate;
+      _endDateController.text = (widget.income!.endDate != null
+          ? DateFormat('dd/MM/yyyy').format(widget.income!.endDate!)
+          : '');
+
+      radioItem = widget.income!.recurrence == 1
+          ? ''
+          : widget.income!.isEndless
+              ? 'forever'
+              : widget.income!.timesRecurrence > 0
+                  ? 'recurrenceNumber'
+                  : 'endDate';
+    }
   }
 
   TextFormField recurrenceTextFormField() {
@@ -358,13 +360,6 @@ class IncomeFormState extends State<IncomeForm> {
         labelText: 'Renda Liquida',
       ),
       keyboardType: const TextInputType.numberWithOptions(decimal: true),
-    );
-  }
-
-  Padding _padding(Widget form) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 8.0),
-      child: form,
     );
   }
 

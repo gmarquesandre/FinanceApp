@@ -1,3 +1,4 @@
+import 'package:finance_app/components/padding.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:finance_app/components/progress.dart';
 import 'package:finance_app/clients/crud_clients/current_balance_client.dart';
@@ -13,6 +14,99 @@ class CurrentBalanceForm extends StatefulWidget {
 }
 
 class CurrentBalanceFormState extends State<CurrentBalanceForm> {
+  @override
+  void initState() {
+    super.initState();
+    _getBalance();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: defaultBodyPadding(
+        isLoading
+            ? const Progress()
+            : SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    defaultInputPadding(
+                      currentBalanceInput(),
+                    ),
+                    !_updateValueWithCdi
+                        ? const SizedBox()
+                        : defaultInputPadding(
+                            indexPercentageInput(),
+                          ),
+                    !_updateValueWithCdi
+                        ? const Text("")
+                        : const Text(
+                            "Será considerado IR de 22,5% em qualquer prazo do investimento",
+                          ),
+                    _date.year <= 1970
+                        ? const Text("")
+                        : Text(
+                            "Ultima Atualização ${DateFormat("dd/MM/yyyy").format(_date)}",
+                          ),
+                    CheckboxListTile(
+                      contentPadding: const EdgeInsets.all(0),
+                      controlAffinity: ListTileControlAffinity.leading,
+                      title: const Text("Atualizar Saldo pelo CDI"),
+                      value: _updateValueWithCdi,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          _updateValueWithCdi = value!;
+                        });
+                      },
+                    ),
+                    defaultButtonPadding(
+                      SizedBox(
+                        width: double.maxFinite,
+                        child: ElevatedButton(
+                          child: const Text('Atualizar'),
+                          onPressed: () async {
+                            saveValue().then((success) {
+                              if (success) {
+                                var snackBar = const SnackBar(
+                                  duration: Duration(seconds: 2),
+                                  content: Text('Atualizado Com Sucesso.'),
+                                );
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
+                              }
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+      ),
+    );
+  }
+
+  TextField indexPercentageInput() {
+    return TextField(
+      controller: _interestRateController,
+      autocorrect: true,
+      decoration: const InputDecoration(
+        labelText: 'CDI ( % )',
+      ),
+      keyboardType: const TextInputType.numberWithOptions(decimal: true),
+    );
+  }
+
+  TextFormField currentBalanceInput() {
+    return TextFormField(
+      keyboardType: const TextInputType.numberWithOptions(decimal: true),
+      controller: _value,
+      decoration: const InputDecoration(
+        labelText: 'Saldo Conta Corrente Atual',
+      ),
+    );
+  }
+
   var _value = MoneyMaskedTextController(
     leftSymbol: 'R\$ ',
   );
@@ -25,7 +119,7 @@ class CurrentBalanceFormState extends State<CurrentBalanceForm> {
   CurrentBalanceClient client = CurrentBalanceClient();
   var _interestRateController = MoneyMaskedTextController(initialValue: 0);
 
-  void _loadBalance() async {
+  void _getBalance() async {
     setLoading();
     var balance = await client.get();
     setState(
@@ -64,7 +158,7 @@ class CurrentBalanceFormState extends State<CurrentBalanceForm> {
     });
   }
 
-  Future<bool> storeValue() async {
+  Future<bool> saveValue() async {
     setLoading();
 
     CreateOrUpdateCurrentBalance newValue = CreateOrUpdateCurrentBalance(
@@ -77,101 +171,5 @@ class CurrentBalanceFormState extends State<CurrentBalanceForm> {
     unsetLoading();
 
     return success;
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _loadBalance();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      // appBar: AppBar(
-      // title: const Text('Conta Corrente'),
-      // ),
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
-        child: isLoading
-            ? const Progress()
-            : SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: TextFormField(
-                        keyboardType: const TextInputType.numberWithOptions(
-                            decimal: true),
-                        controller: _value,
-                        decoration: const InputDecoration(
-                          labelText: 'Saldo Conta Corrente Atual',
-                        ),
-                      ),
-                    ),
-                    !_updateValueWithCdi
-                        ? const SizedBox()
-                        : Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
-                            child: TextField(
-                              controller: _interestRateController,
-                              autocorrect: true,
-                              decoration: const InputDecoration(
-                                labelText: 'CDI ( % )',
-                              ),
-                              keyboardType:
-                                  const TextInputType.numberWithOptions(
-                                      decimal: true),
-                            ),
-                          ),
-                    !_updateValueWithCdi
-                        ? const Text("")
-                        : const Text(
-                            "Será considerado IR de 22,5% em qualquer prazo do investimento",
-                          ),
-                    _date.year <= 1970
-                        ? const Text("")
-                        : Text(
-                            "Ultima Atualização ${DateFormat("dd/MM/yyyy").format(_date)}",
-                          ),
-                    CheckboxListTile(
-                      contentPadding: const EdgeInsets.all(0),
-                      controlAffinity: ListTileControlAffinity.leading,
-                      title: const Text("Atualizar Saldo pelo CDI"),
-                      //    <-- label
-                      value: _updateValueWithCdi,
-                      onChanged: (bool? value) {
-                        setState(() {
-                          _updateValueWithCdi = value!;
-                        });
-                      },
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 16.0),
-                      child: SizedBox(
-                        width: double.maxFinite,
-                        child: ElevatedButton(
-                          child: const Text('Atualizar'),
-                          onPressed: () async {
-                            storeValue().then((success) {
-                              if (success) {
-                                var snackBar = const SnackBar(
-                                  duration: Duration(seconds: 2),
-                                  content: Text('Atualizado Com Sucesso.'),
-                                );
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackBar);
-                              }
-                            });
-                          },
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-      ),
-    );
   }
 }

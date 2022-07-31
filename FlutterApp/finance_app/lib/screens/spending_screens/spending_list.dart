@@ -1,5 +1,6 @@
 import 'package:finance_app/common_lists.dart';
 import 'package:finance_app/components/dialog.dart';
+import 'package:finance_app/components/padding.dart';
 import 'package:finance_app/components/progress.dart';
 import 'package:finance_app/clients/crud_clients/spending_client.dart';
 import 'package:finance_app/models/recurrence.dart';
@@ -29,9 +30,8 @@ class SpendingListState extends State<SpendingList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: SingleChildScrollView(
+      body: defaultBodyPadding(
+        SingleChildScrollView(
           child: FutureBuilder(
             future: _daoSpending.get(),
             builder: (context, snapshot) {

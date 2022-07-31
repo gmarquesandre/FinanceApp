@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:finance_app/components/padding.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:finance_app/common_lists.dart';
 import 'package:finance_app/clients/crud_clients/loan_client.dart';
@@ -20,83 +21,21 @@ class LoanForm extends StatefulWidget {
 }
 
 class LoanFormState extends State<LoanForm> {
-  final LoanClient _dao = LoanClient();
-  var _totalValueController = MoneyMaskedTextController(leftSymbol: 'R\$ ');
-  final _formKey = GlobalKey<FormState>();
-
-  var _interestRateController = MoneyMaskedTextController(initialValue: 0);
-
-  LoanPaymentType _paymentType = CommonLists.loanPaymentType.first;
-
-  List<LoanPaymentType> paymentTypeList = CommonLists.loanPaymentType;
-
-  DateTime? _date;
-  final TextEditingController _monthsController = TextEditingController();
-
-  final TextEditingController _nameController = TextEditingController();
-
-  TextEditingController _paymentMonthly =
-      MoneyMaskedTextController(leftSymbol: 'R\$ ');
-
-  TextEditingController _paymentTotal =
-      MoneyMaskedTextController(leftSymbol: 'R\$ ');
-
-  TextEditingController _lastPayment =
-      MoneyMaskedTextController(leftSymbol: 'R\$ ');
-
-  final TextEditingController _dateController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-
-    if (widget.loan != null) {
-      _paymentType = paymentTypeList
-          .firstWhere((element) => element.id == widget.loan!.type);
-
-      _nameController.text = widget.loan!.name;
-
-      _totalValueController = MoneyMaskedTextController(
-          leftSymbol: 'R\$ ', initialValue: widget.loan!.loanValue);
-
-      _monthsController.text = widget.loan!.monthsPayment.toString();
-
-      _interestRateController = MoneyMaskedTextController(
-          precision: 0,
-          leftSymbol: '',
-          initialValue: widget.loan!.interestRate);
-
-      _date = widget.loan!.initialDate;
-
-      _dateController.text =
-          DateFormat('dd/MM/yyyy').format(widget.loan!.initialDate);
-
-      getPaymentValue(
-        _totalValueController.numberValue,
-        int.tryParse(_monthsController.text),
-        _interestRateController.numberValue / 100,
-        _paymentType.id,
-      );
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:
-            Text("${widget.loan == null ? "Adicionar" : "Editar"} Empréstimo"),
+        title: Text(
+            "${widget.loan == null ? "Adicionar" : "Atualizar"} Empréstimo"),
       ),
       body: Form(
         key: _formKey,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
-          child: SingleChildScrollView(
+        child: defaultBodyPadding(
+          SingleChildScrollView(
             child: Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: TextFormField(
+                defaultInputPadding(
+                  TextFormField(
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'É necessario um nome';
@@ -109,9 +48,8 @@ class LoanFormState extends State<LoanForm> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: TextFormField(
+                defaultInputPadding(
+                  TextFormField(
                     validator: (value) {
                       double valueCompare = _totalValueController.numberValue;
                       if (valueCompare < 0.01) {
@@ -138,9 +76,8 @@ class LoanFormState extends State<LoanForm> {
                         const TextInputType.numberWithOptions(decimal: true),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: TextFormField(
+                defaultInputPadding(
+                  TextFormField(
                     validator: (value) {
                       if (value == '' || int.tryParse(value!)! < 1) {
                         return 'O Valor deve ser maior que zero';
@@ -166,9 +103,8 @@ class LoanFormState extends State<LoanForm> {
                     keyboardType: TextInputType.number,
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: TextFormField(
+                defaultInputPadding(
+                  TextFormField(
                     readOnly: true,
                     validator: (value) {
                       if (value == '') {
@@ -198,9 +134,8 @@ class LoanFormState extends State<LoanForm> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: TextField(
+                defaultInputPadding(
+                  TextField(
                     controller: _interestRateController,
                     autocorrect: true,
                     decoration: const InputDecoration(
@@ -220,9 +155,8 @@ class LoanFormState extends State<LoanForm> {
                         const TextInputType.numberWithOptions(decimal: true),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0, left: 0),
-                  child: Column(
+                defaultInputPadding(
+                  Column(
                     children: [
                       DropdownButtonFormField<LoanPaymentType>(
                         value: _paymentType,
@@ -267,9 +201,8 @@ class LoanFormState extends State<LoanForm> {
                     ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0, left: 0),
-                  child: TextFormField(
+                defaultInputPadding(
+                  TextFormField(
                     controller: _paymentMonthly,
                     enabled: false,
                     decoration: InputDecoration(
@@ -283,9 +216,8 @@ class LoanFormState extends State<LoanForm> {
                 ),
                 Visibility(
                   visible: _paymentType.id == 0,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 8.0, left: 0),
-                    child: TextFormField(
+                  child: defaultInputPadding(
+                    TextFormField(
                       controller: _lastPayment,
                       enabled: false,
                       decoration:
@@ -295,9 +227,8 @@ class LoanFormState extends State<LoanForm> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0, left: 0),
-                  child: TextFormField(
+                defaultInputPadding(
+                  TextFormField(
                     controller: _paymentTotal,
                     enabled: false,
                     decoration:
@@ -306,9 +237,8 @@ class LoanFormState extends State<LoanForm> {
                         const TextInputType.numberWithOptions(decimal: true),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 24.0),
-                  child: SizedBox(
+                defaultInputPadding(
+                  SizedBox(
                     width: double.maxFinite,
                     child: ElevatedButton(
                       onPressed: () async {
@@ -374,7 +304,7 @@ class LoanFormState extends State<LoanForm> {
 
     if (nMonths != null && totalValue != 0.00 && interestRate != 0.00) {
       num interestRateMonth = pow(1 + interestRate, 1 / 12) - 1;
-// SAC
+
       if (id == 0) {
         paymentMonthly = (totalValue / nMonths +
             (totalValue * (1 + interestRateMonth) - totalValue));
@@ -383,9 +313,7 @@ class LoanFormState extends State<LoanForm> {
 
         paymentTotal =
             ((totalValue + totalValue * interestRateMonth * (nMonths + 1) / 2));
-      }
-      // SACRE
-      else if (id == 1) {
+      } else if (id == 1) {
         paymentMonthly = (totalValue *
             (((pow((1 + interestRateMonth), nMonths) * interestRateMonth)) /
                 (pow((1 + interestRateMonth), nMonths) - 1)));
@@ -403,5 +331,65 @@ class LoanFormState extends State<LoanForm> {
 
     _paymentTotal = MoneyMaskedTextController(
         leftSymbol: 'R\$ ', initialValue: paymentTotal);
+  }
+
+  final LoanClient _dao = LoanClient();
+  var _totalValueController = MoneyMaskedTextController(leftSymbol: 'R\$ ');
+  final _formKey = GlobalKey<FormState>();
+
+  var _interestRateController = MoneyMaskedTextController(initialValue: 0);
+
+  LoanPaymentType _paymentType = CommonLists.loanPaymentType.first;
+
+  List<LoanPaymentType> paymentTypeList = CommonLists.loanPaymentType;
+
+  DateTime? _date;
+  final TextEditingController _monthsController = TextEditingController();
+
+  final TextEditingController _nameController = TextEditingController();
+
+  TextEditingController _paymentMonthly =
+      MoneyMaskedTextController(leftSymbol: 'R\$ ');
+
+  TextEditingController _paymentTotal =
+      MoneyMaskedTextController(leftSymbol: 'R\$ ');
+
+  TextEditingController _lastPayment =
+      MoneyMaskedTextController(leftSymbol: 'R\$ ');
+
+  final TextEditingController _dateController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.loan != null) {
+      _paymentType = paymentTypeList
+          .firstWhere((element) => element.id == widget.loan!.type);
+
+      _nameController.text = widget.loan!.name;
+
+      _totalValueController = MoneyMaskedTextController(
+          leftSymbol: 'R\$ ', initialValue: widget.loan!.loanValue);
+
+      _monthsController.text = widget.loan!.monthsPayment.toString();
+
+      _interestRateController = MoneyMaskedTextController(
+          precision: 0,
+          leftSymbol: '',
+          initialValue: widget.loan!.interestRate);
+
+      _date = widget.loan!.initialDate;
+
+      _dateController.text =
+          DateFormat('dd/MM/yyyy').format(widget.loan!.initialDate);
+
+      getPaymentValue(
+        _totalValueController.numberValue,
+        int.tryParse(_monthsController.text),
+        _interestRateController.numberValue / 100,
+        _paymentType.id,
+      );
+    }
   }
 }

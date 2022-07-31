@@ -25,9 +25,8 @@ class LoanListState extends State<LoanList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: SingleChildScrollView(
+      body: defaultBodyPadding(
+        SingleChildScrollView(
           child: FutureBuilder(
             future: _dao.get(),
             builder: (context, snapshot) {

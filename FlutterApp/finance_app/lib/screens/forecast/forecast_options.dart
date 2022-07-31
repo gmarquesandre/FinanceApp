@@ -14,11 +14,6 @@ class ForecastOptions extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            // _CardButton(
-            //   Icons.insert_chart,
-            //   "Rendimento Ações",
-            //   AssetSimulationConfig(),
-            // ),
             _CardButton(
               Icons.keyboard_option_key,
               "Parâmetros",

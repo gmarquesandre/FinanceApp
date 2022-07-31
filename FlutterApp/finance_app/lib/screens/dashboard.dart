@@ -71,7 +71,7 @@ class _HomeScreen extends StatelessWidget {
         title: const Text("Inicio"),
         actions: [
           IconButton(
-            icon: Icon(Icons.exit_to_app),
+            icon: const Icon(Icons.exit_to_app),
             onPressed: () {
               navigator.currentState?.pushReplacementNamed(RouteName.login);
             },
@@ -79,58 +79,7 @@ class _HomeScreen extends StatelessWidget {
         ],
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            // ElevatedButton(child: Text('Resetar Banco de Dados'),
-            //   onPressed: () async {
-            //     await resetDatabaseFunc();
-            //     final snackBar = SnackBar(
-            //       duration: const Duration(seconds: 2),
-            //       content: Text('Banco Resetado.'),
-            //     );
-            //     ScaffoldMessenger.of(context).showSnackBar(snackBar);
-            //   },),
-            Padding(
-              padding: const EdgeInsets.only(top: 10),
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                height: 100,
-                decoration: ShapeDecoration(
-                  color: Colors.white60,
-                  shape: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 10),
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                height: 300,
-                decoration: ShapeDecoration(
-                  color: Colors.white60,
-                  shape: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 10),
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                height: 300,
-                decoration: ShapeDecoration(
-                  color: Colors.white60,
-                  shape: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
+        child: Column(),
       ),
     );
   }
