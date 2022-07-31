@@ -1,13 +1,13 @@
-﻿using FinanceApp.Core.Importers;
-using FinanceApp.Core.Services;
+﻿using FinanceApp.FinanceData;
+using FinanceApp.FinanceData.Importers;
+using FinanceApp.FinanceData.Services;
+using FinanceApp.Shared;
 using FinanceApp.Shared.Enum;
 using FinanceApp.Tests.Base;
 using Microsoft.Extensions.Caching.Memory;
 using System;
-using System.Globalization;
 using System.Threading.Tasks;
 using Xunit;
-using static FinanceApp.Core.Services.TitleService;
 
 namespace FinanceApp.Tests.TitleTests
 {
@@ -17,7 +17,7 @@ namespace FinanceApp.Tests.TitleTests
         public async Task<TitleService> TitleServiceInstanceAsync()
         {
 
-            var context = await CreateFinanceContext();
+            var context = await CreateFinanceDataContext();
             var mapper = GetConfigurationIMapper();
             
             //Instancias 
@@ -43,13 +43,13 @@ namespace FinanceApp.Tests.TitleTests
         public async Task MustReturnCorrectCurrentBalanceValueAsync()
         {
 
-            var context = await CreateFinanceContext();
-
+            var context = await CreateFinanceDataContext();
+            var contextData = await CreateFinanceDataContext();
             //GetCurrentValueOfTitle(DateTime dateInvestment, double investmentValue, DateTime date, bool updateWithCdiIndex, double indexPercentage)
             var titleService = await TitleServiceInstanceAsync();
-            var indexesImporter = new IndexImporter(context);
+            var indexesImporter = new IndexImporter(contextData);
 
-            var holidaysImporter = new HolidaysImporter(context);
+            var holidaysImporter = new HolidaysImporter(contextData);
 
             //Importar dados para comparação
 
@@ -118,7 +118,7 @@ namespace FinanceApp.Tests.TitleTests
             double newInvestmentValue,
             double withdraw)
         {
-            var context = await CreateFinanceContext();
+            var context = await CreateFinanceDataContext();
 
             //Instancias 
             var titleService = await TitleServiceInstanceAsync();

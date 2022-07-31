@@ -1,5 +1,6 @@
 ﻿using FinanceApp.Shared.Enum;
-namespace FinanceApp.Shared.Models
+
+namespace FinanceApp.Shared.Entities
 {
     public class TreasuryBondTitle
     {

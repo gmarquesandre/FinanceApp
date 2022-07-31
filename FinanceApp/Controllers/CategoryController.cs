@@ -1,6 +1,6 @@
 ﻿using FinanceApp.Core.Services.CrudServices.Interfaces;
 using FinanceApp.Shared.Dto.Category;
-using FinanceApp.Shared.Models.CommonTables;
+using FinanceApp.Shared.Entities.CommonTables;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

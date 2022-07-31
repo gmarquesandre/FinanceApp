@@ -1,8 +1,8 @@
-﻿using FinanceApp.Core.Services.DefaultServices.Interfaces;
+﻿using FinanceApp.FinanceData.Services;
 using FinanceApp.Shared;
 using FinanceApp.Shared.Enum;
 
-namespace FinanceApp.Core.Services
+namespace FinanceApp.FinanceData
 {
     public partial class TitleService : ITitleService
     {
@@ -102,7 +102,7 @@ namespace FinanceApp.Core.Services
         {
             var titleUpdate = await GetCurrentValueOfTitle(title);
 
-            if(titleUpdate.LiquidValue - withdrawValue >= 0.01)
+            if (titleUpdate.LiquidValue - withdrawValue >= 0.01)
             {
                 var newLiquidValue = titleUpdate.LiquidValue - withdrawValue;
 
@@ -124,9 +124,9 @@ namespace FinanceApp.Core.Services
                     Date = titleUpdate.Date,
                     DateInvestment = title.DateInvestment,
                     Index = titleUpdate.Index,
-                    IndexPercentage=titleUpdate.IndexPercentage,
+                    IndexPercentage = titleUpdate.IndexPercentage,
                     InvestmentValue = newInvestmentValue
-                
+
                 };
                 return (output, withdrawValue);
             }

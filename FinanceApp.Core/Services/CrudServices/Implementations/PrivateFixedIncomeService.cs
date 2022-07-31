@@ -2,9 +2,9 @@
 using FinanceApp.Core.Services.CrudServices.Interfaces;
 using FinanceApp.Shared.Dto.PrivateFixedInvestment;
 using FinanceApp.Shared.Enum;
-using FinanceApp.Shared.Models.UserTables;
 using FluentResults;
 using FinanceApp.EntityFramework;
+using FinanceApp.Shared.Entities.UserTables;
 
 namespace FinanceApp.Core.Services.CrudServices.Implementations
 {

@@ -1,4 +1,5 @@
 import 'package:finance_app/components/dialog.dart';
+import 'package:finance_app/components/padding.dart';
 import 'package:finance_app/components/progress.dart';
 import 'package:finance_app/clients/crud_clients/loan_client.dart';
 import 'package:finance_app/models/loan/loan.dart';

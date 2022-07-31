@@ -1,7 +1,7 @@
 ﻿using FinanceApp.Shared.Enum;
 using System.ComponentModel.DataAnnotations;
 
-namespace FinanceApp.Shared.Models.CommonTables
+namespace FinanceApp.Shared.Entities.CommonTables
 {
     public class Asset
     {

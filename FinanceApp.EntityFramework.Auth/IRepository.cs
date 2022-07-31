@@ -1,5 +1,4 @@
-﻿using FinanceApp.Shared.Models.UserTables;
-using FinanceApp.Shared.Models.UserTables.Bases;
+﻿using FinanceApp.Shared.Entities.UserTables.Bases;
 
 namespace FinanceApp.EntityFramework
 {

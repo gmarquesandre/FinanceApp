@@ -1,4 +1,5 @@
-﻿using FinanceApp.Shared.Dto.ForecastParameters;
+﻿using FinanceApp.Shared;
+using FinanceApp.Shared.Dto.ForecastParameters;
 using FluentResults;
 
 namespace FinanceApp.Core.Services.CrudServices.Interfaces

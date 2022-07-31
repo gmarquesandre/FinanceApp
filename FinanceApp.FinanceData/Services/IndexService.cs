@@ -1,24 +1,24 @@
 ﻿using AutoMapper;
-using FinanceApp.Core.Services.DefaultServices.Interfaces;
-using FinanceApp.EntityFramework;
+using FinanceApp.EntityFramework.Data;
+using FinanceApp.FinanceData;
 using FinanceApp.Shared;
 using FinanceApp.Shared.Dto;
+using FinanceApp.Shared.Entities.CommonTables;
 using FinanceApp.Shared.Enum;
-using FinanceApp.Shared.Models.CommonTables;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 
-namespace FinanceApp.Core.Services
+namespace FinanceApp.FinanceData.Services
 {
     public class IndexService : ServiceBase, IIndexService
     {
 
-        private FinanceContext _context;
+        private FinanceDataContext _context;
         private IMapper _mapper;
         private readonly IMemoryCache _memoryCache;
         public readonly IDatesService _datesService;
 
-        public IndexService(FinanceContext context,
+        public IndexService(FinanceDataContext context,
             IMapper mapper,
             IMemoryCache memoryCache,
             IDatesService datesService)
@@ -144,8 +144,8 @@ namespace FinanceApp.Core.Services
             {
 
                 if (index == EIndex.TR)
-                {                    
-                    
+                {
+
                     var values = await GetIndex(index, DateTime.Now.AddMonths(-1));
 
                     var value = values.OrderByDescending(a => a.Date)
@@ -163,7 +163,7 @@ namespace FinanceApp.Core.Services
 
                     valueDto = _mapper.Map<IndexValueDto>(value);
                 }
-                
+
                 //setting up cache options
                 var cacheExpiryOptions = new MemoryCacheEntryOptions
                 {
@@ -182,14 +182,14 @@ namespace FinanceApp.Core.Services
         }
         public async Task<double> GetIndexValueBetweenDates(EIndex index, DateTime startDate, DateTime endDate, double indexPercentage = 1)
         {
-                                    
+
             var indexLastValue = await GetIndexLastValue(index);
             double cumRealValue = 0.00;
-            
+
             var indexRecurrence = indexLastValue.IndexRecurrence;
 
             if (indexRecurrence == EIndexRecurrence.Daily)
-                cumRealValue = await GetDailyIndexCumValueAsync(index, startDate, endDate, indexPercentage);            
+                cumRealValue = await GetDailyIndexCumValueAsync(index, startDate, endDate, indexPercentage);
             else if (indexRecurrence == EIndexRecurrence.Monthly)
             {
                 throw new NotImplementedException();
@@ -200,7 +200,7 @@ namespace FinanceApp.Core.Services
             }
             else if (indexRecurrence == EIndexRecurrence.Yearly)
                 throw new NotImplementedException();
-            
+
             return cumRealValue;
 
         }
@@ -210,23 +210,23 @@ namespace FinanceApp.Core.Services
 
             var indexRealValues = await GetIndex(index, dateStart, dateEnd.AddDays(-1));
 
-            double cumIndexValue = 1.00;           
+            double cumIndexValue = 1.00;
 
-            if(dateStart.Day != 1)
+            if (dateStart.Day != 1)
                 //corrige o valor para apenas os dias corridos
-            if(indexLastValue.Date.Year < dateEnd.Year || 
-                    (indexLastValue.Date.Year == dateEnd.Year 
-                    && indexLastValue.Date.Year < dateEnd.Date.Year))
+                if (indexLastValue.Date.Year < dateEnd.Year ||
+                        indexLastValue.Date.Year == dateEnd.Year
+                        && indexLastValue.Date.Year < dateEnd.Date.Year)
                     //Adicionar valores futuros
 
 
 
-            indexRealValues
-                .Select(a => a.Value)
-                .ToList()
-                .ForEach(a => cumIndexValue *= (1 + a));
+                    indexRealValues
+                        .Select(a => a.Value)
+                        .ToList()
+                        .ForEach(a => cumIndexValue *= 1 + a);
 
-             return cumIndexValue;
+            return cumIndexValue;
 
 
 
@@ -236,13 +236,13 @@ namespace FinanceApp.Core.Services
             var indexLastValue = await GetIndexLastValue(index);
 
             var indexRealValues = await GetIndex(index, dateStart, dateEnd.AddDays(-1));
-            
+
             double cumIndexValue = 1.00;
-            
+
             indexRealValues
                 .Select(a => a.Value * indexPercentage)
                 .ToList()
-                .ForEach(a => cumIndexValue *= (1 + a));
+                .ForEach(a => cumIndexValue *= 1 + a);
             //Alterar para add business days
             if (await _datesService.AddWorkingDays(dateEnd, -1) > indexLastValue.Date)
             {
@@ -250,10 +250,10 @@ namespace FinanceApp.Core.Services
 
                 prospect.Min(a => a.DateStart);
                 DateTime dateStartProspect = dateStart > indexLastValue.Date ? dateStart : indexLastValue.Date;
-                for(DateTime date = dateStartProspect.AddDays(1); date < dateEnd; date = date.AddDays(1))
+                for (DateTime date = dateStartProspect.AddDays(1); date < dateEnd; date = date.AddDays(1))
                 {
-                    if (await _datesService.IsHoliday(date) || 
-                        date.DayOfWeek == DayOfWeek.Sunday || 
+                    if (await _datesService.IsHoliday(date) ||
+                        date.DayOfWeek == DayOfWeek.Sunday ||
                         date.DayOfWeek == DayOfWeek.Saturday)
                         continue;
                     cumIndexValue = await AddMissingFutureValues(indexLastValue, cumIndexValue, prospect, date, indexPercentage);
@@ -272,23 +272,23 @@ namespace FinanceApp.Core.Services
 
             if (indexProspectDate == null)
             {
-                cumIndexValue *= (1 + indexLastValue.Value * indexPercentage);
+                cumIndexValue *= 1 + indexLastValue.Value * indexPercentage;
             }
             else
             {
                 if (indexProspectDate.IndexRecurrence == EIndexRecurrence.Yearly)
                 {
                     var indexDayValue = await ConvertYearValueToDayValueAsync(indexProspectDate.Median / 100, date.Year);
-                    cumIndexValue *= (1 + indexDayValue * indexPercentage);
+                    cumIndexValue *= 1 + indexDayValue * indexPercentage;
                 }
                 else if (indexProspectDate.IndexRecurrence == EIndexRecurrence.Monthly)
                 {
                     var indexDayValue = await ConvertMonthValueToDayValueAsync(indexProspectDate.Median / 100, date.Year, date.Month);
-                    cumIndexValue *= (1 + indexDayValue * indexPercentage) ;
+                    cumIndexValue *= 1 + indexDayValue * indexPercentage;
                 }
                 else
                 {
-                    cumIndexValue *= (1 + indexProspectDate.Median * indexPercentage) ;
+                    cumIndexValue *= 1 + indexProspectDate.Median * indexPercentage;
                 }
 
             }
@@ -304,7 +304,7 @@ namespace FinanceApp.Core.Services
 
             var workingDays = await _datesService.GetWorkingDaysBetweenDates(dateStart, dateEnd);
 
-            var dailyValue = Math.Pow((1.00 + value), (1.00 / Convert.ToDouble(workingDays)));
+            var dailyValue = Math.Pow(1.00 + value, 1.00 / Convert.ToDouble(workingDays));
 
             return dailyValue;
 
@@ -313,15 +313,15 @@ namespace FinanceApp.Core.Services
         {
             var workingDays = await _datesService.GetWorkingDaysOfAYear(year);
 
-            var dailyValue = Math.Pow((1.00 + value), (1.00 / Convert.ToDouble(workingDays.WorkingDays)));
+            var dailyValue = Math.Pow(1.00 + value, 1.00 / Convert.ToDouble(workingDays.WorkingDays));
 
-            return (dailyValue - 1);
+            return dailyValue - 1;
 
         }
 
         public async Task<double> GetRealValue(DateTime date, double currentValue)
         {
-             var prospectList = await GetIndexProspect(EIndex.IPCA);
+            var prospectList = await GetIndexProspect(EIndex.IPCA);
 
             DateTime yearMonth = new(date.Year, date.Month, 1);
             DateTime currentYearMonth = new(DateTime.Now.Year, DateTime.Now.Month, 1);
@@ -329,17 +329,17 @@ namespace FinanceApp.Core.Services
             if (yearMonth.Month == currentYearMonth.Month && yearMonth.Year == currentYearMonth.Year)
                 return currentValue;
 
-            else if(yearMonth < currentYearMonth)
+            else if (yearMonth < currentYearMonth)
                 throw new NotImplementedException();
             else
             {
                 var prospectListFilter = prospectList
                 .Where(prospect => prospect.DateStart > currentYearMonth
                     && prospect.DateStart <= yearMonth).ToList();
-               
+
                 var realValue = currentValue;
 
-                prospectListFilter.ForEach(a => realValue /= (1 + a.Median/100));
+                prospectListFilter.ForEach(a => realValue /= 1 + a.Median / 100);
 
                 return realValue;
 

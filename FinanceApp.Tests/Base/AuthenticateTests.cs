@@ -1,5 +1,6 @@
 ﻿using FinanceApp.EntityFramework;
-using FinanceApp.Shared.Models.CommonTables;
+using FinanceApp.EntityFramework.Data;
+using FinanceApp.Shared.Entities.CommonTables;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Moq;
@@ -14,23 +15,38 @@ namespace FinanceApp.Tests.Base
 {
     public class AuthenticateTests : TestsBase
     {
-        public async Task<FinanceContext> CreateFinanceContext()
+        public async Task<UserContext> CreateUserContext()
         {
-            var options = new DbContextOptionsBuilder<FinanceContext>()
+            var options = new DbContextOptionsBuilder<UserContext>()
                .UseInMemoryDatabase(Guid.NewGuid().ToString())
                .Options;
 
 
             Mock<IHttpContextAccessor> mockContextAcessor = MockHttpContext();
 
-            var context = new FinanceContext(options, mockContextAcessor.Object);
+            var context = new UserContext(options, mockContextAcessor.Object);
 
             await context.Database.EnsureCreatedAsync();
 
             return context;
         }
 
-        
+        public async Task<FinanceDataContext> CreateFinanceDataContext()
+        {
+            var options = new DbContextOptionsBuilder<FinanceDataContext>()
+               .UseInMemoryDatabase(Guid.NewGuid().ToString())
+               .Options;
+
+
+            
+            var context = new FinanceDataContext(options);
+
+            await context.Database.EnsureCreatedAsync();
+
+            return context;
+        }
+
+
         public static Mock<IHttpContextAccessor> MockHttpContext()
         {
             Mock<IHttpContextAccessor> mockContextAcessor = new();
@@ -47,13 +63,13 @@ namespace FinanceApp.Tests.Base
             return mockContextAcessor;
         }
 
-        //public async Task DeleteDataDb(FinanceContext context)
+        //public async Task DeleteDataDb(UserContext context)
         //{
         //    await context.Database.EnsureDeletedAsync();
         //}
 
 
-        public async Task<CustomIdentityUser> ReturnDefaultUser(FinanceContext userContext)
+        public async Task<CustomIdentityUser> ReturnDefaultUser(UserContext userContext)
         {
 
             var users = await userContext.Users.ToListAsync();
@@ -64,7 +80,7 @@ namespace FinanceApp.Tests.Base
         [Fact]
         public async Task DefaultUserMustBeCreatedOnCreateContext()
         {
-            var userContext = await CreateFinanceContext();
+            var userContext = await CreateUserContext();
             var user = await ReturnDefaultUser(userContext);
             Assert.True(user != null);
 

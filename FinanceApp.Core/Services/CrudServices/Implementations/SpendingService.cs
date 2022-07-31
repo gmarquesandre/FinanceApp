@@ -4,10 +4,10 @@ using FinanceApp.Core.Services.ForecastServices.Interfaces;
 using FinanceApp.Shared.Dto;
 using FinanceApp.Shared.Dto.Spending;
 using FinanceApp.Shared.Enum;
-using FinanceApp.Shared.Models.UserTables;
 using FluentResults;
 using Microsoft.EntityFrameworkCore;
 using FinanceApp.EntityFramework;
+using FinanceApp.Shared.Entities.UserTables;
 
 namespace FinanceApp.Core.Services.CrudServices.Implementations
 {

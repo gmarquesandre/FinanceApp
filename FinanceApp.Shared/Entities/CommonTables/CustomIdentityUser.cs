@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace FinanceApp.Shared.Models.CommonTables
+namespace FinanceApp.Shared.Entities.CommonTables
 {
     public class CustomIdentityUser : IdentityUser<int>
     {

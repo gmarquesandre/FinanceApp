@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using FinanceApp.Shared.Dto;
-using FinanceApp.Shared.Models.CommonTables;
+using FinanceApp.Shared.Entities.CommonTables;
 
 namespace FinanceApp.Shared.Profiles
 {

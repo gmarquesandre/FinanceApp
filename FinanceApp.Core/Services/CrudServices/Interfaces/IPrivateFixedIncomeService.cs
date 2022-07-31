@@ -1,4 +1,5 @@
-﻿using FinanceApp.Shared.Dto.PrivateFixedInvestment;
+﻿using FinanceApp.Shared;
+using FinanceApp.Shared.Dto.PrivateFixedInvestment;
 using FluentResults;
 
 namespace FinanceApp.Core.Services.CrudServices.Interfaces

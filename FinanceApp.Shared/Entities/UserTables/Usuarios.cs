@@ -1,4 +1,4 @@
-﻿namespace FinanceApp.Shared.Models.UserTables
+﻿namespace FinanceApp.Shared.Entities.UserTables
 {
     public class Usuario
     {

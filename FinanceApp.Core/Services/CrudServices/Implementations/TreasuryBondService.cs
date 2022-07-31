@@ -16,7 +16,7 @@
 //    public class TreasuryBondService : CrudServiceBase, ITreasuryBondService
 //    {
 
-//        public TreasuryBondService(FinanceContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor) : base(context, mapper, httpContextAccessor) { }
+//        public TreasuryBondService(UserContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor) : base(context, mapper, httpContextAccessor) { }
 
 //        public async Task<TreasuryBondDto> AddAsync(CreateTreasuryBond input)
 //        {

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using FinanceApp.Shared.Dto.FGTS;
-using FinanceApp.Shared.Models.UserTables;
+using FinanceApp.Shared.Entities.UserTables;
 
 namespace FinanceApp.Shared.Profiles
 {

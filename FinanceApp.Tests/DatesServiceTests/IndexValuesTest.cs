@@ -18,7 +18,7 @@
 //        public async Task MustCalculateSelicValues()
 //        {
 //            var mapper = GetConfigurationIMapper();
-//            var context = await CreateFinanceContext();
+//            var context = await CreateUserContext();
 
 //            //Instancias 
 //            MemoryCacheOptions cacheOptions = new();
@@ -70,7 +70,7 @@
 //        public async Task MustCalculateSelicValuesWithFutureValues()
 //        {
 //            var mapper = GetConfigurationIMapper();
-//            var context = await CreateFinanceContext();
+//            var context = await CreateUserContext();
 
 //            //Instancias 
 //            MemoryCacheOptions cacheOptions = new();
@@ -138,7 +138,7 @@
 //        public async Task MustCalculateCdiValue()
 //        {
 //            var mapper = GetConfigurationIMapper();
-//            var context = await CreateFinanceContext();
+//            var context = await CreateUserContext();
 
 //            //Instancias 
 //            MemoryCacheOptions cacheOptions = new();
@@ -184,7 +184,7 @@
 //        public async Task MustCalculateIPCAValues()
 //        {
 //            var mapper = GetConfigurationIMapper();
-//            var context = await CreateFinanceContext();
+//            var context = await CreateUserContext();
 
 //            //Instancias 
 //            MemoryCacheOptions cacheOptions = new();

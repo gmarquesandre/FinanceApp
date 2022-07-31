@@ -5,10 +5,10 @@ namespace FinanceApp.Core.Services.CrudServices.Base
 {
     public class CrudServiceBase : ServiceBase
     {
-        public FinanceContext _context;
+        public UserContext _context;
         public IMapper _mapper;
 
-        public CrudServiceBase(FinanceContext context, IMapper mapper)
+        public CrudServiceBase(UserContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;

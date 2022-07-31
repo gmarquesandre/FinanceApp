@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using FinanceApp.Shared.Dto;
-using FinanceApp.Shared.Models.CommonTables;
-using FinanceApp.Shared.Models.UserTables;
+using FinanceApp.Shared.Entities.CommonTables;
+using FinanceApp.Shared.Entities.UserTables;
 using Microsoft.AspNetCore.Identity;
 
 namespace FinanceApp.Shared.Profiles

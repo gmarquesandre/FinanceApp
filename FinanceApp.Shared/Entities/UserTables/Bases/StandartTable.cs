@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace FinanceApp.Shared.Models.UserTables.Bases
+namespace FinanceApp.Shared.Entities.UserTables.Bases
 {
     public class StandartTable
     {

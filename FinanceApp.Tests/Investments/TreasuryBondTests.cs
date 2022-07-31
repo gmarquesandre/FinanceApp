@@ -28,7 +28,7 @@
 
 //        };
 
-//        private TreasuryBondService GetTreasuryBondService(FinanceContext userContext)
+//        private TreasuryBondService GetTreasuryBondService(UserContext userContext)
 //        {
 
 //            var mapper = GetConfigurationIMapper(); var service = new TreasuryBondService(userContext, mapper);
@@ -37,9 +37,9 @@
 //        }
         
 //        [Fact]
-//        public async Task<(FinanceContext userContext, TreasuryBond investment)> MustAddInvestment()
+//        public async Task<(UserContext userContext, TreasuryBond investment)> MustAddInvestment()
 //        {
-//            var userContext = await CreateFinanceContext();
+//            var userContext = await CreateUserContext();
 
 //            var user = await ReturnDefaultUser(userContext);
 
@@ -60,7 +60,7 @@
 //        private async Task MustFailAddInvestment()
 //        {
             
-//            var userContext = await CreateFinanceContext();
+//            var userContext = await CreateUserContext();
 
 //            var user = await ReturnDefaultUser(userContext);
 
@@ -82,7 +82,7 @@
 //        [Fact]
 //        public async Task MustUpdateInvestment()
 //        {
-//            (FinanceContext userContext, TreasuryBond investment) = await MustAddInvestment();
+//            (UserContext userContext, TreasuryBond investment) = await MustAddInvestment();
 
 //            var updateInvestment = new UpdateTreasuryBond()
 //            {
@@ -109,7 +109,7 @@
 //        [Fact]
 //        public async Task MustDeleteInvestment()
 //        {
-//            (FinanceContext userContext, TreasuryBond investment) = await MustAddInvestment();
+//            (UserContext userContext, TreasuryBond investment) = await MustAddInvestment();
             
 //            var service = GetTreasuryBondService(userContext);
 

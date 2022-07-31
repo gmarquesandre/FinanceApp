@@ -1,4 +1,4 @@
-﻿namespace FinanceApp.Shared.Models.CommonTables;
+﻿namespace FinanceApp.Shared.Entities.CommonTables;
 
 public class Token
 {

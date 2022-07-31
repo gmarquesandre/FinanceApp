@@ -1,6 +1,6 @@
 ﻿using FinanceApp.Core.Services.UserServices.Interfaces;
 using FinanceApp.Shared.Dto;
-using FinanceApp.Shared.Models.CommonTables;
+using FinanceApp.Shared.Entities.CommonTables;
 using FluentResults;
 using Microsoft.AspNetCore.Identity;
 

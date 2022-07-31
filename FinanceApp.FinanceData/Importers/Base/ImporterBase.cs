@@ -1,26 +1,26 @@
-﻿using FinanceApp.EntityFramework;
+﻿using FinanceApp.EntityFramework.Data;
 using Microsoft.Extensions.Caching.Memory;
 using System.Globalization;
 using System.Net;
 
-namespace FinanceApp.Core.Importers.Base
+namespace FinanceApp.FinanceData.Importers.Base
 {
     public class ImporterBase
     {
 
-        public FinanceContext _context;
+        public FinanceDataContext _context;
         public IMemoryCache _memoryCache;
 
         public CultureInfo _cultureInfoPtBr = new("pt-br");
 
         public CultureInfo _cultureInvariant = CultureInfo.InvariantCulture;
 
-       
-        public ImporterBase(FinanceContext context)
+
+        public ImporterBase(FinanceDataContext context)
         {
             _context = context;
         }
-        
+
         public static HttpClientHandler SetDefaultHttpHandler(bool useProxy = false)
         {
             var httpClientHandler = new HttpClientHandler();

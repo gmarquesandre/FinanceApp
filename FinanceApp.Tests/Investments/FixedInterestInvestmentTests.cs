@@ -31,7 +31,7 @@
 //            Type = (int)ETypePrivateFixedIncome.CRA
 //        };
 
-//        private PrivateFixedIncomeService GetPrivateFixedIncomeService(FinanceContext userContext)
+//        private PrivateFixedIncomeService GetPrivateFixedIncomeService(UserContext userContext)
 //        {
 //            var mapper = GetConfigurationIMapper();
 //            var service = new PrivateFixedIncomeService(userContext, mapper);
@@ -40,9 +40,9 @@
 //        }
        
 //        [Fact]
-//        public async Task<(FinanceContext userContext, PrivateFixedIncome investment)> MustAddInvestment()
+//        public async Task<(UserContext userContext, PrivateFixedIncome investment)> MustAddInvestment()
 //        {
-//            var userContext = await CreateFinanceContext();
+//            var userContext = await CreateUserContext();
 
 //            var user = await ReturnDefaultUser(userContext);
 
@@ -63,7 +63,7 @@
 //        private async Task MustFailAddInvestment()
 //        {
             
-//            var userContext = await CreateFinanceContext();
+//            var userContext = await CreateUserContext();
 
 //            var user = await ReturnDefaultUser(userContext);
 
@@ -85,7 +85,7 @@
 //        [Fact]
 //        public async Task MustUpdateInvestment()
 //        {
-//            (FinanceContext userContext, PrivateFixedIncome investment) = await MustAddInvestment();
+//            (UserContext userContext, PrivateFixedIncome investment) = await MustAddInvestment();
 
 //            var updateInvestment = new UpdatePrivateFixedIncome()
 //            {
@@ -116,7 +116,7 @@
 //        [Fact]
 //        public async Task MustDeleteInvestment()
 //        {
-//            (FinanceContext userContext, PrivateFixedIncome investment) = await MustAddInvestment();
+//            (UserContext userContext, PrivateFixedIncome investment) = await MustAddInvestment();
             
 //            var service = GetPrivateFixedIncomeService(userContext);
 

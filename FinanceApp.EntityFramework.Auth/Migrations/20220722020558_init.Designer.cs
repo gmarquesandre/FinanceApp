@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FinanceApp.EntityFramework.Migrations
 {
-    [DbContext(typeof(FinanceContext))]
+    [DbContext(typeof(UserContext))]
     [Migration("20220722020558_init")]
     partial class init
     {

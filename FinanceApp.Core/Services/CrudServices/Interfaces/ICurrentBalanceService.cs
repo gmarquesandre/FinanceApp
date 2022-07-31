@@ -1,4 +1,5 @@
-﻿using FinanceApp.Shared.Dto.CurrentBalance;
+﻿using FinanceApp.Shared;
+using FinanceApp.Shared.Dto.CurrentBalance;
 using FluentResults;
 
 namespace FinanceApp.Core.Services.CrudServices.Interfaces

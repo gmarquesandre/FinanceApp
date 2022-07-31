@@ -1,7 +1,7 @@
-﻿using FinanceApp.Shared.Models.UserTables.Bases;
+﻿using FinanceApp.Shared.Entities.UserTables.Bases;
 using System.ComponentModel.DataAnnotations;
 
-namespace FinanceApp.Shared.Models.CommonTables
+namespace FinanceApp.Shared.Entities.CommonTables
 {
     public class AssetEarning : StandartTable
     {

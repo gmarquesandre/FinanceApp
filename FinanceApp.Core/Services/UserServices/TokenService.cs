@@ -1,5 +1,5 @@
 ﻿using FinanceApp.Core.Services.UserServices.Interfaces;
-using FinanceApp.Shared.Models.CommonTables;
+using FinanceApp.Shared.Entities.CommonTables;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;

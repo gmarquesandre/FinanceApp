@@ -1,6 +1,6 @@
 ﻿using FinanceApp.Shared;
-using FinanceApp.Shared.Models.CommonTables;
-using FinanceApp.Shared.Models.UserTables;
+using FinanceApp.Shared.Entities.CommonTables;
+using FinanceApp.Shared.Entities.UserTables;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -8,18 +8,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FinanceApp.EntityFramework
 {
-    public class FinanceContext : IdentityDbContext<CustomIdentityUser, IdentityRole<int>, int>
+    public class UserContext : IdentityDbContext<CustomIdentityUser, IdentityRole<int>, int>
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public FinanceContext(DbContextOptions<FinanceContext> opt, IHttpContextAccessor httpContextAccessor) : base(opt)
+        public UserContext(DbContextOptions<UserContext> opt, IHttpContextAccessor httpContextAccessor) : base(opt)
         {
             _httpContextAccessor = httpContextAccessor;
-        }
-
-        public FinanceContext()
-        {
-
-        }
+        } 
 
         //User Tables
         public DbSet<PrivateFixedIncome> PrivateFixedIncomes { get; set; }
@@ -32,15 +27,6 @@ namespace FinanceApp.EntityFramework
         public DbSet<CurrentBalance> CurrentBalances { get; set; }
         public DbSet<CreditCard> CreditCards { get; set; }
         public DbSet<ForecastParameters> ForecastParameters { get; set; }
-
-        //Common Tables
-        public DbSet<IndexValue> IndexValues { get; set; }
-        public DbSet<TreasuryBondValue> TreasuryBondValues { get; set; }
-        public DbSet<ProspectIndexValue> ProspectIndexValues { get; set; }
-        public DbSet<Holiday> Holidays { get; set; }
-        public DbSet<WorkingDaysByYear> WorkingDaysByYear { get; set; }
-        public DbSet<Asset> Assets { get; set; }
-        //public DbSet<TreasuryBondTitle> TreasuryBondTitles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -65,45 +51,7 @@ namespace FinanceApp.EntityFramework
             builder.Entity<CustomIdentityUser>().HasData(admin);
         
 
-            //builder.Entity<IdentityRole<int>>().HasData(
-            //    new IdentityRole<int> { Id = 99999, Name = "admin", NormalizedName = "ADMIN" }
-            //);
-
-            //builder.Entity<IdentityRole<int>>().HasData(
-            //    new IdentityRole<int> { id = 99997, name = "regular", normalizedname = "regular" }
-            //);
-
-            //builder.Entity<IdentityUserRole<int>>().HasData(
-            //    new IdentityUserRole<int> { RoleId = 99999, UserId = 99999 }
-            //    );
-
-            //Common Tables
-            builder.Entity<IndexValue>()
-              .HasIndex(p => new { p.Date, p.DateEnd, p.Index })
-              .IsUnique(true);
-
-            builder.Entity<ProspectIndexValue>()
-               .HasIndex(p => new { p.DateStart, p.DateEnd, p.Index, p.BaseCalculo })
-               .IsUnique(true);
-
-
-            builder.Entity<WorkingDaysByYear>()
-                 .HasIndex(p => new { p.Year })
-                 .IsUnique(true);
-
-
-            builder.Entity<Holiday>()
-                 .HasIndex(p => new { p.Date })
-                 .IsUnique(true);
-
-            builder.Entity<TreasuryBondTitle>()
-                .HasIndex(p => new { p.ExpirationDate, p.Type })
-                .IsUnique(true);
-
-            builder.Entity<TreasuryBondValue>()
-                 .HasIndex(p => new { p.Date, p.ExpirationDate, p.Type })
-                 .IsUnique(true);
-
+        
 
             builder.Entity<Category>()
                  .HasIndex(p => new { p.Name })
@@ -113,6 +61,9 @@ namespace FinanceApp.EntityFramework
                  .HasIndex(p => new { p.UserId })
                  .IsUnique(true);
 
+            builder.Entity<CurrentBalance>()
+                 .HasIndex(p => new { p.UserId })
+                 .IsUnique(true);
 
         }
 

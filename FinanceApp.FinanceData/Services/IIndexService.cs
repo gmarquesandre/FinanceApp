@@ -1,7 +1,8 @@
-﻿using FinanceApp.Shared.Dto;
+﻿using FinanceApp.Shared;
+using FinanceApp.Shared.Dto;
 using FinanceApp.Shared.Enum;
 
-namespace FinanceApp.Core.Services.DefaultServices.Interfaces
+namespace FinanceApp.FinanceData.Services
 {
     public interface IIndexService : IScopedService
     {

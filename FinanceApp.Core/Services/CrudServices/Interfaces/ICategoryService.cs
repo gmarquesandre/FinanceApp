@@ -1,4 +1,5 @@
-﻿using FinanceApp.Shared.Dto.Category;
+﻿using FinanceApp.Shared;
+using FinanceApp.Shared.Dto.Category;
 using FluentResults;
 
 namespace FinanceApp.Core.Services.CrudServices.Interfaces

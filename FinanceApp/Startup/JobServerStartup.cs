@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
-using FinanceApp.Core.Importers;
 using Hangfire;
 using FinanceApp.EntityFramework;
+using FinanceApp.FinanceData.Importers;
+using FinanceApp.EntityFramework.Data;
 
 namespace FinanceApp.Api.Startup
 {
@@ -14,7 +15,7 @@ namespace FinanceApp.Api.Startup
             //    RecurringJob.RemoveIfExists(recurringJob.Id);
             //}
 
-            var context = new FinanceContext();
+            var context = new FinanceDataContext();
 
             Type profile = typeof(Profile);
             var profiles = AppDomain.CurrentDomain.GetAssemblies()
@@ -31,7 +32,7 @@ namespace FinanceApp.Api.Startup
 
             IMapper mapper = new Mapper(configuration);
 
-            var indexImporter = new IndexImporter(context);            
+            //var indexImporter = new IndexImporter(context);            
 
             RecurringJob.AddOrUpdate<HolidaysImporter>("get-holidays", importer => importer.GetHolidays(2000, DateTime.Now.Year + 40), Cron.Yearly);
             RecurringJob.AddOrUpdate<AssetImporter>("get-asserts", importer => importer.GetAssets(), Cron.Yearly);

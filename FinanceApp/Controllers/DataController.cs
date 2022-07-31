@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using FinanceApp.Shared.Enum;
-using FinanceApp.Core.Services.DefaultServices.Interfaces;
+using FinanceApp.FinanceData.Services;
 
 namespace FinanceApp.Api.Controllers
 {

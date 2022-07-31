@@ -1,7 +1,5 @@
 using FinanceApp.Api.Startup;
-using FinanceApp.Shared.Models.CommonTables;
 using Hangfire;
-using Hangfire.SqlServer;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +8,8 @@ using Microsoft.OpenApi.Models;
 using System.Text;
 using FinanceApp.EntityFramework;
 using Hangfire.MySql;
+using FinanceApp.Shared.Entities.CommonTables;
+using FinanceApp.EntityFramework.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,14 +33,6 @@ builder.Services.AddHangfire(configuration =>
     configuration.SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
     .UseSimpleAssemblyNameTypeSerializer()
     .UseRecommendedSerializerSettings()
-     
-    //.UseSqlServerStorage(connectionStringHangfire, new SqlServerStorageOptions
-    //{
-    //    CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
-    //    SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
-    //    QueuePollInterval = TimeSpan.Zero,
-    //    UseRecommendedIsolationLevel = true
-    //})
     .UseStorage(new MySqlStorage(connectionStringHangfire, new MySqlStorageOptions
     {
         TablesPrefix = "Hangfire"
@@ -60,11 +52,15 @@ builder.Services.AddControllersWithViews()
 
 builder.Services.AddMvc();
 
-string connection = builder.Configuration.GetConnectionString("Default");
+string connectionStringUser = builder.Configuration.GetConnectionString("DefaultUser");
+string connectionStringData = builder.Configuration.GetConnectionString("DefaultData");
 
 // Add services to the container.
-builder.Services.AddDbContext<FinanceContext>(options =>
-         options.UseMySql(connection, ServerVersion.AutoDetect(connection))
+builder.Services.AddDbContext<UserContext>(options =>
+         options.UseMySql(connectionStringUser, ServerVersion.AutoDetect(connectionStringUser))
+         );
+builder.Services.AddDbContext<FinanceDataContext>(options =>
+         options.UseMySql(connectionStringData, ServerVersion.AutoDetect(connectionStringData))
          );
 
 builder.Services.AddIdentity<CustomIdentityUser, IdentityRole<int>>(opt =>
@@ -74,7 +70,7 @@ builder.Services.AddIdentity<CustomIdentityUser, IdentityRole<int>>(opt =>
 })
     .AddSignInManager()
 
-    .AddEntityFrameworkStores<FinanceContext>()
+    .AddEntityFrameworkStores<UserContext>()
     .AddDefaultTokenProviders();
 
 builder.Services.AddAuthentication(auth =>

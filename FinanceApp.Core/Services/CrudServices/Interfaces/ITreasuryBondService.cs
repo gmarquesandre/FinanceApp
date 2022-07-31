@@ -1,4 +1,5 @@
-﻿using FinanceApp.Shared.Dto.TreasuryBond;
+﻿using FinanceApp.Shared;
+using FinanceApp.Shared.Dto.TreasuryBond;
 using FluentResults;
 
 namespace FinanceApp.Core.Services.CrudServices.Interfaces

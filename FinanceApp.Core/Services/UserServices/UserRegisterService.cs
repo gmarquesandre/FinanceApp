@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using FinanceApp.Core.Services.UserServices.Interfaces;
 using FinanceApp.Shared.Dto;
-using FinanceApp.Shared.Models.CommonTables;
-using FinanceApp.Shared.Models.UserTables;
 using FluentResults;
 using Microsoft.AspNetCore.Identity;
 using FinanceApp.EntityFramework;
+using FinanceApp.Shared.Entities.CommonTables;
+using FinanceApp.Shared.Entities.UserTables;
 
 namespace FinanceApp.Core.Services.UserServices
 {
@@ -14,12 +14,12 @@ namespace FinanceApp.Core.Services.UserServices
 
         private IMapper _mapper;
         private UserManager<CustomIdentityUser> _userManager;
-        private FinanceContext _teste;
+        private UserContext _teste;
         //private EmailService _emailService;
 
         public UserRegisterService(IMapper mapper,
             UserManager<CustomIdentityUser> userManager,
-            FinanceContext teste)
+            UserContext teste)
         {
             _mapper = mapper;
             _teste = teste;

@@ -1,10 +1,10 @@
-﻿using FinanceApp.Core.Importers.Base;
-using FinanceApp.Shared.Enum;
-using FinanceApp.Shared.Models.CommonTables;
+﻿using FinanceApp.Shared.Enum;
 using System.Text;
-using FinanceApp.EntityFramework;
+using FinanceApp.Shared.Entities.CommonTables;
+using FinanceApp.FinanceData.Importers.Base;
+using FinanceApp.EntityFramework.Data;
 
-namespace FinanceApp.Core.Importers
+namespace FinanceApp.FinanceData.Importers
 {
     public class IndexImporter : ImporterBase
     {
@@ -22,11 +22,12 @@ namespace FinanceApp.Core.Importers
             { EIndex.TR, ("226", EIndexRecurrence.Monthly) },
         };
 
-        public IndexImporter(FinanceContext context) : base(context) { }
-        
+        public IndexImporter(FinanceDataContext context) : base(context) { }
+
         public async Task GetIndexes(EIndex? indexImport = null, DateTime? dateStart = null)
         {
-            if (indexImport == null) { 
+            if (indexImport == null)
+            {
                 foreach (var index in Indexes)
                 {
                     await ImportIndex(index, dateStart);
@@ -49,12 +50,13 @@ namespace FinanceApp.Core.Importers
             string url = $"http://api.bcb.gov.br/dados/serie/bcdata.sgs.{index.Value.code}/dados?formato=csv";
 
             DateTime? minDate;
-            if(_context.IndexValues.Any(a=> a.Index == index.Key)){
+            if (_context.IndexValues.Any(a => a.Index == index.Key))
+            {
 
                 minDate = _context.IndexValues.Where(a => a.Index == index.Key).Max(a => a.Date);
-                url+= $"&dataInicial={minDate.Value:dd/MM/yyyy}&dataFinal=01/01/2999";
+                url += $"&dataInicial={minDate.Value:dd/MM/yyyy}&dataFinal=01/01/2999";
             }
-            else if(dateStart != null)
+            else if (dateStart != null)
             {
                 url += $"&dataInicial={dateStart.Value:dd/MM/yyyy}&dataFinal=01/01/2999";
             }

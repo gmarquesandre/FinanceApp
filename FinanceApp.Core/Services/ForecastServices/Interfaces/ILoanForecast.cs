@@ -1,4 +1,5 @@
-﻿using FinanceApp.Shared.Dto;
+﻿using FinanceApp.Shared;
+using FinanceApp.Shared.Dto;
 using FinanceApp.Shared.Dto.Loan;
 using FinanceApp.Shared.Enum;
 

@@ -1,21 +1,20 @@
 ﻿using AutoMapper;
-using FinanceApp.Core.Services.DefaultServices.Interfaces;
-using FinanceApp.EntityFramework;
+using FinanceApp.EntityFramework.Data;
 using FinanceApp.Shared;
 using FinanceApp.Shared.Dto;
 using FinanceApp.Shared.Enum;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 
-namespace FinanceApp.Core.Services
+namespace FinanceApp.FinanceData.Services
 {
     public class DatesService : ServiceBase, IDatesService
     {
-        private FinanceContext _context;
+        private FinanceDataContext _context;
         private IMapper _mapper;
         private readonly IMemoryCache _memoryCache;
 
-        public DatesService(FinanceContext context, IMapper mapper, IMemoryCache memoryCache)
+        public DatesService(FinanceDataContext context, IMapper mapper, IMemoryCache memoryCache)
         {
             _context = context;
             _mapper = mapper;
@@ -63,7 +62,7 @@ namespace FinanceApp.Core.Services
             var value = values.FirstOrDefault(a => a.Year == year);
 
             if (value == null)
-                return new WorkingDaysByYearDto() { WorkingDays = 252, Year = year};
+                return new WorkingDaysByYearDto() { WorkingDays = 252, Year = year };
 
             return value;
 
@@ -150,12 +149,12 @@ namespace FinanceApp.Core.Services
 
         public async Task<DateTime> AddWorkingDays(DateTime date, int addDays)
         {
-            if(addDays > 0)
+            if (addDays > 0)
             {
                 int days = 0;
                 int addDaysTest = addDays - 1;
 
-                while(days < addDays)
+                while (days < addDays)
                 {
                     addDaysTest++;
 
@@ -165,7 +164,7 @@ namespace FinanceApp.Core.Services
 
                 return date.AddDays(addDaysTest);
             }
-            else if(addDays < 0)
+            else if (addDays < 0)
             {
                 int days = 1;
                 int addDaysTest = addDays + 1;
@@ -181,9 +180,9 @@ namespace FinanceApp.Core.Services
 
                 return date.AddDays(addDaysTest);
             }
-            
+
             return date;
-            
+
         }
 
     }

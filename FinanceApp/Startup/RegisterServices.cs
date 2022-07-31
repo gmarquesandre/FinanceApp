@@ -1,4 +1,4 @@
-﻿using FinanceApp.Core.Services;
+﻿using FinanceApp.Shared;
 
 namespace FinanceApp.Api.Startup
 {

@@ -1,14 +1,14 @@
-﻿using FinanceApp.Core.Importers.Base;
-using FinanceApp.Shared.Models.CommonTables;
-using Hangfire;
+﻿using Hangfire;
 using System.Globalization;
 using System.IO.Compression;
 using System.Net;
 using System.Text;
-using FinanceApp.EntityFramework;
-using FinanceApp.Core.Services.DefaultServices.Interfaces;
+using FinanceApp.FinanceData.Services;
+using FinanceApp.Shared.Entities.CommonTables;
+using FinanceApp.FinanceData.Importers.Base;
+using FinanceApp.EntityFramework.Data;
 
-namespace FinanceApp.Core.Importers
+namespace FinanceApp.FinanceData.Importers
 {
     public class AssetImporter : ImporterBase
     {
@@ -16,7 +16,7 @@ namespace FinanceApp.Core.Importers
         private HttpClientHandler _handler;
         private CultureInfo _cultureInfo = new("pt-br");
         public IDatesService _dateService;
-        public AssetImporter(FinanceContext context, IDatesService dates): base(context)
+        public AssetImporter(FinanceDataContext context, IDatesService dates) : base(context)
         {
             _context = context;
             _dateService = dates;
@@ -32,7 +32,7 @@ namespace FinanceApp.Core.Importers
             DateTime dateStart = new(DateTime.Now.Year, 01, 01);
             DateTime dateEnd = DateTime.Now;
 
-            for(int year = 2000; year < DateTime.Now.Year; year += 1)
+            for (int year = 2000; year < DateTime.Now.Year; year += 1)
             {
                 BackgroundJob.Enqueue<AssetImporter>(a => a.GetAssetsWithYear(year));
 
@@ -119,7 +119,7 @@ namespace FinanceApp.Core.Importers
 
             var listInsert = assetList.Where(a => !datesAlreadyOnDb.Contains(a.Date)).ToList();
 
-            
+
             await InsertAsset(listInsert);
 
             //await UpdateAsset(listUpdate);
@@ -142,10 +142,10 @@ namespace FinanceApp.Core.Importers
         {
             return new Asset()
             {
-                AssetCode = a.Substring(12, 12).Trim(),                
+                AssetCode = a.Substring(12, 12).Trim(),
                 AssetCodeISIN = a.Substring(230, 12),
-                
-                
+
+
                 CompanyName = a.Substring(27, 12).Trim(),
                 Date = DateTime.ParseExact(a.Substring(2, 8), "yyyyMMdd", CultureInfo.InvariantCulture),
                 UnitPrice = Convert.ToDouble(a.Substring(108, 13)) / 100

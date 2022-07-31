@@ -1,13 +1,13 @@
-﻿using FinanceApp.Core.Importers.Base;
-using FinanceApp.Shared.Models.CommonTables;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Net;
 using System.Text.RegularExpressions;
-using FinanceApp.EntityFramework;
+using FinanceApp.Shared.Entities.CommonTables;
+using FinanceApp.FinanceData.Importers.Base;
+using FinanceApp.EntityFramework.Data;
 
-namespace FinanceApp.Core.Importers
+namespace FinanceApp.FinanceData.Importers
 {
-    public class HolidaysImporter : ImporterBase
+    public class HolidaysImporter : ImporterBase, IHolidaysImporter
     {
         private HttpClient _client;
 
@@ -15,7 +15,7 @@ namespace FinanceApp.Core.Importers
 
         private Regex _dateRegex = new("[0-9]{1,2}/[0-9]{1,2}/[0-9]{2}");
 
-        public HolidaysImporter(FinanceContext context) : base(context)
+        public HolidaysImporter(FinanceDataContext context) : base(context)
         {
 
         }
@@ -33,7 +33,7 @@ namespace FinanceApp.Core.Importers
             DeleteAllValues();
 
             List<Holiday> holidays = new();
-            while (true || (yearEnd.HasValue && year >= yearEnd.Value))
+            while (true || yearEnd.HasValue && year >= yearEnd.Value)
             {
 
                 try
@@ -77,7 +77,7 @@ namespace FinanceApp.Core.Importers
 
             await _context.Holidays.AddRangeAsync(holidays);
 
-            
+
             await _context.SaveChangesAsync();
         }
 

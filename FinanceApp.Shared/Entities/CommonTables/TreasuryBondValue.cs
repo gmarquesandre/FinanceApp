@@ -1,7 +1,7 @@
-﻿using FinanceApp.Shared.Enum;
-using FinanceApp.Shared.Models.UserTables.Bases;
+﻿using FinanceApp.Shared.Entities.UserTables.Bases;
+using FinanceApp.Shared.Enum;
 
-namespace FinanceApp.Shared.Models.CommonTables
+namespace FinanceApp.Shared.Entities.CommonTables
 {
     public class TreasuryBondValue : StandartTable
     {

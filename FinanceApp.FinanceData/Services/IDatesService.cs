@@ -1,6 +1,7 @@
-﻿using FinanceApp.Shared.Dto;
+﻿using FinanceApp.Shared;
+using FinanceApp.Shared.Dto;
 
-namespace FinanceApp.Core.Services.DefaultServices.Interfaces
+namespace FinanceApp.FinanceData.Services
 {
     public interface IDatesService : IScopedService
     {

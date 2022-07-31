@@ -1,4 +1,4 @@
-﻿namespace FinanceApp.Core.Services
+﻿namespace FinanceApp.Shared
 {
     public interface ITransientService
     {

@@ -1,19 +1,19 @@
-﻿using FinanceApp.Core.Importers.Base;
-using FinanceApp.Shared;
+﻿using FinanceApp.Shared;
 using FinanceApp.Shared.Enum;
-using FinanceApp.Shared.Models.CommonTables;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
 using System.Text;
-using FinanceApp.EntityFramework;
+using FinanceApp.Shared.Entities.CommonTables;
+using FinanceApp.FinanceData.Importers.Base;
+using FinanceApp.EntityFramework.Data;
 
-namespace FinanceApp.Core.Importers
+namespace FinanceApp.FinanceData.Importers
 {
     public class TreasuryBondImporter : ImporterBase
     {
         public HttpClient _client = new();
 
-        public TreasuryBondImporter(FinanceContext context): base(context)
+        public TreasuryBondImporter(FinanceDataContext context) : base(context)
         {
 
         }
@@ -40,14 +40,15 @@ namespace FinanceApp.Core.Importers
 
             foreach (var value in listValues)
             {
-                listValuesHistory.Add(new TreasuryBondValue(){
-                   Date = value.LastUpdateDateTime.Date,
-                   FixedInterestValueBuy = value.FixedInterestValueBuy,
-                   FixedInterestValueSell = value.FixedInterestValueSell,
-                   ExpirationDate = value.ExpirationDate,
-                   Type = value.Type,
-                   UnitPriceBuy = value.UnitPriceBuy,
-                   UnitPriceSell = value.UnitPriceSell
+                listValuesHistory.Add(new TreasuryBondValue()
+                {
+                    Date = value.LastUpdateDateTime.Date,
+                    FixedInterestValueBuy = value.FixedInterestValueBuy,
+                    FixedInterestValueSell = value.FixedInterestValueSell,
+                    ExpirationDate = value.ExpirationDate,
+                    Type = value.Type,
+                    UnitPriceBuy = value.UnitPriceBuy,
+                    UnitPriceSell = value.UnitPriceSell
                 });
             }
 
@@ -92,7 +93,7 @@ namespace FinanceApp.Core.Importers
 
         private void ConvertToList(dynamic values, List<TreasuryBondTitle> listValues, DateTime dateLastUpdate)
         {
-            foreach(var value in values)
+            foreach (var value in values)
             {
                 var obj = value.TrsrBd;
                 DateTime expirationDate = Convert.ToDateTime(obj.mtrtyDt);
@@ -107,13 +108,13 @@ namespace FinanceApp.Core.Importers
                 listValues.Add(new TreasuryBondTitle()
                 {
                     ExpirationDate = expirationDate,
-                    FixedInterestValueBuy= Convert.ToDouble(fixedInterestValueBuy, _cultureInvariant),
-                    FixedInterestValueSell= Convert.ToDouble(fixedInterestValueSell, _cultureInvariant),
+                    FixedInterestValueBuy = Convert.ToDouble(fixedInterestValueBuy, _cultureInvariant),
+                    FixedInterestValueSell = Convert.ToDouble(fixedInterestValueSell, _cultureInvariant),
                     LastUpdateDateTime = dateLastUpdate,
                     Description = description,
                     Type = EnumHelper<ETreasuryBond>.GetValueFromName(titleName),
                     UnitPriceBuy = Convert.ToDouble(unitPriceBuy, _cultureInvariant),
-                    UnitPriceSell = Convert.ToDouble(unitPriceSell, _cultureInvariant)                    
+                    UnitPriceSell = Convert.ToDouble(unitPriceSell, _cultureInvariant)
                 });
             }
         }
@@ -124,7 +125,7 @@ namespace FinanceApp.Core.Importers
             //https://www.tesourotransparente.gov.br/ckan/dataset/taxas-dos-titulos-ofertados-pelo-tesouro-direto
 
             var url = "https://www.tesourotransparente.gov.br/ckan/dataset/df56aa42-484a-4a59-8184-7676580c81e3/resource/796d2059-14e9-44e3-80c9-2d9e30b405c1/download/PrecoTaxaTesouroDireto.csv";
-                       
+
             var response = await _client.GetAsync(url);
 
             var bytes = await response.Content.ReadAsByteArrayAsync();
@@ -140,12 +141,12 @@ namespace FinanceApp.Core.Importers
         private async Task InsertOrUpdate(List<TreasuryBondValue> itens)
         {
             var treasuryTypeList = Enum.GetValues(typeof(ETreasuryBond)).Cast<ETreasuryBond>().ToList();
-           
-            foreach(var type in treasuryTypeList)
+
+            foreach (var type in treasuryTypeList)
             {
                 var itensType = itens.Where(a => a.Type == type).ToList();
-                
-                var allValues = _context.TreasuryBondValues.Where(a=> a.Type == type).ToList();
+
+                var allValues = _context.TreasuryBondValues.Where(a => a.Type == type).ToList();
 
                 //var listUpdate = itensType
                 //    .Where(a => allValues.Select(b => b.Key()).Contains(a.Key())).ToList();
@@ -157,7 +158,7 @@ namespace FinanceApp.Core.Importers
 
                 //await UpdateValueAsync(listUpdate);
             }
-            
+
         }
 
 
@@ -175,8 +176,8 @@ namespace FinanceApp.Core.Importers
             await _context.SaveChangesAsync();
         }
 
-        
-        private List<TreasuryBondValue> ConvertToList(string str,bool removeExpired = true)
+
+        private List<TreasuryBondValue> ConvertToList(string str, bool removeExpired = true)
         {
 
             var itens = str.Replace("\r", "").Split("\n").Select(a => a.Split(";"))
@@ -187,13 +188,13 @@ namespace FinanceApp.Core.Importers
 
             int dateIndex = CheckIfFound(header.IndexOf("data base"));
             int typeIndex = CheckIfFound(header.IndexOf("tipo titulo"));
-            int expirationDate = CheckIfFound(header.IndexOf("data vencimento"));                        
-            int interestRateBuy = CheckIfFound(header.IndexOf("taxa compra manha"));                        
-            int interestRateSell  = CheckIfFound(header.IndexOf("taxa venda manha"));                        
-            int unitPriceSell = CheckIfFound(header.IndexOf("pu venda manha"));                        
-            int unitPriceBuy = CheckIfFound(header.IndexOf("pu compra manha"));                        
+            int expirationDate = CheckIfFound(header.IndexOf("data vencimento"));
+            int interestRateBuy = CheckIfFound(header.IndexOf("taxa compra manha"));
+            int interestRateSell = CheckIfFound(header.IndexOf("taxa venda manha"));
+            int unitPriceSell = CheckIfFound(header.IndexOf("pu venda manha"));
+            int unitPriceBuy = CheckIfFound(header.IndexOf("pu compra manha"));
             int unitPriceBase = CheckIfFound(header.IndexOf("pu base manha"));
-      
+
 
             List<TreasuryBondValue> treasuryBondValueList = new();
 
@@ -209,9 +210,9 @@ namespace FinanceApp.Core.Importers
                 ExpirationDate = Convert.ToDateTime(a[expirationDate].Replace("\"", ""), _cultureInfoPtBr),
                 FixedInterestValueBuy = Convert.ToDouble(a[interestRateBuy].Replace(",", "."), _cultureInvariant),
                 FixedInterestValueSell = Convert.ToDouble(a[interestRateSell].Replace(",", "."), _cultureInvariant),
-                UnitPriceBuy = Convert.ToDouble(a[unitPriceBuy].Replace(",","."), _cultureInvariant),
+                UnitPriceBuy = Convert.ToDouble(a[unitPriceBuy].Replace(",", "."), _cultureInvariant),
                 UnitPriceSell = Convert.ToDouble(a[unitPriceSell].Replace(",", "."), _cultureInvariant),
-                
+
                 //DateEnd = Convert.ToDateTime(a[dateEndIndex].Replace("\"", ""), _cultureInfoPtBr),
                 //    Index = index,
                 //    Value = Convert.ToDouble(a[valueIndex].Replace("\"", ""), _cultureInfoPtBr) / 100
@@ -220,9 +221,9 @@ namespace FinanceApp.Core.Importers
             DateTime maxDate = treasuryBondValueList.Max(a => a.Date);
 
             //Remove titulos vencimentos a mais de 1 mês
-            if(removeExpired)
+            if (removeExpired)
                 treasuryBondValueList = treasuryBondValueList.Where(a => a.ExpirationDate >= DateTime.Now.AddDays(-1)).ToList();
-            
+
             return treasuryBondValueList;
         }
 

@@ -1,5 +1,5 @@
 ﻿using FinanceApp.Shared;
-using FinanceApp.Shared.Models.UserTables.Bases;
+using FinanceApp.Shared.Entities.UserTables.Bases;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,8 +9,8 @@ namespace FinanceApp.EntityFramework
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : UserTable
     {
         public IHttpContextAccessor _httpContextAccessor;
-        public FinanceContext _context { get; set; }
-        public Repository(FinanceContext context, IHttpContextAccessor httpContextAccessor)
+        public UserContext _context { get; set; }
+        public Repository(UserContext context, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
             _httpContextAccessor = httpContextAccessor;

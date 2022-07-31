@@ -1,4 +1,5 @@
-﻿using FinanceApp.Shared.Dto.FGTS;
+﻿using FinanceApp.Shared;
+using FinanceApp.Shared.Dto.FGTS;
 using FluentResults;
 
 namespace FinanceApp.Core.Services.CrudServices.Interfaces

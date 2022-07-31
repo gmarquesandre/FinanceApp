@@ -8,7 +8,7 @@
 //{
 //    public class InvestmentFundImporter
 //    {
-//        private FinanceContext _context = new ();
+//        private UserContext _context = new ();
 
 //        public static readonly string BaseUrl = "http://dados.cvm.gov.br";
 

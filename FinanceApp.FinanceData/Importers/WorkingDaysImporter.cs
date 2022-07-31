@@ -1,15 +1,15 @@
-﻿using FinanceApp.Core.Importers.Base;
-using FinanceApp.Shared.Models.CommonTables;
-using FinanceApp.EntityFramework;
+﻿using FinanceApp.EntityFramework.Data;
+using FinanceApp.FinanceData.Importers.Base;
+using FinanceApp.Shared.Entities.CommonTables;
 
-namespace FinanceApp.Core.Importers
+namespace FinanceApp.FinanceData.Importers
 {
     public class WorkingDaysImporter : ImporterBase
     {
 
 
 
-        public WorkingDaysImporter(FinanceContext context) : base(context)
+        public WorkingDaysImporter(FinanceDataContext context) : base(context)
         {
 
         }
@@ -32,7 +32,7 @@ namespace FinanceApp.Core.Importers
 
             List<DateTime> holidays = _context.Holidays.ToList().Select(a => a.Date).ToList();
 
-            if(!holidays.Any())
+            if (!holidays.Any())
             {
                 HolidaysImporter holidaysImporter = new(_context);
                 await holidaysImporter.GetHolidays();
@@ -45,7 +45,7 @@ namespace FinanceApp.Core.Importers
             List<WorkingDaysByYear> workingDaysByYearList = new();
 
 
-            foreach(var year in years)
+            foreach (var year in years)
             {
                 var holidaysThisYear = holidays.Where(a => a.Year == year).ToList();
 
@@ -68,7 +68,7 @@ namespace FinanceApp.Core.Importers
 
             _context.WorkingDaysByYear.AddRange(workingDaysByYearList);
             _context.SaveChanges();
-        
+
         }
 
         private void DeleteAllValues()

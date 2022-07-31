@@ -4,9 +4,9 @@ using FinanceApp.Core.Services.ForecastServices.Interfaces;
 using FinanceApp.Shared.Dto;
 using FinanceApp.Shared.Dto.Income;
 using FinanceApp.Shared.Enum;
-using FinanceApp.Shared.Models.UserTables;
 using FluentResults;
 using FinanceApp.EntityFramework;
+using FinanceApp.Shared.Entities.UserTables;
 
 namespace FinanceApp.Core.Services.CrudServices.Implementations
 {

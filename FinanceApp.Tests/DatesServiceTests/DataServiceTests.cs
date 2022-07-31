@@ -17,7 +17,7 @@
 //        public async Task MustCalculateWorkingDaysBetweenDatesCorrectly()
 //        {
 //            var mapper = GetConfigurationIMapper();
-//            var context = await CreateFinanceContext();
+//            var context = await CreateUserContext();
 
 //            //Instancias 
 //            MemoryCacheOptions cacheOptions = new();
@@ -66,7 +66,7 @@
 //        public async Task MustReturnAddWorkingDaysCorrectly()
 //        {
 //            var mapper = GetConfigurationIMapper();
-//            var context = await CreateFinanceContext();
+//            var context = await CreateUserContext();
 
 //            //Instancias 
 //            MemoryCacheOptions cacheOptions = new();

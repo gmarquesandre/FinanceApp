@@ -13,7 +13,7 @@
 //        [Fact]
 //        public async Task TestIndexImporter()
 //        {
-//            var dataContext = await CreateFinanceContext();
+//            var dataContext = await CreateUserContext();
 
 //            var importer = new IndexImporter(dataContext);
 
@@ -30,7 +30,7 @@
 //        [Fact]
 //        public async Task TestTreasuryBondImporter()
 //        {
-//            var dataContext = await CreateFinanceContext();
+//            var dataContext = await CreateUserContext();
 
 //            var importer = new TreasuryBondImporter(dataContext);
 
@@ -46,7 +46,7 @@
 //        //[Fact]
 //        //public async Task TestTreasuryBondTitlesImporter()
 //        //{
-//        //    var dataContext = await CreateFinanceContext();
+//        //    var dataContext = await CreateUserContext();
 
 //        //    var importer = new TreasuryBondImporter(dataContext);
 
@@ -62,7 +62,7 @@
 //        [Fact]
 //        public async Task TestIndexProspectImporter()
 //        {
-//            var dataContext = await CreateFinanceContext();
+//            var dataContext = await CreateUserContext();
 
 //            var importer = new IndexProspectImporter(dataContext);
 
@@ -78,7 +78,7 @@
 //        [Fact]
 //        public async Task TestHolidaysImporter()
 //        {
-//            var dataContext = await CreateFinanceContext();
+//            var dataContext = await CreateUserContext();
 
 //            var importer = new HolidaysImporter(dataContext);
 
@@ -95,7 +95,7 @@
 //        [Fact]
 //        public async Task TestWorkingDaysImporter()
 //        {
-//            var dataContext = await CreateFinanceContext();
+//            var dataContext = await CreateUserContext();
 
 //            var importer = new WorkingDaysImporter(dataContext);
 

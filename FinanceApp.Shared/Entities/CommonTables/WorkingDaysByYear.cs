@@ -1,6 +1,6 @@
-﻿using FinanceApp.Shared.Models.UserTables.Bases;
+﻿using FinanceApp.Shared.Entities.UserTables.Bases;
 
-namespace FinanceApp.Shared.Models.CommonTables
+namespace FinanceApp.Shared.Entities.CommonTables
 {
     public class WorkingDaysByYear : StandartTable
     {

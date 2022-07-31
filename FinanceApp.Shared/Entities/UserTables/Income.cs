@@ -1,8 +1,8 @@
-﻿using FinanceApp.Shared.Enum;
-using FinanceApp.Shared.Models.UserTables.Bases;
+﻿using FinanceApp.Shared.Entities.UserTables.Bases;
+using FinanceApp.Shared.Enum;
 using System.ComponentModel.DataAnnotations;
 
-namespace FinanceApp.Shared.Models.UserTables
+namespace FinanceApp.Shared.Entities.UserTables
 {
     public class Income : UserTable
     {

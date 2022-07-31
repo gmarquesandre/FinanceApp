@@ -1,6 +1,6 @@
-﻿using FinanceApp.Shared.Models.CommonTables;
+﻿using FinanceApp.Shared.Entities.CommonTables;
 
-namespace FinanceApp.Shared.Models.UserTables.Bases
+namespace FinanceApp.Shared.Entities.UserTables.Bases
 {
     public class UserTable : StandartTable
     {

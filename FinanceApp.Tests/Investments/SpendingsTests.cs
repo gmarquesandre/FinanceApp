@@ -30,7 +30,7 @@
 //            Type = (int)ETypeSpending.CRA
 //        };
 
-//        private SpendingService GetSpendingService(FinanceContext userContext)
+//        private SpendingService GetSpendingService(UserContext userContext)
 //        {
 
 //            var mapper = GetConfigurationIMapper();
@@ -40,9 +40,9 @@
 //        }
 
 //        [Fact]
-//        public async Task<(FinanceContext userContext, Spending investment)> MustAddInvestment()
+//        public async Task<(UserContext userContext, Spending investment)> MustAddInvestment()
 //        {
-//            var userContext = await CreateFinanceContext();
+//            var userContext = await CreateUserContext();
 
 //            var user = await ReturnDefaultUser(userContext);
 
@@ -63,7 +63,7 @@
 //        private async Task MustFailAddInvestment()
 //        {
 
-//            var userContext = await CreateFinanceContext();
+//            var userContext = await CreateUserContext();
 
 //            var user = await ReturnDefaultUser(userContext);
 
@@ -85,7 +85,7 @@
 //        [Fact]
 //        public async Task MustUpdateInvestment()
 //        {
-//            (FinanceContext userContext, Spending investment) = await MustAddInvestment();
+//            (UserContext userContext, Spending investment) = await MustAddInvestment();
 
 //            var updateInvestment = new UpdateSpending()
 //            {
@@ -116,7 +116,7 @@
 //        [Fact]
 //        public async Task MustDeleteInvestment()
 //        {
-//            (FinanceContext userContext, Spending investment) = await MustAddInvestment();
+//            (UserContext userContext, Spending investment) = await MustAddInvestment();
 
 //            var service = GetSpendingService(userContext);
 

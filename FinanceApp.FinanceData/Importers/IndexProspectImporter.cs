@@ -1,22 +1,22 @@
-﻿using FinanceApp.Core.Importers.Base;
-using FinanceApp.Shared;
+﻿using FinanceApp.Shared;
 using FinanceApp.Shared.Enum;
-using FinanceApp.Shared.Models.CommonTables;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
 using System.Globalization;
-using FinanceApp.EntityFramework;
+using FinanceApp.Shared.Entities.CommonTables;
+using FinanceApp.FinanceData.Importers.Base;
+using FinanceApp.EntityFramework.Data;
 
-namespace FinanceApp.Core.Importers
+namespace FinanceApp.FinanceData.Importers
 {
     public class IndexProspectImporter : ImporterBase
     {
         private HttpClient _client;
 
         private HttpClientHandler _handler;
-        
 
-        public IndexProspectImporter(FinanceContext context) : base(context)
+
+        public IndexProspectImporter(FinanceDataContext context) : base(context)
         {
 
         }
@@ -55,7 +55,7 @@ namespace FinanceApp.Core.Importers
         {
             var valuesSelic = _context.ProspectIndexValues
                 .AsNoTracking()
-                .Where(a=> a.Index == EIndex.Selic)
+                .Where(a => a.Index == EIndex.Selic)
                 .ToList();
 
             valuesSelic.ForEach(a =>
@@ -124,7 +124,7 @@ namespace FinanceApp.Core.Importers
 
                 //Aproximação grosseira da data
                 DateTime dateReferencia = new DateTime(reuniaoAno, 1, 1).AddDays(reuniaoNumero * 45);
-                DateTime dateEndReferencia = new DateTime(reuniaoAno, 1, 1).AddDays((reuniaoNumero+1) * 45 - 1);
+                DateTime dateEndReferencia = new DateTime(reuniaoAno, 1, 1).AddDays((reuniaoNumero + 1) * 45 - 1);
 
                 try
                 {
@@ -192,16 +192,16 @@ namespace FinanceApp.Core.Importers
                 }
 
             }
-        }             
+        }
 
         private async Task InsertOrUpdateIndex(List<ProspectIndexValue> itens)
-        {           
+        {
             await InsertValue(itens);
         }
 
         private async Task InsertValue(List<ProspectIndexValue> list)
         {
-            
+
             list = list.Where(a => a.DateResearch == list.Select(a => a.DateResearch).Max()).ToList();
 
             await _context.ProspectIndexValues.AddRangeAsync(list);

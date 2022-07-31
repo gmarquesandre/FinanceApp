@@ -1,4 +1,4 @@
-﻿namespace FinanceApp.Core.Services
+﻿namespace FinanceApp.FinanceData.Services
 {
     public class ServiceBase : IServiceBase
     {

@@ -1,7 +1,6 @@
-﻿
-using static FinanceApp.Core.Services.TitleService;
+﻿using FinanceApp.Shared;
 
-namespace FinanceApp.Core.Services
+namespace FinanceApp.FinanceData.Services
 {
     public interface ITitleService : IScopedService
     {
