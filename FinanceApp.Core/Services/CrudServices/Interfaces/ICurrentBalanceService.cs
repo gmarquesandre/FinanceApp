@@ -4,7 +4,7 @@ using FluentResults;
 
 namespace FinanceApp.Core.Services.CrudServices.Interfaces
 {
-    public interface ICurrentBalanceService : IScopedService
+    public interface ICurrentBalanceService 
     {
         Task<CurrentBalanceDto> AddOrUpdateAsync(CreateOrUpdateCurrentBalance input);
         Task<Result> DeleteAsync();

@@ -1,10 +1,10 @@
-﻿using FinanceApp.Shared;
+﻿using FinanceApp.FinanceData.Services;
 using FinanceApp.Shared.Dto.Category;
 using FluentResults;
 
 namespace FinanceApp.Core.Services.CrudServices.Interfaces
 {
-    public interface ICategoryService : IScopedService
+    public interface ICategoryService 
     {
         Task<CategoryDto> AddAsync(CreateCategory input);
         Task<Result> DeleteAsync(int id);

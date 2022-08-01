@@ -19,9 +19,9 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddSession();
 builder.Services.AddMemoryCache();
 
-builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
-
 builder.Services.RegisterServices();
+
+
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 var connectionStringHangfire = builder.Configuration.GetConnectionString("HangfireConnection");

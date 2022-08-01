@@ -1,4 +1,15 @@
-﻿using FinanceApp.Shared;
+﻿using FinanceApp.Api.Controllers;
+using FinanceApp.Core.Services.CrudServices.Implementations;
+using FinanceApp.Core.Services.CrudServices.Interfaces;
+using FinanceApp.Core.Services.ForecastServices;
+using FinanceApp.Core.Services.ForecastServices.Implementations;
+using FinanceApp.Core.Services.ForecastServices.Interfaces;
+using FinanceApp.Core.Services.UserServices;
+using FinanceApp.Core.Services.UserServices.Interfaces;
+using FinanceApp.EntityFramework;
+using FinanceApp.FinanceData;
+using FinanceApp.FinanceData.Services;
+using FinanceApp.Shared;
 
 namespace FinanceApp.Api.Startup
 {
@@ -8,36 +19,40 @@ namespace FinanceApp.Api.Startup
         //https://dev.to/tomfletcher9/net-6-register-services-using-reflection-3156
         public static void RegisterServices(this IServiceCollection services)
         {
-            // Define types that need matching
-            Type scopedService = typeof(IScopedService);
-            Type singletonService = typeof(ISingletonService);
-            Type transientService = typeof(ITransientService);
 
-            var types = AppDomain.CurrentDomain.GetAssemblies()
-                    .SelectMany(s => s.GetTypes())
-                    .Where(p => scopedService.IsAssignableFrom(p) || transientService.IsAssignableFrom(p) || singletonService.IsAssignableFrom(p) && !p.IsInterface).Select(s => new
-                    {
-                        Service = s.GetInterface($"I{s.Name}"),
-                        Implementation = s
-                    }).Where(x => x.Service != null);
+            services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
 
-            foreach (var type in types)
-            {
-                if (scopedService.IsAssignableFrom(type.Service))
-                {
-                    services.AddScoped(type.Service, type.Implementation);
-                }
 
-                if (transientService.IsAssignableFrom(type.Service))
-                {
-                    services.AddTransient(type.Service, type.Implementation);
-                }
+            services.AddScoped<ITokenService, TokenService>();
 
-                if (singletonService.IsAssignableFrom(type.Service))
-                {
-                    services.AddSingleton(type.Service, type.Implementation);
-                }
-            }
+            //CRUD
+            services.AddScoped<ILoginService, LoginService>();
+          
+            services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<ICurrentBalanceService, CurrentBalanceService>();
+            services.AddScoped<IFGTSService, FGTSService>();
+            services.AddScoped<IForecastParametersService, ForecastParametersService>();
+            services.AddScoped<IIncomeService, IncomeService>();
+            services.AddScoped<ILoanService, LoanService>();
+            services.AddScoped<IPrivateFixedIncomeService, PrivateFixedIncomeService>();
+            services.AddScoped<ISpendingService, SpendingService>();
+            //services.AddScoped<ITreasuryBondService, TreasuryBondService>();
+
+
+            //Common
+            services.AddScoped<IDatesService, DatesService>();
+            services.AddScoped<IIndexService, IndexService>();
+            services.AddScoped<ITitleService, TitleService>();
+
+            //Forecast
+            services.AddScoped<IForecastService, ForecastService>();
+            services.AddScoped<ILoanForecast, LoanForecast>();
+            services.AddScoped<ISpendingForecast, SpendingForecast>();
+            services.AddScoped<IForecastParametersService, ForecastParametersService>();
+            services.AddScoped<IIncomeForecast, IncomeForecast>();
+
+
+
         }
     }
 }

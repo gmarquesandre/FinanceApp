@@ -3,57 +3,23 @@ using System;
 using FinanceApp.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace FinanceApp.EntityFramework.Migrations
+namespace FinanceApp.EntityFramework.User.Migrations
 {
     [DbContext(typeof(UserContext))]
-    [Migration("20220722020558_init")]
-    partial class init
+    partial class UserContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "6.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("FinanceApp.Shared.Models.CommonTables.Asset", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("AssetCode")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("AssetCodeISIN")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("CompanyName")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int>("TypeAsset")
-                        .HasColumnType("int");
-
-                    b.Property<double>("UnitPrice")
-                        .HasColumnType("double");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Assets");
-                });
-
-            modelBuilder.Entity("FinanceApp.Shared.Models.CommonTables.CustomIdentityUser", b =>
+            modelBuilder.Entity("FinanceApp.Shared.Entities.CommonTables.CustomIdentityUser", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -122,217 +88,21 @@ namespace FinanceApp.EntityFramework.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6e40c8b4-e53f-4834-a6ab-07f8e8a747ec",
+                            ConcurrencyStamp = "d8d4fad8-4c95-448c-a6e8-ee9cc6356b96",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEEw0NcciwNorRX00BNqhHgc3ufnm+tV+sZU4w0HuDVRrGp25Kyqo1voZQzt9nkgwDQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHwIz2q2/nfcGLnWvFJaVfRGUDpFIRiJ4VVj3W7astw3VYImFrstVYSb0ClWKGRjZA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "b77b491d-12e8-4e24-acfd-15f1d1c8fa3a",
+                            SecurityStamp = "f7c79f12-fe93-4678-8dc0-92da71a5775b",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
                 });
 
-            modelBuilder.Entity("FinanceApp.Shared.Models.CommonTables.Holiday", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime>("DateLastUpdate")
-                        .HasColumnType("datetime(6)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Date")
-                        .IsUnique();
-
-                    b.ToTable("Holidays");
-                });
-
-            modelBuilder.Entity("FinanceApp.Shared.Models.CommonTables.IndexValue", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime>("DateEnd")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int>("Index")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IndexRecurrence")
-                        .HasColumnType("int");
-
-                    b.Property<double>("Value")
-                        .HasColumnType("double");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Date", "DateEnd", "Index")
-                        .IsUnique();
-
-                    b.ToTable("IndexValues");
-                });
-
-            modelBuilder.Entity("FinanceApp.Shared.Models.CommonTables.ProspectIndexValue", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<double>("Average")
-                        .HasColumnType("double");
-
-                    b.Property<int>("BaseCalculo")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("DateEnd")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime>("DateLastUpdate")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime>("DateResearch")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime>("DateStart")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int>("Index")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IndexRecurrence")
-                        .HasColumnType("int");
-
-                    b.Property<double>("Max")
-                        .HasColumnType("double");
-
-                    b.Property<double>("Median")
-                        .HasColumnType("double");
-
-                    b.Property<double>("Min")
-                        .HasColumnType("double");
-
-                    b.Property<int>("ResearchAnswers")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DateStart", "DateEnd", "Index", "BaseCalculo")
-                        .IsUnique();
-
-                    b.ToTable("ProspectIndexValues");
-                });
-
-            modelBuilder.Entity("FinanceApp.Shared.Models.CommonTables.TreasuryBondTitle", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<DateTime>("ExpirationDate")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<double>("FixedInterestValueBuy")
-                        .HasColumnType("double");
-
-                    b.Property<double>("FixedInterestValueSell")
-                        .HasColumnType("double");
-
-                    b.Property<DateTime>("LastUpdateDateTime")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
-
-                    b.Property<double>("UnitPriceBuy")
-                        .HasColumnType("double");
-
-                    b.Property<double>("UnitPriceSell")
-                        .HasColumnType("double");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ExpirationDate", "Type")
-                        .IsUnique();
-
-                    b.ToTable("TreasuryBondTitle");
-                });
-
-            modelBuilder.Entity("FinanceApp.Shared.Models.CommonTables.TreasuryBondValue", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime>("ExpirationDate")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<double>("FixedInterestValueBuy")
-                        .HasColumnType("double");
-
-                    b.Property<double>("FixedInterestValueSell")
-                        .HasColumnType("double");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
-
-                    b.Property<double>("UnitPriceBuy")
-                        .HasColumnType("double");
-
-                    b.Property<double>("UnitPriceSell")
-                        .HasColumnType("double");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Date", "ExpirationDate", "Type")
-                        .IsUnique();
-
-                    b.ToTable("TreasuryBondValues");
-                });
-
-            modelBuilder.Entity("FinanceApp.Shared.Models.CommonTables.WorkingDaysByYear", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("DateLastUpdate")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int>("WorkingDays")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Year")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Year")
-                        .IsUnique();
-
-                    b.ToTable("WorkingDaysByYear");
-                });
-
-            modelBuilder.Entity("FinanceApp.Shared.Models.UserTables.Category", b =>
+            modelBuilder.Entity("FinanceApp.Shared.Entities.UserTables.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -361,7 +131,7 @@ namespace FinanceApp.EntityFramework.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("FinanceApp.Shared.Models.UserTables.CreditCard", b =>
+            modelBuilder.Entity("FinanceApp.Shared.Entities.UserTables.CreditCard", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -393,7 +163,7 @@ namespace FinanceApp.EntityFramework.Migrations
                     b.ToTable("CreditCards");
                 });
 
-            modelBuilder.Entity("FinanceApp.Shared.Models.UserTables.CurrentBalance", b =>
+            modelBuilder.Entity("FinanceApp.Shared.Entities.UserTables.CurrentBalance", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -419,12 +189,13 @@ namespace FinanceApp.EntityFramework.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("CurrentBalances");
                 });
 
-            modelBuilder.Entity("FinanceApp.Shared.Models.UserTables.FGTS", b =>
+            modelBuilder.Entity("FinanceApp.Shared.Entities.UserTables.FGTS", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -456,7 +227,7 @@ namespace FinanceApp.EntityFramework.Migrations
                     b.ToTable("FGTS");
                 });
 
-            modelBuilder.Entity("FinanceApp.Shared.Models.UserTables.ForecastParameters", b =>
+            modelBuilder.Entity("FinanceApp.Shared.Entities.UserTables.ForecastParameters", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -493,7 +264,7 @@ namespace FinanceApp.EntityFramework.Migrations
                     b.ToTable("ForecastParameters");
                 });
 
-            modelBuilder.Entity("FinanceApp.Shared.Models.UserTables.Income", b =>
+            modelBuilder.Entity("FinanceApp.Shared.Entities.UserTables.Income", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -537,7 +308,7 @@ namespace FinanceApp.EntityFramework.Migrations
                     b.ToTable("Incomes");
                 });
 
-            modelBuilder.Entity("FinanceApp.Shared.Models.UserTables.Loan", b =>
+            modelBuilder.Entity("FinanceApp.Shared.Entities.UserTables.Loan", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -578,7 +349,7 @@ namespace FinanceApp.EntityFramework.Migrations
                     b.ToTable("Loans");
                 });
 
-            modelBuilder.Entity("FinanceApp.Shared.Models.UserTables.PrivateFixedIncome", b =>
+            modelBuilder.Entity("FinanceApp.Shared.Entities.UserTables.PrivateFixedIncome", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -631,7 +402,7 @@ namespace FinanceApp.EntityFramework.Migrations
                     b.ToTable("PrivateFixedIncomes");
                 });
 
-            modelBuilder.Entity("FinanceApp.Shared.Models.UserTables.Spending", b =>
+            modelBuilder.Entity("FinanceApp.Shared.Entities.UserTables.Spending", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -691,7 +462,7 @@ namespace FinanceApp.EntityFramework.Migrations
                     b.ToTable("Spendings");
                 });
 
-            modelBuilder.Entity("FinanceApp.Shared.Models.UserTables.TreasuryBond", b =>
+            modelBuilder.Entity("FinanceApp.Shared.Entities.UserTables.TreasuryBond", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -857,9 +628,9 @@ namespace FinanceApp.EntityFramework.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("FinanceApp.Shared.Models.UserTables.Category", b =>
+            modelBuilder.Entity("FinanceApp.Shared.Entities.UserTables.Category", b =>
                 {
-                    b.HasOne("FinanceApp.Shared.Models.CommonTables.CustomIdentityUser", "User")
+                    b.HasOne("FinanceApp.Shared.Entities.CommonTables.CustomIdentityUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -868,9 +639,9 @@ namespace FinanceApp.EntityFramework.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("FinanceApp.Shared.Models.UserTables.CreditCard", b =>
+            modelBuilder.Entity("FinanceApp.Shared.Entities.UserTables.CreditCard", b =>
                 {
-                    b.HasOne("FinanceApp.Shared.Models.CommonTables.CustomIdentityUser", "User")
+                    b.HasOne("FinanceApp.Shared.Entities.CommonTables.CustomIdentityUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -879,9 +650,9 @@ namespace FinanceApp.EntityFramework.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("FinanceApp.Shared.Models.UserTables.CurrentBalance", b =>
+            modelBuilder.Entity("FinanceApp.Shared.Entities.UserTables.CurrentBalance", b =>
                 {
-                    b.HasOne("FinanceApp.Shared.Models.CommonTables.CustomIdentityUser", "User")
+                    b.HasOne("FinanceApp.Shared.Entities.CommonTables.CustomIdentityUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -890,9 +661,9 @@ namespace FinanceApp.EntityFramework.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("FinanceApp.Shared.Models.UserTables.FGTS", b =>
+            modelBuilder.Entity("FinanceApp.Shared.Entities.UserTables.FGTS", b =>
                 {
-                    b.HasOne("FinanceApp.Shared.Models.CommonTables.CustomIdentityUser", "User")
+                    b.HasOne("FinanceApp.Shared.Entities.CommonTables.CustomIdentityUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -901,9 +672,9 @@ namespace FinanceApp.EntityFramework.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("FinanceApp.Shared.Models.UserTables.ForecastParameters", b =>
+            modelBuilder.Entity("FinanceApp.Shared.Entities.UserTables.ForecastParameters", b =>
                 {
-                    b.HasOne("FinanceApp.Shared.Models.CommonTables.CustomIdentityUser", "User")
+                    b.HasOne("FinanceApp.Shared.Entities.CommonTables.CustomIdentityUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -912,9 +683,9 @@ namespace FinanceApp.EntityFramework.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("FinanceApp.Shared.Models.UserTables.Income", b =>
+            modelBuilder.Entity("FinanceApp.Shared.Entities.UserTables.Income", b =>
                 {
-                    b.HasOne("FinanceApp.Shared.Models.CommonTables.CustomIdentityUser", "User")
+                    b.HasOne("FinanceApp.Shared.Entities.CommonTables.CustomIdentityUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -923,9 +694,9 @@ namespace FinanceApp.EntityFramework.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("FinanceApp.Shared.Models.UserTables.Loan", b =>
+            modelBuilder.Entity("FinanceApp.Shared.Entities.UserTables.Loan", b =>
                 {
-                    b.HasOne("FinanceApp.Shared.Models.CommonTables.CustomIdentityUser", "User")
+                    b.HasOne("FinanceApp.Shared.Entities.CommonTables.CustomIdentityUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -934,9 +705,9 @@ namespace FinanceApp.EntityFramework.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("FinanceApp.Shared.Models.UserTables.PrivateFixedIncome", b =>
+            modelBuilder.Entity("FinanceApp.Shared.Entities.UserTables.PrivateFixedIncome", b =>
                 {
-                    b.HasOne("FinanceApp.Shared.Models.CommonTables.CustomIdentityUser", "User")
+                    b.HasOne("FinanceApp.Shared.Entities.CommonTables.CustomIdentityUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -945,17 +716,17 @@ namespace FinanceApp.EntityFramework.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("FinanceApp.Shared.Models.UserTables.Spending", b =>
+            modelBuilder.Entity("FinanceApp.Shared.Entities.UserTables.Spending", b =>
                 {
-                    b.HasOne("FinanceApp.Shared.Models.UserTables.Category", "Category")
+                    b.HasOne("FinanceApp.Shared.Entities.UserTables.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId");
 
-                    b.HasOne("FinanceApp.Shared.Models.UserTables.CreditCard", "CreditCard")
+                    b.HasOne("FinanceApp.Shared.Entities.UserTables.CreditCard", "CreditCard")
                         .WithMany()
                         .HasForeignKey("CreditCardId");
 
-                    b.HasOne("FinanceApp.Shared.Models.CommonTables.CustomIdentityUser", "User")
+                    b.HasOne("FinanceApp.Shared.Entities.CommonTables.CustomIdentityUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -968,9 +739,9 @@ namespace FinanceApp.EntityFramework.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("FinanceApp.Shared.Models.UserTables.TreasuryBond", b =>
+            modelBuilder.Entity("FinanceApp.Shared.Entities.UserTables.TreasuryBond", b =>
                 {
-                    b.HasOne("FinanceApp.Shared.Models.CommonTables.CustomIdentityUser", "User")
+                    b.HasOne("FinanceApp.Shared.Entities.CommonTables.CustomIdentityUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -990,7 +761,7 @@ namespace FinanceApp.EntityFramework.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
                 {
-                    b.HasOne("FinanceApp.Shared.Models.CommonTables.CustomIdentityUser", null)
+                    b.HasOne("FinanceApp.Shared.Entities.CommonTables.CustomIdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -999,7 +770,7 @@ namespace FinanceApp.EntityFramework.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
-                    b.HasOne("FinanceApp.Shared.Models.CommonTables.CustomIdentityUser", null)
+                    b.HasOne("FinanceApp.Shared.Entities.CommonTables.CustomIdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1014,7 +785,7 @@ namespace FinanceApp.EntityFramework.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FinanceApp.Shared.Models.CommonTables.CustomIdentityUser", null)
+                    b.HasOne("FinanceApp.Shared.Entities.CommonTables.CustomIdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1023,7 +794,7 @@ namespace FinanceApp.EntityFramework.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
-                    b.HasOne("FinanceApp.Shared.Models.CommonTables.CustomIdentityUser", null)
+                    b.HasOne("FinanceApp.Shared.Entities.CommonTables.CustomIdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

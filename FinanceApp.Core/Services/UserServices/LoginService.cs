@@ -69,7 +69,7 @@ namespace FinanceApp.Core.Services.UserServices
             return _signInManager
                             .UserManager
                             .Users
-                            .FirstOrDefault(u => u.NormalizedEmail == email.ToUpper());
+                            .FirstOrDefault(u => u.NormalizedEmail == email.Trim().ToUpper());
         }
     }
 }

@@ -3,7 +3,7 @@ using FinanceApp.Shared.Dto;
 
 namespace FinanceApp.FinanceData.Services
 {
-    public interface IDatesService : IScopedService
+    public interface IDatesService 
     {
         Task<WorkingDaysByYearDto> GetWorkingDaysOfAYear(int year);
         Task<List<WorkingDaysByYearDto>> GetWorkingDaysByYear(int yearStart, int? yearEnd);

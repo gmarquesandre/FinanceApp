@@ -9,11 +9,7 @@ namespace FinanceApp.EntityFramework.Data
         {
 
         }
-        public FinanceDataContext()
-        {
-
-        }
-
+    
         public DbSet<IndexValue> IndexValues { get; set; }
         public DbSet<TreasuryBondValue> TreasuryBondValues { get; set; }
         public DbSet<ProspectIndexValue> ProspectIndexValues { get; set; }
@@ -34,11 +30,9 @@ namespace FinanceApp.EntityFramework.Data
                .HasIndex(p => new { p.DateStart, p.DateEnd, p.Index, p.BaseCalculo })
                .IsUnique(true);
 
-
             builder.Entity<WorkingDaysByYear>()
                  .HasIndex(p => new { p.Year })
                  .IsUnique(true);
-
 
             builder.Entity<Holiday>()
                  .HasIndex(p => new { p.Date })

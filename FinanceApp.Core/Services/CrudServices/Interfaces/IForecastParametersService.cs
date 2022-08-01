@@ -4,7 +4,7 @@ using FluentResults;
 
 namespace FinanceApp.Core.Services.CrudServices.Interfaces
 {
-    public interface IForecastParametersService : IScopedService
+    public interface IForecastParametersService 
     {
         Task<ForecastParametersDto> AddOrUpdateAsync(CreateOrUpdateForecastParameters input);
         Task<Result> DeleteAsync();

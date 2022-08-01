@@ -4,7 +4,7 @@ using FluentResults;
 
 namespace FinanceApp.Core.Services.CrudServices.Interfaces
 {
-    public interface IFGTSService : IScopedService
+    public interface IFGTSService 
     {
         Task<FGTSDto> AddOrUpdateAsync(CreateOrUpdateFGTS input);
         Task<Result> DeleteAsync();

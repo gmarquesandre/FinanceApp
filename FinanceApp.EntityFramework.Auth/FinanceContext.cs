@@ -1,7 +1,5 @@
-﻿using FinanceApp.Shared;
-using FinanceApp.Shared.Entities.CommonTables;
+﻿using FinanceApp.Shared.Entities.CommonTables;
 using FinanceApp.Shared.Entities.UserTables;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -10,13 +8,10 @@ namespace FinanceApp.EntityFramework
 {
     public class UserContext : IdentityDbContext<CustomIdentityUser, IdentityRole<int>, int>
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        public UserContext(DbContextOptions<UserContext> opt, IHttpContextAccessor httpContextAccessor) : base(opt)
+        public UserContext(DbContextOptions<UserContext> opt) : base(opt)
         {
-            _httpContextAccessor = httpContextAccessor;
+            
         } 
-
-        //User Tables
         public DbSet<PrivateFixedIncome> PrivateFixedIncomes { get; set; }
         public DbSet<TreasuryBond> TreasuryBonds { get; set; }
         public DbSet<Category> Categories { get; set; }
@@ -49,10 +44,7 @@ namespace FinanceApp.EntityFramework
             admin.PasswordHash = hasher.HashPassword(admin, "teste");
 
             builder.Entity<CustomIdentityUser>().HasData(admin);
-        
-
-        
-
+                
             builder.Entity<Category>()
                  .HasIndex(p => new { p.Name })
                  .IsUnique(true);

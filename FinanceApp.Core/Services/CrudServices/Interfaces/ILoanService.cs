@@ -6,7 +6,7 @@ using FluentResults;
 
 namespace FinanceApp.Core.Services.CrudServices.Interfaces
 {
-    public interface ILoanService : IScopedService
+    public interface ILoanService 
     {
         Task<LoanDto> AddAsync(CreateLoan input);
         Task<Result> DeleteAsync(int id);

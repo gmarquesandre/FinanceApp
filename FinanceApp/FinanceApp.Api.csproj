@@ -33,7 +33,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FinanceApp.Core\FinanceApp.Core.csproj" />
-    <ProjectReference Include="..\FinanceApp.EntityFramework.Auth\FinanceApp.EntityFramework.csproj" />
+    <ProjectReference Include="..\FinanceApp.EntityFramework.Auth\FinanceApp.EntityFramework.User.csproj" />
   </ItemGroup>
 
 </Project>

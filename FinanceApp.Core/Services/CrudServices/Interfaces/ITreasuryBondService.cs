@@ -4,7 +4,7 @@ using FluentResults;
 
 namespace FinanceApp.Core.Services.CrudServices.Interfaces
 {
-    public interface ITreasuryBondService : IScopedService
+    public interface ITreasuryBondService 
     {
         Task<TreasuryBondDto> AddAsync(CreateTreasuryBond input);
         Task<Result> DeleteAsync(int id);

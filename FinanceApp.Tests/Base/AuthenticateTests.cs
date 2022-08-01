@@ -24,7 +24,7 @@ namespace FinanceApp.Tests.Base
 
             Mock<IHttpContextAccessor> mockContextAcessor = MockHttpContext();
 
-            var context = new UserContext(options, mockContextAcessor.Object);
+            var context = new UserContext(options);
 
             await context.Database.EnsureCreatedAsync();
 

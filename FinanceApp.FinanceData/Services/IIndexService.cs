@@ -4,7 +4,7 @@ using FinanceApp.Shared.Enum;
 
 namespace FinanceApp.FinanceData.Services
 {
-    public interface IIndexService : IScopedService
+    public interface IIndexService 
     {
         double GetIof(int day);
         Task<double> GetRealValue(DateTime date, double currentValue);

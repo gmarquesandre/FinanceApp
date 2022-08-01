@@ -3,7 +3,7 @@ using FinanceApp.Shared.Dto;
 
 namespace FinanceApp.Core.Services.ForecastServices
 {
-    public interface IForecastService : IScopedService
+    public interface IForecastService 
     {
         Task<List<ForecastList>> GetForecast(DateTime currentDate);
     }

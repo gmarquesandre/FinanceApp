@@ -4,7 +4,7 @@ using FluentResults;
 
 namespace FinanceApp.Core.Services.CrudServices.Interfaces
 {
-    public interface IPrivateFixedIncomeService : IScopedService
+    public interface IPrivateFixedIncomeService 
     {
         Task<PrivateFixedIncomeDto> AddAsync(CreatePrivateFixedIncome input);
         Task<Result> DeleteAsync(int id);

@@ -9,13 +9,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinanceApp.Shared", "Financ
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinanceApp.Core", "FinanceApp.Core\FinanceApp.Core.csproj", "{7FDF2909-62AE-44AF-A5E0-E68D72B5E9D6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinanceApp.EntityFramework", "FinanceApp.EntityFramework.Auth\FinanceApp.EntityFramework.csproj", "{EFA3254A-F20D-43FF-A885-71BB32BFE53E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinanceApp.EntityFramework.User", "FinanceApp.EntityFramework.Auth\FinanceApp.EntityFramework.User.csproj", "{EFA3254A-F20D-43FF-A885-71BB32BFE53E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinanceApp.Tests", "FinanceApp.Tests\FinanceApp.Tests.csproj", "{CC291E8A-F2E1-4BBE-8E85-103EB987B483}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceApp.EntityFramework.Data", "FinanceApp.EntityFramework.Data\FinanceApp.EntityFramework.Data.csproj", "{D9EE5244-92FC-4C2E-8A13-716F60720A81}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinanceApp.EntityFramework.Data", "FinanceApp.EntityFramework.Data\FinanceApp.EntityFramework.Data.csproj", "{D9EE5244-92FC-4C2E-8A13-716F60720A81}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceApp.FinanceData", "FinanceApp.FinanceData\FinanceApp.FinanceData.csproj", "{4B6EA700-41B9-4D3E-93B7-A035A9587217}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinanceApp.FinanceData", "FinanceApp.FinanceData\FinanceApp.FinanceData.csproj", "{4B6EA700-41B9-4D3E-93B7-A035A9587217}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

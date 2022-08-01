@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using Hangfire;
-using FinanceApp.EntityFramework;
 using FinanceApp.FinanceData.Importers;
-using FinanceApp.EntityFramework.Data;
 
 namespace FinanceApp.Api.Startup
 {
@@ -15,7 +13,6 @@ namespace FinanceApp.Api.Startup
             //    RecurringJob.RemoveIfExists(recurringJob.Id);
             //}
 
-            var context = new FinanceDataContext();
 
             Type profile = typeof(Profile);
             var profiles = AppDomain.CurrentDomain.GetAssemblies()

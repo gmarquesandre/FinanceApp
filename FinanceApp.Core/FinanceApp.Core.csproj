@@ -9,10 +9,12 @@
   <ItemGroup>
     <PackageReference Include="FluentResults" Version="3.5.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.10.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.10.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FinanceApp.EntityFramework.Auth\FinanceApp.EntityFramework.csproj" />
+    <ProjectReference Include="..\FinanceApp.EntityFramework.Auth\FinanceApp.EntityFramework.User.csproj" />
     <ProjectReference Include="..\FinanceApp.FinanceData\FinanceApp.FinanceData.csproj" />
   </ItemGroup>
 
