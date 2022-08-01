@@ -2,9 +2,9 @@
 using FinanceApp.Shared.Dto.PrivateFixedInvestment;
 using FluentResults;
 
-namespace FinanceApp.Core.Services.CrudServices.Interfaces
+namespace FinanceApp.Core.Services.CrudServices.CrudDefault.Interfaces
 {
-    public interface IPrivateFixedIncomeService 
+    public interface IPrivateFixedIncomeService
     {
         Task<PrivateFixedIncomeDto> AddAsync(CreatePrivateFixedIncome input);
         Task<Result> DeleteAsync(int id);

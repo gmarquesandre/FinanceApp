@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
-using FinanceApp.EntityFramework;
+using FinanceApp.Core.Services.CrudServices.CrudDefault.Base.Interfaces;
+using FinanceApp.EntityFramework.User;
 using FinanceApp.Shared.Dto.Base;
 using FinanceApp.Shared.Entities.UserTables.Bases;
 using FluentResults;
 
-namespace FinanceApp.Core.Services.CrudServices.Base
+namespace FinanceApp.Core.Services.CrudServices.CrudDefault.Base
 {
-    public abstract class CrudServiceBase<T, TDto, TCreate, TUpdate> : ICrudServiceBase<TDto, TCreate, TUpdate> 
+    public abstract class CrudServiceBase<T, TDto, TCreate, TUpdate> : ICrudServiceBase<TDto, TCreate, TUpdate>
         where T : UserTable
         where TDto : StandardDto
         where TCreate : CreateDto

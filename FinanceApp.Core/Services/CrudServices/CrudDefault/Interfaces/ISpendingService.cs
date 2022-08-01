@@ -1,12 +1,9 @@
-﻿using FinanceApp.Shared;
-using FinanceApp.Shared.Dto;
+﻿using FinanceApp.Core.Services.CrudServices.CrudDefault.Base.Interfaces;
 using FinanceApp.Shared.Dto.Spending;
-using FinanceApp.Shared.Enum;
-using FluentResults;
 
-namespace FinanceApp.Core.Services.CrudServices.Interfaces
+namespace FinanceApp.Core.Services.CrudServices.CrudDefault.Interfaces
 {
-    public interface ISpendingService 
+    public interface ISpendingService : IForecast<SpendingDto>
     {
     }
 }

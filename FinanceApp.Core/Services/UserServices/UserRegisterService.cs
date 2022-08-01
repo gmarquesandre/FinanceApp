@@ -3,9 +3,9 @@ using FinanceApp.Core.Services.UserServices.Interfaces;
 using FinanceApp.Shared.Dto;
 using FluentResults;
 using Microsoft.AspNetCore.Identity;
-using FinanceApp.EntityFramework;
 using FinanceApp.Shared.Entities.CommonTables;
 using FinanceApp.Shared.Entities.UserTables;
+using FinanceApp.EntityFramework.User;
 
 namespace FinanceApp.Core.Services.UserServices
 {

@@ -3,7 +3,7 @@ using FinanceApp.Shared.Entities.UserTables.Bases;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
-namespace FinanceApp.EntityFramework
+namespace FinanceApp.EntityFramework.User
 {
 
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : UserTable
@@ -42,7 +42,7 @@ namespace FinanceApp.EntityFramework
 
         public async Task<TEntity> FirstOrDefaultAsync()
         {
-            var item = (await _context.Set<TEntity>().AsNoTracking().Where(a => a.UserId == _httpContextAccessor.HttpContext.User.GetUserId()).FirstOrDefaultAsync());
+            var item = await _context.Set<TEntity>().AsNoTracking().Where(a => a.UserId == _httpContextAccessor.HttpContext.User.GetUserId()).FirstOrDefaultAsync();
 
             if (item == null)
                 throw new Exception();
@@ -63,7 +63,7 @@ namespace FinanceApp.EntityFramework
 
             _context.SaveChanges();
         }
-        
+
         public async Task<TEntity> GetByIdAsync(int id)
         {
             var item = await _context.Set<TEntity>().AsNoTracking().Where(a => a.UserId == _httpContextAccessor.HttpContext.User.GetUserId()).FirstOrDefaultAsync(a => a.Id == id);

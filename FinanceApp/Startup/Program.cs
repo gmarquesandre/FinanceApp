@@ -6,10 +6,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
-using FinanceApp.EntityFramework;
 using Hangfire.MySql;
 using FinanceApp.Shared.Entities.CommonTables;
 using FinanceApp.EntityFramework.Data;
+using FinanceApp.EntityFramework.User;
 
 var builder = WebApplication.CreateBuilder(args);
 

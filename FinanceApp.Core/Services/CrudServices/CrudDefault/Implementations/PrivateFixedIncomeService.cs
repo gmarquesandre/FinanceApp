@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
-using FinanceApp.Core.Services.CrudServices.Interfaces;
 using FinanceApp.Shared.Dto.PrivateFixedInvestment;
-using FinanceApp.EntityFramework;
 using FinanceApp.Shared.Entities.UserTables;
-using FinanceApp.Core.Services.CrudServices.Base;
+using FinanceApp.EntityFramework.User;
+using FinanceApp.Core.Services.CrudServices.CrudDefault.Interfaces;
+using FinanceApp.Core.Services.CrudServices.CrudDefault.Base;
 
-namespace FinanceApp.Core.Services.CrudServices.Implementations
+namespace FinanceApp.Core.Services.CrudServices.CrudDefault.Implementations
 {
     public class PrivateFixedIncomeService : CrudServiceBase<PrivateFixedIncome, PrivateFixedIncomeDto, CreatePrivateFixedIncome, UpdatePrivateFixedIncome>, IPrivateFixedIncomeService
     {

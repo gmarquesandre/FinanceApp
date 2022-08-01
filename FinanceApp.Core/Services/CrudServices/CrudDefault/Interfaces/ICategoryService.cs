@@ -2,9 +2,9 @@
 using FinanceApp.Shared.Dto.Category;
 using FluentResults;
 
-namespace FinanceApp.Core.Services.CrudServices.Interfaces
+namespace FinanceApp.Core.Services.CrudServices.CrudDefault.Interfaces
 {
-    public interface ICategoryService 
+    public interface ICategoryService
     {
     }
 }

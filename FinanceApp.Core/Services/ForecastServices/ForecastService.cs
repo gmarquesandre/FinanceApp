@@ -1,5 +1,5 @@
-﻿using FinanceApp.Core.Services.CrudServices.CrudSingleRegister;
-using FinanceApp.Core.Services.CrudServices.Interfaces;
+﻿using FinanceApp.Core.Services.CrudServices.CrudDefault.Interfaces;
+using FinanceApp.Core.Services.CrudServices.CrudSingleRegister;
 using FinanceApp.FinanceData.Services;
 using FinanceApp.Shared;
 using FinanceApp.Shared.Dto;

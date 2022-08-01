@@ -4,14 +4,14 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace FinanceApp.EntityFramework
+namespace FinanceApp.EntityFramework.User
 {
     public class UserContext : IdentityDbContext<CustomIdentityUser, IdentityRole<int>, int>
     {
         public UserContext(DbContextOptions<UserContext> opt) : base(opt)
         {
-            
-        } 
+
+        }
         public DbSet<PrivateFixedIncome> PrivateFixedIncomes => Set<PrivateFixedIncome>();
         public DbSet<TreasuryBond> TreasuryBonds => Set<TreasuryBond>();
         public DbSet<Category> Categories => Set<Category>();
@@ -44,7 +44,7 @@ namespace FinanceApp.EntityFramework
             admin.PasswordHash = hasher.HashPassword(admin, "teste");
 
             builder.Entity<CustomIdentityUser>().HasData(admin);
-                
+
             builder.Entity<Category>()
                  .HasIndex(p => new { p.Name })
                  .IsUnique(true);

@@ -1,15 +1,31 @@
 ﻿using AutoMapper;
-using FinanceApp.Core.Services.CrudServices.Interfaces;
 using FinanceApp.Shared.Dto.Income;
-using FinanceApp.EntityFramework;
 using FinanceApp.Shared.Entities.UserTables;
-using FinanceApp.Core.Services.CrudServices.Base;
+using FinanceApp.Shared.Dto;
+using FinanceApp.Shared.Enum;
+using FinanceApp.Core.Services.ForecastServices.Interfaces;
+using FinanceApp.EntityFramework.User;
+using FinanceApp.Core.Services.CrudServices.CrudDefault.Interfaces;
+using FinanceApp.Core.Services.CrudServices.CrudDefault.Base;
 
-namespace FinanceApp.Core.Services.CrudServices.Implementations
-{    
-    public class IncomeService : CrudServiceBase<Income, IncomeDto, CreateIncome, UpdateIncome>, IIncomeService
+namespace FinanceApp.Core.Services.CrudServices.CrudDefault.Implementations
+{
+    public class IncomeService :
+        CrudServiceBase<Income, IncomeDto, CreateIncome, UpdateIncome>,         
+        IIncomeService
     {
-        public IncomeService(IRepository<Income> repository, IMapper mapper) : base(repository, mapper) { }
+        public IIncomeForecast _forecast { get; set; }
+        public IncomeService(IRepository<Income> repository, IMapper mapper, IIncomeForecast forecast) : base(repository, mapper)
+        {
+            _forecast = forecast;
+        }
+
+        public async Task<ForecastList> GetForecast(EForecastType type, DateTime maxYearMonth, DateTime currentDate)
+        {
+            var dtos = await base.GetAsync();
+            var values = _forecast.GetForecast(dtos, type, maxYearMonth, currentDate);
+            return values;
+        }
     }
-    
+
 }

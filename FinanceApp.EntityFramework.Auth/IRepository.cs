@@ -1,6 +1,6 @@
 ﻿using FinanceApp.Shared.Entities.UserTables.Bases;
 
-namespace FinanceApp.EntityFramework
+namespace FinanceApp.EntityFramework.User
 {
     public interface IRepository<TEntity> where TEntity : UserTable
     {

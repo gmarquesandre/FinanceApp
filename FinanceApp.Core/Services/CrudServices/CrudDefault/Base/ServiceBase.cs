@@ -1,8 +1,8 @@
-﻿namespace FinanceApp.Core.Services.CrudServices.Base
+﻿namespace FinanceApp.Core.Services.CrudServices.CrudDefault.Base
 {
     public class ServiceBase
     {
-       
+
 
     }
 }

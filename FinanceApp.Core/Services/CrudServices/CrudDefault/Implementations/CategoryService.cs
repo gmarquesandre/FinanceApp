@@ -1,14 +1,14 @@
 ﻿using AutoMapper;
-using FinanceApp.Core.Services.CrudServices.Interfaces;
 using FinanceApp.Shared.Dto.Category;
-using FinanceApp.EntityFramework;
 using FinanceApp.Shared.Entities.UserTables;
-using FinanceApp.Core.Services.CrudServices.Base;
+using FinanceApp.EntityFramework.User;
+using FinanceApp.Core.Services.CrudServices.CrudDefault.Base;
+using FinanceApp.Core.Services.CrudServices.CrudDefault.Interfaces;
 
-namespace FinanceApp.Core.Services.CrudServices.Implementations
+namespace FinanceApp.Core.Services.CrudServices.CrudDefault.Implementations
 {
     public class CategoryService : CrudServiceBase<Category, CategoryDto, CreateCategory, UpdateCategory>, ICategoryService
     {
-        public CategoryService(IRepository<Category> repository, IMapper mapper) : base(repository, mapper) {}      
+        public CategoryService(IRepository<Category> repository, IMapper mapper) : base(repository, mapper) { }
     }
 }

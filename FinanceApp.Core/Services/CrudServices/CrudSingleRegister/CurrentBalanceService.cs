@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using FinanceApp.Shared.Dto.CurrentBalance;
 using FluentResults;
-using FinanceApp.EntityFramework;
 using FinanceApp.Shared.Entities.UserTables;
+using FinanceApp.EntityFramework.User;
 
 namespace FinanceApp.Core.Services.CrudServices.CrudSingleRegister
 {

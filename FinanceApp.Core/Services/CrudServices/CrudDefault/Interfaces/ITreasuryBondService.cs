@@ -2,9 +2,9 @@
 using FinanceApp.Shared.Dto.TreasuryBond;
 using FluentResults;
 
-namespace FinanceApp.Core.Services.CrudServices.Interfaces
+namespace FinanceApp.Core.Services.CrudServices.CrudDefault.Interfaces
 {
-    public interface ITreasuryBondService 
+    public interface ITreasuryBondService
     {
         Task<TreasuryBondDto> AddAsync(CreateTreasuryBond input);
         Task<Result> DeleteAsync(int id);

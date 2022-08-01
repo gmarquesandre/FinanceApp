@@ -1,4 +1,4 @@
-﻿using FinanceApp.Core.Services.CrudServices.Base;
+﻿using FinanceApp.Core.Services.CrudServices.CrudDefault.Base;
 using FinanceApp.Shared.Dto.CurrentBalance;
 
 namespace FinanceApp.Core.Services.CrudServices.CrudSingleRegister

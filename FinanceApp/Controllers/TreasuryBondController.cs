@@ -1,4 +1,4 @@
-﻿using FinanceApp.Core.Services.CrudServices.Interfaces;
+﻿using FinanceApp.Core.Services.CrudServices.CrudDefault.Interfaces;
 using FinanceApp.Shared.Dto.TreasuryBond;
 using FinanceApp.Shared.Entities.CommonTables;
 using Microsoft.AspNetCore.Authorization;
