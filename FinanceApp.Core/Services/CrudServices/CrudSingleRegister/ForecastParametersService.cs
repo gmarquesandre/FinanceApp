@@ -1,17 +1,16 @@
 ﻿using AutoMapper;
-using FinanceApp.Core.Services.CrudServices.Interfaces;
 using FinanceApp.Shared.Dto.ForecastParameters;
 using FluentResults;
 using FinanceApp.EntityFramework;
 using FinanceApp.Shared.Entities.UserTables;
 
-namespace FinanceApp.Core.Services.CrudServices.Implementations
+namespace FinanceApp.Core.Services.CrudServices.CrudSingleRegister
 {
     public class ForecastParametersService : IForecastParametersService
     {
         private IRepository<ForecastParameters> _repository;
         private IMapper _mapper;
-        public ForecastParametersService(IMapper mapper, IRepository<ForecastParameters> repository) 
+        public ForecastParametersService(IMapper mapper, IRepository<ForecastParameters> repository)
         {
             _mapper = mapper;
             _repository = repository;
@@ -31,7 +30,7 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
                 await _repository.UpdateAsync(value.Id, model);
             }
             return _mapper.Map<ForecastParametersDto>(model);
-          
+
         }
 
         public async Task<ForecastParametersDto> GetAsync()
@@ -60,7 +59,7 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
                     PercentageCdiFixedInteresIncometSavings = 0.00,
                     PercentageCdiLoan = 3.00,
                     PercentageCdiVariableIncome = 0.00,
-                    SavingsLiquidPercentage = 0.6                    
+                    SavingsLiquidPercentage = 0.6
                 };
             }
         }

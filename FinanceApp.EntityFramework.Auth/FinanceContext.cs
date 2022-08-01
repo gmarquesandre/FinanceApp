@@ -12,22 +12,22 @@ namespace FinanceApp.EntityFramework
         {
             
         } 
-        public DbSet<PrivateFixedIncome> PrivateFixedIncomes { get; set; }
-        public DbSet<TreasuryBond> TreasuryBonds { get; set; }
-        public DbSet<Category> Categories { get; set; }
-        public DbSet<Spending> Spendings { get; set; }
-        public DbSet<Income> Incomes { get; set; }
-        public DbSet<FGTS> FGTS { get; set; }
-        public DbSet<Loan> Loans { get; set; }
-        public DbSet<CurrentBalance> CurrentBalances { get; set; }
-        public DbSet<CreditCard> CreditCards { get; set; }
-        public DbSet<ForecastParameters> ForecastParameters { get; set; }
+        public DbSet<PrivateFixedIncome> PrivateFixedIncomes => Set<PrivateFixedIncome>();
+        public DbSet<TreasuryBond> TreasuryBonds => Set<TreasuryBond>();
+        public DbSet<Category> Categories => Set<Category>();
+        public DbSet<Spending> Spendings => Set<Spending>();
+        public DbSet<Income> Incomes => Set<Income>();
+        public DbSet<FGTS> FGTS => Set<FGTS>();
+        public DbSet<Loan> Loans => Set<Loan>();
+        public DbSet<CurrentBalance> CurrentBalances => Set<CurrentBalance>();
+        public DbSet<CreditCard> CreditCards => Set<CreditCard>();
+        public DbSet<ForecastParameters> ForecastParameters => Set<ForecastParameters>();
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
-            CustomIdentityUser admin = new CustomIdentityUser
+            CustomIdentityUser admin = new()
             {
                 UserName = "admin",
 

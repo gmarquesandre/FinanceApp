@@ -3,7 +3,7 @@ using FinanceApp.Shared.Enum;
 
 namespace FinanceApp.Shared.Entities.CommonTables
 {
-    public class TreasuryBondTitle : StandartTable
+    public class TreasuryBondTitle : Standartdable
     {
         public string Description { get; set; }
         public ETreasuryBond Type { get; set; }

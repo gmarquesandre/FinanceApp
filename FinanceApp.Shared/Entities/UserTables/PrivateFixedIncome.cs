@@ -1,13 +1,13 @@
 ﻿using FinanceApp.Shared.Enum;
-using System.ComponentModel.DataAnnotations;
 using FinanceApp.Shared.Entities.UserTables.Bases;
+using System.ComponentModel.DataAnnotations;
 
 namespace FinanceApp.Shared.Entities.UserTables
 {
     public class PrivateFixedIncome : UserTable
     {
         [Required]
-        public string Name { get; set; }
+        public string Name { get; set; } = String.Empty;
         [Required]
         public ETypePrivateFixedIncome Type { get; set; }
         [Required]
@@ -27,5 +27,20 @@ namespace FinanceApp.Shared.Entities.UserTables
         [Required]
         public bool LiquidityOnExpiration { get; set; }
 
+        public override void CheckInput()
+        {
+            if (InvestmentDate > DateTime.Now.Date)
+            {
+                throw new Exception("A data de investimento não pode ser maior do que hoje");
+            }
+            else if (InvestmentDate >= ExpirationDate)
+            {
+                throw new Exception("A data de vencimento deve ser maior do que a de investimento ");
+            }
+            else if (ExpirationDate <= DateTime.Now.Date)
+            {
+                throw new Exception("A data de vencimento deve ser maior do que hoje");
+            }
+        }
     }
 }

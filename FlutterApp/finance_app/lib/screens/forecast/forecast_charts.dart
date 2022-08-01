@@ -1,3 +1,4 @@
+import 'package:finance_app/components/app_bar.dart';
 import 'package:finance_app/components/padding.dart';
 import 'package:finance_app/components/progress.dart';
 import 'package:finance_app/clients/forecast_client/forecast_client.dart';
@@ -23,9 +24,7 @@ class _ForecastChartsState extends State<ForecastCharts> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Simulação'),
-      ),
+      appBar: appBarLoggedInDefault("Simulação"),
       body: defaultBodyPadding(
         SingleChildScrollView(
           child: FutureBuilder(

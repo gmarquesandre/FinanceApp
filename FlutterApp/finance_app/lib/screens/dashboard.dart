@@ -1,3 +1,4 @@
+import 'package:finance_app/components/app_bar.dart';
 import 'package:finance_app/global_variables.dart';
 import 'package:finance_app/route_generator.dart';
 import 'package:finance_app/screens/currentBalance_screens/current_value_form.dart';
@@ -67,17 +68,7 @@ class _HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Inicio"),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.exit_to_app),
-            onPressed: () {
-              navigator.currentState?.pushReplacementNamed(RouteName.login);
-            },
-          ),
-        ],
-      ),
+      appBar: appBarLoggedInDefault("Inicio"),
       body: SingleChildScrollView(
         child: Column(),
       ),

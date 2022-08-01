@@ -3,18 +3,18 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FinanceApp.Shared.Entities.CommonTables
 {
-    public class AssetEarning : StandartTable
+    public class AssetEarning : Standartdable
     {
         [Required]
-        public Asset Asset { get; set; }
-        public string Type { get; set; }
+        public Asset Asset { get; set; } = new Asset();
+        public string Type { get; set; } = string.Empty;
         public DateTime DeclarationDate { get; set; }
         public DateTime ExDate { get; set; }
         public double CashAmount { get; set; }
-        public string Period { get; set; }
+        public string Period { get; set; } = string.Empty;
         public DateTime PaymentDate { get; set; }
-        public string Notes { get; set; }
+        public string Notes { get; set; } = string.Empty;
         //Hash para evitar adicionar o mesmo evento duas vezes
-        public string Hash { get; set; }
+        public string Hash { get; set; } = string.Empty;
     }
 }

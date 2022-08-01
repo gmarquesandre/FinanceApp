@@ -1,8 +1,6 @@
-﻿using FinanceApp.Core.Services.CrudServices.Interfaces;
+﻿using FinanceApp.Core.Services.CrudServices.CrudSingleRegister;
 using FinanceApp.Shared.Dto.CurrentBalance;
-using FinanceApp.Shared.Entities.CommonTables;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinanceApp.Api.Controllers
@@ -12,21 +10,18 @@ namespace FinanceApp.Api.Controllers
     public class CurrentBalanceController : ControllerBase
     {
         private readonly ICurrentBalanceService _service;
-        private readonly UserManager<CustomIdentityUser> _userManager;
-
-        public CurrentBalanceController(ICurrentBalanceService service, UserManager<CustomIdentityUser> userManager)
+        
+        public CurrentBalanceController(ICurrentBalanceService service)
         {
-            _userManager = userManager;
             _service = service;
         }
 
         [HttpGet("Get")]
         [Authorize]
-        public async Task<IActionResult> GetInvestmentsAsync()
+        public async Task<IActionResult> GetAsync()
         {
             try
-            {
-                
+            {                
                 var resultado = await _service.GetAsync();
 
                 return Ok(resultado);
@@ -55,7 +50,7 @@ namespace FinanceApp.Api.Controllers
 
         [HttpDelete("Delete")]
         [Authorize]
-        public async Task<IActionResult> DeleteInvestment()
+        public async Task<IActionResult> DeleteAsync()
         {
             try
             {

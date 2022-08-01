@@ -2,7 +2,7 @@
 
 namespace FinanceApp.Shared.Entities.CommonTables
 {
-    public class WorkingDaysByYear : StandartTable
+    public class WorkingDaysByYear : Standartdable
     {
         public int Year { get; set; }
         public int WorkingDays { get; set; }

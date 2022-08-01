@@ -12,17 +12,15 @@ namespace FinanceApp.Api.Controllers
     public class CategoryController : ControllerBase
     {
         private readonly ICategoryService _service;
-        private readonly UserManager<CustomIdentityUser> _userManager;
 
-        public CategoryController(ICategoryService service, UserManager<CustomIdentityUser> userManager)
+        public CategoryController(ICategoryService service)
         {
-            _userManager = userManager;
             _service = service;
         }
 
         [HttpGet("Get")]
         [Authorize]
-        public async Task<IActionResult> GetInvestmentsAsync()
+        public async Task<IActionResult> GetAsync()
         {
             try
             {
@@ -39,7 +37,7 @@ namespace FinanceApp.Api.Controllers
 
         [HttpGet("Get/{id:int}")]
         [Authorize]
-        public async Task<IActionResult> GetInvestmentsAsync(int id)
+        public async Task<IActionResult> GetAsync(int id)
         {
             try
             {
@@ -55,7 +53,7 @@ namespace FinanceApp.Api.Controllers
 
         [HttpPost("Create")]
         [Authorize]
-        public async Task<IActionResult> AddInvestment(CreateCategory input)
+        public async Task<IActionResult> AddAsync(CreateCategory input)
         {
             try
             {                
@@ -71,7 +69,7 @@ namespace FinanceApp.Api.Controllers
 
         [HttpDelete("Delete")]
         [Authorize]
-        public async Task<IActionResult> DeleteInvestment(int id)
+        public async Task<IActionResult> DeleteAsync(int id)
         {
             try
             {                
@@ -88,7 +86,7 @@ namespace FinanceApp.Api.Controllers
 
         [HttpPut("Update")]
         [Authorize]
-        public async Task<IActionResult> UpdateInvestment(UpdateCategory input)
+        public async Task<IActionResult> UpdateAsync(UpdateCategory input)
         {
             try
             {                

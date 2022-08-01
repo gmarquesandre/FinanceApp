@@ -12,11 +12,11 @@ namespace FinanceApp.Api.Controllers
     public class IncomeController : ControllerBase
     {
         private readonly IIncomeService _service;
-        private readonly UserManager<CustomIdentityUser> _userManager;
+        
 
-        public IncomeController(IIncomeService service, UserManager<CustomIdentityUser> userManager)
+        public IncomeController(IIncomeService service)
         {
-            _userManager = userManager;
+
             _service = service;
         }
 

@@ -1,3 +1,4 @@
+import 'package:finance_app/components/app_bar.dart';
 import 'package:finance_app/components/padding.dart';
 import 'package:finance_app/components/progress.dart';
 import 'package:finance_app/clients/crud_clients/forecast_parameters_client.dart';
@@ -81,9 +82,7 @@ class _ForecastParametersState extends State<ForecastParameters> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Parametros de Simulação'),
-      ),
+      appBar: appBarLoggedInDefault("Parametros de Simulação"),
       body: defaultBodyPadding(
         isLoading
             ? const Progress()

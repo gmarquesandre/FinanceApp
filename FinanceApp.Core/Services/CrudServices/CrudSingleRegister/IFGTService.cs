@@ -2,9 +2,9 @@
 using FinanceApp.Shared.Dto.FGTS;
 using FluentResults;
 
-namespace FinanceApp.Core.Services.CrudServices.Interfaces
+namespace FinanceApp.Core.Services.CrudServices.CrudSingleRegister
 {
-    public interface IFGTSService 
+    public interface IFGTSService
     {
         Task<FGTSDto> AddOrUpdateAsync(CreateOrUpdateFGTS input);
         Task<Result> DeleteAsync();

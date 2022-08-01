@@ -12,17 +12,17 @@ namespace FinanceApp.Api.Controllers
     public class SpendingController : ControllerBase
     {
         private readonly ISpendingService _service;
-        private readonly UserManager<CustomIdentityUser> _userManager;
+        
 
-        public SpendingController(ISpendingService service, UserManager<CustomIdentityUser> userManager)
+        public SpendingController(ISpendingService service)
         {
-            _userManager = userManager;
+
             _service = service;
         }
 
         [HttpGet("Get")]
         [Authorize]
-        public async Task<IActionResult> GetInvestmentsAsync()
+        public async Task<IActionResult> GetAsync()
         {
             try
             {
@@ -40,7 +40,7 @@ namespace FinanceApp.Api.Controllers
 
         [HttpGet("Get/{id:int}")]
         [Authorize]
-        public async Task<IActionResult> GetInvestmentsAsync(int id)
+        public async Task<IActionResult> GetAsync(int id)
         {
             try
             {
@@ -57,7 +57,7 @@ namespace FinanceApp.Api.Controllers
 
         [HttpPost("Create")]
         [Authorize]
-        public async Task<IActionResult> AddInvestment(CreateSpending input)
+        public async Task<IActionResult> AddAsync(CreateSpending input)
         {
             try
             {
@@ -73,7 +73,7 @@ namespace FinanceApp.Api.Controllers
 
         [HttpDelete("Delete")]
         [Authorize]
-        public async Task<IActionResult> DeleteInvestment(int id)
+        public async Task<IActionResult> DeleteAsync(int id)
         {
             try
             {
@@ -91,7 +91,7 @@ namespace FinanceApp.Api.Controllers
 
         [HttpPut("Update")]
         [Authorize]
-        public async Task<IActionResult> UpdateInvestment(UpdateSpending input)
+        public async Task<IActionResult> UpdateAsync(UpdateSpending input)
         {
             try
             {

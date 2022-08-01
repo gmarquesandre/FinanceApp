@@ -3,7 +3,7 @@ using FinanceApp.Shared.Enum;
 
 namespace FinanceApp.Shared.Entities.CommonTables
 {
-    public class TreasuryBondValue : StandartTable
+    public class TreasuryBondValue : Standartdable
     {
         public DateTime Date { get; set; }
         public ETreasuryBond Type { get; set; }

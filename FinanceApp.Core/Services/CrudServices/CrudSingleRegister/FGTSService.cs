@@ -1,17 +1,16 @@
 ﻿using AutoMapper;
-using FinanceApp.Core.Services.CrudServices.Interfaces;
 using FinanceApp.Shared.Dto.FGTS;
 using FluentResults;
 using FinanceApp.EntityFramework;
 using FinanceApp.Shared.Entities.UserTables;
 
-namespace FinanceApp.Core.Services.CrudServices.Implementations
+namespace FinanceApp.Core.Services.CrudServices.CrudSingleRegister
 {
     public class FGTSService : IFGTSService
     {
         private IRepository<FGTS> _repository;
         private IMapper _mapper;
-        public FGTSService(IRepository<FGTS> repository, IMapper mapper) 
+        public FGTSService(IRepository<FGTS> repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;
@@ -46,7 +45,7 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
                 {
                     AnniversaryWithdraw = false,
                     CurrentBalance = 0.00,
-                    MonthlyGrossIncome = 0.00                     
+                    MonthlyGrossIncome = 0.00
                 };
             }
         }
@@ -55,7 +54,7 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
         public async Task<Result> DeleteAsync()
         {
             var investment = await _repository.FirstOrDefaultAsync();
-            
+
             _repository.Remove(investment);
             return Result.Ok().WithSuccess("Investimento deletado");
         }

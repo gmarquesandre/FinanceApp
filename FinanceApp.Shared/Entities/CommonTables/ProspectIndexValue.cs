@@ -3,7 +3,7 @@ using FinanceApp.Shared.Enum;
 
 namespace FinanceApp.Shared.Entities.CommonTables
 {
-    public class ProspectIndexValue : StandartTable
+    public class ProspectIndexValue : Standartdable
     {
         public EIndex Index { get; set; }
         public EIndexRecurrence IndexRecurrence { get; set; }

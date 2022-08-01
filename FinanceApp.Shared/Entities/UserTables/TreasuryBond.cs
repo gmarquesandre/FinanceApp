@@ -12,5 +12,8 @@ namespace FinanceApp.Shared.Entities.UserTables
         public EOperation Operation { get; set; }
         public double Quantity { get; set; }
 
+        public override void CheckInput()
+        {
+        }
     }
 }

@@ -9,13 +9,13 @@ namespace FinanceApp.EntityFramework.Data
         {
 
         }
-    
-        public DbSet<IndexValue> IndexValues { get; set; }
-        public DbSet<TreasuryBondValue> TreasuryBondValues { get; set; }
-        public DbSet<ProspectIndexValue> ProspectIndexValues { get; set; }
-        public DbSet<Holiday> Holidays { get; set; }
-        public DbSet<WorkingDaysByYear> WorkingDaysByYear { get; set; }
-        public DbSet<Asset> Assets { get; set; }
+
+        public DbSet<IndexValue> IndexValues => Set<IndexValue>();
+        public DbSet<TreasuryBondValue> TreasuryBondValues => Set<TreasuryBondValue>();
+        public DbSet<ProspectIndexValue> ProspectIndexValues => Set<ProspectIndexValue>();
+        public DbSet<Holiday> Holidays => Set<Holiday>();
+        public DbSet<WorkingDaysByYear> WorkingDaysByYear => Set<WorkingDaysByYear>();
+        public DbSet<Asset> Assets => Set<Asset>();
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

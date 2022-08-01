@@ -7,6 +7,11 @@ namespace FinanceApp.Shared.Entities.UserTables
         public double Value { get; set; }
         public double? PercentageCdi { get; set; }
         public bool UpdateValueWithCdiIndex { get; set; }
+
+        public override void CheckInput()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 

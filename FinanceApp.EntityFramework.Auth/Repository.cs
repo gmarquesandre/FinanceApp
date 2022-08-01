@@ -44,6 +44,9 @@ namespace FinanceApp.EntityFramework
         {
             var item = (await _context.Set<TEntity>().AsNoTracking().Where(a => a.UserId == _httpContextAccessor.HttpContext.User.GetUserId()).FirstOrDefaultAsync());
 
+            if (item == null)
+                throw new Exception();
+
             return item;
         }
 
@@ -64,7 +67,8 @@ namespace FinanceApp.EntityFramework
         public async Task<TEntity> GetByIdAsync(int id)
         {
             var item = await _context.Set<TEntity>().AsNoTracking().Where(a => a.UserId == _httpContextAccessor.HttpContext.User.GetUserId()).FirstOrDefaultAsync(a => a.Id == id);
-
+            if (item == null)
+                throw new Exception();
             return item;
         }
 

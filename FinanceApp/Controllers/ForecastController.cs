@@ -17,7 +17,7 @@ namespace FinanceApp.Api.Controllers
 
         [HttpGet("Get")]
         [Authorize]
-        public async Task<IActionResult> GetInvestmentsAsync([FromQuery]DateTime currentDate)
+        public async Task<IActionResult> GetAsync([FromQuery]DateTime currentDate)
         {
             try
             {                

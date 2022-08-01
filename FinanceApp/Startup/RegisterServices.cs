@@ -1,4 +1,5 @@
 ﻿using FinanceApp.Api.Controllers;
+using FinanceApp.Core.Services.CrudServices.CrudSingleRegister;
 using FinanceApp.Core.Services.CrudServices.Implementations;
 using FinanceApp.Core.Services.CrudServices.Interfaces;
 using FinanceApp.Core.Services.ForecastServices;

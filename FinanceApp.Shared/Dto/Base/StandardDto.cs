@@ -1,7 +1,8 @@
 ﻿namespace FinanceApp.Shared.Dto.Base
 {
-    public class StandardDto
+    public abstract class StandardDto
     {
         public int Id { get; set; }
+        
     }
 }

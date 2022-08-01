@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:finance_app/components/app_bar.dart';
 import 'package:finance_app/components/padding.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:finance_app/common_lists.dart';
@@ -24,10 +25,8 @@ class LoanFormState extends State<LoanForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-            "${widget.loan == null ? "Adicionar" : "Atualizar"} Empréstimo"),
-      ),
+      appBar: appBarLoggedInDefault(
+          "${widget.loan == null ? "Adicionar" : "Atualizar"} Empréstimo"),
       body: Form(
         key: _formKey,
         child: defaultBodyPadding(

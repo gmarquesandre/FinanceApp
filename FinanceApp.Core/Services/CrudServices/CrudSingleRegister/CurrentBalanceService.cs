@@ -1,17 +1,16 @@
 ﻿using AutoMapper;
-using FinanceApp.Core.Services.CrudServices.Interfaces;
 using FinanceApp.Shared.Dto.CurrentBalance;
 using FluentResults;
 using FinanceApp.EntityFramework;
 using FinanceApp.Shared.Entities.UserTables;
 
-namespace FinanceApp.Core.Services.CrudServices.Implementations
+namespace FinanceApp.Core.Services.CrudServices.CrudSingleRegister
 {
     public class CurrentBalanceService : ICurrentBalanceService
     {
         private IRepository<CurrentBalance> _repository;
         private IMapper _mapper;
-        public CurrentBalanceService(IMapper mapper, IRepository<CurrentBalance> repository) 
+        public CurrentBalanceService(IMapper mapper, IRepository<CurrentBalance> repository)
         {
             _mapper = mapper;
             _repository = repository;
@@ -30,7 +29,7 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
                 await _repository.UpdateAsync(value.Id, model);
             }
             return _mapper.Map<CurrentBalanceDto>(model);
-            
+
         }
 
         public async Task<CurrentBalanceDto> GetAsync()
@@ -47,7 +46,7 @@ namespace FinanceApp.Core.Services.CrudServices.Implementations
                 {
                     Id = 0,
                     PercentageCdi = null,
-                    UpdateValueWithCdiIndex = false,                    
+                    UpdateValueWithCdiIndex = false,
                     Value = 0.00,
                     UpdateDateTime = new DateTime(1900, 1, 1),
 

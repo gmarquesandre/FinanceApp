@@ -2,7 +2,7 @@
 
 namespace FinanceApp.Shared.Entities.UserTables.Bases
 {
-    public class StandartTable
+    public class Standartdable
     {
 
         [Key]

@@ -1,6 +1,6 @@
 ﻿namespace FinanceApp.Shared.Dto.Base
 {
-    public class CreateDto
+    public abstract class CreateDto
     {
         public DateTime CreationDateTime => DateTime.Now;
     }

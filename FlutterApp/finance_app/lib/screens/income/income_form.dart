@@ -1,3 +1,4 @@
+import 'package:finance_app/components/app_bar.dart';
 import 'package:finance_app/components/padding.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:finance_app/common_lists.dart';
@@ -43,10 +44,8 @@ class IncomeFormState extends State<IncomeForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title:
-            Text("${widget.income == null ? "Adicionar" : "Atualizar"} Renda"),
-      ),
+      appBar: appBarLoggedInDefault(
+          "${widget.income == null ? "Adicionar" : "Atualizar"} Renda"),
       body: Form(
         key: _formKey,
         child: defaultBodyPadding(

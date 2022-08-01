@@ -7,10 +7,10 @@ namespace FinanceApp.Shared.Entities.CommonTables
     {
         [Key]
         public int Id { get; set; }
-        public string AssetCodeISIN { get; set; }
-        public string AssetCode { get; set; }
+        public string AssetCodeISIN { get; set; } = string.Empty;
+        public string AssetCode { get; set; } = string.Empty;
         public EAssetType TypeAsset { get; set; }
-        public string CompanyName { get; set; }
+        public string CompanyName { get; set; } = string.Empty;
         public double UnitPrice { get; set; }
         public DateTime Date { get; set; }
     }

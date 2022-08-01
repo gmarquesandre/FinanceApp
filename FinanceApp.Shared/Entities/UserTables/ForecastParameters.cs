@@ -10,6 +10,10 @@ namespace FinanceApp.Shared.Entities.UserTables
         // Quantos % da entrada de valores no patrimonio deve ser liquido?
         public double SavingsLiquidPercentage { get; set; }
         public int MonthsSavingWarning { get; set; }
+
+        public override void CheckInput()
+        {
+        }
     }
 }
 

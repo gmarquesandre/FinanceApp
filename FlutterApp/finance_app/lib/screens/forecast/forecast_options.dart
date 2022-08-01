@@ -1,3 +1,4 @@
+import 'package:finance_app/components/app_bar.dart';
 import 'package:finance_app/screens/forecast/forecast_charts.dart';
 import 'package:finance_app/screens/forecast/forecast_parameters.dart';
 import 'package:flutter/material.dart';
@@ -8,9 +9,7 @@ class ForecastOptions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Simulação"),
-      ),
+      appBar: appBarLoggedInDefault("Simulação"),
       body: SingleChildScrollView(
         child: Column(
           children: [

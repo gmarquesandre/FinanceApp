@@ -12,17 +12,17 @@ namespace FinanceApp.Api.Controllers
     public class PrivateFixedIncomeController : ControllerBase
     {
         private readonly IPrivateFixedIncomeService _service;
-        private readonly UserManager<CustomIdentityUser> _userManager;
+        
 
-        public PrivateFixedIncomeController(IPrivateFixedIncomeService service, UserManager<CustomIdentityUser> userManager)
+        public PrivateFixedIncomeController(IPrivateFixedIncomeService service)
         {
-            _userManager = userManager;
+
             _service = service;
         }
 
         [HttpGet("Get")]
         [Authorize]
-        public async Task<IActionResult> GetInvestmentsAsync()
+        public async Task<IActionResult> GetAsync()
         {
             try
             {
@@ -40,7 +40,7 @@ namespace FinanceApp.Api.Controllers
 
         [HttpGet("Get/{id:int}")]
         [Authorize]
-        public async Task<IActionResult> GetInvestmentsAsync(int id)
+        public async Task<IActionResult> GetAsync(int id)
         {
             try
             {
@@ -57,7 +57,7 @@ namespace FinanceApp.Api.Controllers
 
         [HttpPost("Create")]
         [Authorize]
-        public async Task<IActionResult> AddInvestment(CreatePrivateFixedIncome input)
+        public async Task<IActionResult> AddAsync(CreatePrivateFixedIncome input)
         {
             try
             {
@@ -74,7 +74,7 @@ namespace FinanceApp.Api.Controllers
 
         [HttpDelete("Delete")]
         [Authorize]
-        public async Task<IActionResult> DeleteInvestment(int id)
+        public async Task<IActionResult> DeleteAsync(int id)
         {
             try
             {
@@ -92,7 +92,7 @@ namespace FinanceApp.Api.Controllers
 
         [HttpPut("Update")]
         [Authorize]
-        public async Task<IActionResult> UpdateInvestment(UpdatePrivateFixedIncome input)
+        public async Task<IActionResult> UpdateAsync(UpdatePrivateFixedIncome input)
         {
             try
             {

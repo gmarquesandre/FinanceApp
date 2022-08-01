@@ -1,8 +1,6 @@
-﻿using FinanceApp.Core.Services.CrudServices.Interfaces;
+﻿using FinanceApp.Core.Services.CrudServices.CrudSingleRegister;
 using FinanceApp.Shared.Dto.FGTS;
-using FinanceApp.Shared.Entities.CommonTables;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinanceApp.Api.Controllers
@@ -12,17 +10,15 @@ namespace FinanceApp.Api.Controllers
     public class FGTSController : ControllerBase
     {
         private readonly IFGTSService _service;
-        private readonly UserManager<CustomIdentityUser> _userManager;
 
-        public FGTSController(IFGTSService service, UserManager<CustomIdentityUser> userManager)
+        public FGTSController(IFGTSService service)
         {
-            _userManager = userManager;
             _service = service;
         }
 
         [HttpGet("Get")]
         [Authorize]
-        public async Task<IActionResult> GetInvestmentsAsync()
+        public async Task<IActionResult> GetAsync()
         {
             try
             {
@@ -55,7 +51,7 @@ namespace FinanceApp.Api.Controllers
 
         [HttpDelete("Delete")]
         [Authorize]
-        public async Task<IActionResult> DeleteInvestment()
+        public async Task<IActionResult> DeleteAsync()
         {
             try
             {
