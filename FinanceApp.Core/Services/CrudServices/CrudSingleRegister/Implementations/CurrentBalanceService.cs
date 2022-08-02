@@ -4,7 +4,7 @@ using FluentResults;
 using FinanceApp.Shared.Entities.UserTables;
 using FinanceApp.EntityFramework.User;
 using FinanceApp.Core.Services.CrudServices.CrudSingleRegister.Interfaces;
-using FinanceApp.Core.Services.CrudServices.CrudDefault.Base;
+using FinanceApp.Core.Services.CrudServices.CrudSingleRegister.Base;
 
 namespace FinanceApp.Core.Services.CrudServices.CrudSingleRegister.Implementations
 {

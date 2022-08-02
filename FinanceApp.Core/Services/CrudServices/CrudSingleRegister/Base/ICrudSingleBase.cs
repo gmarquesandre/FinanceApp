@@ -1,7 +1,6 @@
-﻿using FinanceApp.Core.Services.CrudServices.CrudSingleRegister.Base;
-using FinanceApp.Shared.Dto.Base;
+﻿using FinanceApp.Shared.Dto.Base;
 
-namespace FinanceApp.Core.Services.CrudServices.CrudDefault.Base.Interfaces
+namespace FinanceApp.Core.Services.CrudServices.CrudSingleRegister.Base
 {
     public interface ICrudSingleBase<TDto, TCreateOrUpdate> :
         ICommandSingle<TDto, TCreateOrUpdate>,

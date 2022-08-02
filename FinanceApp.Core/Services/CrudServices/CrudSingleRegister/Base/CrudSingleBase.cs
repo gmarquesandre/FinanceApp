@@ -1,13 +1,12 @@
 ﻿using AutoMapper;
-using FinanceApp.Core.Services.CrudServices.CrudDefault.Base.Interfaces;
 using FinanceApp.EntityFramework.User;
 using FinanceApp.Shared.Dto.Base;
 using FinanceApp.Shared.Entities.UserTables.Bases;
 using FluentResults;
 
-namespace FinanceApp.Core.Services.CrudServices.CrudDefault.Base
+namespace FinanceApp.Core.Services.CrudServices.CrudSingleRegister.Base
 {
-    public abstract class CrudSingleBase<T, TDto, TCreateOrUpdate> : ICrudSingleBase<TDto,TCreateOrUpdate>
+    public abstract class CrudSingleBase<T, TDto, TCreateOrUpdate> : ICrudSingleBase<TDto, TCreateOrUpdate>
         where T : UserTable
         where TDto : StandardDto
         where TCreateOrUpdate : CreateOrUpdateDto
@@ -20,7 +19,7 @@ namespace FinanceApp.Core.Services.CrudServices.CrudDefault.Base
             _repository = repository;
             _mapper = mapper;
         }
-        public abstract Task<TDto> GetAsync();        
+        public abstract Task<TDto> GetAsync();
 
         public async Task<TDto> AddOrUpdateAsync(TCreateOrUpdate input)
         {
@@ -40,7 +39,7 @@ namespace FinanceApp.Core.Services.CrudServices.CrudDefault.Base
             return _mapper.Map<TDto>(model);
 
         }
-    
+
         public async Task<Result> DeleteAsync()
         {
             var investment = await _repository.FirstOrDefaultAsync();

@@ -3,8 +3,7 @@ using FinanceApp.Shared.Dto.PrivateFixedInvestment;
 
 namespace FinanceApp.Core.Services.CrudServices.CrudDefault.Interfaces
 {
-    public interface IPrivateFixedIncomeService : ICommand<PrivateFixedIncomeDto, CreatePrivateFixedIncome, UpdatePrivateFixedIncome>,
-        IQuery<PrivateFixedIncomeDto>
+    public interface IPrivateFixedIncomeService : ICrudBase<PrivateFixedIncomeDto, CreatePrivateFixedIncome, UpdatePrivateFixedIncome>
     {
     }
 }

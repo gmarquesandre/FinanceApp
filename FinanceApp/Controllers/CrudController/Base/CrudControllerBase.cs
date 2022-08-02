@@ -1,24 +1,25 @@
-﻿using FinanceApp.Core.Services.CrudServices.CrudDefault.Interfaces;
-using FinanceApp.Shared.Dto.TreasuryBond;
-using FinanceApp.Shared.Entities.CommonTables;
+﻿using FinanceApp.Core.Services.CrudServices.CrudDefault.Base.Interfaces;
+using FinanceApp.Shared.Dto.Base;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FinanceApp.Api.Controllers
+namespace FinanceApp.Api.Controllers.CrudController.Base
 {
-    [Route("[controller]")]
-    [ApiController]
-    public class TreasuryBondController : ControllerBase
+    public class CrudControllerBase<TService, TDto, TCreate, TUpdate> : ControllerBase, ICrudController<TCreate, TUpdate>
+        where TService : ICrudBase<TDto, TCreate, TUpdate>
+        where TDto : StandardDto
+        where TCreate : CreateDto
+        where TUpdate : UpdateDto
+        //ICrudBase<TDto, TCreate, TUpdate>
     {
-        private readonly ITreasuryBondService _service;
-        
+        public TService _service { get; set; }
 
-        public TreasuryBondController(ITreasuryBondService service)
+        public CrudControllerBase(TService service)
         {
-
             _service = service;
         }
+
+
 
         [HttpGet("Get")]
         [Authorize]
@@ -26,7 +27,6 @@ namespace FinanceApp.Api.Controllers
         {
             try
             {
-                
                 var resultado = await _service.GetAsync();
 
                 return Ok(resultado);
@@ -44,8 +44,8 @@ namespace FinanceApp.Api.Controllers
         {
             try
             {
-                
-                var resultado = await _service.GetAsync( id);
+
+                var resultado = await _service.GetAsync(id);
 
                 return Ok(resultado);
             }
@@ -57,11 +57,11 @@ namespace FinanceApp.Api.Controllers
 
         [HttpPost("Create")]
         [Authorize]
-        public async Task<IActionResult> AddAsync(CreateTreasuryBond input)
+        public async Task<IActionResult> AddAsync(TCreate input)
         {
             try
             {
-                
+
                 var resultado = await _service.AddAsync(input);
                 return Ok(resultado);
             }
@@ -77,7 +77,7 @@ namespace FinanceApp.Api.Controllers
         {
             try
             {
-                
+
                 var resultado = await _service.DeleteAsync(id);
 
                 return Ok(resultado);
@@ -91,11 +91,11 @@ namespace FinanceApp.Api.Controllers
 
         [HttpPut("Update")]
         [Authorize]
-        public async Task<IActionResult> UpdateAsync(UpdateTreasuryBond input)
+        public async Task<IActionResult> UpdateAsync(TUpdate input)
         {
             try
             {
-                
+
                 var resultado = await _service.UpdateAsync(input);
 
                 return Ok(resultado);
@@ -105,5 +105,6 @@ namespace FinanceApp.Api.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
     }
 }

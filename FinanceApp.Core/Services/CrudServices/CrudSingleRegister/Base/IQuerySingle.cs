@@ -1,6 +1,6 @@
 ﻿using FinanceApp.Shared.Dto.Base;
 
-namespace FinanceApp.Core.Services.CrudServices.CrudDefault.Base.Interfaces
+namespace FinanceApp.Core.Services.CrudServices.CrudSingleRegister.Base
 {
     public interface IQuerySingle<TDto>
         where TDto : StandardDto

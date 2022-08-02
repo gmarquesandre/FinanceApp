@@ -3,8 +3,7 @@ using FinanceApp.Shared.Dto.Category;
 
 namespace FinanceApp.Core.Services.CrudServices.CrudDefault.Interfaces
 {
-    public interface ICategoryService: ICommand<CategoryDto, CreateCategory, UpdateCategory>,
-        IQuery<CategoryDto>
+    public interface ICategoryService: ICrudBase<CategoryDto, CreateCategory, UpdateCategory>        
     {
     }
 }

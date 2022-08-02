@@ -1,20 +1,20 @@
-﻿using FinanceApp.Core.Services.CrudServices.CrudSingleRegister.Interfaces;
-using FinanceApp.Shared.Dto.ForecastParameters;
+﻿using FinanceApp.Core.Services.CrudServices.CrudDefault.Base.Interfaces;
+using FinanceApp.Core.Services.CrudServices.CrudSingleRegister.Base;
+using FinanceApp.Shared.Dto.Base;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FinanceApp.Api.Controllers
+namespace FinanceApp.Api.Controllers.CrudController.Base
 {
-    [Route("[controller]")]
-    [ApiController]
-    public class ForecastParametersController : ControllerBase
+    public class CrudSingleControllerBase<TService, TDto, TCreateOrUpdate> : ControllerBase, ICrudSingleController<TCreateOrUpdate>
+        where TService : ICrudSingleBase<TDto, TCreateOrUpdate>
+        where TDto : StandardDto
+        where TCreateOrUpdate: CreateOrUpdateDto
     {
-        private readonly IForecastParametersService _service;
-        
+        public TService _service { get; set; }
 
-        public ForecastParametersController(IForecastParametersService service)
+        public CrudSingleControllerBase(TService service)
         {
-
             _service = service;
         }
 
@@ -24,7 +24,6 @@ namespace FinanceApp.Api.Controllers
         {
             try
             {
-                
                 var resultado = await _service.GetAsync();
 
                 return Ok(resultado);
@@ -37,11 +36,11 @@ namespace FinanceApp.Api.Controllers
 
         [HttpPost("CreateOrUpdate")]
         [Authorize]
-        public async Task<IActionResult> CreateOrUpdate(CreateOrUpdateForecastParameters input)
+        public async Task<IActionResult> CreateOrUpdateAsync(TCreateOrUpdate input)
         {
             try
             {
-                
+
                 var resultado = await _service.AddOrUpdateAsync(input);
                 return Created("", resultado);
             }
@@ -57,7 +56,7 @@ namespace FinanceApp.Api.Controllers
         {
             try
             {
-                
+
                 var resultado = await _service.DeleteAsync();
 
                 return Ok(resultado);
@@ -67,6 +66,5 @@ namespace FinanceApp.Api.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
     }
 }
