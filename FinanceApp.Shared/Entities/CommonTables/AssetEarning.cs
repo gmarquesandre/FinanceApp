@@ -6,7 +6,7 @@ namespace FinanceApp.Shared.Entities.CommonTables
     public class AssetEarning : Standartdable
     {
         [Required]
-        public Asset Asset { get; set; } = new Asset();
+        public Asset Asset { get; set; }
         public string Type { get; set; } = string.Empty;
         public DateTime DeclarationDate { get; set; }
         public DateTime ExDate { get; set; }

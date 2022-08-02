@@ -52,7 +52,8 @@ namespace FinanceApp.EntityFramework.User
 
         public async Task<List<TEntity>> GetAllListAsync()
         {
-            var items = await _context.Set<TEntity>().AsNoTracking().Where(a => a.UserId == _httpContextAccessor.HttpContext.User.GetUserId()).ToListAsync();
+            int userId = _httpContextAccessor.HttpContext.User.GetUserId();
+            var items = await _context.Set<TEntity>().Where(a => a.UserId == userId).AsNoTracking().ToListAsync();
 
             return items;
         }

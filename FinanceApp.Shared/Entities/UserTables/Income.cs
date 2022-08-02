@@ -18,11 +18,8 @@ namespace FinanceApp.Shared.Entities.UserTables
 
         public override void CheckInput()
         {
-            if (EndDate == null && !IsEndless && (TimesRecurrence == null || TimesRecurrence == 0))
+            if (Recurrence != ERecurrence.Once && EndDate == null && !IsEndless && (TimesRecurrence == null || TimesRecurrence == 0))
                 throw new Exception("A quantidade de repetições deve ser maior que zero para o tipo de recorrência selecionado");
-
-            else if (Recurrence != ERecurrence.Once && EndDate == null)
-                throw new Exception("A data final deve ser preenchida");
 
             else if (Amount <= 0.00)
                 throw new Exception("O valor deve ser maior do que zero");
