@@ -10,7 +10,7 @@ using FinanceApp.Core.Services.CrudServices.CrudDefault.Interfaces;
 
 namespace FinanceApp.Core.Services.CrudServices.CrudDefault.Implementations
 {
-    public class LoanService : CrudServiceBase<Loan, LoanDto, CreateLoan, UpdateLoan>, ILoanService
+    public class LoanService : CrudBase<Loan, LoanDto, CreateLoan, UpdateLoan>, ILoanService
     {
         public ILoanForecast _forecast { get; set; }
         public LoanService(IRepository<Loan> repository, IMapper mapper, ILoanForecast forecast) : base(repository, mapper)

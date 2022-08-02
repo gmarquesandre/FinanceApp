@@ -3,37 +3,21 @@ using FinanceApp.Shared.Dto.ForecastParameters;
 using FluentResults;
 using FinanceApp.Shared.Entities.UserTables;
 using FinanceApp.EntityFramework.User;
+using FinanceApp.Core.Services.CrudServices.CrudSingleRegister.Interfaces;
+using FinanceApp.Core.Services.CrudServices.CrudDefault.Base;
+using FinanceApp.Shared.Dto.FGTS;
+using FinanceApp.Core.Services.CrudServices.CrudDefault.Base.Interfaces;
 
-namespace FinanceApp.Core.Services.CrudServices.CrudSingleRegister
+namespace FinanceApp.Core.Services.CrudServices.CrudSingleRegister.Implementations
 {
-    public class ForecastParametersService : IForecastParametersService
+    public class ForecastParametersService : CrudSingleBase<ForecastParameters, ForecastParametersDto, CreateOrUpdateForecastParameters> , IForecastParametersService
     {
-        private IRepository<ForecastParameters> _repository;
-        private IMapper _mapper;
-        public ForecastParametersService(IMapper mapper, IRepository<ForecastParameters> repository)
+        public ForecastParametersService(IMapper mapper, IRepository<ForecastParameters> repository) : base(repository, mapper)
         {
-            _mapper = mapper;
-            _repository = repository;
         }
 
-        public async Task<ForecastParametersDto> AddOrUpdateAsync(CreateOrUpdateForecastParameters input)
-        {
-            var value = await _repository.FirstOrDefaultAsync();
-            ForecastParameters model = _mapper.Map<ForecastParameters>(input);
 
-            if (value == null)
-            {
-                await _repository.InsertAsync(model);
-            }
-            else
-            {
-                await _repository.UpdateAsync(value.Id, model);
-            }
-            return _mapper.Map<ForecastParametersDto>(model);
-
-        }
-
-        public async Task<ForecastParametersDto> GetAsync()
+        public override async Task<ForecastParametersDto> GetAsync()
         {
 
             var value = await _repository.FirstOrDefaultAsync();
@@ -62,18 +46,6 @@ namespace FinanceApp.Core.Services.CrudServices.CrudSingleRegister
                     SavingsLiquidPercentage = 0.6
                 };
             }
-        }
-
-
-        public async Task<Result> DeleteAsync()
-        {
-            var investment = await _repository.FirstOrDefaultAsync();
-
-            if (investment == null)
-                throw new Exception("Não encotrado");
-
-            _repository.Remove(investment);
-            return Result.Ok().WithSuccess("Investimento deletado");
         }
     }
 }

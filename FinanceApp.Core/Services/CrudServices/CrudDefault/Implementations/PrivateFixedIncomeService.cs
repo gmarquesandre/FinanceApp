@@ -7,7 +7,7 @@ using FinanceApp.Core.Services.CrudServices.CrudDefault.Base;
 
 namespace FinanceApp.Core.Services.CrudServices.CrudDefault.Implementations
 {
-    public class PrivateFixedIncomeService : CrudServiceBase<PrivateFixedIncome, PrivateFixedIncomeDto, CreatePrivateFixedIncome, UpdatePrivateFixedIncome>, IPrivateFixedIncomeService
+    public class PrivateFixedIncomeService : CrudBase<PrivateFixedIncome, PrivateFixedIncomeDto, CreatePrivateFixedIncome, UpdatePrivateFixedIncome>, IPrivateFixedIncomeService
     {
         public PrivateFixedIncomeService(IRepository<PrivateFixedIncome> repository, IMapper mapper) : base(repository, mapper) { }
     }

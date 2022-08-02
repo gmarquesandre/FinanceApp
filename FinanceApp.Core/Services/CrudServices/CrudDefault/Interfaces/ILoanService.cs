@@ -4,8 +4,9 @@ using FinanceApp.Shared.Dto.Loan;
 
 namespace FinanceApp.Core.Services.CrudServices.CrudDefault.Interfaces
 {
-    public interface ILoanService : IForecast<LoanDto>
-        
+    public interface ILoanService : ICommand<LoanDto, CreateLoan, UpdateLoan>,
+        IQuery<LoanDto>, IForecast<LoanDto>
+
     {
     }
 }

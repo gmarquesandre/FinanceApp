@@ -1,7 +1,6 @@
-﻿using FinanceApp.Shared.Dto.Loan;
-using FinanceApp.Shared.Entities.CommonTables;
+﻿using FinanceApp.Core.Services.CrudServices.CrudDefault.Interfaces;
+using FinanceApp.Shared.Dto.Loan;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinanceApp.Api.Controllers

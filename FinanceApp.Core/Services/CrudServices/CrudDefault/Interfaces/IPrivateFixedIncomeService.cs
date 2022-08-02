@@ -1,15 +1,10 @@
-﻿using FinanceApp.Shared;
+﻿using FinanceApp.Core.Services.CrudServices.CrudDefault.Base.Interfaces;
 using FinanceApp.Shared.Dto.PrivateFixedInvestment;
-using FluentResults;
 
 namespace FinanceApp.Core.Services.CrudServices.CrudDefault.Interfaces
 {
-    public interface IPrivateFixedIncomeService
+    public interface IPrivateFixedIncomeService : ICommand<PrivateFixedIncomeDto, CreatePrivateFixedIncome, UpdatePrivateFixedIncome>,
+        IQuery<PrivateFixedIncomeDto>
     {
-        Task<PrivateFixedIncomeDto> AddAsync(CreatePrivateFixedIncome input);
-        Task<Result> DeleteAsync(int id);
-        Task<List<PrivateFixedIncomeDto>> GetAsync();
-        Task<PrivateFixedIncomeDto> GetAsync(int id);
-        Task<Result> UpdateAsync(UpdatePrivateFixedIncome input);
     }
 }

@@ -4,7 +4,8 @@ using FinanceApp.Shared.Dto.Income;
 
 namespace FinanceApp.Core.Services.CrudServices.CrudDefault.Interfaces
 {
-    public interface IIncomeService : IForecast<IncomeDto>
+    public interface IIncomeService : ICommand<IncomeDto, CreateIncome, UpdateIncome>,
+        IQuery<IncomeDto>, IForecast<IncomeDto>
     {
     }
 }

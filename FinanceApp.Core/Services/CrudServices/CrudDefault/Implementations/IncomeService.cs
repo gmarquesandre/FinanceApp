@@ -11,7 +11,7 @@ using FinanceApp.Core.Services.CrudServices.CrudDefault.Base;
 namespace FinanceApp.Core.Services.CrudServices.CrudDefault.Implementations
 {
     public class IncomeService :
-        CrudServiceBase<Income, IncomeDto, CreateIncome, UpdateIncome>,         
+        CrudBase<Income, IncomeDto, CreateIncome, UpdateIncome>,         
         IIncomeService
     {
         public IIncomeForecast _forecast { get; set; }

@@ -11,7 +11,7 @@ using FinanceApp.Core.Services.ForecastServices.Interfaces;
 
 namespace FinanceApp.Core.Services.CrudServices.CrudDefault.Implementations
 {
-    public class SpendingService : CrudServiceBase<Spending, SpendingDto, CreateSpending, UpdateSpending>, ISpendingService
+    public class SpendingService : CrudBase<Spending, SpendingDto, CreateSpending, UpdateSpending>, ISpendingService
     {
         private ISpendingForecast _forecast { get; set; }
         public SpendingService(IRepository<Spending> repository, IMapper mapper, ISpendingForecast forecast) : base(repository, mapper) {

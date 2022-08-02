@@ -1,6 +1,6 @@
 ﻿namespace FinanceApp.Shared.Dto.Base
 {
-    public class CreateOrUpdateDto
+    public abstract class CreateOrUpdateDto
     {
         public int Id { get; set; }
         public DateTime UpdateDateTime { get; set; }

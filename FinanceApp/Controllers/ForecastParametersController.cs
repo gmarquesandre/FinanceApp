@@ -1,4 +1,4 @@
-﻿using FinanceApp.Core.Services.CrudServices.CrudSingleRegister;
+﻿using FinanceApp.Core.Services.CrudServices.CrudSingleRegister.Interfaces;
 using FinanceApp.Shared.Dto.ForecastParameters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

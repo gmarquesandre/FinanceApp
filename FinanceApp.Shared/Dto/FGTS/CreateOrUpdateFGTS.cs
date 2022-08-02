@@ -2,7 +2,7 @@
 
 namespace FinanceApp.Shared.Dto.FGTS
 {
-    public class CreateOrUpdateFGTS : UpdateDto
+    public class CreateOrUpdateFGTS : CreateOrUpdateDto
     {
 
         public double CurrentBalance { get; set; }

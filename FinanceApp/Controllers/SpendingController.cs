@@ -1,4 +1,5 @@
-﻿using FinanceApp.Shared.Dto.Spending;
+﻿using FinanceApp.Core.Services.CrudServices.CrudDefault.Interfaces;
+using FinanceApp.Shared.Dto.Spending;
 using FinanceApp.Shared.Entities.CommonTables;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -44,7 +45,7 @@ namespace FinanceApp.Api.Controllers
             try
             {
                 
-                var resultado = await _service.GetAsync( id);
+                var resultado = await _service.GetAsync(id);
 
                 return Ok(resultado);
             }

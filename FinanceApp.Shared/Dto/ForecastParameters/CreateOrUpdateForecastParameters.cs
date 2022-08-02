@@ -2,7 +2,7 @@
 
 namespace FinanceApp.Shared.Dto.ForecastParameters
 {
-    public class CreateOrUpdateForecastParameters : UpdateDto
+    public class CreateOrUpdateForecastParameters : CreateOrUpdateDto
     {
         public double PercentageCdiLoan { get; set; }
         public double PercentageCdiFixedInteresIncometSavings { get; set; }

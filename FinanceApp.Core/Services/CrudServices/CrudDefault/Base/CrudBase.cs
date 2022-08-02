@@ -7,7 +7,7 @@ using FluentResults;
 
 namespace FinanceApp.Core.Services.CrudServices.CrudDefault.Base
 {
-    public abstract class CrudServiceBase<T, TDto, TCreate, TUpdate> : ICrudServiceBase<TDto, TCreate, TUpdate>
+    public abstract class CrudBase<T, TDto, TCreate, TUpdate> : ICrudBase<TDto, TCreate, TUpdate>
         where T : UserTable
         where TDto : StandardDto
         where TCreate : CreateDto
@@ -16,7 +16,7 @@ namespace FinanceApp.Core.Services.CrudServices.CrudDefault.Base
         public IRepository<T> _repository;
         public IMapper _mapper;
 
-        public CrudServiceBase(IRepository<T> repository, IMapper mapper)
+        public CrudBase(IRepository<T> repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;

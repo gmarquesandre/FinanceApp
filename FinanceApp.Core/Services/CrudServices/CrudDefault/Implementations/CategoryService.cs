@@ -7,7 +7,7 @@ using FinanceApp.Core.Services.CrudServices.CrudDefault.Interfaces;
 
 namespace FinanceApp.Core.Services.CrudServices.CrudDefault.Implementations
 {
-    public class CategoryService : CrudServiceBase<Category, CategoryDto, CreateCategory, UpdateCategory>, ICategoryService
+    public class CategoryService : CrudBase<Category, CategoryDto, CreateCategory, UpdateCategory>, ICategoryService
     {
         public CategoryService(IRepository<Category> repository, IMapper mapper) : base(repository, mapper) { }
     }
