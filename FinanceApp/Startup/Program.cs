@@ -118,6 +118,15 @@ app.UseCors(options =>
 app.UseSwagger();
 app.UseSwaggerUI();
 //}
+if (app.Environment.IsDevelopment())
+{
+    Console.WriteLine("");
+}
+
+if (app.Environment.IsStaging())
+{
+    Console.WriteLine("");
+}
 app.UseHangfireDashboard();
 
 app.UseAuthentication();

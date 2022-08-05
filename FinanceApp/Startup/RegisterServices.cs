@@ -1,5 +1,4 @@
-﻿using FinanceApp.Api.Controllers;
-using FinanceApp.Core.Services.CrudServices.CrudDefault.Implementations;
+﻿using FinanceApp.Core.Services.CrudServices.CrudDefault.Implementations;
 using FinanceApp.Core.Services.CrudServices.CrudDefault.Interfaces;
 using FinanceApp.Core.Services.CrudServices.CrudSingleRegister.Implementations;
 using FinanceApp.Core.Services.CrudServices.CrudSingleRegister.Interfaces;
@@ -11,10 +10,6 @@ using FinanceApp.Core.Services.UserServices.Interfaces;
 using FinanceApp.EntityFramework.User;
 using FinanceApp.FinanceData;
 using FinanceApp.FinanceData.Services;
-using FinanceApp.Shared;
-using FinanceApp.Shared.Dto.Income;
-using FinanceApp.Shared.Dto.Loan;
-using FinanceApp.Shared.Dto.Spending;
 
 namespace FinanceApp.Api.Startup
 {

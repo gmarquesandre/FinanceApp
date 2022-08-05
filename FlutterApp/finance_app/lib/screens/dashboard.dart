@@ -1,6 +1,4 @@
 import 'package:finance_app/components/app_bar.dart';
-import 'package:finance_app/global_variables.dart';
-import 'package:finance_app/route_generator.dart';
 import 'package:finance_app/screens/currentBalance_screens/current_value_form.dart';
 import 'package:finance_app/screens/forecast/forecast_options.dart';
 import 'package:finance_app/screens/income/income_list.dart';

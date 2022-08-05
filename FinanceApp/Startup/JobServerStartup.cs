@@ -21,13 +21,13 @@ namespace FinanceApp.Api.Startup
                 .Where(a => a.FullName != null && !a.FullName.Contains("MapperConfiguration"))
                 .ToList();
 
-            var configuration = new MapperConfiguration(cfg =>
-            {
-                profiles.ForEach(profile => cfg.AddProfile((Profile)Activator.CreateInstance(profile)));
-            }
-            );
+            //var configuration = new MapperConfiguration(cfg =>
+            //{
+            //    profiles.ForEach(profile => cfg.AddProfile((Profile)Activator.CreateInstance(profile)));
+            //}
+            //);
 
-            IMapper mapper = new Mapper(configuration);
+            //IMapper mapper = new Mapper(configuration);
 
             //var indexImporter = new IndexImporter(context);            
 

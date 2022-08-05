@@ -28,7 +28,7 @@ namespace FinanceApp.Core.Services.CrudServices.CrudDefault.Base
             entity.CheckInput();
 
             await _repository.UpdateAsync(entity.Id, entity);
-            return Result.Ok().WithSuccess("Investimento atualizado com sucesso");
+            return Result.Ok().WithSuccess("Registro atualizado com sucesso");
         }
 
         public virtual async Task<TDto> GetAsync(int id)
@@ -46,16 +46,17 @@ namespace FinanceApp.Core.Services.CrudServices.CrudDefault.Base
         {
             var investment = await _repository.GetByIdAsync(id);
             _repository.Remove(investment);
-            return Result.Ok().WithSuccess("Investimento deletado");
+            return Result.Ok().WithSuccess("Registro deletado com sucesso");
         }
-        public virtual async Task<TDto> AddAsync(TCreate input)
+        public virtual async Task<Result> AddAsync(TCreate input)
         {
             T entity = _mapper.Map<T>(input);
 
             entity.CheckInput();
 
             await _repository.InsertAsync(entity);
-            return _mapper.Map<TDto>(entity);
+
+            return Result.Ok().WithSuccess("Registro criado com sucesso");
         }
 
     }

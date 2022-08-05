@@ -6,7 +6,7 @@ namespace FinanceApp.EntityFramework.User
     {
         Task<TEntity> InsertAsync(TEntity entity);
         Task<TEntity> UpdateAsync(int id, TEntity entity);
-        Task<TEntity> FirstOrDefaultAsync();
+        Task<TEntity?> FirstOrDefaultAsync();
         void Remove(TEntity entity);
         Task<List<TEntity>> GetAllListAsync();
         IQueryable<TEntity> GetAll();

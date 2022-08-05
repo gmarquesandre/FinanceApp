@@ -40,13 +40,11 @@ namespace FinanceApp.EntityFramework.User
 
         }
 
-        public async Task<TEntity> FirstOrDefaultAsync()
+        public async Task<TEntity?> FirstOrDefaultAsync()
         {
             var item = await _context.Set<TEntity>().AsNoTracking().Where(a => a.UserId == _httpContextAccessor.HttpContext.User.GetUserId()).FirstOrDefaultAsync();
 
-            if (item == null)
-                throw new Exception();
-
+            
             return item;
         }
 

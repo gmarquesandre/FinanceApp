@@ -7,7 +7,8 @@ using FinanceApp.Core.Services.CrudServices.CrudSingleRegister.Base;
 
 namespace FinanceApp.Core.Services.CrudServices.CrudSingleRegister.Implementations
 {
-    public class FGTSService : CrudSingleBase<FGTS, FGTSDto, CreateOrUpdateFGTS>, IFGTSService
+    public class FGTSService : CrudSingleBase<FGTS, FGTSDto, CreateOrUpdateFGTS>, 
+        IFGTSService
     {
       
         public FGTSService(IRepository<FGTS> repository, IMapper mapper) : base(repository, mapper)

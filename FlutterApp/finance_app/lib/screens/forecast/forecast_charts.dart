@@ -47,6 +47,7 @@ class _ForecastChartsState extends State<ForecastCharts> {
                     children: [
                       // Text(spending.first),
                       GetPatrimony(spending.first),
+                      GetTest(spending.first)
                     ],
                   );
               }
@@ -119,6 +120,64 @@ class GetPatrimony extends StatelessWidget {
                 maximumLabels: 2)
           ],
         ),
+      ],
+    );
+  }
+}
+
+class GetTest extends StatelessWidget {
+  GetTest(this.spending, {Key? key}) : super(key: key);
+
+  final ForecastList spending;
+  final TooltipBehavior _tooltipBehavior = TooltipBehavior(
+    enable: true,
+    shared: true,
+    // duration: GlobalVariables.durationTooltip,
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    return ExpansionTile(
+      initiallyExpanded: true,
+      collapsedTextColor: Colors.white,
+      textColor: Colors.white,
+      collapsedIconColor: Colors.white,
+      iconColor: Colors.white,
+      title: const Text(
+        "Patrimônio Liquido",
+      ),
+      leading: const Icon(Icons.bar_chart_outlined, color: Colors.white),
+      children: [
+        SfCartesianChart(
+          tooltipBehavior: _tooltipBehavior,
+          plotAreaBorderWidth: 0,
+          title: ChartTitle(text: 'Inflation - Consumer price'),
+          legend: Legend(
+              isVisible: true, overflowMode: LegendItemOverflowMode.wrap),
+          primaryXAxis: DateTimeCategoryAxis(
+            title: AxisTitle(
+                text: 'Mês', textStyle: const TextStyle(fontSize: 12)),
+            edgeLabelPlacement: EdgeLabelPlacement.shift,
+            dateFormat: DateFormat("M/yy"),
+            intervalType: DateTimeIntervalType.months,
+          ),
+          series: <SplineSeries<ForecastItem, DateTime>>[
+            SplineSeries<ForecastItem, DateTime>(
+              dataSource: spending.items,
+              xValueMapper: (ForecastItem sales, _) => sales.dateReference,
+              yValueMapper: (ForecastItem sales, _) => sales.realAmount,
+              markerSettings: const MarkerSettings(isVisible: true),
+              name: 'Valor Real',
+            ),
+            SplineSeries<ForecastItem, DateTime>(
+              dataSource: spending.items,
+              name: 'Valor Nominal',
+              markerSettings: const MarkerSettings(isVisible: true),
+              xValueMapper: (ForecastItem sales, _) => sales.dateReference,
+              yValueMapper: (ForecastItem sales, _) => sales.nominalAmount,
+            )
+          ],
+        )
       ],
     );
   }

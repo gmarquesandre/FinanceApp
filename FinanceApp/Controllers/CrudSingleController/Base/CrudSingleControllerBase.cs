@@ -20,7 +20,7 @@ namespace FinanceApp.Api.Controllers.CrudController.Base
 
         [HttpGet("Get")]
         [Authorize]
-        public async Task<IActionResult> GetAsync()
+        public virtual async Task<IActionResult> GetAsync()
         {
             try
             {
