@@ -24,11 +24,12 @@ builder.Services.RegisterServices();
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-var connectionStringHangfire = builder.Configuration.GetConnectionString("HangfireConnection");
 
 
+if(builder.Environment.IsDevelopment()){
+    var connectionStringHangfire = builder.Configuration.GetConnectionString("HangfireConnection");
 
-builder.Services.AddHangfire(configuration => 
+    builder.Services.AddHangfire(configuration =>
 
     configuration.SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
     .UseSimpleAssemblyNameTypeSerializer()
@@ -36,14 +37,16 @@ builder.Services.AddHangfire(configuration =>
     .UseStorage(new MySqlStorage(connectionStringHangfire, new MySqlStorageOptions
     {
         TablesPrefix = "Hangfire"
-    }))
-);
-builder.Services.AddHangfireServer(configuration =>
-{
-    configuration.Queues = new[] { "default", "asset" };
-    configuration.WorkerCount = 20;
-    configuration.ServerName = "Default Server";
-});
+    })));
+    builder.Services.AddHangfireServer(configuration =>
+    {
+        configuration.Queues = new[] { "default", "asset" };
+        configuration.WorkerCount = 20;
+        configuration.ServerName = "Default Server";
+    });
+
+}
+
 
 builder.Services.AddControllersWithViews()
     .AddNewtonsoftJson(options =>
@@ -120,18 +123,17 @@ app.UseSwaggerUI();
 //}
 if (app.Environment.IsDevelopment())
 {
-    Console.WriteLine("");
+    app.UseHangfireDashboard();
+    app.Services.AddDefaultJobs();
 }
 
 if (app.Environment.IsStaging())
 {
     Console.WriteLine("");
 }
-app.UseHangfireDashboard();
 
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-app.Services.AddDefaultJobs();
 app.Run();
