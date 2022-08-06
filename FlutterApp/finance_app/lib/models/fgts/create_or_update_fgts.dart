@@ -1,13 +1,13 @@
 class CreateOrUpdateFGTS {
   int id;
   double monthlyGrossIncome;
-  double currentValue;
+  double currentBalance;
   bool anniversaryWithdraw;
   int monthAniversaryWithdraw;
 
   CreateOrUpdateFGTS({
     required this.id,
-    required this.currentValue,
+    required this.currentBalance,
     required this.anniversaryWithdraw,
     required this.monthAniversaryWithdraw,
     required this.monthlyGrossIncome,
@@ -15,7 +15,7 @@ class CreateOrUpdateFGTS {
 
   Map<String, dynamic> toJson() => {
         'id': id,
-        'currentValue': currentValue,
+        'currentBalance': currentBalance,
         'anniversaryWithdraw': anniversaryWithdraw,
         'monthAniversaryWithdraw': monthAniversaryWithdraw,
         'monthlyGrossIncome': monthlyGrossIncome,

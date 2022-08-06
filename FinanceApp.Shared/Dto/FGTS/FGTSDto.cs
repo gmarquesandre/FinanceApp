@@ -8,5 +8,6 @@ namespace FinanceApp.Shared.Dto.FGTS
         public double MonthlyGrossIncome { get; set; }
         public bool AnniversaryWithdraw { get; set; }
         public int MonthAniversaryWithdraw { get; set; }
+        public DateTime UpdateDateTime { get; set; }
     }
 }

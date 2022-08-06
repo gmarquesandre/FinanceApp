@@ -1,5 +1,6 @@
 import 'package:finance_app/components/app_bar.dart';
 import 'package:finance_app/screens/currentBalance_screens/current_value_form.dart';
+import 'package:finance_app/screens/fgts_screens/fgts_form.dart';
 import 'package:finance_app/screens/forecast/forecast_options.dart';
 import 'package:finance_app/screens/income/income_list.dart';
 import 'package:finance_app/screens/loan_screens/loan_list.dart';
@@ -98,7 +99,7 @@ class _TabList extends StatelessWidget {
             // AssetsList(),
             // FundList(),
             LoanList(),
-            // FgtsForm(),
+            FGTSForm(),
           ],
         ),
       ),
@@ -115,7 +116,7 @@ class _TabList extends StatelessWidget {
       // Tab(text: "Ativos"),
       // Tab(text: "Fundos"),
       Tab(text: "Empréstimo/Financiamento"),
-      // Tab(text: "FGTS"),
+      Tab(text: "FGTS"),
     ];
   }
 }

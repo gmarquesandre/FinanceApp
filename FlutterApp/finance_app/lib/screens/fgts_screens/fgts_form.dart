@@ -1,3 +1,4 @@
+import 'package:finance_app/clients/crud_clients/fgts_client.dart';
 import 'package:finance_app/components/padding.dart';
 import 'package:finance_app/models/fgts/create_or_update_fgts.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
@@ -30,18 +31,11 @@ class FGTSFormState extends State<FGTSForm> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     defaultInputPadding(
-                      FGTSInput(),
+                      currentBalanceInput(),
                     ),
-                    !_updateValueWithCdi
-                        ? const SizedBox()
-                        : defaultInputPadding(
-                            indexPercentageInput(),
-                          ),
-                    !_updateValueWithCdi
-                        ? const Text("")
-                        : const Text(
-                            "Será considerado IR de 22,5% em qualquer prazo do investimento",
-                          ),
+                    defaultInputPadding(
+                      monthlyGrossIncomeInput(),
+                    ),
                     _date.year <= 1970
                         ? const Text("")
                         : Text(
@@ -50,13 +44,39 @@ class FGTSFormState extends State<FGTSForm> {
                     CheckboxListTile(
                       contentPadding: const EdgeInsets.all(0),
                       controlAffinity: ListTileControlAffinity.leading,
-                      title: const Text("Atualizar Saldo pelo CDI"),
-                      value: _updateValueWithCdi,
+                      title: const Text("Saque Aniversário"),
+                      value: _anniversaryWithdraw,
                       onChanged: (bool? value) {
                         setState(() {
-                          _updateValueWithCdi = value!;
+                          _anniversaryWithdraw = value!;
                         });
                       },
+                    ),
+                    Visibility(
+                      visible: _anniversaryWithdraw,
+                      child: defaultInputPadding(
+                        DropdownButtonFormField<DateTime>(
+                          value: monthWithdrawFGTS,
+                          decoration: const InputDecoration(
+                            labelText: "Mês do Saque Aniversário",
+                          ),
+                          items: months.map<DropdownMenuItem<DateTime>>(
+                              (monthWithdrawFGTS) {
+                            return DropdownMenuItem<DateTime>(
+                              value: monthWithdrawFGTS,
+                              child: Text(
+                                DateFormat('MMMM', 'pt-br')
+                                    .format(monthWithdrawFGTS),
+                              ),
+                            );
+                          }).toList(),
+                          onChanged: (DateTime? newValue) {
+                            setState(() {
+                              monthWithdrawFGTS = newValue!;
+                            });
+                          },
+                        ),
+                      ),
                     ),
                     defaultButtonPadding(
                       SizedBox(
@@ -85,59 +105,63 @@ class FGTSFormState extends State<FGTSForm> {
     );
   }
 
-  TextField indexPercentageInput() {
-    return TextField(
-      controller: _interestRateController,
-      autocorrect: true,
-      decoration: const InputDecoration(
-        labelText: 'CDI ( % )',
-      ),
-      keyboardType: const TextInputType.numberWithOptions(decimal: true),
-    );
-  }
-
-  TextFormField FGTSInput() {
+  TextFormField currentBalanceInput() {
     return TextFormField(
       keyboardType: const TextInputType.numberWithOptions(decimal: true),
-      controller: _value,
+      controller: _currentBalance,
       decoration: const InputDecoration(
-        labelText: 'Saldo Conta Corrente Atual',
+        labelText: 'Saldo Atual FGTS',
       ),
     );
   }
 
-  var _value = MoneyMaskedTextController(
+  TextFormField monthlyGrossIncomeInput() {
+    return TextFormField(
+      keyboardType: const TextInputType.numberWithOptions(decimal: true),
+      controller: _valueGrossIncome,
+      decoration: const InputDecoration(
+        labelText: 'Renda Bruta Mensal',
+      ),
+    );
+  }
+
+  DateTime monthWithdrawFGTS = DateTime(1900, 1, 1);
+
+  var _currentBalance = MoneyMaskedTextController(
     leftSymbol: 'R\$ ',
   );
 
-  bool _updateValueWithCdi = false;
+  List<DateTime> months =
+      List<DateTime>.generate(12, (i) => DateTime(1900, i + 1, 1));
+
+  var _valueGrossIncome =
+      MoneyMaskedTextController(leftSymbol: 'R\$ ', initialValue: 0.00);
+
+  bool _anniversaryWithdraw = false;
   int _id = 0;
   bool isLoading = false;
 
   DateTime _date = DateTime.now();
   FGTSClient client = FGTSClient();
-  var _interestRateController = MoneyMaskedTextController(initialValue: 0);
 
   void _getBalance() async {
     setLoading();
     var balance = await client.get();
     setState(
       () {
-        _value = MoneyMaskedTextController(
+        _currentBalance = MoneyMaskedTextController(
           leftSymbol: 'R\$ ',
-          initialValue: balance.value,
+          initialValue: balance.currentBalance,
         );
 
-        _interestRateController = MoneyMaskedTextController(
-            precision: 2,
-            leftSymbol: '',
-            initialValue: balance.percentageCdi != null
-                ? balance.percentageCdi! * 100
-                : 0);
+        _valueGrossIncome = MoneyMaskedTextController(
+            leftSymbol: 'R\$ ', initialValue: balance.monthlyGrossIncome);
+
+        _anniversaryWithdraw = balance.anniversaryWithdraw;
+
+        monthWithdrawFGTS = DateTime(1900, balance.monthAniversaryWithdraw, 1);
 
         _date = balance.updateDateTime;
-
-        _updateValueWithCdi = balance.updateValueWithCdiIndex;
 
         _id = balance.id;
       },
@@ -162,9 +186,10 @@ class FGTSFormState extends State<FGTSForm> {
 
     CreateOrUpdateFGTS newValue = CreateOrUpdateFGTS(
         id: _id,
-        percentageCdi: _interestRateController.numberValue / 100,
-        value: _value.numberValue,
-        updateValueWithCdiIndex: _updateValueWithCdi);
+        monthlyGrossIncome: _valueGrossIncome.numberValue,
+        anniversaryWithdraw: _anniversaryWithdraw,
+        currentBalance: _currentBalance.numberValue,
+        monthAniversaryWithdraw: monthWithdrawFGTS.month);
     var success = await client.create(newValue);
 
     unsetLoading();

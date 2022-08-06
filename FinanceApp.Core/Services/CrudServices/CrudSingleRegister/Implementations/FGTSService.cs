@@ -28,7 +28,9 @@ namespace FinanceApp.Core.Services.CrudServices.CrudSingleRegister.Implementatio
                 {
                     AnniversaryWithdraw = false,
                     CurrentBalance = 0.00,
-                    MonthlyGrossIncome = 0.00
+                    MonthlyGrossIncome = 0.00,
+                    MonthAniversaryWithdraw = 1
+                    
                 };
             }
         }
