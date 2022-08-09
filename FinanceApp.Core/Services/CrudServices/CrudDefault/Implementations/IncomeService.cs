@@ -20,7 +20,6 @@ namespace FinanceApp.Core.Services.CrudServices.CrudDefault.Implementations
             _forecast = forecast;
         }
        
-
         public async Task<ForecastList> GetForecast(EForecastType type, DateTime maxYearMonth, DateTime currentDate)
         {
             var dtos = await base.GetAsync();

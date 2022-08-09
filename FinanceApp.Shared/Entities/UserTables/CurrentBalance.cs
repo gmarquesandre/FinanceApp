@@ -10,7 +10,6 @@ namespace FinanceApp.Shared.Entities.UserTables
 
         public override void CheckInput()
         {
-            throw new NotImplementedException();
         }
     }
 }

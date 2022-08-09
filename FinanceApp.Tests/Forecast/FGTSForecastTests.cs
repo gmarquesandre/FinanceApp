@@ -21,26 +21,8 @@ namespace FinanceApp.Tests.Forecast
         private static FGTSForecast FgtsForecastInstance()
         {
             var mapper = GetConfigurationIMapper();
-
-            var moqForecastService = new Mock<IIndexService>();
-
-
-            List<IndexValueDto> indexValues = new()
-            {
-                new IndexValueDto()
-                {
-                    Date = new DateTime(2021,11,1),
-                    DateEnd = new DateTime(2021,12,1),
-                    Index = EIndex.TR,
-                    Value = 0.00,
-                    IndexRecurrence = EIndexRecurrence.Monthly
-                }
-            };
-
-
-            moqForecastService.Setup(a => a.GetIndex(EIndex.TR, It.IsAny<DateTime>(), It.IsAny<DateTime>())).ReturnsAsync(indexValues);
-
-            var IncomeForecast = new FGTSForecast(mapper, moqForecastService.Object);
+           
+            var IncomeForecast = new FGTSForecast(mapper);
             return IncomeForecast;
         }
         public FGTSDto FgtsDefault = new()
@@ -54,9 +36,8 @@ namespace FinanceApp.Tests.Forecast
 
 
         [Fact]
-        public async Task MustValidateFgtsWithdrawAsync()
+        public Task MustValidateFgtsWithdrawAsync()
         {
-
             var fgtsForecastInstance = FgtsForecastInstance();
 
             var fgtsDto = new FGTSDto
@@ -68,14 +49,13 @@ namespace FinanceApp.Tests.Forecast
                 CurrentBalance = 8582.69
             };
 
-            var fgtsSpreadList = await fgtsForecastInstance.GetFGTSsSpreadListAsync(fgtsDto, new DateTime(2021, 11, 30), new DateTime(2021, 10, 01));
+            var fgtsSpreadList = fgtsForecastInstance.GetFGTSsSpreadListAsync(fgtsDto, new DateTime(2021, 11, 30), new DateTime(2021, 10, 01));
 
             var fgtsSpreadLastItem = fgtsSpreadList.Last();
 
             Assert.Equal(fgtsSpreadLastItem.WithdrawValue.ToString("N", SetPrecision), 2366.53.ToString("N", SetPrecision));
             Assert.Equal(fgtsSpreadLastItem.CurrentBalance.ToString("N", SetPrecision), 6533.51.ToString("N", SetPrecision));
-        
+            return Task.CompletedTask;
         }
-
     }
 }

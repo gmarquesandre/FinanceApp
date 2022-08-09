@@ -5,5 +5,6 @@
         public DateTime Date { get; set; }
         public DateTime ReferenceDate { get; set; }
         public double WithdrawValue { get; set; }
+        public double MonthAddValue { get; set; }
     }
 }

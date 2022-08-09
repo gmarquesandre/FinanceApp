@@ -1,5 +1,6 @@
 ﻿using FinanceApp.Core.Services.CrudServices.CrudDefault.Interfaces;
 using FinanceApp.Core.Services.CrudServices.CrudSingleRegister.Interfaces;
+using FinanceApp.Core.Services.ForecastServices.Interfaces;
 using FinanceApp.FinanceData.Services;
 using FinanceApp.Shared;
 using FinanceApp.Shared.Dto;
@@ -24,6 +25,7 @@ namespace FinanceApp.Core.Services.ForecastServices
             ILoanService loanService,
             IIndexService indexService,
             ITitleService titleService,
+            IFGTSService fgtsService,
             IForecastParametersService forecastParametersService
             )
         {
@@ -33,6 +35,7 @@ namespace FinanceApp.Core.Services.ForecastServices
             _loanService = loanService;
             _indexService = indexService;
             _titleService = titleService;
+            _fgtsService = fgtsService;
             _forecastParametersService = forecastParametersService;
         }
 
@@ -48,6 +51,7 @@ namespace FinanceApp.Core.Services.ForecastServices
             var spendingsDaily = await _spendingService.GetForecast(EForecastType.Daily, maxYearMonth, currentDate);
             var incomesDaily = await _incomeService.GetForecast(EForecastType.Daily, maxYearMonth, currentDate);
             var loanDaily = await _loanService.GetForecast(EForecastType.Daily, maxYearMonth, currentDate);
+            var fgtsDaily = await _fgtsService.GetForecast(EForecastType.Daily, maxYearMonth, currentDate);
 
             var balance = await _currentBalanceService.GetAsync();
 
@@ -77,13 +81,14 @@ namespace FinanceApp.Core.Services.ForecastServices
                 double loansDay = 0.00;
                 double incomesDay = 0.00;
                 double spendingsDay = 0.00;
+                double fgtsLiquid = 0.00;
 
                 // Titulos negativos
                 double owingValue = 0.00;
 
                 //variavel responsável por avisar se há alterações no balanço
                 bool updateBalance = false;
-                updateBalance = CheckIfMustUpdateBalance(spendingsDaily, incomesDaily, loanDaily, date, ref loansDay, ref incomesDay, ref spendingsDay);
+                updateBalance = CheckIfMustUpdateBalance(spendingsDaily, incomesDaily, loanDaily, fgtsDaily, date, ref loansDay, ref incomesDay, ref spendingsDay, ref fgtsLiquid);
 
                 if (updateBalance)
                 {
@@ -99,13 +104,13 @@ namespace FinanceApp.Core.Services.ForecastServices
                     }
 
                     //atualizar saldo inicial de titulos liquidos pelo indice
-                    if (incomesDay >= loansDay + spendingsDay + owingValue)
+                    if (incomesDay + fgtsLiquid >= loansDay + spendingsDay + owingValue)
                     {
-                        if (incomesDay > (loansDay + spendingsDay + owingValue))
+                        if (incomesDay + fgtsLiquid > (loansDay + spendingsDay + owingValue))
                         {
                             balanceTitlesList = balanceTitlesList.Where(a => a.InvestmentValue > 0.00).ToList();
 
-                            double newInvestmentValue = incomesDay - loansDay - spendingsDay - owingValue;
+                            double newInvestmentValue = incomesDay + fgtsLiquid - loansDay - spendingsDay - owingValue;
 
                             balanceTitlesList.Add(new DefaultTitleInput()
                             {
@@ -119,9 +124,9 @@ namespace FinanceApp.Core.Services.ForecastServices
                         }
 
                     }
-                    else if (incomesDay < loansDay + spendingsDay + owingValue)
+                    else if (incomesDay + fgtsLiquid < loansDay + spendingsDay + owingValue)
                     {
-                        double leftValue = spendingsDay + loansDay + owingValue - incomesDay;                        
+                        double leftValue = spendingsDay + loansDay + owingValue - incomesDay - fgtsLiquid;                        
 
                         foreach(var title in balanceTitlesList.Where(a => a.InvestmentValue > 0.00).ToList())
                         {
@@ -182,11 +187,18 @@ namespace FinanceApp.Core.Services.ForecastServices
 
                     double valorTitulosReal = await _indexService.GetRealValue(date, valorTitulos);
 
+                    double notLiquidNominal = fgtsDaily.Items.Where(a => a.DateReference == date).Sum(a => a.NominalCumulatedAmount);
+
+                    double notLiquidReal = await _indexService.GetRealValue(date, notLiquidNominal);
+
+
                     forecastTotalList.Add(new ForecastItem()
                     {
                         RealLiquidValue = valorTitulosReal,
                         NominalLiquidValue = valorTitulos,
                         NominalCumulatedAmount = valorTitulos,
+                        NominalNotLiquidValue = notLiquidNominal,
+                        RealCumulatedAmount = notLiquidReal,
                         DateReference = date,
                     });
                 }
@@ -212,7 +224,7 @@ namespace FinanceApp.Core.Services.ForecastServices
       
         }
 
-        private bool CheckIfMustUpdateBalance(ForecastList spendingsDaily, ForecastList incomesDaily, ForecastList loanDaily, DateTime date, ref double loansDay, ref double incomesDay, ref double spendingsDay)
+        private bool CheckIfMustUpdateBalance(ForecastList spendingsDaily, ForecastList incomesDaily, ForecastList loanDaily, ForecastList fgtsDaily, DateTime date, ref double loansDay, ref double incomesDay, ref double spendingsDay, ref double fgtsLiquid)
         {
             bool updateBalance = false;
             if (incomesDaily.Items.Any(a => a.DateReference == date))
@@ -228,6 +240,11 @@ namespace FinanceApp.Core.Services.ForecastServices
             if (loanDaily.Items.Any(a => a.DateReference == date))
             {
                 loansDay = loanDaily.Items.Where(a => a.DateReference == date).Sum(a => a.NominalLiquidValue);
+                updateBalance = true;
+            }
+            if(fgtsDaily.Items.Any(a => a.DateReference == date && a.NominalLiquidValue > 0))
+            {
+                fgtsLiquid = fgtsDaily.Items.Where(a => a.DateReference == date).Sum(a => a.NominalLiquidValue);
                 updateBalance = true;
             }
 

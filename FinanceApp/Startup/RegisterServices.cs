@@ -46,6 +46,7 @@ namespace FinanceApp.Api.Startup
 
             //Forecast
             services.AddScoped<IForecastService, ForecastService>();
+            services.AddScoped<IFGTSForecast, FGTSForecast>();
             services.AddScoped<ILoanForecast, LoanForecast>();
             services.AddScoped<ISpendingForecast, SpendingForecast>();
             services.AddScoped<IForecastParametersService, ForecastParametersService>();
