@@ -20,7 +20,7 @@ namespace FinanceApp.Core.Services.CrudServices.CrudDefault.Implementations
 
         public override async Task<List<SpendingDto>> GetAsync()
         {
-            var values = await _repository.GetAll()
+            var values = await _repository.GetAllAsync()
                 .Include(a => a.Category)
                 .Include(a => a.CreditCard)
                 .ToListAsync();

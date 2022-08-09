@@ -151,7 +151,7 @@ class GetTest extends StatelessWidget {
         SfCartesianChart(
           tooltipBehavior: _tooltipBehavior,
           plotAreaBorderWidth: 0,
-          title: ChartTitle(text: 'Inflation - Consumer price'),
+          // title: ChartTitle(text: 'Inflation - Consumer price'),
           legend: Legend(
               isVisible: true, overflowMode: LegendItemOverflowMode.wrap),
           primaryXAxis: DateTimeCategoryAxis(

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FinanceApp.Core.Services.ForecastServices.Interfaces;
+using FinanceApp.Shared;
 using FinanceApp.Shared.Dto;
 using FinanceApp.Shared.Dto.Loan;
 using FinanceApp.Shared.Enum;
@@ -37,16 +38,16 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
             var monthlyValues = loansSpreadList.OrderBy(a => a.Date).GroupBy(a => new { a.Date.Year, a.Date.Month }, (key, group) =>
               new ForecastItem
               {
-                  NominalAmount = group.Sum(a => a.LoanValueMonth),
+                  NominalLiquidValue = group.Sum(a => a.LoanValueMonth),
                   DateReference = new DateTime(key.Year, key.Month, 1).AddMonths(1).AddDays(-1),
-                  CumulatedAmount = 0
+                  NominalCumulatedAmount = 0
               }
             ).ToList();
 
             monthlyValues.ForEach(a =>
             {
-                cumSum += a.NominalAmount;
-                a.CumulatedAmount = cumSum;
+                cumSum += a.NominalLiquidValue;
+                a.NominalCumulatedAmount = cumSum;
 
             });
 
@@ -64,16 +65,16 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
             var dailyValues = loansSpreadList.OrderBy(a => a.Date).GroupBy(a => new { a.Date }, (key, group) =>
               new ForecastItem
               {
-                  NominalAmount = group.Sum(a => a.LoanValueMonth),
+                  NominalLiquidValue = group.Sum(a => a.LoanValueMonth),
                   DateReference = key.Date,
-                  CumulatedAmount = 0
+                  NominalCumulatedAmount = 0
               }
             ).ToList();
 
             dailyValues.ForEach(a =>
             {
-                cumSum += a.NominalAmount;
-                a.CumulatedAmount = cumSum;
+                cumSum += a.NominalLiquidValue;
+                a.NominalCumulatedAmount = cumSum;
 
             });
 
@@ -115,8 +116,7 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
 
             double amortization = loan.LoanValue / (double)loan.MonthsPayment;
 
-            double monthsInAYear = 12.00;
-            double interestRateMonthMultipliler = Math.Pow(1.00 + (Convert.ToDouble(loan.InterestRate) / 100.00), 1.00 / monthsInAYear) - 1;
+            double interestRateMonthMultipliler = loan.InterestRate.FromYearToMonthIterestRate();
 
             maxDate = maxDate < loan.InitialDate.AddMonths(loan.MonthsPayment + 1) ? maxDate : loan.InitialDate.AddMonths(loan.MonthsPayment + 1);
 
@@ -144,8 +144,7 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
         {
             var loanSpreadList = new List<LoanSpread>();
 
-            double monthsInAYear = 12.00;
-            double interestRateMonthMultipliler = Math.Pow(1.00 + (Convert.ToDouble(loan.InterestRate) / 100.00), 1.00 / monthsInAYear) - 1;
+            double interestRateMonthMultipliler = loan.InterestRate.FromYearToMonthIterestRate();
 
             double InterestValue = Math.Pow(1 + interestRateMonthMultipliler, loan.MonthsPayment);
 

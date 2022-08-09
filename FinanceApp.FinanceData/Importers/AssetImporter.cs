@@ -13,7 +13,7 @@ namespace FinanceApp.FinanceData.Importers
     public class AssetImporter : ImporterBase
     {
         private HttpClient _client = new();
-        private HttpClientHandler _handler;
+        private HttpClientHandler _handler = new();
         private CultureInfo _cultureInfo = new("pt-br");
         public IDatesService _dateService;
         public AssetImporter(FinanceDataContext context, IDatesService dates) : base(context)

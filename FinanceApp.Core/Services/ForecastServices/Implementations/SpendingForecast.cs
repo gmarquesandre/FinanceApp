@@ -38,16 +38,16 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
             var monthlyValues = spendingsSpreadList.OrderBy(a => a.ReferenceDate).GroupBy(a => new { a.ReferenceDate.Year, a.ReferenceDate.Month }, (key, group) =>
               new ForecastItem
               {
-                  NominalAmount = group.Sum(a => a.Amount),
+                  NominalLiquidValue = group.Sum(a => a.Amount),
                   DateReference = new DateTime(key.Year, key.Month, 1).AddMonths(1).AddDays(-1),
-                  CumulatedAmount = 0
+                  NominalCumulatedAmount = 0
               }
             ).ToList();
 
             monthlyValues.ForEach(a =>
             {
-                cumSum += a.NominalAmount;
-                a.CumulatedAmount = cumSum;
+                cumSum += a.NominalLiquidValue;
+                a.NominalCumulatedAmount = cumSum;
 
             });
 
@@ -65,16 +65,16 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
             var dailyValues = spendingsSpreadList.OrderBy(a => a.ReferenceDate).GroupBy(a => new { a.ReferenceDate }, (key, group) =>
               new ForecastItem
               {
-                  NominalAmount = group.Sum(a => a.Amount),
+                  NominalLiquidValue = group.Sum(a => a.Amount),
                   DateReference = key.ReferenceDate,
-                  CumulatedAmount = 0
+                  NominalCumulatedAmount = 0
               }
             ).ToList();
 
             dailyValues.ForEach(a =>
             {
-                cumSum += a.NominalAmount;
-                a.CumulatedAmount = cumSum;
+                cumSum += a.NominalLiquidValue;
+                a.NominalCumulatedAmount = cumSum;
 
             });
 

@@ -9,6 +9,5 @@ namespace FinanceApp.Core.Services.ForecastServices.Interfaces
     {
         EItemType Item { get; }
         ForecastList GetForecast(List<IncomeDto> incomeDtos, EForecastType forecastType, DateTime maxDate, DateTime? minDate = null);
-        List<IncomeSpread> GetIncomesSpreadList(List<IncomeDto> incomesDto, DateTime maxYearMonth, DateTime? minDateInput = null);
     }
 }

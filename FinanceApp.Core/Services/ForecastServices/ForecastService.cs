@@ -14,6 +14,7 @@ namespace FinanceApp.Core.Services.ForecastServices
         public ILoanService _loanService;
         public ICurrentBalanceService _currentBalanceService;
         public IIndexService _indexService;
+        public IFGTSService _fgtsService;
         public ITitleService _titleService;
         public IForecastParametersService _forecastParametersService;
 
@@ -183,9 +184,9 @@ namespace FinanceApp.Core.Services.ForecastServices
 
                     forecastTotalList.Add(new ForecastItem()
                     {
-                        RealAmount = valorTitulosReal,
-                        NominalAmount = valorTitulos,
-                        CumulatedAmount = valorTitulos,
+                        RealLiquidValue = valorTitulosReal,
+                        NominalLiquidValue = valorTitulos,
+                        NominalCumulatedAmount = valorTitulos,
                         DateReference = date,
                     });
                 }
@@ -216,17 +217,17 @@ namespace FinanceApp.Core.Services.ForecastServices
             bool updateBalance = false;
             if (incomesDaily.Items.Any(a => a.DateReference == date))
             {
-                incomesDay = incomesDaily.Items.Where(a => a.DateReference == date).Sum(a => a.NominalAmount);
+                incomesDay = incomesDaily.Items.Where(a => a.DateReference == date).Sum(a => a.NominalLiquidValue);
                 updateBalance = true;
             }
             if (spendingsDaily.Items.Any(a => a.DateReference == date))
             {
-                spendingsDay = spendingsDaily.Items.Where(a => a.DateReference == date).Sum(a => a.NominalAmount);
+                spendingsDay = spendingsDaily.Items.Where(a => a.DateReference == date).Sum(a => a.NominalLiquidValue);
                 updateBalance = true;
             }
             if (loanDaily.Items.Any(a => a.DateReference == date))
             {
-                loansDay = loanDaily.Items.Where(a => a.DateReference == date).Sum(a => a.NominalAmount);
+                loansDay = loanDaily.Items.Where(a => a.DateReference == date).Sum(a => a.NominalLiquidValue);
                 updateBalance = true;
             }
 

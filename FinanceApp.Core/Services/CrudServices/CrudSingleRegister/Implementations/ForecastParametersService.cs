@@ -7,6 +7,7 @@ using FinanceApp.Core.Services.CrudServices.CrudSingleRegister.Interfaces;
 using FinanceApp.Shared.Dto.FGTS;
 using FinanceApp.Core.Services.CrudServices.CrudDefault.Base.Interfaces;
 using FinanceApp.Core.Services.CrudServices.CrudSingleRegister.Base;
+using FinanceApp.Shared;
 
 namespace FinanceApp.Core.Services.CrudServices.CrudSingleRegister.Implementations
 {
@@ -41,7 +42,7 @@ namespace FinanceApp.Core.Services.CrudServices.CrudSingleRegister.Implementatio
                     Id = 0,
                     MonthsSavingWarning = 0,
                     PercentageCdiFixedInteresIncometSavings = 0.00,
-                    PercentageCdiLoan = 3.00,
+                    PercentageCdiLoan = GlobalVariables.DefaultPercentageCdiLoan,
                     PercentageCdiVariableIncome = 0.00,
                     SavingsLiquidPercentage = 0.6
                 };

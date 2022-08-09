@@ -37,16 +37,16 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
             var monthlyValues = IncomesSpreadList.OrderBy(a => a.Date).GroupBy(a => new { a.Date.Year, a.Date.Month }, (key, group) =>
               new ForecastItem
               {
-                  NominalAmount = group.Sum(a => a.Amount),
+                  NominalLiquidValue = group.Sum(a => a.Amount),
                   DateReference = new DateTime(key.Year, key.Month, 1).AddMonths(1).AddDays(-1),
-                  CumulatedAmount = 0
+                  NominalCumulatedAmount = 0
               }
             ).OrderBy(a=> a.DateReference).ToList();
 
             monthlyValues.ForEach(a =>
             {
-                cumSum += a.NominalAmount;
-                a.CumulatedAmount = cumSum;
+                cumSum += a.NominalLiquidValue;
+                a.NominalCumulatedAmount = cumSum;
 
             });
 
@@ -66,16 +66,16 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
             var dailyValues = IncomesSpreadList.OrderBy(a => a.Date).GroupBy(a => new { a.Date }, (key, group) =>
               new ForecastItem
               {
-                  NominalAmount = group.Sum(a => a.Amount),
+                  NominalLiquidValue = group.Sum(a => a.Amount),
                   DateReference = key.Date,
-                  CumulatedAmount = 0
+                  NominalCumulatedAmount = 0
               }
             ).ToList();
 
             dailyValues.ForEach(a =>
             {
-                cumSum += a.NominalAmount;
-                a.CumulatedAmount = cumSum;
+                cumSum += a.NominalLiquidValue;
+                a.NominalCumulatedAmount = cumSum;
 
             });
             return new ForecastList()
@@ -99,7 +99,6 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
 
             }
             return incomeSpreadList;
-
         }
 
         public List<IncomeSpread> GetIncomeList(DateTime maxYearMonth, DateTime minDate, IncomeDto IncomeDto)

@@ -3,10 +3,13 @@
     public class ForecastItem
     {
         public DateTime DateReference { get; set;}
-        public double NominalAmount { get; set;}
-        public double LiquidValue { get; set; }
-        public double NotLiquidValue { get; set; }
-        public double RealAmount { get; set;}   
-        public double CumulatedAmount { get; set;}
+        public double NominalLiquidValue { get; set;}
+        public double RealLiquidValue { get; set;}   
+        public double NominalNotLiquidValue { get; set; }
+        public double RealNotLiquidValue { get; set; }
+        public double NominalCumulatedAmount { get; set;}
+        public double RealCumulatedAmount { get; set;}
+        private double NominalValue => NominalLiquidValue + NominalNotLiquidValue;
+        private double RealValue => RealLiquidValue + RealNotLiquidValue;
     }
 }
