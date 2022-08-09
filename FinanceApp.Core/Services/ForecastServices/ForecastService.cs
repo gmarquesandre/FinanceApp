@@ -57,7 +57,6 @@ namespace FinanceApp.Core.Services.ForecastServices
 
             var balanceTitlesList = new List<DefaultTitleInput>();
 
-
             bool updateValueWithCdiIndex = balance.UpdateValueWithCdiIndex;
 
             double percentageCdi = balance.PercentageCdi ?? 1.00;
@@ -77,25 +76,16 @@ namespace FinanceApp.Core.Services.ForecastServices
 
 
             for (DateTime date = DateTime.Now.Date.AddDays(1); date <= maxYearMonth; date = date.AddDays(1))
-            {
-                double loansDay = 0.00;
-                double incomesDay = 0.00;
-                double spendingsDay = 0.00;
-                double fgtsLiquid = 0.00;
-
-                // Titulos negativos
-                double owingValue = 0.00;
-
+            {              
                 //variavel responsável por avisar se há alterações no balanço
-                bool updateBalance = false;
-                updateBalance = CheckIfMustUpdateBalance(spendingsDaily, incomesDaily, loanDaily, fgtsDaily, date, ref loansDay, ref incomesDay, ref spendingsDay, ref fgtsLiquid);
+                (DayMovimentation dayMovimentation, bool updateBalance ) = CheckIfMustUpdateBalance(spendingsDaily, incomesDaily, loanDaily, fgtsDaily, date);
 
                 if (updateBalance)
                 {
                     if (balanceTitlesList.Any(a => a.InvestmentValue < 0.00))
                     {
 
-                        owingValue = -balanceTitlesList.Where(a => a.InvestmentValue < 0.00).Select(async a =>
+                        dayMovimentation.OwingValue = -balanceTitlesList.Where(a => a.InvestmentValue < 0.00).Select(async a =>
                         {
                             a.Date = date;
                             return await _titleService.GetCurrentValueOfTitle(a);
@@ -103,30 +93,27 @@ namespace FinanceApp.Core.Services.ForecastServices
 
                     }
 
-                    //atualizar saldo inicial de titulos liquidos pelo indice
-                    if (incomesDay + fgtsLiquid >= loansDay + spendingsDay + owingValue)
+                    
+                    if (dayMovimentation.PositiveBalanceDay)
                     {
-                        if (incomesDay + fgtsLiquid > (loansDay + spendingsDay + owingValue))
+                        balanceTitlesList = balanceTitlesList.Where(a => a.InvestmentValue > 0.00).ToList();
+
+                        double newInvestmentValue = dayMovimentation.ResultValue;
+
+                        balanceTitlesList.Add(new DefaultTitleInput()
                         {
-                            balanceTitlesList = balanceTitlesList.Where(a => a.InvestmentValue > 0.00).ToList();
-
-                            double newInvestmentValue = incomesDay + fgtsLiquid - loansDay - spendingsDay - owingValue;
-
-                            balanceTitlesList.Add(new DefaultTitleInput()
-                            {
-                                DateInvestment = date,
-                                InvestmentValue = Math.Round(newInvestmentValue),
-                                IndexPercentage = forecastParameters.PercentageCdiFixedInteresIncometSavings,
-                                Index = EIndex.CDI,
-                                AdditionalFixedInterest = 0.00,
-                                TypePrivateFixedIncome = ETypePrivateFixedIncome.BalanceCDB
-                            });
-                        }
-
+                            DateInvestment = date,
+                            InvestmentValue = Math.Round(newInvestmentValue),
+                            IndexPercentage = forecastParameters.PercentageCdiFixedInteresIncometSavings,
+                            Index = EIndex.CDI,
+                            AdditionalFixedInterest = 0.00,
+                            TypePrivateFixedIncome = ETypePrivateFixedIncome.BalanceCDB
+                        });
                     }
-                    else if (incomesDay + fgtsLiquid < loansDay + spendingsDay + owingValue)
+                    
+                    else if (dayMovimentation.NegativeBalanceDay)
                     {
-                        double leftValue = spendingsDay + loansDay + owingValue - incomesDay - fgtsLiquid;                        
+                        double leftValue = -dayMovimentation.ResultValue;                        
 
                         foreach(var title in balanceTitlesList.Where(a => a.InvestmentValue > 0.00).ToList())
                         {
@@ -174,6 +161,8 @@ namespace FinanceApp.Core.Services.ForecastServices
                             });
                         }
                     }
+                    else throw new Exception("Erro ao realizar cálculos");
+
                 }
 
                 if (date.AddDays(1).Day == 1)
@@ -224,31 +213,33 @@ namespace FinanceApp.Core.Services.ForecastServices
       
         }
 
-        private bool CheckIfMustUpdateBalance(ForecastList spendingsDaily, ForecastList incomesDaily, ForecastList loanDaily, ForecastList fgtsDaily, DateTime date, ref double loansDay, ref double incomesDay, ref double spendingsDay, ref double fgtsLiquid)
+        private (DayMovimentation,bool) CheckIfMustUpdateBalance(ForecastList spendingsDaily, ForecastList incomesDaily, ForecastList loanDaily, ForecastList fgtsDaily, DateTime date)
         {
+
             bool updateBalance = false;
+            DayMovimentation dayMovimentation = new();
             if (incomesDaily.Items.Any(a => a.DateReference == date))
             {
-                incomesDay = incomesDaily.Items.Where(a => a.DateReference == date).Sum(a => a.NominalLiquidValue);
+                dayMovimentation.IncomesReceived = incomesDaily.Items.Where(a => a.DateReference == date).Sum(a => a.NominalLiquidValue);
                 updateBalance = true;
             }
             if (spendingsDaily.Items.Any(a => a.DateReference == date))
             {
-                spendingsDay = spendingsDaily.Items.Where(a => a.DateReference == date).Sum(a => a.NominalLiquidValue);
+                dayMovimentation.Spendings = spendingsDaily.Items.Where(a => a.DateReference == date).Sum(a => a.NominalLiquidValue);
                 updateBalance = true;
             }
             if (loanDaily.Items.Any(a => a.DateReference == date))
             {
-                loansDay = loanDaily.Items.Where(a => a.DateReference == date).Sum(a => a.NominalLiquidValue);
+                dayMovimentation.LoansPayment = loanDaily.Items.Where(a => a.DateReference == date).Sum(a => a.NominalLiquidValue);
                 updateBalance = true;
             }
             if(fgtsDaily.Items.Any(a => a.DateReference == date && a.NominalLiquidValue > 0))
             {
-                fgtsLiquid = fgtsDaily.Items.Where(a => a.DateReference == date).Sum(a => a.NominalLiquidValue);
+                dayMovimentation.FGTSWithdraw = fgtsDaily.Items.Where(a => a.DateReference == date).Sum(a => a.NominalLiquidValue);
                 updateBalance = true;
             }
 
-            return updateBalance;
+            return (dayMovimentation, updateBalance);
         }
     }
 }
