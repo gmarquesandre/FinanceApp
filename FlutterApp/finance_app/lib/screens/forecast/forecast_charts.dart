@@ -95,7 +95,7 @@ class GetPatrimony extends StatelessWidget {
                 dataSource: spending.items,
                 color: Colors.white,
                 xValueMapper: (ForecastItem value, _) => value.dateReference,
-                yValueMapper: (ForecastItem value, _) => value.realAmount,
+                yValueMapper: (ForecastItem value, _) => value.realLiquidValue,
                 enableTooltip: true),
           ],
           primaryXAxis: DateTimeCategoryAxis(
@@ -165,7 +165,7 @@ class GetTest extends StatelessWidget {
             SplineSeries<ForecastItem, DateTime>(
               dataSource: spending.items,
               xValueMapper: (ForecastItem sales, _) => sales.dateReference,
-              yValueMapper: (ForecastItem sales, _) => sales.realAmount,
+              yValueMapper: (ForecastItem sales, _) => sales.realLiquidValue,
               markerSettings: const MarkerSettings(isVisible: true),
               name: 'Valor Real',
             ),
@@ -174,7 +174,8 @@ class GetTest extends StatelessWidget {
               name: 'Valor Nominal',
               markerSettings: const MarkerSettings(isVisible: true),
               xValueMapper: (ForecastItem sales, _) => sales.dateReference,
-              yValueMapper: (ForecastItem sales, _) => sales.nominalAmount,
+              yValueMapper: (ForecastItem sales, _) =>
+                  sales.nominalCumulatedAmount,
             )
           ],
         )

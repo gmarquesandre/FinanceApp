@@ -1,18 +1,21 @@
 class ForecastItem {
   DateTime dateReference;
-  double nominalAmount;
-  double realAmount;
-  double cumulatedAmount;
+  double nominalLiquidValue;
+  double realLiquidValue;
+  double nominalCumulatedAmount;
+  double realCumulatedAmount;
 
   ForecastItem(
       {required this.dateReference,
-      required this.realAmount,
-      required this.nominalAmount,
-      required this.cumulatedAmount});
+      required this.nominalCumulatedAmount,
+      required this.nominalLiquidValue,
+      required this.realCumulatedAmount,
+      required this.realLiquidValue});
 
   ForecastItem.fromJson(Map<String, dynamic> json)
       : dateReference = DateTime.parse(json['dateReference']),
-        nominalAmount = json['nominalAmount'].toDouble(),
-        realAmount = json['realAmount'].toDouble(),
-        cumulatedAmount = json['cumulatedAmount'].toDouble();
+        nominalCumulatedAmount = json['nominalCumulatedAmount'].toDouble(),
+        nominalLiquidValue = json['nominalLiquidValue'].toDouble(),
+        realLiquidValue = json['realLiquidValue'].toDouble(),
+        realCumulatedAmount = json['realCumulatedAmount'].toDouble();
 }

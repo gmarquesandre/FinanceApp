@@ -13,6 +13,7 @@ namespace FinanceApp.Shared.Profiles
             CreateMap<FGTSDto, FGTS>();
             CreateMap<FGTS, FGTSDto>();
             CreateMap<FGTSDto, FGTSSpread>();
+            CreateMap<FGTSSpread, FGTSDto>();
         }
     }
 }

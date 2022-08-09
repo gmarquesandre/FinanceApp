@@ -151,14 +151,16 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
 
             var currentMonth = _mapper.Map<FGTSSpread>(fgtsDto);
 
-            currentMonth.Date = currentMonth.UpdateDateTime;
+            currentMonth.Date = new DateTime(currentMonth.UpdateDateTime.Year, currentMonth.UpdateDateTime.Month, 1).AddMonths(1).AddDays(-1); ;
             currentMonth.ReferenceDate = currentMonth.ReferenceDate;
             fgtsSpreadList.Add(currentMonth);
 
             for (DateTime date = fgtsDto.UpdateDateTime.AddMonths(1); date <= maxYearMonth; date = date.AddMonths(1))
             {
+
                 var newItem = _mapper.Map<FGTSSpread>(fgtsDto);
-                newItem.Date = new DateTime(date.Year, date.Month + 1, 1).AddDays(-1);
+                newItem.Date = new DateTime(date.Year, date.Month, 1).AddMonths(1).AddDays(-1);
+                
                 newItem.ReferenceDate = newItem.Date;
 
                 if (fgtsDto.AnniversaryWithdraw && fgtsDto.MonthAniversaryWithdraw == date.Month)
@@ -166,8 +168,8 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
                     newItem = WithdrawValue(newItem);
                 }
                 newItem.MonthAddValue = newItem.CurrentBalance * fgtsInterestRateMonthly + monthlyDeposit;
-                newItem.CurrentBalance += newItem.MonthAddValue + newItem.MonthAddValue;
-
+                newItem.CurrentBalance += newItem.MonthAddValue;
+                fgtsDto = newItem;
                 fgtsSpreadList.Add(newItem);
             }
 

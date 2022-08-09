@@ -217,7 +217,7 @@ namespace FinanceApp.Core.Services.ForecastServices
                 incomesDaily,
                 spendingsDaily,
                 loanDaily,
-
+                fgtsDaily
             };
 
             return output;
