@@ -9,6 +9,8 @@ namespace FinanceApp.Api.Controllers.CrudController.Base
     {
         Task<IActionResult> AddAsync(TCreate input);
         Task<IActionResult> DeleteAsync(int id);
+        Task<IActionResult> DeleteAllAsync();
+        IActionResult DeleteBatch(List<int> ids);
         Task<IActionResult> GetAsync();
         Task<IActionResult> GetAsync(int id);
         Task<IActionResult> UpdateAsync(TUpdate input);

@@ -11,6 +11,8 @@ namespace FinanceApp.Core.Services.CrudServices.CrudDefault.Base.Interfaces
     {
         Task<Result> AddAsync(TCreate input);
         Task<Result> DeleteAsync(int id);
+        Result DeleteBatch(List<int> ids);
+        Task<Result> DeleteAllAsync();
         Task<Result> UpdateAsync(TUpdate input);
     }
 }

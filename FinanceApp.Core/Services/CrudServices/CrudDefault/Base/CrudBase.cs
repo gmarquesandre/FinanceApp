@@ -59,5 +59,19 @@ namespace FinanceApp.Core.Services.CrudServices.CrudDefault.Base
             return Result.Ok().WithSuccess("Registro criado com sucesso");
         }
 
+        public Result DeleteBatch(List<int> ids)
+        {
+            _repository.RemoveBatch(ids);
+
+            return Result.Ok().WithSuccess("Registros deletados com sucesso");
+        }
+
+        public async Task<Result> DeleteAllAsync()
+        {
+            await _repository.RemoveAll();
+
+            return Result.Ok().WithSuccess("Registros deletados com sucesso");
+
+        }
     }
 }

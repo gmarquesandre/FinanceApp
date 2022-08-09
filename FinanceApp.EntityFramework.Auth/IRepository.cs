@@ -9,7 +9,9 @@ namespace FinanceApp.EntityFramework.User
         Task<TEntity?> FirstOrDefaultAsync();
         void Remove(TEntity entity);
         Task<List<TEntity>> GetAllListAsync();
-        IQueryable<TEntity> GetAll();
+        IQueryable<TEntity> GetAllAsync();
+        void RemoveBatch(List<int> ids);
         Task<TEntity> GetByIdAsync(int id);
+        Task RemoveAll();
     }
 }

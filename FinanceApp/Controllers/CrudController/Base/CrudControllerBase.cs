@@ -95,7 +95,6 @@ namespace FinanceApp.Api.Controllers.CrudController.Base
         {
             try
             {
-
                 var resultado = await _service.UpdateAsync(input);
 
                 return Ok(resultado);
@@ -106,5 +105,36 @@ namespace FinanceApp.Api.Controllers.CrudController.Base
             }
         }
 
+        [HttpDelete("DeleteAll")]
+        [Authorize]
+        public async Task<IActionResult> DeleteAllAsync()
+        {
+            try
+            {
+                var resultado = await _service.DeleteAllAsync();
+
+                return Ok(resultado);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete("DeleteBatch")]
+        [Authorize]
+        public IActionResult DeleteBatch(List<int> ids)
+        {
+            try
+            {
+                var resultado = _service.DeleteBatch(ids);
+
+                return Ok(resultado);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

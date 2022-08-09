@@ -43,7 +43,6 @@ namespace FinanceApp.EntityFramework.User
         public async Task<TEntity?> FirstOrDefaultAsync()
         {
             var item = await _context.Set<TEntity>().AsNoTracking().Where(a => a.UserId == _httpContextAccessor.HttpContext.User.GetUserId()).FirstOrDefaultAsync();
-
             
             return item;
         }
@@ -57,8 +56,32 @@ namespace FinanceApp.EntityFramework.User
         }
         public void Remove(TEntity entity)
         {
+            if (entity.UserId != _httpContextAccessor.HttpContext.User.GetUserId())
+                throw new Exception("Usuário Inválido");
 
             _context.Set<TEntity>().Remove(entity);
+
+            _context.SaveChanges();
+        }
+
+        public void RemoveBatch(List<int> ids)
+        {
+
+            var entities = GetAllAsync().Where(a => ids.Contains(a.Id));
+
+            if (entities.Any(a => a.UserId != _httpContextAccessor.HttpContext.User.GetUserId()))
+                throw new Exception("Usuário Inválido");
+
+            _context.Set<TEntity>().RemoveRange(entities);
+
+            _context.SaveChanges();
+        }
+
+        public async Task RemoveAll()
+        {
+            var entities = await GetAllListAsync();
+
+            _context.Set<TEntity>().RemoveRange(entities);
 
             _context.SaveChanges();
         }
@@ -70,8 +93,9 @@ namespace FinanceApp.EntityFramework.User
                 throw new Exception();
             return item;
         }
+        
 
-        public IQueryable<TEntity> GetAll()
+        public IQueryable<TEntity> GetAllAsync()
         {
             var items = _context.Set<TEntity>().AsNoTracking().Where(a => a.UserId == _httpContextAccessor.HttpContext.User.GetUserId());
 
