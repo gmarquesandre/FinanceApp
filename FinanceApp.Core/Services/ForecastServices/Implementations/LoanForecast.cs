@@ -88,7 +88,7 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
         public List<LoanSpread> GetLoansSpreadList(List<LoanDto> loanDto, DateTime maxYearMonth, DateTime minDate)
         {
 
-            maxYearMonth = new DateTime(maxYearMonth.Year, maxYearMonth.Month, 1).AddMonths(1).AddDays(-1);
+            maxYearMonth = maxYearMonth.GetLastDayOfThisMonth();
 
             var loanSpreadList = new List<LoanSpread>();
 

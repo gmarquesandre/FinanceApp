@@ -135,7 +135,7 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
 
         public List<FGTSSpread> GetFGTSsSpreadListAsync(FGTSDto fgtsDto, DateTime maxYearMonth, DateTime? minDateInput = null)
         {
-            maxYearMonth = new DateTime(maxYearMonth.Year, maxYearMonth.Month, 1).AddMonths(1).AddDays(-1);
+            maxYearMonth = maxYearMonth.GetLastDayOfThisMonth();
             DateTime minDate = minDateInput ?? DateTime.Now.Date.AddDays(1);
 
             return GenerateFGTSListAsync(fgtsDto, maxYearMonth, minDate);
@@ -151,7 +151,7 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
 
             var currentMonth = _mapper.Map<FGTSSpread>(fgtsDto);
 
-            currentMonth.Date = new DateTime(currentMonth.UpdateDateTime.Year, currentMonth.UpdateDateTime.Month, 1).AddMonths(1).AddDays(-1); ;
+            currentMonth.Date = currentMonth.Date.GetLastDayOfThisMonth();
             currentMonth.ReferenceDate = currentMonth.ReferenceDate;
             fgtsSpreadList.Add(currentMonth);
 
@@ -159,7 +159,7 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
             {
 
                 var newItem = _mapper.Map<FGTSSpread>(fgtsDto);
-                newItem.Date = new DateTime(date.Year, date.Month, 1).AddMonths(1).AddDays(-1);
+                newItem.Date = newItem.Date.GetLastDayOfThisMonth();
                 
                 newItem.ReferenceDate = newItem.Date;
 

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FinanceApp.Core.Services.ForecastServices.Base;
 using FinanceApp.Core.Services.ForecastServices.Interfaces;
+using FinanceApp.Shared;
 using FinanceApp.Shared.Dto;
 using FinanceApp.Shared.Dto.Income;
 using FinanceApp.Shared.Enum;
@@ -88,7 +89,7 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
 
         public List<IncomeSpread> GetIncomesSpreadList(List<IncomeDto> incomesDto, DateTime maxYearMonth, DateTime? minDateInput = null)
         {
-            maxYearMonth = new DateTime(maxYearMonth.Year, maxYearMonth.Month, 1).AddMonths(1).AddDays(-1);
+            maxYearMonth = maxYearMonth.GetLastDayOfThisMonth();
             DateTime minDate = minDateInput ?? DateTime.Now.Date.AddDays(1);
 
             var incomeSpreadList = new List<IncomeSpread>();

@@ -7,5 +7,10 @@ namespace FinanceApp.Shared
         {
             return Math.Pow(1.00 + (value / 100.00), 1.00 / GlobalVariables.MonthsInAYear) - 1;
         }
+
+        public static DateTime GetLastDayOfThisMonth(this DateTime date)
+        {
+            return new DateTime(date.Year, date.Month, 1).AddMonths(1).AddDays(-1);
+        }
     }
 }

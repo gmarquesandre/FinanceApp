@@ -300,7 +300,7 @@ namespace FinanceApp.FinanceData.Services
 
             DateTime dateStart = new(year, month, 1);
 
-            DateTime dateEnd = dateStart.AddMonths(1).AddDays(-1);
+            DateTime dateEnd = dateStart.GetLastDayOfThisMonth();
 
             var workingDays = await _datesService.GetWorkingDaysBetweenDates(dateStart, dateEnd);
 

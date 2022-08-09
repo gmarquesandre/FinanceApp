@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FinanceApp.Core.Services.ForecastServices.Base;
 using FinanceApp.Core.Services.ForecastServices.Interfaces;
+using FinanceApp.Shared;
 using FinanceApp.Shared.Dto;
 using FinanceApp.Shared.Dto.CreditCard;
 using FinanceApp.Shared.Dto.Spending;
@@ -88,7 +89,7 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
         private List<SpendingSpread> GetSpendingsSpreadList(List<SpendingDto> spendingsDto, DateTime maxYearMonth, DateTime minDate)
         {
 
-            maxYearMonth = new DateTime(maxYearMonth.Year, maxYearMonth.Month, 1).AddMonths(1).AddDays(-1);
+            maxYearMonth = maxYearMonth.GetLastDayOfThisMonth();
 
             var spendingSpreadList = new List<SpendingSpread>();
 
