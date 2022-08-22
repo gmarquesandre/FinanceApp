@@ -4,7 +4,7 @@ namespace FinanceApp.FinanceData.Services
 {
     public interface ITitleService 
     {
-        Task<DefaultTitleOutput> GetCurrentValueOfTitle(DefaultTitleInput input);
-        Task<(DefaultTitleOutput titleOutput, double withdraw)> GetCurrentTitleAfterWithdraw(DefaultTitleInput title, double withdrawValue);
+        Task<DefaultTitleOutput> GetCurrentValueOfTitle(DefaultTitleInput input, DateTime date);
+        Task<(DefaultTitleOutput titleOutput, double withdraw)> GetCurrentTitleAfterWithdraw(DefaultTitleInput title, DateTime date, double withdrawValue);
     }
 }

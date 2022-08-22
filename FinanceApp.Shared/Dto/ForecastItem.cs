@@ -1,7 +1,7 @@
 ﻿namespace FinanceApp.Shared.Dto
 {
     public class ForecastItem
-    {
+    {   
         public DateTime DateReference { get; set;}
         public double NominalLiquidValue { get; set;}
         public double RealLiquidValue { get; set;}   

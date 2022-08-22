@@ -38,7 +38,7 @@ class DefaultClient {
   }
 
   Future<bool> create(String path, String body) async {
-    var uri = Uri.https(baseUrl, path);
+    var uri = Uri.http(baseUrl, path);
 
     var headersToken = await getHeaders();
 
@@ -51,7 +51,7 @@ class DefaultClient {
   }
 
   Future<bool> delete(String path, Map<String, dynamic> queryParams) async {
-    var uri = Uri.https(baseUrl, path, queryParams);
+    var uri = Uri.http(baseUrl, path, queryParams);
     var headersToken = await getHeaders();
 
     final response = await http.delete(uri, headers: headersToken);
@@ -63,7 +63,7 @@ class DefaultClient {
   }
 
   Future<bool> update(String path, String body) async {
-    var uri = Uri.https(baseUrl, path);
+    var uri = Uri.http(baseUrl, path);
 
     var headersToken = await getHeaders();
 
@@ -79,7 +79,7 @@ class DefaultClient {
   }
 
   Future<String> _get(String path, {Map<String, String>? parameters}) async {
-    var uri = Uri.https(baseUrl, path, parameters);
+    var uri = Uri.http(baseUrl, path, parameters);
     try {
       var headersToken = await getHeaders();
 

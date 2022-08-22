@@ -26,7 +26,7 @@ class LoginClient {
 
   Future<bool> login(String username, String password) async {
     String path = "Login";
-    var uri = Uri.https(baseUrl, path);
+    var uri = Uri.http(baseUrl, path);
 
     var body = {"username": username, "password": password};
 

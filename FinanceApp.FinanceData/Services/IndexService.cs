@@ -80,7 +80,7 @@ namespace FinanceApp.FinanceData.Services
             if (!_memoryCache.TryGetValue(cacheKey, out List<ProspectIndexValueDto> valuesDto))
             {
                 //calling the server
-                var values = await _context.ProspectIndexValues.Where(a => a.Index == index && a.BaseCalculo == 0).ToListAsync();
+                var values = await _context.ProspectIndexValues.Where(a => a.Index == index && a.BaseCalculo == 0).OrderBy(a => a.DateStart).ToListAsync();
 
                 //setting up cache options
                 var cacheExpiryOptions = new MemoryCacheEntryOptions
@@ -248,7 +248,6 @@ namespace FinanceApp.FinanceData.Services
             {
                 var prospect = await GetIndexProspect(index);
 
-                prospect.Min(a => a.DateStart);
                 DateTime dateStartProspect = dateStart > indexLastValue.Date ? dateStart : indexLastValue.Date;
                 for (DateTime date = dateStartProspect.AddDays(1); date < dateEnd; date = date.AddDays(1))
                 {
@@ -328,10 +327,7 @@ namespace FinanceApp.FinanceData.Services
 
             if (yearMonth.Month == currentYearMonth.Month && yearMonth.Year == currentYearMonth.Year)
                 return currentValue;
-
-            else if (yearMonth < currentYearMonth)
-                throw new NotImplementedException();
-            else
+            else if(yearMonth > currentYearMonth)
             {
                 var prospectListFilter = prospectList
                 .Where(prospect => prospect.DateStart > currentYearMonth
@@ -342,8 +338,8 @@ namespace FinanceApp.FinanceData.Services
                 prospectListFilter.ForEach(a => realValue /= 1 + a.Median / 100);
 
                 return realValue;
-
             }
+            else return currentValue;
 
         }
 

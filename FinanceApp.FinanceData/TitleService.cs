@@ -13,21 +13,21 @@ namespace FinanceApp.FinanceData
             _indexService = indexService;
         }
 
-        public async Task<DefaultTitleOutput> GetCurrentValueOfTitle(DefaultTitleInput input)
+        public async Task<DefaultTitleOutput> GetCurrentValueOfTitle(DefaultTitleInput input, DateTime date)
         {
             if (input.InvestmentValue > 0.00)
             {
                 var apprecitation = await _indexService.GetIndexValueBetweenDates(EIndex.CDI,
                                             input.DateInvestment,
-                                            input.Date,
+                                            date,
                                             input.IndexPercentage);
 
 
                 var grossValue = Convert.ToDouble(input.InvestmentValue) * apprecitation;
 
-                var incomeTaxPercentage = GetIncomeTax(input.TypePrivateFixedIncome, input.Date, input.DateInvestment);
+                var incomeTaxPercentage = GetIncomeTax(input.TypePrivateFixedIncome, date, input.DateInvestment);
 
-                var iofPercentage = _indexService.GetIof((input.Date - input.DateInvestment).Days);
+                var iofPercentage = _indexService.GetIof((date - input.DateInvestment).Days);
 
                 var iofValue = iofPercentage * (grossValue - Convert.ToDouble(input.InvestmentValue));
 
@@ -40,7 +40,7 @@ namespace FinanceApp.FinanceData
                 return new DefaultTitleOutput()
                 {
                     DateInvestment = input.DateInvestment,
-                    Date = input.Date,
+                    Date = date,
                     GrossValue = grossValue,
                     IncomeTaxValue = incomeTaxValue,
                     LiquidValue = liquidValue,
@@ -57,7 +57,7 @@ namespace FinanceApp.FinanceData
 
                 var apprecitation = await _indexService.GetIndexValueBetweenDates(EIndex.CDI,
                                             input.DateInvestment,
-                                            input.Date,
+                                            date,
                                             input.IndexPercentage);
 
                 var grossValue = Convert.ToDouble(input.InvestmentValue) * apprecitation;
@@ -68,7 +68,7 @@ namespace FinanceApp.FinanceData
                 return new DefaultTitleOutput()
                 {
                     DateInvestment = input.DateInvestment,
-                    Date = input.Date,
+                    Date = date,
                     GrossValue = grossValue,
                     IncomeTaxValue = 0,
                     LiquidValue = grossValue,
@@ -85,7 +85,7 @@ namespace FinanceApp.FinanceData
                 return new DefaultTitleOutput()
                 {
                     DateInvestment = input.DateInvestment,
-                    Date = input.Date,
+                    Date = date,
                     GrossValue = 0,
                     IncomeTaxValue = 0,
                     LiquidValue = 0,
@@ -98,9 +98,9 @@ namespace FinanceApp.FinanceData
             }
 
         }
-        public async Task<(DefaultTitleOutput titleOutput, double withdraw)> GetCurrentTitleAfterWithdraw(DefaultTitleInput title, double withdrawValue)
+        public async Task<(DefaultTitleOutput titleOutput, double withdraw)> GetCurrentTitleAfterWithdraw(DefaultTitleInput title, DateTime date, double withdrawValue)
         {
-            var titleUpdate = await GetCurrentValueOfTitle(title);
+            var titleUpdate = await GetCurrentValueOfTitle(title, date);
 
             if (titleUpdate.LiquidValue - withdrawValue >= 0.01)
             {

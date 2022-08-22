@@ -11,9 +11,9 @@ namespace FinanceApp.FinanceData.Importers
 {
     public class IndexProspectImporter : ImporterBase
     {
-        private HttpClient _client;
+        private HttpClient _client = new();
 
-        private HttpClientHandler _handler;
+        private HttpClientHandler _handler = new();
 
 
         public IndexProspectImporter(FinanceDataContext context) : base(context)
@@ -93,7 +93,6 @@ namespace FinanceApp.FinanceData.Importers
             var responseString = await response.Content.ReadAsStringAsync();
 
             dynamic json = JObject.Parse(responseString);
-
 
             var values = json.value;
             List<ProspectIndexValue> listValues = new();

@@ -44,11 +44,7 @@ class _ForecastChartsState extends State<ForecastCharts> {
                     return const Text("Não há dados para mostrar.");
                   }
                   return Column(
-                    children: [
-                      // Text(spending.first),
-                      GetPatrimony(spending.first),
-                      GetTest(spending.first)
-                    ],
+                    children: [GetTest(spending.first)],
                   );
               }
               return const Text('Erro Desconhecido');
