@@ -138,7 +138,7 @@ class LoanFormState extends State<LoanForm> {
                     controller: _interestRateController,
                     autocorrect: true,
                     decoration: const InputDecoration(
-                      labelText: 'Juros Anual (%)',
+                      labelText: 'Juros Anual',
                     ),
                     onChanged: (value) {
                       setState(() {
@@ -153,6 +153,13 @@ class LoanFormState extends State<LoanForm> {
                     keyboardType:
                         const TextInputType.numberWithOptions(decimal: true),
                   ),
+                ),
+                SizedBox(
+                  width: double.maxFinite,
+                  child: Text(
+                      "*Para Financiamentos, Utilizar o Custo Efetivo Total (CET)",
+                      textAlign: TextAlign.left,
+                      style: Theme.of(context).textTheme.bodyText2),
                 ),
                 defaultInputPadding(
                   Column(
@@ -374,7 +381,7 @@ class LoanFormState extends State<LoanForm> {
       _monthsController.text = widget.loan!.monthsPayment.toString();
 
       _interestRateController = MoneyMaskedTextController(
-          precision: 0,
+          precision: 2,
           leftSymbol: '',
           initialValue: widget.loan!.interestRate);
 
