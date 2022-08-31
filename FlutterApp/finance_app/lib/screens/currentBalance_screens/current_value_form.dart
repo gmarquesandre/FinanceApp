@@ -166,10 +166,10 @@ class CurrentBalanceFormState extends State<CurrentBalanceForm> {
         percentageCdi: _interestRateController.numberValue / 100,
         value: _value.numberValue,
         updateValueWithCdiIndex: _updateValueWithCdi);
-    var success = await client.create(newValue);
+    await client.create(newValue);
 
     unsetLoading();
 
-    return success;
+    return true;
   }
 }

@@ -5,7 +5,7 @@ import 'package:finance_app/models/login_return.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/io_client.dart';
 import 'package:http_status_code/http_status_code.dart';
-// import 'package:http/http.dart' as http;
+// import 'package:http/https.dart' as http;
 
 class LoginClient {
   static String baseUrl = GlobalVariables.baseUrlLocal;
@@ -26,7 +26,7 @@ class LoginClient {
 
   Future<bool> login(String username, String password) async {
     String path = "Login";
-    var uri = Uri.http(baseUrl, path);
+    var uri = Uri.https(baseUrl, path);
 
     var body = {"username": username, "password": password};
 

@@ -190,10 +190,10 @@ class FGTSFormState extends State<FGTSForm> {
         anniversaryWithdraw: _anniversaryWithdraw,
         currentBalance: _currentBalance.numberValue,
         monthAniversaryWithdraw: monthWithdrawFGTS.month);
-    var success = await client.create(newValue);
+    await client.create(newValue);
 
     unsetLoading();
 
-    return success;
+    return true;
   }
 }

@@ -149,13 +149,20 @@ class GetTest extends StatelessWidget {
           plotAreaBorderWidth: 0,
           // title: ChartTitle(text: 'Inflation - Consumer price'),
           legend: Legend(
-              isVisible: true, overflowMode: LegendItemOverflowMode.wrap),
+              position: LegendPosition.bottom,
+              isVisible: true,
+              overflowMode: LegendItemOverflowMode.wrap),
           primaryXAxis: DateTimeCategoryAxis(
             title: AxisTitle(
                 text: 'Mês', textStyle: const TextStyle(fontSize: 12)),
             edgeLabelPlacement: EdgeLabelPlacement.shift,
             dateFormat: DateFormat("M/yy"),
             intervalType: DateTimeIntervalType.months,
+          ),
+          primaryYAxis: NumericAxis(
+            decimalPlaces: 0,
+            numberFormat: NumberFormat.compactCurrency(
+                decimalDigits: 0, locale: 'pt-BR', symbol: 'R\$'),
           ),
           series: <SplineSeries<ForecastItem, DateTime>>[
             SplineSeries<ForecastItem, DateTime>(

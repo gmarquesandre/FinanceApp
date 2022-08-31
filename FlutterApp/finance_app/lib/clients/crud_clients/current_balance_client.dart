@@ -15,11 +15,11 @@ class CurrentBalanceClient {
     return balance;
   }
 
-  Future<bool> create(CreateOrUpdateCurrentBalance item) async {
+  Future<CurrentBalance> create(CreateOrUpdateCurrentBalance item) async {
     final String body = item.toJson().toString();
     final String path = '$controller/CreateOrUpdate';
-    var teste = client.create(path, body);
+    var teste = await client.create(path, body);
 
-    return teste;
+    return CurrentBalance.fromJson(teste);
   }
 }

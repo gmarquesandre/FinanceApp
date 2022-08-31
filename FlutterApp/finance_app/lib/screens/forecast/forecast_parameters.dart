@@ -66,11 +66,11 @@ class _ForecastParametersState extends State<ForecastParameters> {
       percentageCdiVariableIncome: 0,
       savingsLiquidPercentage: 1,
     );
-    var success = await client.create(newValue);
+    await client.create(newValue);
 
     unsetLoading();
 
-    return success;
+    return true;
   }
 
   @override

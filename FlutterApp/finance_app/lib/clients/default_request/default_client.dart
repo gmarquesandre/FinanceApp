@@ -5,7 +5,7 @@ import 'package:finance_app/route_generator.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/io_client.dart';
 import 'package:http_status_code/http_status_code.dart';
-// import 'package:http/http.dart' as http;
+// import 'package:http/https.dart' as http;
 
 class DefaultClient {
   static String baseUrl = GlobalVariables.baseUrlLocal;
@@ -37,21 +37,21 @@ class DefaultClient {
     return decodedJson;
   }
 
-  Future<bool> create(String path, String body) async {
-    var uri = Uri.http(baseUrl, path);
+  Future<dynamic> create(String path, String body) async {
+    var uri = Uri.https(baseUrl, path);
 
     var headersToken = await getHeaders();
 
     final response = await http.post(uri, body: body, headers: headersToken);
 
     if (response.statusCode == StatusCode.CREATED) {
-      return true;
+      return jsonDecode(response.body);
     }
-    return false;
+    return jsonDecode(response.body);
   }
 
   Future<bool> delete(String path, Map<String, dynamic> queryParams) async {
-    var uri = Uri.http(baseUrl, path, queryParams);
+    var uri = Uri.https(baseUrl, path, queryParams);
     var headersToken = await getHeaders();
 
     final response = await http.delete(uri, headers: headersToken);
@@ -63,7 +63,7 @@ class DefaultClient {
   }
 
   Future<bool> update(String path, String body) async {
-    var uri = Uri.http(baseUrl, path);
+    var uri = Uri.https(baseUrl, path);
 
     var headersToken = await getHeaders();
 
@@ -79,7 +79,7 @@ class DefaultClient {
   }
 
   Future<String> _get(String path, {Map<String, String>? parameters}) async {
-    var uri = Uri.http(baseUrl, path, parameters);
+    var uri = Uri.https(baseUrl, path, parameters);
     try {
       var headersToken = await getHeaders();
 

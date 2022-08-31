@@ -15,11 +15,11 @@ class FGTSClient {
     return balance;
   }
 
-  Future<bool> create(CreateOrUpdateFGTS item) async {
+  Future<FGTS> create(CreateOrUpdateFGTS item) async {
     final String body = item.toJson().toString();
     final String path = '$controller/CreateOrUpdate';
-    var teste = client.create(path, body);
+    var teste = await client.create(path, body);
 
-    return teste;
+    return FGTS.fromJson(teste);
   }
 }

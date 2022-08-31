@@ -15,11 +15,11 @@ class ForecastParametersClient {
     return balance;
   }
 
-  Future<bool> create(CreateOrUpdateForecastParameters item) async {
+  Future<ForecastParameters> create(
+      CreateOrUpdateForecastParameters item) async {
     final String body = item.toJson().toString();
     final String path = '$controller/CreateOrUpdate';
-    var teste = client.create(path, body);
-
-    return teste;
+    var teste = await client.create(path, body);
+    return ForecastParameters.fromJson(teste);
   }
 }

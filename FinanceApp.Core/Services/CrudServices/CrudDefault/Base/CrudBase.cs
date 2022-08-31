@@ -48,15 +48,17 @@ namespace FinanceApp.Core.Services.CrudServices.CrudDefault.Base
             _repository.Remove(investment);
             return Result.Ok().WithSuccess("Registro deletado com sucesso");
         }
-        public virtual async Task<Result> AddAsync(TCreate input)
+        public virtual async Task<TDto> AddAsync(TCreate input)
         {
             T entity = _mapper.Map<T>(input);
 
             entity.CheckInput();
 
-            await _repository.InsertAsync(entity);
+            var createdEntity = await _repository.InsertAsync(entity);
 
-            return Result.Ok().WithSuccess("Registro criado com sucesso");
+            TDto newEntity = _mapper.Map<TDto>(createdEntity);
+
+            return newEntity;
         }
 
         public Result DeleteBatch(List<int> ids)

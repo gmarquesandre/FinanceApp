@@ -156,8 +156,7 @@ class LoanFormState extends State<LoanForm> {
                 ),
                 SizedBox(
                   width: double.maxFinite,
-                  child: Text(
-                      "*Para Financiamentos, Utilizar o Custo Efetivo Total (CET)",
+                  child: Text("*Utilizar o Custo Efetivo Total (CET)",
                       textAlign: TextAlign.left,
                       style: Theme.of(context).textTheme.bodyText2),
                 ),

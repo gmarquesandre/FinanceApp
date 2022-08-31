@@ -1,3 +1,6 @@
+import 'package:finance_app/models/category/category.dart';
+import 'package:finance_app/models/credit_card/credit_card.dart';
+
 class Spending {
   int id;
   String name;
@@ -49,34 +52,4 @@ class Spending {
         isRequired = json['isRequired'],
         payment = json['payment'],
         paymentName = json['paymentName'];
-}
-
-class Category {
-  int id;
-  String name;
-
-  Category({required this.id, required this.name});
-
-  Category.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        name = json['name'];
-}
-
-class CreditCard {
-  int id;
-  String name;
-  int invoiceClosingDay;
-  int invoicePaymentDay;
-
-  CreditCard(
-      {required this.id,
-      required this.name,
-      required this.invoiceClosingDay,
-      required this.invoicePaymentDay});
-
-  CreditCard.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        name = json['name'],
-        invoiceClosingDay = json['invoiceClosingDay'],
-        invoicePaymentDay = json['invoicePaymentDay'];
 }

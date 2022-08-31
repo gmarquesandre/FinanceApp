@@ -1,4 +1,8 @@
+import 'package:finance_app/clients/crud_clients/creditcard_client.dart';
 import 'package:finance_app/components/padding.dart';
+import 'package:finance_app/models/category/category.dart';
+import 'package:finance_app/models/credit_card/credit_card.dart';
+import 'package:finance_app/screens/creditcard/creditcard_form.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:finance_app/common_lists.dart';
 import 'package:finance_app/clients/crud_clients/spending_client.dart';
@@ -31,22 +35,35 @@ class SpendingFormState extends State<SpendingForm> {
   final TextEditingController _timesRecurrenceController =
       TextEditingController();
   Recurrence? recurrenceController;
+  CreditCard? creditCardController;
   Category? _categoryController;
 
   bool _isRequiredSpending = false;
 
   List<Category> categoryList = [];
+  List<CreditCard> creditCardList = [];
   List<Recurrence> recurrenceList = CommonLists.recurrenceList;
-
+  int typePayment = 1;
   String radioItem = 'Item 1';
 
   final _formKey = GlobalKey<FormState>();
 
   final SpendingClient _daoSpending = SpendingClient();
+  final CreditCardClient _daoCreditCard = CreditCardClient();
+
+  _loadCreditCards() async {
+    var getCards = await _daoCreditCard.get();
+
+    setState(() {
+      creditCardList = getCards;
+    });
+  }
 
   @override
   void initState() {
     super.initState();
+
+    _loadCreditCards();
 
     if (widget.spending != null) {
       recurrenceController = recurrenceList
@@ -78,6 +95,8 @@ class SpendingFormState extends State<SpendingForm> {
               : widget.spending!.timesRecurrence > 0
                   ? 'recurrenceNumber'
                   : 'endDate';
+
+      creditCardController = widget.spending!.creditCard;
     }
   }
 
@@ -108,24 +127,116 @@ class SpendingFormState extends State<SpendingForm> {
                     ),
                   ),
                 ),
-                defaultInputPadding(
-                  Row(
-                    children: [
-                      Checkbox(
-                        checkColor: Colors.white,
-                        value: _isRequiredSpending,
-                        onChanged: (bool? value) {
-                          setState(
-                            () {
-                              _isRequiredSpending = value!;
-                            },
-                          );
+                defaultInputPadding(Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          setState(() {
+                            typePayment = 1;
+                          });
                         },
+                        child: Text("Débito",
+                            style: TextStyle(
+                                color: typePayment == 1
+                                    ? Colors.white
+                                    : Colors.black)),
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(
+                              typePayment == 1
+                                  ? Colors.blueGrey
+                                  : Colors.white),
+                        ),
                       ),
-                      const Text('Gasto Obrigatório'),
-                    ],
-                  ),
-                ),
+                    ),
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          setState(() {
+                            typePayment = 2;
+                          });
+                        },
+                        child: Text("Crédito",
+                            style: TextStyle(
+                                color: typePayment == 2
+                                    ? Colors.white
+                                    : Colors.black)),
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(
+                              typePayment == 2
+                                  ? Colors.blueGrey
+                                  : Colors.white),
+                        ),
+                      ),
+                    ),
+                  ],
+                )),
+                typePayment == 1
+                    ? SizedBox()
+                    : defaultInputPadding(DropdownButtonFormField<CreditCard>(
+                        value: creditCardController,
+                        validator: (value) {
+                          if (value == null) {
+                            return 'Selecione uma recorrencia';
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                          labelText: 'Cartão de Crédito',
+                          suffixIcon: IconButton(
+                            icon: const Icon(Icons.add),
+                            tooltip: 'Novo Cartão',
+                            onPressed: () {
+                              setState(() {
+                                Navigator.of(context)
+                                    .push(
+                                      MaterialPageRoute(
+                                        builder: (context) => CreditCardForm(),
+                                      ),
+                                    )
+                                    .then(
+                                      (newCredit) => setState(() {
+                                        creditCardList.add(newCredit);
+                                        creditCardController = newCredit;
+                                      }),
+                                    );
+                              });
+                            },
+                          ),
+                        ),
+                        items: creditCardList.map<DropdownMenuItem<CreditCard>>(
+                            (creditCardController) {
+                          return DropdownMenuItem<CreditCard>(
+                            value: creditCardController,
+                            child: Text(
+                              "Cart. ${creditCardController.name} Fech. ${creditCardController.invoiceClosingDay} Pgto. ${creditCardController.invoicePaymentDay}",
+                            ),
+                          );
+                        }).toList(),
+                        onChanged: (CreditCard? newValue) {
+                          setState(() {
+                            creditCardController = newValue!;
+                          });
+                        },
+                      )),
+                // defaultInputPadding(
+                //   Row(
+                //     children: [
+                //       Checkbox(
+                //         checkColor: Colors.white,
+                //         value: _isRequiredSpending,
+                //         onChanged: (bool? value) {
+                //           setState(
+                //             () {
+                //               _isRequiredSpending = value!;
+                //             },
+                //           );
+                //         },
+                //       ),
+                //       const Text('Gasto Obrigatório'),
+                //     ],
+                //   ),
+                // ),
                 defaultInputPadding(
                   TextFormField(
                     validator: (value) {
@@ -350,11 +461,13 @@ class SpendingFormState extends State<SpendingForm> {
 
                           final bool isEndless =
                               radioItem == 'forever' ? true : false;
-
+                          final int? creditCardId = creditCardController != null
+                              ? creditCardController!.id
+                              : null;
                           if (widget.spending == null) {
                             final CreateSpending newSpend = CreateSpending(
-                                creditCardId: null,
-                                payment: 1,
+                                creditCardId: creditCardId,
+                                payment: typePayment,
                                 name: name,
                                 amount: spendingValue,
                                 initialDate: initialDate,
@@ -369,8 +482,9 @@ class SpendingFormState extends State<SpendingForm> {
                                 Navigator.pop(context, newSpend.toString()));
                           } else {
                             final UpdateSpending newSpend = UpdateSpending(
-                                payment: 1,
+                                payment: typePayment,
                                 id: widget.spending!.id,
+                                creditCardId: creditCardId,
                                 name: name,
                                 amount: spendingValue,
                                 initialDate: initialDate,

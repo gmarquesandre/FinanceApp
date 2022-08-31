@@ -46,20 +46,22 @@ class _SpendingFormState extends State<SpendingForm> {
   Future getCategory() async {
     var list = await _daoCategory.findAll();
 
-    setState(() {
-      categoryList = list;
+    setState(
+      () {
+        categoryList = list;
 
-      if (widget.spending != null) {
-        _categoryController = categoryList.firstWhere(
-            (element) => element.id == widget.spending!.categoryId);
-      }
-    },);
+        if (widget.spending != null) {
+          _categoryController = categoryList.firstWhere(
+              (element) => element.id == widget.spending!.categoryId);
+        }
+      },
+    );
     return '';
   }
 
   @override
   void initState() {
-    // TODO: implement initState]
+    // TODO: implement initState
     super.initState();
 
     getCategory();
@@ -102,7 +104,8 @@ class _SpendingFormState extends State<SpendingForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text((widget.spending == null? "Adicionar" : "Editar") + " Gasto"),
+        title:
+            Text((widget.spending == null ? "Adicionar" : "Editar") + " Gasto"),
       ),
       body: Form(
         key: _formKey,
@@ -258,7 +261,6 @@ class _SpendingFormState extends State<SpendingForm> {
                     decoration: InputDecoration(
                       labelText: 'Data Inicial',
                     ),
-
                   ),
                 ),
                 Visibility(
@@ -407,8 +409,8 @@ class _SpendingFormState extends State<SpendingForm> {
 
                           final int isEndless = radioItem == 'forever' ? 1 : 0;
 
-                          final int isRequiredSpending = _isRequiredSpending
-                              == true? 1 : 0;
+                          final int isRequiredSpending =
+                              _isRequiredSpending == true ? 1 : 0;
 
                           final Spending newSpend = Spending(
                               name: name,

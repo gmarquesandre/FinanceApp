@@ -2,6 +2,7 @@ class UpdateSpending {
   int id;
   String name;
   int recurrence;
+  int? creditCardId;
   double amount;
   int payment;
   bool isRequired;
@@ -14,6 +15,7 @@ class UpdateSpending {
   UpdateSpending(
       {required this.id,
       required this.name,
+      required this.creditCardId,
       required this.recurrence,
       required this.payment,
       required this.amount,
@@ -30,6 +32,7 @@ class UpdateSpending {
         'recurrence': recurrence,
         'amount': amount,
         'payment': payment,
+        'creditCardId': creditCardId,
         'isRequired': isRequired,
         'categoryId': categoryId,
         'initialDate': initialDate.toString(),
