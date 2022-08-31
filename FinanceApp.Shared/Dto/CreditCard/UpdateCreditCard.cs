@@ -2,7 +2,7 @@
 
 namespace FinanceApp.Shared.Dto.CreditCard
 {
-    public class UpdateCreditCardDto : UpdateDto
+    public class UpdateCreditCard : UpdateDto
     {
         public string Name { get; set; }
         public int InvoiceClosingDay { get; set; }
