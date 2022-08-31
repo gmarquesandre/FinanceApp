@@ -36,6 +36,7 @@ namespace FinanceApp.Api.Startup
             services.AddScoped<ILoanService, LoanService>();
             services.AddScoped<IPrivateFixedIncomeService, PrivateFixedIncomeService>();
             services.AddScoped<ISpendingService, SpendingService>();
+            services.AddScoped<ICreditCardService, CreditCardService>();
             //services.AddScoped<ITreasuryBondService, TreasuryBondService>();
 
 
