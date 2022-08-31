@@ -25,13 +25,12 @@ class LoanClient {
     return item;
   }
 
-  Future<bool> create(CreateLoan item) async {
+  Future<Loan> create(CreateLoan item) async {
     final String body = jsonEncode(item.toJson());
 
     final String path = '$controller/Create';
     var success = await client.create(path, body);
-
-    return success;
+    return Loan.fromJson(success);
   }
 
   Future<bool> delete(int id) async {

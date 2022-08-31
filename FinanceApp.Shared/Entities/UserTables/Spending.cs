@@ -23,7 +23,7 @@ namespace FinanceApp.Shared.Entities.UserTables
 
         public override void CheckInput()
         {
-            if (Payment == EPayment.Credit && CreditCard == null)
+            if (Payment == EPayment.Credit && CreditCardId == null)
                 throw new Exception("Pagamentos em Crédito devem ser vinculados a um cartão");
 
             if (EndDate == null && !IsEndless && (TimesRecurrence == null || TimesRecurrence == 0))

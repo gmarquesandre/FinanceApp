@@ -25,13 +25,13 @@ class IncomeClient {
     return item;
   }
 
-  Future<bool> create(CreateIncome item) async {
+  Future<Income> create(CreateIncome item) async {
     final String body = jsonEncode(item.toJson());
 
     final String path = '$controller/Create';
     var success = await client.create(path, body);
 
-    return success;
+    return Income.fromJson(success);
   }
 
   Future<bool> delete(int id) async {

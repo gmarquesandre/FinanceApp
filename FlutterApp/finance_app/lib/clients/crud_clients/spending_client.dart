@@ -25,13 +25,12 @@ class SpendingClient {
     return item;
   }
 
-  Future<bool> create(CreateSpending item) async {
+  Future<Spending> create(CreateSpending item) async {
     final String body = jsonEncode(item.toJson());
 
     final String path = '$controller/Create';
     var success = await client.create(path, body);
-
-    return success;
+    return Spending.fromJson(success);
   }
 
   Future<bool> delete(int id) async {
