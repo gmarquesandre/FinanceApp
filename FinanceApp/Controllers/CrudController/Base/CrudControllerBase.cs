@@ -5,12 +5,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FinanceApp.Api.Controllers.CrudController.Base
 {
+    [Authorize]
     public class CrudControllerBase<TService, TDto, TCreate, TUpdate> : ControllerBase, ICrudController<TCreate, TUpdate>
         where TService : ICrudBase<TDto, TCreate, TUpdate>
         where TDto : StandardDto
         where TCreate : CreateDto
         where TUpdate : UpdateDto
-        //ICrudBase<TDto, TCreate, TUpdate>
     {
         public TService _service { get; set; }
 
@@ -22,7 +22,6 @@ namespace FinanceApp.Api.Controllers.CrudController.Base
 
 
         [HttpGet("Get")]
-        [Authorize]
         public async Task<IActionResult> GetAsync()
         {
             try
@@ -39,7 +38,6 @@ namespace FinanceApp.Api.Controllers.CrudController.Base
 
 
         [HttpGet("Get/{id:int}")]
-        [Authorize]
         public async Task<IActionResult> GetAsync(int id)
         {
             try
@@ -56,7 +54,6 @@ namespace FinanceApp.Api.Controllers.CrudController.Base
         }
 
         [HttpPost("Create")]
-        [Authorize]
         public async Task<IActionResult> AddAsync(TCreate input)
         {
             try
@@ -72,7 +69,6 @@ namespace FinanceApp.Api.Controllers.CrudController.Base
         }
 
         [HttpDelete("Delete")]
-        [Authorize]
         public async Task<IActionResult> DeleteAsync(int id)
         {
             try
@@ -90,7 +86,6 @@ namespace FinanceApp.Api.Controllers.CrudController.Base
 
 
         [HttpPut("Update")]
-        [Authorize]
         public async Task<IActionResult> UpdateAsync(TUpdate input)
         {
             try
@@ -106,7 +101,6 @@ namespace FinanceApp.Api.Controllers.CrudController.Base
         }
 
         [HttpDelete("DeleteAll")]
-        [Authorize]
         public async Task<IActionResult> DeleteAllAsync()
         {
             try
@@ -122,7 +116,6 @@ namespace FinanceApp.Api.Controllers.CrudController.Base
         }
 
         [HttpDelete("DeleteBatch")]
-        [Authorize]
         public IActionResult DeleteBatch(List<int> ids)
         {
             try
