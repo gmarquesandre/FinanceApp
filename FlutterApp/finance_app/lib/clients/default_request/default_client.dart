@@ -15,7 +15,7 @@ class DefaultClient {
     ..badCertificateCallback =
         ((X509Certificate cert, String host, int port) => true);
 
-  IOClient http = IOClient(httpClient);
+  IOClient https = IOClient(httpClient);
   final secureStorage = const FlutterSecureStorage();
 
   static int timeout = GlobalVariables.requestTimeout;
@@ -42,7 +42,7 @@ class DefaultClient {
 
     var headersToken = await getHeaders();
 
-    final response = await http.post(uri, body: body, headers: headersToken);
+    final response = await https.post(uri, body: body, headers: headersToken);
 
     if (response.statusCode == StatusCode.CREATED) {
       return jsonDecode(response.body);
@@ -54,7 +54,7 @@ class DefaultClient {
     var uri = Uri.https(baseUrl, path, queryParams);
     var headersToken = await getHeaders();
 
-    final response = await http.delete(uri, headers: headersToken);
+    final response = await https.delete(uri, headers: headersToken);
 
     if (response.statusCode == StatusCode.OK) {
       return true;
@@ -67,7 +67,7 @@ class DefaultClient {
 
     var headersToken = await getHeaders();
 
-    final response = await http.put(uri, body: body, headers: headersToken);
+    final response = await https.put(uri, body: body, headers: headersToken);
 
     if (response.statusCode == StatusCode.OK) {
       return true;
@@ -83,7 +83,7 @@ class DefaultClient {
     try {
       var headersToken = await getHeaders();
 
-      final response = await http
+      final response = await https
           .get(uri, headers: headersToken)
           .timeout(Duration(seconds: timeout));
 

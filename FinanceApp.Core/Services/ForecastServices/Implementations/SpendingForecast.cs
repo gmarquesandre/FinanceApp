@@ -88,9 +88,6 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
         }
         private List<SpendingSpread> GetSpendingsSpreadList(List<SpendingDto> spendingsDto, DateTime maxYearMonth, DateTime minDate)
         {
-
-            maxYearMonth = maxYearMonth.GetLastDayOfThisMonth();
-
             var spendingSpreadList = new List<SpendingSpread>();
 
             foreach (var spendingDto in spendingsDto)

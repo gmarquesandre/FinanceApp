@@ -9,7 +9,7 @@ import 'package:intl/intl.dart';
 
 @override
 class ForecastParameters extends StatefulWidget {
-  ForecastParameters({Key? key}) : super(key: key);
+  const ForecastParameters({Key? key}) : super(key: key);
 
   @override
   State<ForecastParameters> createState() => _ForecastParametersState();

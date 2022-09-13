@@ -72,6 +72,7 @@ namespace FinanceApp.FinanceData.Services
 
             return item.Value;
         }
+
         public async Task<List<ProspectIndexValueDto>> GetIndexProspect(EIndex index)
         {
             var cacheKey = EnumHelper<EDataCacheKey>.GetDescriptionValue(EDataCacheKey.TreasuryBond) + index.ToString();

@@ -1,11 +1,17 @@
+import 'package:finance_app/clients/forecast_client/forecast_client.dart';
 import 'package:finance_app/components/app_bar.dart';
 import 'package:finance_app/screens/currentBalance_screens/current_value_form.dart';
 import 'package:finance_app/screens/fgts_screens/fgts_form.dart';
+import 'package:finance_app/screens/forecast/forecast_charts.dart';
 import 'package:finance_app/screens/forecast/forecast_options.dart';
 import 'package:finance_app/screens/income/income_list.dart';
 import 'package:finance_app/screens/loan_screens/loan_list.dart';
 import 'package:finance_app/screens/spending_screens/spending_list.dart';
 import 'package:flutter/material.dart';
+
+import '../components/padding.dart';
+import '../components/progress.dart';
+import '../models/forecast/forecast_list.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -61,15 +67,52 @@ class _DashboardState extends State<Dashboard> {
   }
 }
 
-class _HomeScreen extends StatelessWidget {
+class _HomeScreen extends StatefulWidget {
   const _HomeScreen({Key? key}) : super(key: key);
 
+  @override
+  State<_HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<_HomeScreen> {
+  ForecastClient forecastClient = ForecastClient();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBarLoggedInDefault("Inicio"),
       body: SingleChildScrollView(
-        child: Column(),
+        child: defaultBodyPadding(
+          SingleChildScrollView(
+            child: FutureBuilder(
+              future: forecastClient.getTwoWeeks(),
+              builder: (context, snapshot) {
+                switch (snapshot.connectionState) {
+                  case ConnectionState.none:
+                    break;
+                  case ConnectionState.waiting:
+                    return const Progress();
+                  case ConnectionState.active:
+                    break;
+                  case ConnectionState.done:
+                    final List<ForecastList> spending =
+                        snapshot.data as List<ForecastList>;
+                    if (spending.isEmpty) {
+                      return const Text("Não há dados para mostrar.");
+                    }
+                    return Column(
+                      children: [
+                        GetBalanceChart(
+                            spending.firstWhere((a) => a.type == 0),
+                            spending.firstWhere((a) => a.type == 1),
+                            spending.firstWhere((a) => a.type == 9999)),
+                      ],
+                    );
+                }
+                return const Text('Erro Desconhecido');
+              },
+            ),
+          ),
+        ),
       ),
     );
   }

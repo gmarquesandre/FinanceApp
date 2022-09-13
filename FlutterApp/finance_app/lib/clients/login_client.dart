@@ -20,7 +20,7 @@ class LoginClient {
     ..badCertificateCallback =
         ((X509Certificate cert, String host, int port) => true);
 
-  IOClient http = IOClient(httpClient);
+  IOClient https = IOClient(httpClient);
 
   static int timeout = GlobalVariables.requestTimeout;
 
@@ -33,7 +33,7 @@ class LoginClient {
     const secureStorage = FlutterSecureStorage();
 
     final response =
-        await http.post(uri, body: json.encode(body), headers: headers);
+        await https.post(uri, body: json.encode(body), headers: headers);
 
     if (response.statusCode == StatusCode.OK) {
       var loginReturn = LoginReturn.fromJson(jsonDecode(response.body));

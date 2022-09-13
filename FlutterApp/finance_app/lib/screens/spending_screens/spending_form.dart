@@ -17,7 +17,7 @@ import 'package:intl/intl.dart';
 class SpendingForm extends StatefulWidget {
   final Spending? spending;
 
-  SpendingForm([this.spending]);
+  const SpendingForm([this.spending]);
 
   @override
   SpendingFormState createState() => SpendingFormState();
@@ -136,17 +136,17 @@ class SpendingFormState extends State<SpendingForm> {
                             typePayment = 1;
                           });
                         },
-                        child: Text("Débito",
-                            style: TextStyle(
-                                color: typePayment == 1
-                                    ? Colors.white
-                                    : Colors.black)),
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(
                               typePayment == 1
                                   ? Colors.blueGrey
                                   : Colors.white),
                         ),
+                        child: Text("Débito",
+                            style: TextStyle(
+                                color: typePayment == 1
+                                    ? Colors.white
+                                    : Colors.black)),
                       ),
                     ),
                     Expanded(
@@ -156,23 +156,23 @@ class SpendingFormState extends State<SpendingForm> {
                             typePayment = 2;
                           });
                         },
-                        child: Text("Crédito",
-                            style: TextStyle(
-                                color: typePayment == 2
-                                    ? Colors.white
-                                    : Colors.black)),
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(
                               typePayment == 2
                                   ? Colors.blueGrey
                                   : Colors.white),
                         ),
+                        child: Text("Crédito",
+                            style: TextStyle(
+                                color: typePayment == 2
+                                    ? Colors.white
+                                    : Colors.black)),
                       ),
                     ),
                   ],
                 )),
                 typePayment == 1
-                    ? SizedBox()
+                    ? const SizedBox()
                     : defaultInputPadding(DropdownButtonFormField<CreditCard>(
                         value: creditCardController,
                         validator: (value) {

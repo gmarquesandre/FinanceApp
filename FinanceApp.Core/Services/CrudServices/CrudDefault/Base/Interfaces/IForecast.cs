@@ -8,6 +8,6 @@ namespace FinanceApp.Core.Services.CrudServices.CrudDefault.Base.Interfaces
         where TDto : StandardDto
 
     {
-        Task<ForecastList> GetForecast(EForecastType type, DateTime maxYearMonth, DateTime currentDate);
+        Task<ForecastList> GetForecast(EForecastType type, DateTime lastDate, DateTime currentDate);
     }
 }

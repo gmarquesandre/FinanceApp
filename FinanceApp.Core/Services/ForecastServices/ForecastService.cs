@@ -1,6 +1,5 @@
 ﻿using FinanceApp.Core.Services.CrudServices.CrudDefault.Interfaces;
 using FinanceApp.Core.Services.CrudServices.CrudSingleRegister.Interfaces;
-using FinanceApp.Core.Services.ForecastServices.Interfaces;
 using FinanceApp.FinanceData.Services;
 using FinanceApp.Shared;
 using FinanceApp.Shared.Dto;
@@ -39,19 +38,20 @@ namespace FinanceApp.Core.Services.ForecastServices
             _forecastParametersService = forecastParametersService;
         }
 
-        public async Task<List<ForecastList>> GetForecast(DateTime currentDate)
+        public async Task<List<ForecastList>> GetForecast(DateTime currentDate, DateTime lastDate, EForecastType forecastType, bool forceUpdate)
         {
             var forecastTotalList = new List<ForecastItem>();
 
 
             var forecastParameters = await _forecastParametersService.GetAsync();
 
-            DateTime maxYearMonth = new DateTime(DateTime.Now.Date.Year, DateTime.Now.Date.Month, 1).AddMonths(13).AddDays(-1);
+            if (forecastType == EForecastType.Monthly)
+                lastDate = lastDate.GetLastDayOfThisMonth();
 
-            var spendingsDaily = await _spendingService.GetForecast(EForecastType.Daily, maxYearMonth, currentDate);
-            var incomesDaily = await _incomeService.GetForecast(EForecastType.Daily, maxYearMonth, currentDate);
-            var loanDaily = await _loanService.GetForecast(EForecastType.Daily, maxYearMonth, currentDate);
-            var fgtsDaily = await _fgtsService.GetForecast(EForecastType.Daily, maxYearMonth, currentDate);
+            var spendingsDaily = await _spendingService.GetForecast(EForecastType.Daily, lastDate, currentDate.AddDays(1));
+            var incomesDaily = await _incomeService.GetForecast(EForecastType.Daily, lastDate, currentDate.AddDays(1));
+            var loanDaily = await _loanService.GetForecast(EForecastType.Daily, lastDate, currentDate.AddDays(1));
+            var fgtsDaily = await _fgtsService.GetForecast(EForecastType.Daily, lastDate, currentDate.AddDays(1));
 
             var balance = await _currentBalanceService.GetAsync();
 
@@ -75,12 +75,12 @@ namespace FinanceApp.Core.Services.ForecastServices
             }
 
 
-            for (DateTime date = DateTime.Now.Date.AddDays(1); date <= maxYearMonth; date = date.AddDays(1))
+            for (DateTime date = DateTime.Now.Date.AddDays(1); date <= lastDate; date = date.AddDays(1))
             {              
                 //variavel responsável por avisar se há alterações no balanço
                 DayMovimentation dayMovimentation = CheckIfMustUpdateBalance(spendingsDaily, incomesDaily, loanDaily, fgtsDaily, date);
 
-                if (dayMovimentation.UpdateBalance)
+                if (dayMovimentation.UpdateBalance || forceUpdate)
                 {
                     if (balanceTitlesList.Any(a => a.InvestmentValue < 0.00))
                     {
@@ -163,7 +163,7 @@ namespace FinanceApp.Core.Services.ForecastServices
 
                 }
 
-                if (date.AddDays(1).Day == 1)
+                if (date.AddDays(1).Day == 1 || forecastType == EForecastType.Daily)
                 {
                    
                     var valorTitulos = balanceTitlesList.Select(async a =>

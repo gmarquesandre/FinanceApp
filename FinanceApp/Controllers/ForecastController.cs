@@ -1,4 +1,6 @@
 ﻿using FinanceApp.Core.Services.ForecastServices;
+using FinanceApp.Shared;
+using FinanceApp.Shared.Enum;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,7 +23,7 @@ namespace FinanceApp.Api.Controllers
         {
             try
             {                
-                var resultado = await _service.GetForecast(currentDate);
+                var resultado = await _service.GetForecast(currentDate, currentDate.GetLastDayInTwelveMonths(), EForecastType.Monthly, false);
 
                 return Ok(resultado);
             }
@@ -29,6 +31,22 @@ namespace FinanceApp.Api.Controllers
             {
                 return BadRequest(ex);
             }
-        }     
+        }
+
+        [HttpGet("GetTwoWeeksForecast")]
+        [Authorize]
+        public async Task<IActionResult> GetTwoWeeksForecast([FromQuery] DateTime currentDate)
+        {
+            try
+            {
+                var resultado = await _service.GetForecast(currentDate, currentDate.AddDays(14), EForecastType.Daily, true);
+
+                return Ok(resultado);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
     }
 }

@@ -89,7 +89,6 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
 
         public List<IncomeSpread> GetIncomesSpreadList(List<IncomeDto> incomesDto, DateTime maxYearMonth, DateTime? minDateInput = null)
         {
-            maxYearMonth = maxYearMonth.GetLastDayOfThisMonth();
             DateTime minDate = minDateInput ?? DateTime.Now.Date.AddDays(1);
 
             var incomeSpreadList = new List<IncomeSpread>();

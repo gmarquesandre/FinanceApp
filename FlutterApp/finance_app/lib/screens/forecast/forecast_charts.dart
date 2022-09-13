@@ -186,3 +186,88 @@ class GetTest extends StatelessWidget {
     );
   }
 }
+
+class GetBalanceChart extends StatelessWidget {
+  GetBalanceChart(this.spending, this.income, this.result, {Key? key})
+      : super(key: key);
+
+  final ForecastList spending;
+  final ForecastList income;
+  final ForecastList result;
+  final TooltipBehavior _tooltipBehavior = TooltipBehavior(
+    enable: true,
+    shared: true,
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    return ExpansionTile(
+      initiallyExpanded: false,
+      collapsedTextColor: Colors.white,
+      textColor: Colors.white,
+      collapsedIconColor: Colors.white,
+      iconColor: Colors.white,
+      title: const Text(
+        "Gastos vs Receitas",
+      ),
+      leading: const Icon(Icons.bar_chart_outlined, color: Colors.white),
+      children: [
+        SfCartesianChart(
+          zoomPanBehavior: ZoomPanBehavior(
+            enablePanning: true,
+          ),
+          legend: Legend(
+              isVisible: true,
+              position: LegendPosition.bottom,
+              overflowMode: LegendItemOverflowMode.wrap),
+          tooltipBehavior: _tooltipBehavior,
+          series: <ChartSeries>[
+            LineSeries<ForecastItem, DateTime>(
+                name: 'Acumulado',
+                dataSource: result.items,
+                yAxisName: 'um',
+                markerSettings: const MarkerSettings(isVisible: true),
+                color: Colors.grey,
+                xValueMapper: (ForecastItem value, _) => value.dateReference,
+                yValueMapper: (ForecastItem value, _) =>
+                    value.nominalCumulatedAmount,
+                enableTooltip: true),
+            StackedColumnSeries<ForecastItem, DateTime>(
+                name: 'Receita',
+                dataSource: income.items,
+                color: Colors.green,
+                xValueMapper: (ForecastItem value, _) => value.dateReference,
+                yValueMapper: (ForecastItem value, _) =>
+                    value.nominalLiquidValue,
+                enableTooltip: true),
+            StackedColumnSeries<ForecastItem, DateTime>(
+                name: 'Gasto',
+                dataSource: spending.items,
+                color: Colors.red,
+                xValueMapper: (ForecastItem value, _) => value.dateReference,
+                yValueMapper: (ForecastItem value, _) =>
+                    -value.nominalLiquidValue,
+                enableTooltip: true),
+          ],
+          primaryXAxis: DateTimeCategoryAxis(
+            edgeLabelPlacement: EdgeLabelPlacement.shift,
+            dateFormat: DateFormat("d/M"),
+            intervalType: DateTimeIntervalType.days,
+          ),
+          primaryYAxis: NumericAxis(
+              numberFormat: NumberFormat.compact(),
+              decimalPlaces: 2,
+              maximumLabels: 4),
+          axes: <ChartAxis>[
+            NumericAxis(
+                name: 'um',
+                numberFormat: NumberFormat.compact(),
+                decimalPlaces: 2,
+                opposedPosition: true,
+                maximumLabels: 3),
+          ],
+        ),
+      ],
+    );
+  }
+}
