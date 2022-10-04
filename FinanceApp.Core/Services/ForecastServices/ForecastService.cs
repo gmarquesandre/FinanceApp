@@ -3,6 +3,7 @@ using FinanceApp.Core.Services.CrudServices.CrudSingleRegister.Interfaces;
 using FinanceApp.FinanceData.Services;
 using FinanceApp.Shared;
 using FinanceApp.Shared.Dto;
+using FinanceApp.Shared.Entities.UserTables;
 using FinanceApp.Shared.Enum;
 
 namespace FinanceApp.Core.Services.ForecastServices
@@ -196,17 +197,56 @@ namespace FinanceApp.Core.Services.ForecastServices
                 Type = EItemType.Total
             };
 
-            var output = new List<ForecastList>()
+            if (forecastType == EForecastType.Daily)
             {
-                totalDaily,
-                incomesDaily,
-                spendingsDaily,
-                loanDaily,
-                fgtsDaily
-            };
+                var output = new List<ForecastList>()
+                {
+                    totalDaily,
+                    incomesDaily,
+                    spendingsDaily,
+                    loanDaily,
+                    fgtsDaily
+                };
 
-            return output;
+                return output;
+            }
+            else
+            {                                                           
+                var output = new List<ForecastList>()
+                {
+                    totalDaily,
+                    GroupMonthly(incomesDaily),
+                    GroupMonthly(spendingsDaily),
+                    GroupMonthly(loanDaily),
+                    GroupMonthly(fgtsDaily)
+                };
+
+                return output;
+            }
+            
       
+        }
+
+        public static ForecastList GroupMonthly(ForecastList list)
+        {
+            var listNewItems = list.Items.OrderBy(a => a.DateReference).GroupBy(a => new { a.DateReference.Year, a.DateReference.Month }, (key, group) =>
+                  new ForecastItem
+                  {
+                      DateReference = new DateTime(key.Year, key.Month, 1).AddMonths(1).AddDays(-1),
+                      NominalLiquidValue = group.Sum(a => a.NominalLiquidValue),
+                      NominalNotLiquidValue = group.Sum(a => a.NominalNotLiquidValue),
+                      NominalCumulatedAmount = group.Sum(a => a.NominalCumulatedAmount),
+                      RealCumulatedAmount = group.Sum(a => a.RealCumulatedAmount),
+                      RealLiquidValue = group.Sum(a => a.RealLiquidValue),
+                      RealNotLiquidValue = group.Sum(a => a.RealNotLiquidValue)
+                  }
+              ).ToList();
+
+            return new ForecastList()
+            {
+                Items = listNewItems,
+                Type = list.Type
+            };
         }
 
         private static DayMovimentation CheckIfMustUpdateBalance(ForecastList spendingsDaily, ForecastList incomesDaily, ForecastList loanDaily, ForecastList fgtsDaily, DateTime date)

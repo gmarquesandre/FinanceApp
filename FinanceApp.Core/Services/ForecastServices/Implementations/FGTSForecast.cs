@@ -158,7 +158,7 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
             for (DateTime date = fgtsDto.UpdateDateTime.AddMonths(1); date <= maxYearMonth; date = date.AddMonths(1))
             {
                 var newItem = _mapper.Map<FGTSSpread>(fgtsDto);
-                newItem.Date = newItem.Date.GetLastDayOfThisMonth();                
+                newItem.Date = date.GetLastDayOfThisMonth();                
                 newItem.ReferenceDate = newItem.Date;
 
                 if (fgtsDto.AnniversaryWithdraw && fgtsDto.MonthAniversaryWithdraw == date.Month)

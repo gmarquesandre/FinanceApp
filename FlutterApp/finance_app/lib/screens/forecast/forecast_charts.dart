@@ -46,11 +46,11 @@ class _ForecastChartsState extends State<ForecastCharts> {
                   return Column(
                     children: [
                       GetTest(spending.first),
-                      // GetBalanceChart(
-                      //   spending.firstWhere((a) => a.type == 0),
-                      //   spending.firstWhere((a) => a.type == 1),
-                      //   spending.firstWhere((a) => a.type == 9999),
-                      // )
+                      GetBalanceChart(
+                        spending.firstWhere((a) => a.type == 0),
+                        spending.firstWhere((a) => a.type == 1),
+                        spending.firstWhere((a) => a.type == 9999),
+                      )
                     ],
                   );
               }
