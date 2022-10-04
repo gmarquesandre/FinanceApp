@@ -1,5 +1,5 @@
+import 'package:finance_app/components/popup.dart';
 import 'package:finance_app/login.dart';
-import 'package:finance_app/main.dart';
 import 'package:finance_app/screens/currentBalance_screens/current_value_form.dart';
 import 'package:finance_app/screens/dashboard.dart';
 import 'package:flutter/material.dart';
@@ -21,8 +21,6 @@ class RouteGenerator {
     // final args = settings.arguments;
 
     switch (settings.name) {
-      case RouteName.home:
-        return MaterialPageRoute(builder: (_) => const MyWidget());
       case RouteName.alert:
         return MaterialPageRoute(builder: (_) => const Popup());
       case RouteName.currentBalance:

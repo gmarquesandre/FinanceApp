@@ -31,33 +31,7 @@ namespace FinanceApp.Shared
             }
 
             throw new ArgumentOutOfRangeException(name);
-        }
-
-        //public static T Parse(string value)
-        //{
-        //    return (T)Enum.Parse(typeof(T), value, true);
-        //}
-
-        //public static IList<string> GetNames(Enum value)
-        //{
-        //    return value.GetType().GetFields(BindingFlags.Static | BindingFlags.Public).Select(fi => fi.Name).ToList();
-        //}
-
-        //public static IList<string> GetDisplayValues(Enum value)
-        //{
-        //    return GetNames(value).Select(obj => GetDisplayValue(Parse(obj))).ToList();
-        //}
-
-        //public static (string label, string description) GetDebitClassificationDescription(T value)
-        //{
-        //    var fieldInfo = value.GetType().GetField(value.ToString());
-
-        //    var descriptionAttributes = fieldInfo.GetCustomAttributes(
-        //        typeof(DocumentTypeClassificationAttribute), false) as DocumentTypeClassificationAttribute[];
-
-        //    if (descriptionAttributes == null) return (string.Empty, string.Empty);
-        //    return (descriptionAttributes.Length > 0) ? (EnumHelper<EDebitDocumentTypeClassification>.GetDisplayValue(descriptionAttributes[0].Classification), EnumHelper<EDebitDocumentTypeClassification>.GetDescriptionValue(descriptionAttributes[0].Classification)) : (value.ToString(), "");
-        //}
+        }        
 
         public static int GetOrderValue(T value)
         {
@@ -129,16 +103,5 @@ namespace FinanceApp.Shared
 
             return value.ToString();
         }
-
-        //public static EDebitDocumentTypeClassification GetClassificationTypeValue(T value)
-        //{
-        //    var fieldInfo = value.GetType().GetField(value.ToString());
-
-        //    var descriptionAttributes = fieldInfo.GetCustomAttributes(
-        //        typeof(DocumentTypeClassificationAttribute), false) as DocumentTypeClassificationAttribute[];
-
-        //    return descriptionAttributes[0].Classification;
-
-        //}
     }
 }

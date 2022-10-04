@@ -44,94 +44,6 @@ class MyHttpOverrides extends HttpOverrides {
   }
 }
 
-class Popup extends StatelessWidget {
-  const Popup({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      title: const Text('Popup example'),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: const <Widget>[
-          Text("Erro ao buscar dados"),
-        ],
-      ),
-      actions: <Widget>[
-        TextButton(
-          onPressed: () {
-            Navigator.of(context).pushReplacementNamed(RouteName.login);
-          },
-          child: const Text('Close'),
-        ),
-      ],
-    );
-  }
-}
-
-class MyWidget extends StatelessWidget {
-  const MyWidget({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('bla'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[
-            Text(
-              'ae tiu',
-            ),
-            Text('ae'),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).pushNamed(RouteName.currentBalance);
-        },
-        tooltip: 'Increment',
-        backgroundColor: Colors.green,
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
-  }
-}
-
 final ThemeData _darkTheme = ThemeData(
   pageTransitionsTheme: const PageTransitionsTheme(builders: {
     TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
@@ -250,6 +162,12 @@ final ThemeData _darkTheme = ThemeData(
   cardTheme: const CardTheme(
     color: Colors.blueGrey,
     elevation: 12,
+  ),
+  expansionTileTheme: const ExpansionTileThemeData(
+    collapsedTextColor: Colors.white,
+    textColor: Colors.white,
+    collapsedIconColor: Colors.white,
+    iconColor: Colors.white,
   ),
   cardColor: Colors.white,
   textTheme: const TextTheme(

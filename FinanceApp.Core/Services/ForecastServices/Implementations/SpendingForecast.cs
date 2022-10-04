@@ -86,16 +86,17 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
             };
 
         }
-        private List<SpendingSpread> GetSpendingsSpreadList(List<SpendingDto> spendingsDto, DateTime maxYearMonth, DateTime minDate)
+        private List<SpendingSpread> GetSpendingsSpreadList(List<SpendingDto> spendingsDto, DateTime maxDate, DateTime minDate)
         {
             var spendingSpreadList = new List<SpendingSpread>();
 
             foreach (var spendingDto in spendingsDto)
             {
-                spendingSpreadList.AddRange(GetSpendingList(maxYearMonth, minDate, spendingDto));
+                spendingSpreadList.AddRange(GetSpendingList(maxDate, minDate, spendingDto));
 
             }
-            return spendingSpreadList;
+
+            return spendingSpreadList.Where(a => a.ReferenceDate >= minDate && a.ReferenceDate <= maxDate).ToList();
 
         }
 
@@ -197,11 +198,11 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
             return spendingSpreadList;
         }
 
-        private DateTime CheckDateForCredit(DateTime date, CreditCardDto creditCard)
+        private static DateTime CheckDateForCredit(DateTime date, CreditCardDto creditCard)
         {
-            if (date.Day >= creditCard.InvoiceClosingDay)
+            if (date >= new DateTime(date.Year, date.Month, creditCard.InvoiceClosingDay).AddMonths(-1))
             {
-                return new DateTime(date.Year, date.Month + 1, creditCard.InvoicePaymentDay);
+                return new DateTime(date.Year, date.Month, creditCard.InvoicePaymentDay).AddMonths(1);
             }
             else
             {

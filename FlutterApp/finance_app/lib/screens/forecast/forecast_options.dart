@@ -12,13 +12,13 @@ class ForecastOptions extends StatelessWidget {
       appBar: appBarLoggedInDefault("Simulação"),
       body: SingleChildScrollView(
         child: Column(
-          children: [
+          children: const [
             _CardButton(
               Icons.keyboard_option_key,
               "Parâmetros",
               ForecastParameters(),
             ),
-            const _CardButton(
+            _CardButton(
               Icons.insert_chart,
               "Gráficos",
               ForecastCharts(),

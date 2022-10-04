@@ -44,7 +44,14 @@ class _ForecastChartsState extends State<ForecastCharts> {
                     return const Text("Não há dados para mostrar.");
                   }
                   return Column(
-                    children: [GetTest(spending.first)],
+                    children: [
+                      GetTest(spending.first),
+                      // GetBalanceChart(
+                      //   spending.firstWhere((a) => a.type == 0),
+                      //   spending.firstWhere((a) => a.type == 1),
+                      //   spending.firstWhere((a) => a.type == 9999),
+                      // )
+                    ],
                   );
               }
               return const Text('Erro Desconhecido');
@@ -70,10 +77,6 @@ class GetPatrimony extends StatelessWidget {
   Widget build(BuildContext context) {
     return ExpansionTile(
       initiallyExpanded: true,
-      collapsedTextColor: Colors.white,
-      textColor: Colors.white,
-      collapsedIconColor: Colors.white,
-      iconColor: Colors.white,
       title: const Text(
         "Patrimônio Liquido",
       ),
@@ -135,10 +138,6 @@ class GetTest extends StatelessWidget {
   Widget build(BuildContext context) {
     return ExpansionTile(
       initiallyExpanded: true,
-      collapsedTextColor: Colors.white,
-      textColor: Colors.white,
-      collapsedIconColor: Colors.white,
-      iconColor: Colors.white,
       title: const Text(
         "Patrimônio Liquido",
       ),
@@ -202,11 +201,7 @@ class GetBalanceChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ExpansionTile(
-      initiallyExpanded: false,
-      collapsedTextColor: Colors.white,
-      textColor: Colors.white,
-      collapsedIconColor: Colors.white,
-      iconColor: Colors.white,
+      initiallyExpanded: true,
       title: const Text(
         "Gastos vs Receitas",
       ),
@@ -223,31 +218,33 @@ class GetBalanceChart extends StatelessWidget {
           tooltipBehavior: _tooltipBehavior,
           series: <ChartSeries>[
             LineSeries<ForecastItem, DateTime>(
-                name: 'Acumulado',
-                dataSource: result.items,
-                yAxisName: 'um',
-                markerSettings: const MarkerSettings(isVisible: true),
-                color: Colors.grey,
-                xValueMapper: (ForecastItem value, _) => value.dateReference,
-                yValueMapper: (ForecastItem value, _) =>
-                    value.nominalCumulatedAmount,
-                enableTooltip: true),
+              name: 'Acumulado',
+              dataSource: result.items,
+              yAxisName: 'um',
+              markerSettings: const MarkerSettings(isVisible: true),
+              color: Colors.grey,
+              xValueMapper: (ForecastItem value, _) => value.dateReference,
+              yValueMapper: (ForecastItem value, _) =>
+                  value.nominalCumulatedAmount,
+              enableTooltip: true,
+            ),
             StackedColumnSeries<ForecastItem, DateTime>(
-                name: 'Receita',
-                dataSource: income.items,
-                color: Colors.green,
-                xValueMapper: (ForecastItem value, _) => value.dateReference,
-                yValueMapper: (ForecastItem value, _) =>
-                    value.nominalLiquidValue,
-                enableTooltip: true),
+              name: 'Receita',
+              dataSource: income.items,
+              color: Colors.green,
+              xValueMapper: (ForecastItem value, _) => value.dateReference,
+              yValueMapper: (ForecastItem value, _) => value.nominalLiquidValue,
+              enableTooltip: true,
+            ),
             StackedColumnSeries<ForecastItem, DateTime>(
-                name: 'Gasto',
-                dataSource: spending.items,
-                color: Colors.red,
-                xValueMapper: (ForecastItem value, _) => value.dateReference,
-                yValueMapper: (ForecastItem value, _) =>
-                    -value.nominalLiquidValue,
-                enableTooltip: true),
+              name: 'Gasto',
+              dataSource: spending.items,
+              color: Colors.red,
+              xValueMapper: (ForecastItem value, _) => value.dateReference,
+              yValueMapper: (ForecastItem value, _) =>
+                  -value.nominalLiquidValue,
+              enableTooltip: true,
+            ),
           ],
           primaryXAxis: DateTimeCategoryAxis(
             edgeLabelPlacement: EdgeLabelPlacement.shift,
@@ -258,14 +255,6 @@ class GetBalanceChart extends StatelessWidget {
               numberFormat: NumberFormat.compact(),
               decimalPlaces: 2,
               maximumLabels: 4),
-          axes: <ChartAxis>[
-            NumericAxis(
-                name: 'um',
-                numberFormat: NumberFormat.compact(),
-                decimalPlaces: 2,
-                opposedPosition: true,
-                maximumLabels: 3),
-          ],
         ),
       ],
     );

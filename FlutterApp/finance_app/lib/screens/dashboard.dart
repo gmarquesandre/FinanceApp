@@ -102,9 +102,10 @@ class _HomeScreenState extends State<_HomeScreen> {
                     return Column(
                       children: [
                         GetBalanceChart(
-                            spending.firstWhere((a) => a.type == 0),
-                            spending.firstWhere((a) => a.type == 1),
-                            spending.firstWhere((a) => a.type == 9999)),
+                          spending.firstWhere((a) => a.type == 0),
+                          spending.firstWhere((a) => a.type == 1),
+                          spending.firstWhere((a) => a.type == 9999),
+                        ),
                       ],
                     );
                 }
