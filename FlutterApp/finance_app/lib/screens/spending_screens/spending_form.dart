@@ -189,7 +189,7 @@ class SpendingFormState extends State<SpendingForm> {
                           value: creditCardController,
                           validator: (value) {
                             if (value == null) {
-                              return 'Selecione uma recorrencia';
+                              return 'Selecione um cartão';
                             }
                             return null;
                           },
@@ -483,7 +483,7 @@ class SpendingFormState extends State<SpendingForm> {
                                 recurrence: recurrenceId!,
                                 categoryId: categoryId,
                                 isEndless: isEndless,
-                                isRequired: _isRequiredSpending,
+                                isRequired: false,
                                 timesRecurrence: timesRecurrence);
 
                             await _daoSpending
@@ -507,12 +507,12 @@ class SpendingFormState extends State<SpendingForm> {
                                 isRequired: _isRequiredSpending,
                                 timesRecurrence: timesRecurrence);
 
-                            await _daoSpending
-                                .update(newSpend)
-                                .then((id) => Navigator.pop(
-                                      context,
-                                      newSpend.toString(),
-                                    ));
+                            await _daoSpending.update(newSpend).then(
+                                  (id) => Navigator.pop(
+                                    context,
+                                    newSpend.toString(),
+                                  ),
+                                );
                           }
                         }
                       },

@@ -200,7 +200,7 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
 
         private static DateTime CheckDateForCredit(DateTime date, CreditCardDto creditCard)
         {
-            if (date >= new DateTime(date.Year, date.Month, creditCard.InvoiceClosingDay).AddMonths(-1))
+            if (date >= new DateTime(date.Year, date.Month, creditCard.InvoiceClosingDay))
             {
                 return new DateTime(date.Year, date.Month, creditCard.InvoicePaymentDay).AddMonths(1);
             }

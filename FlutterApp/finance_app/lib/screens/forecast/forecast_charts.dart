@@ -203,7 +203,7 @@ class GetBalanceChart extends StatelessWidget {
     return ExpansionTile(
       initiallyExpanded: true,
       title: const Text(
-        "Gastos vs Receitas",
+        "Gastos vs Rendas",
       ),
       leading: const Icon(Icons.bar_chart_outlined, color: Colors.white),
       children: [
@@ -217,25 +217,6 @@ class GetBalanceChart extends StatelessWidget {
               overflowMode: LegendItemOverflowMode.wrap),
           tooltipBehavior: _tooltipBehavior,
           series: <ChartSeries>[
-            LineSeries<ForecastItem, DateTime>(
-              name: 'Acumulado',
-              dataSource: result.items,
-              yAxisName: 'um',
-              markerSettings: const MarkerSettings(isVisible: true),
-              color: Colors.grey,
-              xValueMapper: (ForecastItem value, _) => value.dateReference,
-              yValueMapper: (ForecastItem value, _) =>
-                  value.nominalCumulatedAmount,
-              enableTooltip: true,
-            ),
-            StackedColumnSeries<ForecastItem, DateTime>(
-              name: 'Receita',
-              dataSource: income.items,
-              color: Colors.green,
-              xValueMapper: (ForecastItem value, _) => value.dateReference,
-              yValueMapper: (ForecastItem value, _) => value.nominalLiquidValue,
-              enableTooltip: true,
-            ),
             StackedColumnSeries<ForecastItem, DateTime>(
               name: 'Gasto',
               dataSource: spending.items,
@@ -243,6 +224,14 @@ class GetBalanceChart extends StatelessWidget {
               xValueMapper: (ForecastItem value, _) => value.dateReference,
               yValueMapper: (ForecastItem value, _) =>
                   -value.nominalLiquidValue,
+              enableTooltip: true,
+            ),
+            StackedColumnSeries<ForecastItem, DateTime>(
+              name: 'Rendas',
+              dataSource: income.items,
+              color: Colors.green,
+              xValueMapper: (ForecastItem value, _) => value.dateReference,
+              yValueMapper: (ForecastItem value, _) => value.nominalLiquidValue,
               enableTooltip: true,
             ),
           ],

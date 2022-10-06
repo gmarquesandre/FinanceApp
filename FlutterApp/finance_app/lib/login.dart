@@ -77,6 +77,7 @@ class _LoginState extends State<Login> {
                           setState(() {});
                           await loginClient
                               .login(username.text, password.text)
+                              .catchError((err) => isLoading = false)
                               .then(
                             (resp) async {
                               if (resp) {

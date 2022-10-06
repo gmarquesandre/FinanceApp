@@ -39,7 +39,7 @@ namespace FinanceApp.Core.Services.ForecastServices
             _forecastParametersService = forecastParametersService;
         }
 
-        public async Task<List<ForecastList>> GetForecast(DateTime currentDate, DateTime lastDate, EForecastType forecastType, bool forceUpdate)
+        public async Task<List<ForecastList>> GetForecast(DateTime startDate, DateTime lastDate, EForecastType forecastType, bool forceUpdate)
         {
             var forecastTotalList = new List<ForecastItem>();
 
@@ -49,10 +49,10 @@ namespace FinanceApp.Core.Services.ForecastServices
             if (forecastType == EForecastType.Monthly)
                 lastDate = lastDate.GetLastDayOfThisMonth();
 
-            var spendingsDaily = await _spendingService.GetForecast(EForecastType.Daily, lastDate, currentDate.AddDays(1));
-            var incomesDaily = await _incomeService.GetForecast(EForecastType.Daily, lastDate, currentDate.AddDays(1));
-            var loanDaily = await _loanService.GetForecast(EForecastType.Daily, lastDate, currentDate.AddDays(1));
-            var fgtsDaily = await _fgtsService.GetForecast(EForecastType.Daily, lastDate, currentDate.AddDays(1));
+            var spendingsDaily = await _spendingService.GetForecast(EForecastType.Daily, lastDate, startDate.AddDays(1));
+            var incomesDaily = await _incomeService.GetForecast(EForecastType.Daily, lastDate, startDate.AddDays(1));
+            var loanDaily = await _loanService.GetForecast(EForecastType.Daily, lastDate, startDate.AddDays(1));
+            var fgtsDaily = await _fgtsService.GetForecast(EForecastType.Daily, lastDate, startDate.AddDays(1));
 
             var balance = await _currentBalanceService.GetAsync();
 
