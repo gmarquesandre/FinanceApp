@@ -45,8 +45,7 @@ namespace FinanceApp.Core.Services.ForecastServices
             if (forecastType == EForecastType.Monthly)
                 lastDate = lastDate.GetLastDayOfThisMonth();
            
-
-            var output = await GetForecastList(forecastType, startDate, lastDate, forceUpdate);
+            var output = await GetForecastList(forecastType, startDate.AddDays(1), lastDate, forceUpdate);
 
             return output;      
         }
@@ -56,15 +55,15 @@ namespace FinanceApp.Core.Services.ForecastServices
             
             List<DefaultTitleInput> balanceTitlesList = await GetInitialBalanceAsync();
 
-            var spendingsDaily = await _spendingService.GetForecast(EForecastType.Daily, lastDate, startDate.AddDays(1));
-            var incomesDaily = await _incomeService.GetForecast(EForecastType.Daily, lastDate, startDate.AddDays(1));
-            var loanDaily = await _loanService.GetForecast(EForecastType.Daily, lastDate, startDate.AddDays(1));
-            var fgtsDaily = await _fgtsService.GetForecast(EForecastType.Daily, lastDate, startDate.AddDays(1));
+            var spendingsDaily = await _spendingService.GetForecast(EForecastType.Daily, lastDate, startDate);
+            var incomesDaily = await _incomeService.GetForecast(EForecastType.Daily, lastDate, startDate);
+            var loanDaily = await _loanService.GetForecast(EForecastType.Daily, lastDate, startDate);
+            var fgtsDaily = await _fgtsService.GetForecast(EForecastType.Daily, lastDate, startDate);
 
             var forecastTotalList = new List<ForecastItem>();
             var forecastParameters = await _forecastParametersService.GetAsync();
 
-            for (DateTime date = startDate.AddDays(1); date <= lastDate; date = date.AddDays(1))
+            for (DateTime date = startDate; date <= lastDate; date = date.AddDays(1))
             {
                 balanceTitlesList = await DayMovimentation(forceUpdate, forecastParameters, spendingsDaily, incomesDaily, loanDaily, fgtsDaily, balanceTitlesList, date);
 
@@ -113,7 +112,6 @@ namespace FinanceApp.Core.Services.ForecastServices
 
         private async Task<List<DefaultTitleInput>> GetInitialBalanceAsync()
         {
-
             var balance = await _currentBalanceService.GetAsync();
 
             var balanceTitlesList = new List<DefaultTitleInput>();
