@@ -218,7 +218,7 @@ class GetBalanceChart extends StatelessWidget {
           tooltipBehavior: _tooltipBehavior,
           series: <ChartSeries>[
             StackedColumnSeries<ForecastItem, DateTime>(
-              name: 'Gasto',
+              name: income.typeDisplayValue,
               dataSource: spending.items,
               color: Colors.red,
               xValueMapper: (ForecastItem value, _) => value.dateReference,
@@ -227,7 +227,7 @@ class GetBalanceChart extends StatelessWidget {
               enableTooltip: true,
             ),
             StackedColumnSeries<ForecastItem, DateTime>(
-              name: 'Rendas',
+              name: income.typeDisplayValue,
               dataSource: income.items,
               color: Colors.green,
               xValueMapper: (ForecastItem value, _) => value.dateReference,

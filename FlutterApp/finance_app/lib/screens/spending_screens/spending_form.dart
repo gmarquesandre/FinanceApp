@@ -281,7 +281,15 @@ class SpendingFormState extends State<SpendingForm> {
                     }).toList(),
                     onChanged: (Recurrence? newValue) {
                       setState(() {
-                        recurrenceController = newValue!;
+                        if (radioItem == 'Item 1') {
+                          radioItem = 'recurrenceNumber';
+                        }
+
+                        if (newValue!.id == 1) {
+                          radioItem = 'Item 1';
+                        }
+
+                        recurrenceController = newValue;
                       });
                     },
                   ),
@@ -486,12 +494,12 @@ class SpendingFormState extends State<SpendingForm> {
                                 isRequired: false,
                                 timesRecurrence: timesRecurrence);
 
-                            await _daoSpending
-                                .create(newSpend)
-                                .then((id) => Navigator.pop(
-                                      context,
-                                      newSpend.toString(),
-                                    ));
+                            await _daoSpending.create(newSpend).then(
+                                  (id) => Navigator.pop(
+                                    context,
+                                    newSpend.toString(),
+                                  ),
+                                );
                           } else {
                             final UpdateSpending newSpend = UpdateSpending(
                                 payment: typePayment,

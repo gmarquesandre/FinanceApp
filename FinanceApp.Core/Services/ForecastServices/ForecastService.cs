@@ -202,10 +202,10 @@ namespace FinanceApp.Core.Services.ForecastServices
                 var output = new List<ForecastList>()
                 {
                     totalDaily,
-                    incomesDaily,
-                    spendingsDaily,
-                    loanDaily,
-                    fgtsDaily
+                    AddMissingDates(incomesDaily, startDate,lastDate),
+                    AddMissingDates(spendingsDaily, startDate,lastDate),
+                    AddMissingDates(loanDaily, startDate,lastDate),
+                    AddMissingDates(fgtsDaily,startDate ,lastDate)
                 };
 
                 return output;
@@ -227,6 +227,29 @@ namespace FinanceApp.Core.Services.ForecastServices
       
         }
 
+        private static ForecastList AddMissingDates(ForecastList list, DateTime startDate, DateTime lastDate)
+        {
+            var allDates = GetAllDatesBetween(startDate.AddDays(1), lastDate);
+
+            var listDates = list.Items.Select(a => a.DateReference).ToList();
+
+            var missingDates = allDates.Where(date => !listDates.Contains(date)).ToList();
+
+            missingDates.ForEach(date => list.Items.Add(new ForecastItem()
+            {
+                DateReference = date,
+                NominalCumulatedAmount = 0,
+                NominalLiquidValue = 0,
+                NominalNotLiquidValue = 0,
+                RealCumulatedAmount = 0,
+                RealLiquidValue = 0,
+                RealNotLiquidValue = 0,
+            }));
+
+            return list;
+
+        }
+
         public static ForecastList GroupMonthly(ForecastList list)
         {
             var listNewItems = list.Items.OrderBy(a => a.DateReference).GroupBy(a => new { a.DateReference.Year, a.DateReference.Month }, (key, group) =>
@@ -242,11 +265,24 @@ namespace FinanceApp.Core.Services.ForecastServices
                   }
               ).ToList();
 
+            
             return new ForecastList()
             {
                 Items = listNewItems,
                 Type = list.Type
             };
+        }
+
+        private static List<DateTime> GetAllDatesBetween(DateTime minDate, DateTime maxDate)
+        {
+            var dates = new List<DateTime>();
+
+            for(var date = minDate; date < maxDate; date = date.AddDays(1))
+            {
+                dates.Add(date);
+            }
+
+            return dates;
         }
 
         private static DayMovimentation CheckIfMustUpdateBalance(ForecastList spendingsDaily, ForecastList incomesDaily, ForecastList loanDaily, ForecastList fgtsDaily, DateTime date)

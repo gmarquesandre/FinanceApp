@@ -18,6 +18,8 @@ class ForecastClient {
         .map((dynamic json) => ForecastList.fromJson(json))
         .toList();
 
+    orderByDate(items);
+
     return items;
   }
 
@@ -33,6 +35,14 @@ class ForecastClient {
         .map((dynamic json) => ForecastList.fromJson(json))
         .toList();
 
+    orderByDate(items);
+
     return items;
+  }
+
+  void orderByDate(List<ForecastList> items) {
+    for (var element in items) {
+      element.items.sort((a, b) => a.dateReference.compareTo(b.dateReference));
+    }
   }
 }

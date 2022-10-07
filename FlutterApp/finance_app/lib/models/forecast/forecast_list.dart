@@ -16,7 +16,4 @@ class ForecastList {
         items = json['items']
             .map<ForecastItem>((dynamic item) => ForecastItem.fromJson(item))
             .toList();
-
-  // var items =
-  // responseJson.map((dynamic json) => Income.fromJson(json)).toList();
 }

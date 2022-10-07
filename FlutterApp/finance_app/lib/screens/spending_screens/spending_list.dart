@@ -138,12 +138,11 @@ class SpendingListState extends State<SpendingList> {
                                   const Icon(Icons.delete),
                                   onTap: () {
                                     confirmDialog(context).then(
-                                      (response) {
+                                      (response) async {
                                         if (response!) {
+                                          await _daoSpending.delete(element.id);
                                           setState(
-                                            () {
-                                              _daoSpending.delete(element.id);
-                                            },
+                                            () {},
                                           );
                                         }
                                       },
