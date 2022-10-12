@@ -18,15 +18,15 @@ class MyApp extends StatelessWidget {
     var materialApp = MaterialApp(
       navigatorKey: navigator,
       onGenerateRoute: RouteGenerator.generateRoute,
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        // SfGlobalLocalizations.delegate,
-      ],
-      supportedLocales: const [
-        Locale('pt'),
-      ],
-      locale: const Locale('pt'),
+      // localizationsDelegates: const [
+      //   GlobalMaterialLocalizations.delegate,
+      //   GlobalWidgetsLocalizations.delegate,
+      // SfGlobalLocalizations.delegate,
+      // ],
+      // supportedLocales: const [
+      //   Locale('pt'),
+      // ],
+      // locale: const Locale('pt'),
       themeMode: ThemeMode.dark,
       darkTheme: _darkTheme,
       home: const Login(),

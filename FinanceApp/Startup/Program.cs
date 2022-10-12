@@ -40,7 +40,19 @@ if(builder.Environment.IsDevelopment()){
     })));
     builder.Services.AddHangfireServer(configuration =>
     {
-        configuration.Queues = new[] { "default", "asset" };
+        configuration.Queues = new[] { "default" };
+        configuration.WorkerCount = 20;
+        configuration.ServerName = "Default Server";
+    });
+    builder.Services.AddHangfireServer(configuration =>
+    {
+        configuration.Queues = new[] { "asset-year" };
+        configuration.WorkerCount = 1;
+        configuration.ServerName = "Default Server";
+    });
+    builder.Services.AddHangfireServer(configuration =>
+    {
+        configuration.Queues = new[] { "asset-day" };
         configuration.WorkerCount = 20;
         configuration.ServerName = "Default Server";
     });

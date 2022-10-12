@@ -1,6 +1,5 @@
 ﻿using FinanceApp.Shared.Enum;
 using System.ComponentModel.DataAnnotations;
-using FinanceApp.Shared.Entities.UserTables.Bases;
 
 namespace FinanceApp.Shared.Entities.UserTables
 {

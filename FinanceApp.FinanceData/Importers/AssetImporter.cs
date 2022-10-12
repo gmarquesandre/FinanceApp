@@ -7,6 +7,7 @@ using FinanceApp.FinanceData.Services;
 using FinanceApp.Shared.Entities.CommonTables;
 using FinanceApp.FinanceData.Importers.Base;
 using FinanceApp.EntityFramework.Data;
+using FinanceApp.Shared.Enum;
 
 namespace FinanceApp.FinanceData.Importers
 {
@@ -40,7 +41,7 @@ namespace FinanceApp.FinanceData.Importers
 
             for (DateTime date = dateStart; date < dateEnd; date = date.AddDays(1))
             {
-                if (await _dateService.IsHolidayOrWeekend(date))
+                if (await _dateService.IsHolidayOrWeekend(date) || _context.Assets.Where(a => a.Date == date).First() != null)
                     continue;
 
                 BackgroundJob.Enqueue<AssetImporter>(a => a.GetAssetsWithDate(date));
@@ -52,11 +53,11 @@ namespace FinanceApp.FinanceData.Importers
 
 
         [AutomaticRetry(Attempts = 0)]
-        [Queue("asset")]
+        [Queue("asset-year")]
         public async Task GetAssetsWithYear(int year)
         {
             _handler = SetDefaultHttpHandler();
-
+            //https://www.b3.com.br/data/files/C8/F3/08/B4/297BE410F816C9E492D828A8/SeriesHistoricas_Layout.pdf
             _client = new HttpClient(_handler);
 
             //https://www.b3.com.br/pt_br/market-data-e-indices/servicos-de-dados/market-data/historico/mercado-a-vista/series-historicas/
@@ -81,7 +82,7 @@ namespace FinanceApp.FinanceData.Importers
         }
 
         [AutomaticRetry(Attempts = 0)]
-        [Queue("asset")]
+        [Queue("asset-date")]
         public async Task GetAssetsWithDate(DateTime date)
         {
             _handler = SetDefaultHttpHandler();
@@ -115,7 +116,7 @@ namespace FinanceApp.FinanceData.Importers
         {
             var dates = assetList.Select(a => a.Date).ToList();
 
-            var datesAlreadyOnDb = _context.Assets.Select(a => a.Date).ToList();
+            var datesAlreadyOnDb = _context.Assets.Select(a => a.Date).Distinct().ToList();
 
             var listInsert = assetList.Where(a => !datesAlreadyOnDb.Contains(a.Date)).ToList();
 
@@ -144,15 +145,20 @@ namespace FinanceApp.FinanceData.Importers
             {
                 AssetCode = a.Substring(12, 12).Trim(),
                 AssetCodeISIN = a.Substring(230, 12),
-
-
                 CompanyName = a.Substring(27, 12).Trim(),
                 Date = DateTime.ParseExact(a.Substring(2, 8), "yyyyMMdd", CultureInfo.InvariantCulture),
-                UnitPrice = Convert.ToDouble(a.Substring(108, 13)) / 100
+                ClosingPrice = Convert.ToDouble(a.Substring(108, 13)) / 100,
+                AveragePrice = Convert.ToDouble(a.Substring(95, 13)) / 100,
+                OpeningPrice = Convert.ToDouble(a.Substring(56, 13)) / 100,
+                MaxPrice = Convert.ToDouble(a.Substring(69, 13)) / 100,
+                MinPrice = Convert.ToDouble(a.Substring(82, 13)) / 100,
+                StockTradeCount = Convert.ToDouble(a.Substring(152, 20)),
+                TradeCount = Convert.ToDouble(a.Substring(147, 7))
+
             };
         }
 
-        private string Unzip(Stream streammedFile)
+        private static string Unzip(Stream streammedFile)
         {
             StringBuilder resp = new StringBuilder();
 

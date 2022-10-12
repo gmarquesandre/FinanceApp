@@ -2,7 +2,7 @@
 using FinanceApp.Core.Services.CrudServices.CrudDefault.Base.Interfaces;
 using FinanceApp.EntityFramework.User;
 using FinanceApp.Shared.Dto.Base;
-using FinanceApp.Shared.Entities.UserTables.Bases;
+using FinanceApp.Shared.Entities.UserTables;
 using FluentResults;
 
 namespace FinanceApp.Core.Services.CrudServices.CrudDefault.Base

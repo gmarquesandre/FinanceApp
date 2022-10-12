@@ -11,7 +11,13 @@ namespace FinanceApp.Shared.Entities.CommonTables
         public string AssetCode { get; set; } = string.Empty;
         public EAssetType TypeAsset { get; set; }
         public string CompanyName { get; set; } = string.Empty;
-        public double UnitPrice { get; set; }
+        public double ClosingPrice { get; set; }
+        public double OpeningPrice { get; set; }
+        public double MaxPrice { get; set; }
+        public double MinPrice { get; set; }
+        public double AveragePrice { get; set; }
+        public double TradeCount { get; set; }
+        public double StockTradeCount { get; set; }
         public DateTime Date { get; set; }
     }
 }

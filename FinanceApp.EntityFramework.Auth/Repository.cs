@@ -1,5 +1,5 @@
 ﻿using FinanceApp.Shared;
-using FinanceApp.Shared.Entities.UserTables.Bases;
+using FinanceApp.Shared.Entities.UserTables;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 

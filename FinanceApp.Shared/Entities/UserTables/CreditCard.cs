@@ -1,6 +1,4 @@
-﻿using FinanceApp.Shared.Entities.UserTables.Bases;
-
-namespace FinanceApp.Shared.Entities.UserTables
+﻿namespace FinanceApp.Shared.Entities.UserTables
 {
     public class CreditCard : UserTable
     {
