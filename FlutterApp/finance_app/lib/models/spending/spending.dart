@@ -2,7 +2,7 @@ import 'package:finance_app/models/category/category.dart';
 import 'package:finance_app/models/credit_card/credit_card.dart';
 
 class Spending {
-  int id;
+  String id;
   String name;
   int recurrence;
   int payment;

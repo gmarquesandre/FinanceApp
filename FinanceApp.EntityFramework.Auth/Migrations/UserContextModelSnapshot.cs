@@ -88,15 +88,15 @@ namespace FinanceApp.EntityFramework.User.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6c94ea29-0f3b-4169-84ae-433663ca27a0",
+                            ConcurrencyStamp = "14b60246-0190-47dc-bf84-687e8538223a",
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMBkSO5B6dHRowVQjGtYSeC67aMifKXjEHb19xzS3/Nkj6wOh5vDsGAeoC34GPupPw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDwr1mx0lGAac793MwBgIgZlxbclDWVU7rspOTukYJSYzp+xVUHfXuDjXl2cgaz1Cg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "83d5e9b4-e813-449e-b3a2-899d76c77ccc",
+                            SecurityStamp = "17a51e60-7a10-4283-b565-1138f5fa4684",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
@@ -104,9 +104,9 @@ namespace FinanceApp.EntityFramework.User.Migrations
 
             modelBuilder.Entity("FinanceApp.Shared.Entities.UserTables.Category", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("char(36)");
 
                     b.Property<DateTime>("CreationDateTime")
                         .HasColumnType("datetime(6)");
@@ -133,9 +133,9 @@ namespace FinanceApp.EntityFramework.User.Migrations
 
             modelBuilder.Entity("FinanceApp.Shared.Entities.UserTables.CreditCard", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("char(36)");
 
                     b.Property<DateTime>("CreationDateTime")
                         .HasColumnType("datetime(6)");
@@ -165,9 +165,9 @@ namespace FinanceApp.EntityFramework.User.Migrations
 
             modelBuilder.Entity("FinanceApp.Shared.Entities.UserTables.CurrentBalance", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("char(36)");
 
                     b.Property<DateTime>("CreationDateTime")
                         .HasColumnType("datetime(6)");
@@ -197,9 +197,9 @@ namespace FinanceApp.EntityFramework.User.Migrations
 
             modelBuilder.Entity("FinanceApp.Shared.Entities.UserTables.FGTS", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("char(36)");
 
                     b.Property<bool>("AnniversaryWithdraw")
                         .HasColumnType("tinyint(1)");
@@ -232,9 +232,9 @@ namespace FinanceApp.EntityFramework.User.Migrations
 
             modelBuilder.Entity("FinanceApp.Shared.Entities.UserTables.ForecastParameters", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("char(36)");
 
                     b.Property<DateTime>("CreationDateTime")
                         .HasColumnType("datetime(6)");
@@ -269,9 +269,9 @@ namespace FinanceApp.EntityFramework.User.Migrations
 
             modelBuilder.Entity("FinanceApp.Shared.Entities.UserTables.Income", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("char(36)");
 
                     b.Property<double>("Amount")
                         .HasColumnType("double");
@@ -313,9 +313,9 @@ namespace FinanceApp.EntityFramework.User.Migrations
 
             modelBuilder.Entity("FinanceApp.Shared.Entities.UserTables.Loan", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("char(36)");
 
                     b.Property<DateTime>("CreationDateTime")
                         .HasColumnType("datetime(6)");
@@ -354,9 +354,9 @@ namespace FinanceApp.EntityFramework.User.Migrations
 
             modelBuilder.Entity("FinanceApp.Shared.Entities.UserTables.PrivateFixedIncome", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("char(36)");
 
                     b.Property<double>("AdditionalFixedInterest")
                         .HasColumnType("double");
@@ -407,21 +407,24 @@ namespace FinanceApp.EntityFramework.User.Migrations
 
             modelBuilder.Entity("FinanceApp.Shared.Entities.UserTables.Spending", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("char(36)");
 
                     b.Property<double>("Amount")
                         .HasColumnType("double");
 
-                    b.Property<int?>("CategoryId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("CategoryId")
+                        .HasColumnType("char(36)");
 
                     b.Property<DateTime>("CreationDateTime")
                         .HasColumnType("datetime(6)");
 
                     b.Property<int?>("CreditCardId")
                         .HasColumnType("int");
+
+                    b.Property<Guid?>("CreditCardId1")
+                        .HasColumnType("char(36)");
 
                     b.Property<DateTime?>("EndDate")
                         .HasColumnType("datetime(6)");
@@ -458,7 +461,7 @@ namespace FinanceApp.EntityFramework.User.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("CreditCardId");
+                    b.HasIndex("CreditCardId1");
 
                     b.HasIndex("UserId");
 
@@ -467,9 +470,9 @@ namespace FinanceApp.EntityFramework.User.Migrations
 
             modelBuilder.Entity("FinanceApp.Shared.Entities.UserTables.TreasuryBond", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("char(36)");
 
                     b.Property<DateTime>("CreationDateTime")
                         .HasColumnType("datetime(6)");
@@ -727,7 +730,7 @@ namespace FinanceApp.EntityFramework.User.Migrations
 
                     b.HasOne("FinanceApp.Shared.Entities.UserTables.CreditCard", "CreditCard")
                         .WithMany()
-                        .HasForeignKey("CreditCardId");
+                        .HasForeignKey("CreditCardId1");
 
                     b.HasOne("FinanceApp.Shared.Entities.CommonTables.CustomIdentityUser", "User")
                         .WithMany()

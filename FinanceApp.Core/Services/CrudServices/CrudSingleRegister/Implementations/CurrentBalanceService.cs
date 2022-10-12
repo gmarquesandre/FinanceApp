@@ -26,7 +26,7 @@ namespace FinanceApp.Core.Services.CrudServices.CrudSingleRegister.Implementatio
             {
                 return new CurrentBalanceDto()
                 {
-                    Id = 0,
+                    Id = new Guid(),
                     PercentageCdi = null,
                     UpdateValueWithCdiIndex = false,
                     Value = 0.00,

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace FinanceApp.EntityFramework.Data.Migrations
 {
-    public partial class init : Migration
+    public partial class @int : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -26,7 +26,13 @@ namespace FinanceApp.EntityFramework.Data.Migrations
                     TypeAsset = table.Column<int>(type: "int", nullable: false),
                     CompanyName = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    UnitPrice = table.Column<double>(type: "double", nullable: false),
+                    ClosingPrice = table.Column<double>(type: "double", nullable: false),
+                    OpeningPrice = table.Column<double>(type: "double", nullable: false),
+                    MaxPrice = table.Column<double>(type: "double", nullable: false),
+                    MinPrice = table.Column<double>(type: "double", nullable: false),
+                    AveragePrice = table.Column<double>(type: "double", nullable: false),
+                    TradeCount = table.Column<double>(type: "double", nullable: false),
+                    StockTradeCount = table.Column<double>(type: "double", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
@@ -39,8 +45,7 @@ namespace FinanceApp.EntityFramework.Data.Migrations
                 name: "Holidays",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Date = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     DateLastUpdate = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
@@ -54,8 +59,7 @@ namespace FinanceApp.EntityFramework.Data.Migrations
                 name: "IndexValues",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Index = table.Column<int>(type: "int", nullable: false),
                     IndexRecurrence = table.Column<int>(type: "int", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime(6)", nullable: false),
@@ -72,8 +76,7 @@ namespace FinanceApp.EntityFramework.Data.Migrations
                 name: "ProspectIndexValues",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Index = table.Column<int>(type: "int", nullable: false),
                     IndexRecurrence = table.Column<int>(type: "int", nullable: false),
                     DateResearch = table.Column<DateTime>(type: "datetime(6)", nullable: false),
@@ -97,8 +100,7 @@ namespace FinanceApp.EntityFramework.Data.Migrations
                 name: "TreasuryBondTitle",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Description = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Type = table.Column<int>(type: "int", nullable: false),
@@ -119,8 +121,7 @@ namespace FinanceApp.EntityFramework.Data.Migrations
                 name: "TreasuryBondValues",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Date = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     Type = table.Column<int>(type: "int", nullable: false),
                     FixedInterestValueBuy = table.Column<double>(type: "double", nullable: false),
@@ -139,8 +140,7 @@ namespace FinanceApp.EntityFramework.Data.Migrations
                 name: "WorkingDaysByYear",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Year = table.Column<int>(type: "int", nullable: false),
                     WorkingDays = table.Column<int>(type: "int", nullable: false),
                     DateLastUpdate = table.Column<DateTime>(type: "datetime(6)", nullable: false)

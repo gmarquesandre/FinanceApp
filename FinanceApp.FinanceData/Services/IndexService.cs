@@ -136,12 +136,12 @@ namespace FinanceApp.FinanceData.Services
             return valuesDto.Where(a => a.Date >= dateStart).ToList();
 
         }
-        private async Task<IndexValueDto> GetIndexLastValue(EIndex index)
+        private async Task<IndexValueDto> GetIndexLastValue(EIndex index, bool force = false)
         {
             var cacheKey = EnumHelper<EDataCacheKey>.GetDescriptionValue(EDataCacheKey.IndexesLastValue) + index.ToString();
 
             //checks if cache entries exists
-            if (!_memoryCache.TryGetValue(cacheKey, out IndexValueDto valueDto))
+            if (!_memoryCache.TryGetValue(cacheKey, out IndexValueDto valueDto) || force)
             {
 
                 if (index == EIndex.TR)
@@ -177,6 +177,9 @@ namespace FinanceApp.FinanceData.Services
                 //setting cache entries
                 _memoryCache.Set(cacheKey, valueDto, cacheExpiryOptions);
             }
+
+            if (valueDto == null)
+                await GetIndexLastValue(index, true);
 
             //_context.ProspectIndexValues.Load();
             return valueDto;

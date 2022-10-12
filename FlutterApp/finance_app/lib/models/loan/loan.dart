@@ -1,5 +1,5 @@
 class Loan {
-  int id;
+  String id;
   String name;
   DateTime initialDate;
   String typeDisplayValue;

@@ -1,4 +1,4 @@
-class LoanPaymentType{
+class LoanPaymentType {
   int id;
   String type;
   String name;

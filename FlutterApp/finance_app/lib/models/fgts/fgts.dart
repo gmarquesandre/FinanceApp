@@ -1,5 +1,4 @@
 class FGTS {
-  int id;
   double monthlyGrossIncome;
   double currentBalance;
   bool anniversaryWithdraw;
@@ -7,7 +6,6 @@ class FGTS {
   DateTime updateDateTime;
 
   FGTS({
-    required this.id,
     required this.currentBalance,
     required this.updateDateTime,
     required this.anniversaryWithdraw,
@@ -17,7 +15,6 @@ class FGTS {
 
   factory FGTS.copyWith(FGTS element) {
     return FGTS(
-      id: element.id,
       currentBalance: element.currentBalance,
       anniversaryWithdraw: element.anniversaryWithdraw,
       updateDateTime: element.updateDateTime,
@@ -27,8 +24,7 @@ class FGTS {
   }
 
   FGTS.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        updateDateTime = DateTime.tryParse(json['updateDateTime'].toString())!,
+      : updateDateTime = DateTime.tryParse(json['updateDateTime'].toString())!,
         currentBalance = json['currentBalance'].toDouble(),
         monthlyGrossIncome = json['monthlyGrossIncome'].toDouble(),
         monthAniversaryWithdraw = json['monthAniversaryWithdraw'],

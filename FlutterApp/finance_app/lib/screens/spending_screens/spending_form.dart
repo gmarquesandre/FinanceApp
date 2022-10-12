@@ -456,7 +456,7 @@ class SpendingFormState extends State<SpendingForm> {
                           final int? recurrenceId = int.tryParse(
                             recurrenceController!.id.toString(),
                           );
-                          final int? categoryId = _categoryController?.id;
+                          final String? categoryId = _categoryController?.id;
                           final double spendingValue =
                               _spendingValueController.numberValue;
                           final DateTime endDate =
@@ -477,9 +477,10 @@ class SpendingFormState extends State<SpendingForm> {
 
                           final bool isEndless =
                               radioItem == 'forever' ? true : false;
-                          final int? creditCardId = creditCardController != null
-                              ? creditCardController!.id
-                              : null;
+                          final String? creditCardId =
+                              creditCardController != null
+                                  ? creditCardController!.id
+                                  : null;
                           if (widget.spending == null) {
                             final CreateSpending newSpend = CreateSpending(
                                 creditCardId: creditCardId,

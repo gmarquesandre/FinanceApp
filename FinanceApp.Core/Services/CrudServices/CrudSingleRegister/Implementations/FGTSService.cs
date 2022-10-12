@@ -35,6 +35,7 @@ namespace FinanceApp.Core.Services.CrudServices.CrudSingleRegister.Implementatio
             {
                 return new FGTSDto()
                 {
+                    Id = new Guid(),
                     AnniversaryWithdraw = false,
                     CurrentBalance = 0.00,
                     MonthlyGrossIncome = 0.00,

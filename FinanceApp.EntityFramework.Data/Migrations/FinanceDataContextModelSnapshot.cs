@@ -71,9 +71,9 @@ namespace FinanceApp.EntityFramework.Data.Migrations
 
             modelBuilder.Entity("FinanceApp.Shared.Entities.CommonTables.Holiday", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("char(36)");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime(6)");
@@ -91,9 +91,9 @@ namespace FinanceApp.EntityFramework.Data.Migrations
 
             modelBuilder.Entity("FinanceApp.Shared.Entities.CommonTables.IndexValue", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("char(36)");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime(6)");
@@ -120,9 +120,9 @@ namespace FinanceApp.EntityFramework.Data.Migrations
 
             modelBuilder.Entity("FinanceApp.Shared.Entities.CommonTables.ProspectIndexValue", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("char(36)");
 
                     b.Property<double>("Average")
                         .HasColumnType("double");
@@ -170,9 +170,9 @@ namespace FinanceApp.EntityFramework.Data.Migrations
 
             modelBuilder.Entity("FinanceApp.Shared.Entities.CommonTables.TreasuryBondTitle", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -209,9 +209,9 @@ namespace FinanceApp.EntityFramework.Data.Migrations
 
             modelBuilder.Entity("FinanceApp.Shared.Entities.CommonTables.TreasuryBondValue", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("char(36)");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime(6)");
@@ -244,9 +244,9 @@ namespace FinanceApp.EntityFramework.Data.Migrations
 
             modelBuilder.Entity("FinanceApp.Shared.Entities.CommonTables.WorkingDaysByYear", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("char(36)");
 
                     b.Property<DateTime>("DateLastUpdate")
                         .HasColumnType("datetime(6)");

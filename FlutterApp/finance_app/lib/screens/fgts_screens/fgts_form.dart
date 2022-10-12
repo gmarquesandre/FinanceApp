@@ -65,8 +65,7 @@ class FGTSFormState extends State<FGTSForm> {
                             return DropdownMenuItem<DateTime>(
                               value: monthWithdrawFGTS,
                               child: Text(
-                                DateFormat('MMMM', 'pt-br')
-                                    .format(monthWithdrawFGTS),
+                                DateFormat('MMMM').format(monthWithdrawFGTS),
                               ),
                             );
                           }).toList(),
@@ -138,7 +137,6 @@ class FGTSFormState extends State<FGTSForm> {
       MoneyMaskedTextController(leftSymbol: 'R\$ ', initialValue: 0.00);
 
   bool _anniversaryWithdraw = false;
-  int _id = 0;
   bool isLoading = false;
 
   DateTime _date = DateTime.now();
@@ -162,8 +160,6 @@ class FGTSFormState extends State<FGTSForm> {
         monthWithdrawFGTS = DateTime(1900, balance.monthAniversaryWithdraw, 1);
 
         _date = balance.updateDateTime;
-
-        _id = balance.id;
       },
     );
     unsetLoading();
@@ -185,7 +181,6 @@ class FGTSFormState extends State<FGTSForm> {
     setLoading();
 
     CreateOrUpdateFGTS newValue = CreateOrUpdateFGTS(
-        id: _id,
         monthlyGrossIncome: _valueGrossIncome.numberValue,
         anniversaryWithdraw: _anniversaryWithdraw,
         currentBalance: _currentBalance.numberValue,

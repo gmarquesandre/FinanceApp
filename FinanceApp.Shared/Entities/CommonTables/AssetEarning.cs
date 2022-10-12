@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FinanceApp.Shared.Entities.CommonTables
 {
-    public class AssetEarning : Standartdable
+    public class AssetEarning : StandardTable
     {
         [Required]
         public Asset Asset { get; set; }

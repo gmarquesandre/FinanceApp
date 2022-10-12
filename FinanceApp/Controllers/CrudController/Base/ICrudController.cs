@@ -8,11 +8,11 @@ namespace FinanceApp.Api.Controllers.CrudController.Base
         where TUpdate : UpdateDto
     {
         Task<IActionResult> AddAsync(TCreate input);
-        Task<IActionResult> DeleteAsync(int id);
+        Task<IActionResult> DeleteAsync(Guid id);
         Task<IActionResult> DeleteAllAsync();
-        IActionResult DeleteBatch(List<int> ids);
+        IActionResult DeleteBatch(List<Guid> ids);
         Task<IActionResult> GetAsync();
-        Task<IActionResult> GetAsync(int id);
+        Task<IActionResult> GetAsync(Guid id);
         Task<IActionResult> UpdateAsync(TUpdate input);
     }
 }

@@ -24,7 +24,7 @@ class _ForecastParametersState extends State<ForecastParameters> {
   var percentageCdiFixedInteresIncometSavings =
       MoneyMaskedTextController(initialValue: 0);
 
-  int id = 0;
+  String id = '';
 
   void _loadBalance() async {
     setLoading();

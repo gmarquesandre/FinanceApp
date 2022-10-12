@@ -1,5 +1,5 @@
 class Income {
-  int id;
+  String id;
   String name;
   int recurrence;
   String recurrenceDisplayValue;

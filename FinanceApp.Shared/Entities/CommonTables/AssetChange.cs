@@ -2,7 +2,7 @@
 
 namespace FinanceApp.Shared.Entities.CommonTables
 {
-    public class AssetChange : Standartdable
+    public class AssetChange : StandardTable
     {
         public Asset Asset { get; set; }
         public string Type { get; set; } = string.Empty;

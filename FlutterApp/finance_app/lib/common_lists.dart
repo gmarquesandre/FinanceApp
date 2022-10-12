@@ -12,13 +12,13 @@ class CommonLists {
 
   static List<LoanPaymentType> loanPaymentType = [
     LoanPaymentType(
-        id: 0,
+        id: 1,
         type: "SAC",
         name: "Amortização Constante (Sac)",
         description:
             "*A parcela é descrescente com o tempo\nNo inicio a parcela é maior, porém o valor total é menor do que o Price"),
     LoanPaymentType(
-        id: 1,
+        id: 2,
         type: "PRICE",
         name: "Parcela Constante (Price)",
         description:

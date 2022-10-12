@@ -38,7 +38,7 @@ namespace FinanceApp.Api.Controllers.CrudController.Base
 
 
         [HttpGet("Get/{id:int}")]
-        public async Task<IActionResult> GetAsync(int id)
+        public async Task<IActionResult> GetAsync(Guid id)
         {
             try
             {
@@ -69,7 +69,7 @@ namespace FinanceApp.Api.Controllers.CrudController.Base
         }
 
         [HttpDelete("Delete")]
-        public async Task<IActionResult> DeleteAsync(int id)
+        public async Task<IActionResult> DeleteAsync(Guid id)
         {
             try
             {
@@ -116,7 +116,7 @@ namespace FinanceApp.Api.Controllers.CrudController.Base
         }
 
         [HttpDelete("DeleteBatch")]
-        public IActionResult DeleteBatch(List<int> ids)
+        public IActionResult DeleteBatch(List<Guid> ids)
         {
             try
             {

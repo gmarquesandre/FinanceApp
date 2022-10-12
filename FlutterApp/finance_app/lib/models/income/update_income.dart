@@ -1,5 +1,5 @@
 class UpdateIncome {
-  int id;
+  String id;
   String name;
   int recurrence;
   double amount;

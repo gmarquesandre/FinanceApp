@@ -39,7 +39,7 @@ namespace FinanceApp.Core.Services.CrudServices.CrudSingleRegister.Implementatio
             {
                 return new ForecastParametersDto()
                 {
-                    Id = 0,
+                    Id = new Guid(),
                     MonthsSavingWarning = 0,
                     PercentageCdiFixedInteresIncometSavings = 0.00,
                     PercentageCdiLoan = GlobalVariables.DefaultPercentageCdiLoan,

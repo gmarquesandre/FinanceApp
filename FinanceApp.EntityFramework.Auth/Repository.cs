@@ -25,7 +25,7 @@ namespace FinanceApp.EntityFramework.User
             return newRow;
         }
 
-        public async Task<TEntity> UpdateAsync(int id, TEntity entity)
+        public async Task<TEntity> UpdateAsync(Guid id, TEntity entity)
         {
             entity.Id = id;
 
@@ -64,7 +64,7 @@ namespace FinanceApp.EntityFramework.User
             _context.SaveChanges();
         }
 
-        public void RemoveBatch(List<int> ids)
+        public void RemoveBatch(List<Guid> ids)
         {
 
             var entities = GetAllAsync().Where(a => ids.Contains(a.Id));
@@ -86,7 +86,7 @@ namespace FinanceApp.EntityFramework.User
             _context.SaveChanges();
         }
 
-        public async Task<TEntity> GetByIdAsync(int id)
+        public async Task<TEntity> GetByIdAsync(Guid id)
         {
             var item = await _context.Set<TEntity>().AsNoTracking().Where(a => a.UserId == _httpContextAccessor.HttpContext.User.GetUserId()).FirstOrDefaultAsync(a => a.Id == id);
             if (item == null)

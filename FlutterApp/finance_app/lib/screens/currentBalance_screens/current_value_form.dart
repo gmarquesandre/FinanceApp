@@ -112,7 +112,7 @@ class CurrentBalanceFormState extends State<CurrentBalanceForm> {
   );
 
   bool _updateValueWithCdi = false;
-  int _id = 0;
+  // String _id = '';
   bool isLoading = false;
 
   DateTime _date = DateTime.now();
@@ -140,7 +140,7 @@ class CurrentBalanceFormState extends State<CurrentBalanceForm> {
 
         _updateValueWithCdi = balance.updateValueWithCdiIndex;
 
-        _id = balance.id;
+        // _id = balance.id;
       },
     );
     unsetLoading();
@@ -162,7 +162,7 @@ class CurrentBalanceFormState extends State<CurrentBalanceForm> {
     setLoading();
 
     CreateOrUpdateCurrentBalance newValue = CreateOrUpdateCurrentBalance(
-        id: _id,
+        // id: _id,
         percentageCdi: _interestRateController.numberValue / 100,
         value: _value.numberValue,
         updateValueWithCdiIndex: _updateValueWithCdi);

@@ -2,7 +2,11 @@
 {
     public abstract class CreateOrUpdateDto
     {
-        public int Id { get; set; }
+        public CreateOrUpdateDto()
+        {
+            Id = new Guid();
+        }
+        public Guid Id { get; set; }
         public DateTime UpdateDateTime { get; set; }
         public DateTime CreationDateTime { get; set; }
     }

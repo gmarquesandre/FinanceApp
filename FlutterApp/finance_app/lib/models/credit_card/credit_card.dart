@@ -1,5 +1,5 @@
 class CreditCard {
-  int id;
+  String id;
   String name;
   int invoiceClosingDay;
   int invoicePaymentDay;

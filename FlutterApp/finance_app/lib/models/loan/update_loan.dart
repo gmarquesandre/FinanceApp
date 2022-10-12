@@ -1,5 +1,5 @@
 class UpdateLoan {
-  int id;
+  String id;
   String name;
   DateTime initialDate;
   int monthsPayment;

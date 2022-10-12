@@ -2,7 +2,7 @@
 {
     public abstract class StandardDto
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         
     }
 }

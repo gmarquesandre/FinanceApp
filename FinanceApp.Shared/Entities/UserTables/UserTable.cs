@@ -3,7 +3,7 @@ using FinanceApp.Shared.Entities.UserTables.Bases;
 
 namespace FinanceApp.Shared.Entities.UserTables
 {
-    public abstract class UserTable : Standartdable
+    public abstract class UserTable : StandardTable
     {
         public int UserId { get; set; }
         public CustomIdentityUser User { get; set; }

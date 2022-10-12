@@ -60,7 +60,7 @@ namespace FinanceApp.FinanceData.Importers
 
             valuesSelic.ForEach(a =>
             {
-                a.Id = 0;
+                a.Id = new Guid();
                 a.Index = EIndex.CDI;
             });
 

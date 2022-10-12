@@ -1,12 +1,12 @@
 class UpdateSpending {
-  int id;
+  String id;
   String name;
   int recurrence;
-  int? creditCardId;
+  String? creditCardId;
   double amount;
   int payment;
   bool isRequired;
-  int? categoryId;
+  String? categoryId;
   DateTime initialDate;
   DateTime? endDate;
   bool isEndless;

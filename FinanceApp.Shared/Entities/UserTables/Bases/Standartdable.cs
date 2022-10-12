@@ -2,10 +2,12 @@
 
 namespace FinanceApp.Shared.Entities.UserTables.Bases
 {
-    public class Standartdable
+    public class StandardTable
     {
-
-        [Key]
-        public int Id { get; set; }
+        protected StandardTable()
+        {
+            Id = Guid.NewGuid();
+        }
+        public Guid Id { get; set; }
     }
 }

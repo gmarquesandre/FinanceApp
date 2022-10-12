@@ -2,7 +2,7 @@
 
 namespace FinanceApp.Shared.Entities.CommonTables
 {
-    public class Holiday : Standartdable
+    public class Holiday : StandardTable
     {
         public DateTime Date { get; set; }
         public DateTime DateLastUpdate { get; set; }

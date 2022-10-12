@@ -4,8 +4,8 @@ class CreateSpending {
   double amount;
   DateTime initialDate;
   DateTime? endDate;
-  int? creditCardId;
-  int? categoryId;
+  String? creditCardId;
+  String? categoryId;
   bool isRequired;
   bool isEndless;
   int timesRecurrence;

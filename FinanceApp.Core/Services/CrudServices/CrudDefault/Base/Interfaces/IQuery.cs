@@ -7,6 +7,6 @@ namespace FinanceApp.Core.Services.CrudServices.CrudDefault.Base.Interfaces
 
     {
         Task<List<TDto>> GetAsync();
-        Task<TDto> GetAsync(int id);
+        Task<TDto> GetAsync(Guid id);
     }
 }

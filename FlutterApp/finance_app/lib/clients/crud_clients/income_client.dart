@@ -34,7 +34,7 @@ class IncomeClient {
     return Income.fromJson(success);
   }
 
-  Future<bool> delete(int id) async {
+  Future<bool> delete(String id) async {
     final String path = '$controller/Delete';
 
     var success = await client.delete(path, {'id': id.toString()});

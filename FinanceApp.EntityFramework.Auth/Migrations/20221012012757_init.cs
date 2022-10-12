@@ -192,8 +192,7 @@ namespace FinanceApp.EntityFramework.User.Migrations
                 name: "Categories",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Name = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     UserId = table.Column<int>(type: "int", nullable: false),
@@ -216,8 +215,7 @@ namespace FinanceApp.EntityFramework.User.Migrations
                 name: "CreditCards",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Name = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     InvoiceClosingDay = table.Column<int>(type: "int", nullable: false),
@@ -242,8 +240,7 @@ namespace FinanceApp.EntityFramework.User.Migrations
                 name: "CurrentBalances",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Value = table.Column<double>(type: "double", nullable: false),
                     PercentageCdi = table.Column<double>(type: "double", nullable: true),
                     UpdateValueWithCdiIndex = table.Column<bool>(type: "tinyint(1)", nullable: false),
@@ -267,11 +264,11 @@ namespace FinanceApp.EntityFramework.User.Migrations
                 name: "FGTS",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    CurrentValue = table.Column<double>(type: "double", nullable: false),
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    CurrentBalance = table.Column<double>(type: "double", nullable: false),
                     MonthlyGrossIncome = table.Column<double>(type: "double", nullable: false),
                     AnniversaryWithdraw = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    MonthAniversaryWithdraw = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     CreationDateTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     UpdateDateTime = table.Column<DateTime>(type: "datetime(6)", nullable: true)
@@ -292,8 +289,7 @@ namespace FinanceApp.EntityFramework.User.Migrations
                 name: "ForecastParameters",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     PercentageCdiLoan = table.Column<double>(type: "double", nullable: false),
                     PercentageCdiFixedInteresIncometSavings = table.Column<double>(type: "double", nullable: false),
                     PercentageCdiVariableIncome = table.Column<double>(type: "double", nullable: false),
@@ -319,8 +315,7 @@ namespace FinanceApp.EntityFramework.User.Migrations
                 name: "Incomes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Name = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Recurrence = table.Column<int>(type: "int", nullable: false),
@@ -349,8 +344,7 @@ namespace FinanceApp.EntityFramework.User.Migrations
                 name: "Loans",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     InitialDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     MonthsPayment = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "longtext", nullable: false)
@@ -378,8 +372,7 @@ namespace FinanceApp.EntityFramework.User.Migrations
                 name: "PrivateFixedIncomes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Name = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Type = table.Column<int>(type: "int", nullable: false),
@@ -411,8 +404,7 @@ namespace FinanceApp.EntityFramework.User.Migrations
                 name: "TreasuryBonds",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Type = table.Column<int>(type: "int", nullable: false),
                     UnitPrice = table.Column<double>(type: "double", nullable: false),
                     ExpirationDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
@@ -439,8 +431,7 @@ namespace FinanceApp.EntityFramework.User.Migrations
                 name: "Spendings",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Name = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Recurrence = table.Column<int>(type: "int", nullable: false),
@@ -450,8 +441,9 @@ namespace FinanceApp.EntityFramework.User.Migrations
                     IsEndless = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     TimesRecurrence = table.Column<int>(type: "int", nullable: true),
                     IsRequired = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    CategoryId = table.Column<int>(type: "int", nullable: true),
+                    CategoryId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     Payment = table.Column<int>(type: "int", nullable: false),
+                    CreditCardId1 = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     CreditCardId = table.Column<int>(type: "int", nullable: true),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     CreationDateTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
@@ -472,8 +464,8 @@ namespace FinanceApp.EntityFramework.User.Migrations
                         principalTable: "Categories",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Spendings_CreditCards_CreditCardId",
-                        column: x => x.CreditCardId,
+                        name: "FK_Spendings_CreditCards_CreditCardId1",
+                        column: x => x.CreditCardId1,
                         principalTable: "CreditCards",
                         principalColumn: "Id");
                 })
@@ -482,7 +474,7 @@ namespace FinanceApp.EntityFramework.User.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { 1, 0, "d8d4fad8-4c95-448c-a6e8-ee9cc6356b96", "admin@admin.com", true, false, null, "ADMIN@ADMIN.COM", "ADMIN", "AQAAAAEAACcQAAAAEHwIz2q2/nfcGLnWvFJaVfRGUDpFIRiJ4VVj3W7astw3VYImFrstVYSb0ClWKGRjZA==", null, false, "f7c79f12-fe93-4678-8dc0-92da71a5775b", false, "admin" });
+                values: new object[] { 1, 0, "14b60246-0190-47dc-bf84-687e8538223a", "admin@admin.com", true, false, null, "ADMIN@ADMIN.COM", "ADMIN", "AQAAAAEAACcQAAAAEDwr1mx0lGAac793MwBgIgZlxbclDWVU7rspOTukYJSYzp+xVUHfXuDjXl2cgaz1Cg==", null, false, "17a51e60-7a10-4283-b565-1138f5fa4684", false, "admin" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -575,9 +567,9 @@ namespace FinanceApp.EntityFramework.User.Migrations
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Spendings_CreditCardId",
+                name: "IX_Spendings_CreditCardId1",
                 table: "Spendings",
-                column: "CreditCardId");
+                column: "CreditCardId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Spendings_UserId",

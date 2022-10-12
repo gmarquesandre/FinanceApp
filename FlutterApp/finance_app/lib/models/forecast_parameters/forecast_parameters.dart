@@ -1,5 +1,5 @@
 class ForecastParameters {
-  int id;
+  String id;
   double percentageCdiLoan;
   double percentageCdiFixedInteresIncometSavings;
   double percentageCdiVariableIncome;

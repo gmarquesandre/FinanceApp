@@ -28,7 +28,7 @@ namespace FinanceApp.Core.Services.CrudServices.CrudDefault.Implementations
             return _mapper.Map<List<SpendingDto>>(values);
         }
 
-        public override async Task<SpendingDto> GetAsync(int id)
+        public override async Task<SpendingDto> GetAsync(Guid id)
         {
             var value = await _repository.GetByIdAsync(id);
             return _mapper.Map<SpendingDto>(value);

@@ -31,7 +31,7 @@ namespace FinanceApp.Core.Services.CrudServices.CrudDefault.Base
             return Result.Ok().WithSuccess("Registro atualizado com sucesso");
         }
 
-        public virtual async Task<TDto> GetAsync(int id)
+        public virtual async Task<TDto> GetAsync(Guid id)
         {
             var value = await _repository.GetByIdAsync(id);
             return _mapper.Map<TDto>(value);
@@ -42,7 +42,7 @@ namespace FinanceApp.Core.Services.CrudServices.CrudDefault.Base
             var values = await _repository.GetAllListAsync();
             return _mapper.Map<List<TDto>>(values);
         }
-        public virtual async Task<Result> DeleteAsync(int id)
+        public virtual async Task<Result> DeleteAsync(Guid id)
         {
             var investment = await _repository.GetByIdAsync(id);
             _repository.Remove(investment);
@@ -61,7 +61,7 @@ namespace FinanceApp.Core.Services.CrudServices.CrudDefault.Base
             return newEntity;
         }
 
-        public Result DeleteBatch(List<int> ids)
+        public Result DeleteBatch(List<Guid> ids)
         {
             _repository.RemoveBatch(ids);
 

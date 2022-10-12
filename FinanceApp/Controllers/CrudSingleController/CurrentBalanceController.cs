@@ -13,24 +13,7 @@ namespace FinanceApp.Api.Controllers.CrudSingleController
 
         public CurrentBalanceController(ICurrentBalanceService service) : base(service) 
         {
-        }
-
-        [HttpGet("Get")]
-        [Authorize]
-        public override async Task<IActionResult> GetAsync()
-        {
-            try
-            {
-                var resultado = await _service.GetAsync();
-
-                return Ok(resultado);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
+        }        
 
     }
 }
