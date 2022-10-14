@@ -98,7 +98,7 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
                 incomeSpreadList.AddRange(GetIncomeList(maxYearMonth, minDate, IncomeDto));
 
             }
-            return incomeSpreadList;
+            return incomeSpreadList.Where(a => a.Date >= minDate && a.Date <= maxYearMonth).ToList(); ;
         }
 
         public List<IncomeSpread> GetIncomeList(DateTime maxYearMonth, DateTime minDate, IncomeDto IncomeDto)
