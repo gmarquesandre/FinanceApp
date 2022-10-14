@@ -61,11 +61,10 @@ namespace FinanceApp.Core.Services.ForecastServices
             var fgtsDaily = await _fgtsService.GetForecast(EForecastType.Daily, lastDate, startDate);
 
             var forecastTotalList = new List<ForecastItem>();
-            var forecastParameters = await _forecastParametersService.GetAsync();
 
             for (DateTime date = startDate; date <= lastDate; date = date.AddDays(1))
             {
-                balanceTitlesList = await DayMovimentation(forceUpdate, forecastParameters, spendingsDaily, incomesDaily, loanDaily, fgtsDaily, balanceTitlesList, date);
+                balanceTitlesList = await DayMovimentation(forceUpdate, spendingsDaily, incomesDaily, loanDaily, fgtsDaily, balanceTitlesList, date);
 
                 if (date.AddDays(1).Day == 1 || forecastType == EForecastType.Daily)
                 {
@@ -156,8 +155,9 @@ namespace FinanceApp.Core.Services.ForecastServices
             };
         }
 
-        private async Task<List<DefaultTitleInput>> DayMovimentation(bool forceUpdate, ForecastParametersDto forecastParameters, ForecastList spendingsDaily, ForecastList incomesDaily, ForecastList loanDaily, ForecastList fgtsDaily, List<DefaultTitleInput> balanceTitlesList, DateTime date)
+        private async Task<List<DefaultTitleInput>> DayMovimentation(bool forceUpdate, ForecastList spendingsDaily, ForecastList incomesDaily, ForecastList loanDaily, ForecastList fgtsDaily, List<DefaultTitleInput> balanceTitlesList, DateTime date)
         {
+            var forecastParameters = await _forecastParametersService.GetAsync();
             //variavel responsável por avisar se há alterações no balanço
             DayMovimentation dayMovimentation = CheckIfMustUpdateBalance(spendingsDaily, incomesDaily, loanDaily, fgtsDaily, date);
 
@@ -274,7 +274,7 @@ namespace FinanceApp.Core.Services.ForecastServices
 
         private static ForecastList AddMissingDates(ForecastList list, DateTime startDate, DateTime lastDate)
         {
-            var allDates = GetAllDatesBetween(startDate.AddDays(1), lastDate);
+            var allDates = GetAllDatesBetween(startDate, lastDate);
 
             var listDates = list.Items.Select(a => a.DateReference).ToList();
 
