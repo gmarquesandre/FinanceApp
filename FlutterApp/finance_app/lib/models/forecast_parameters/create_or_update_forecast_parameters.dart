@@ -1,5 +1,4 @@
 class CreateOrUpdateForecastParameters {
-  String id;
   double percentageCdiLoan;
   double percentageCdiFixedInteresIncometSavings;
   double percentageCdiVariableIncome;
@@ -7,7 +6,6 @@ class CreateOrUpdateForecastParameters {
   int monthsSavingWarning;
 
   CreateOrUpdateForecastParameters({
-    required this.id,
     required this.percentageCdiLoan,
     required this.percentageCdiFixedInteresIncometSavings,
     required this.percentageCdiVariableIncome,
@@ -16,7 +14,6 @@ class CreateOrUpdateForecastParameters {
   });
 
   Map<String, dynamic> toJson() => {
-        'id': id,
         'percentageCdi': percentageCdiLoan,
         'percentageCdiFixedInteresIncometSavings':
             percentageCdiFixedInteresIncometSavings,

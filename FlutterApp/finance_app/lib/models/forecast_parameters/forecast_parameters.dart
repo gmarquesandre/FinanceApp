@@ -1,5 +1,4 @@
 class ForecastParameters {
-  String id;
   double percentageCdiLoan;
   double percentageCdiFixedInteresIncometSavings;
   double percentageCdiVariableIncome;
@@ -7,7 +6,6 @@ class ForecastParameters {
   int monthsSavingWarning;
 
   ForecastParameters({
-    required this.id,
     required this.percentageCdiLoan,
     required this.percentageCdiFixedInteresIncometSavings,
     required this.percentageCdiVariableIncome,
@@ -16,8 +14,7 @@ class ForecastParameters {
   });
 
   ForecastParameters.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        percentageCdiLoan = json['percentageCdiLoan'],
+      : percentageCdiLoan = json['percentageCdiLoan'],
         percentageCdiVariableIncome = json['percentageCdiVariableIncome'],
         savingsLiquidPercentage = json['savingsLiquidPercentage'],
         percentageCdiFixedInteresIncometSavings =

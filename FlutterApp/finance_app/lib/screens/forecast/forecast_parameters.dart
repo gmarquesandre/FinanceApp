@@ -24,14 +24,11 @@ class _ForecastParametersState extends State<ForecastParameters> {
   var percentageCdiFixedInteresIncometSavings =
       MoneyMaskedTextController(initialValue: 0);
 
-  String id = '';
-
   void _loadBalance() async {
     setLoading();
     var base = await client.get();
 
     setState(() {
-      id = base.id;
       percentageCdiFixedInteresIncometSavings = MoneyMaskedTextController(
           precision: 2,
           rightSymbol: '%',
@@ -58,7 +55,6 @@ class _ForecastParametersState extends State<ForecastParameters> {
 
     CreateOrUpdateForecastParameters newValue =
         CreateOrUpdateForecastParameters(
-      id: id,
       monthsSavingWarning: 0,
       percentageCdiFixedInteresIncometSavings:
           percentageCdiFixedInteresIncometSavings.numberValue / 100,
