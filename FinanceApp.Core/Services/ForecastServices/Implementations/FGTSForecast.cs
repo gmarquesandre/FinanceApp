@@ -164,6 +164,8 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
                 if (fgtsDto.AnniversaryWithdraw && fgtsDto.MonthAniversaryWithdraw == date.Month)
                 {
                     newItem = WithdrawValue(newItem);
+
+
                 }
                 newItem.MonthAddValue = newItem.CurrentBalance * fgtsInterestRateMonthly + monthlyDeposit;
                 newItem.CurrentBalance += newItem.MonthAddValue;

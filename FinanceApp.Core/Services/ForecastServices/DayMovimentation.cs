@@ -22,7 +22,7 @@
                 if (LoansPayment > 0.00) return true;
                 if (IncomesReceived > 0.00) return true;
                 if (IncomesReceived > 0.00) return true;
-                if (OwingValue > 0.00) return true;
+                //if (OwingValue > 0.00) return true;
 
                 return false;
             }

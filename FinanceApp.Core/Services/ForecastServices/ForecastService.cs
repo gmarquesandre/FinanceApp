@@ -97,10 +97,10 @@ namespace FinanceApp.Core.Services.ForecastServices
                 var output = new List<ForecastList>()
                 {
                     totalDaily,
-                    GroupMonthly(incomesDaily),
-                    GroupMonthly(spendingsDaily),
-                    GroupMonthly(loanDaily),
-                    GroupMonthly(fgtsDaily)
+                    GroupMonthly(incomesDaily, startDate, lastDate),
+                    GroupMonthly(spendingsDaily, startDate, lastDate),
+                    GroupMonthly(loanDaily, startDate, lastDate),
+                    GroupMonthly(fgtsDaily, startDate, lastDate)
                 };
 
                 return output;
@@ -158,7 +158,7 @@ namespace FinanceApp.Core.Services.ForecastServices
         private async Task<List<DefaultTitleInput>> DayMovimentation(bool forceUpdate, ForecastList spendingsDaily, ForecastList incomesDaily, ForecastList loanDaily, ForecastList fgtsDaily, List<DefaultTitleInput> balanceTitlesList, DateTime date)
         {
             var forecastParameters = await _forecastParametersService.GetAsync();
-            //variavel responsável por avisar se há alterações no balanço
+
             DayMovimentation dayMovimentation = CheckIfMustUpdateBalance(spendingsDaily, incomesDaily, loanDaily, fgtsDaily, date);
 
             if (dayMovimentation.UpdateBalance || forceUpdate)
@@ -249,16 +249,19 @@ namespace FinanceApp.Core.Services.ForecastServices
             balanceTitlesList = balanceTitlesList.Where(a => a.InvestmentValue > 0.00).ToList();
 
             double newInvestmentValue = dayMovimentation.ResultValue;
-
-            balanceTitlesList.Add(new DefaultTitleInput()
+            if(newInvestmentValue > 0.00)
             {
-                DateInvestment = date,
-                InvestmentValue = Math.Round(newInvestmentValue),
-                IndexPercentage = forecastParameters.PercentageCdiFixedInteresIncometSavings,
-                Index = EIndex.CDI,
-                AdditionalFixedInterest = 0.00,
-                TypePrivateFixedIncome = ETypePrivateFixedIncome.BalanceCDB
-            });
+                balanceTitlesList.Add(new DefaultTitleInput()
+                {
+                    DateInvestment = date,
+                    InvestmentValue = Math.Round(newInvestmentValue),
+                    IndexPercentage = forecastParameters.PercentageCdiFixedInteresIncometSavings,
+                    Index = EIndex.CDI,
+                    AdditionalFixedInterest = 0.00,
+                    TypePrivateFixedIncome = ETypePrivateFixedIncome.BalanceCDB
+                });
+            }
+            
             return balanceTitlesList;
         }
 
@@ -295,7 +298,7 @@ namespace FinanceApp.Core.Services.ForecastServices
 
         }
 
-        public static ForecastList GroupMonthly(ForecastList list)
+        public static ForecastList GroupMonthly(ForecastList list, DateTime startDate, DateTime lastDate)
         {
             var listNewItems = list.Items.OrderBy(a => a.DateReference).GroupBy(a => new { a.DateReference.Year, a.DateReference.Month }, (key, group) =>
                   new ForecastItem
@@ -310,6 +313,25 @@ namespace FinanceApp.Core.Services.ForecastServices
                   }
               ).ToList();
 
+            int months = ((lastDate.Year - startDate.Year) * 12) + lastDate.Month - startDate.Month;
+
+            if(listNewItems.Count < months)
+            {
+                for(var date = startDate; date < lastDate; date = date.AddMonths(1))
+                {
+                    
+                    listNewItems.Add(new ForecastItem
+                    {
+                        DateReference = new DateTime(date.Year, date.Month, 1).GetLastDayOfThisMonth(),
+                        NominalLiquidValue = 0,
+                        NominalNotLiquidValue = 0,
+                        NominalCumulatedAmount = 0,
+                        RealCumulatedAmount = 0,
+                        RealLiquidValue = 0,
+                        RealNotLiquidValue = 0
+                    });                                      
+                }
+            }            
             
             return new ForecastList()
             {
