@@ -1,6 +1,8 @@
 class ForecastItem {
   DateTime dateReference;
   double nominalLiquidValue;
+  double nominalNotLiquidValue;
+  double nominalValue;
   double realLiquidValue;
   double nominalCumulatedAmount;
   double realCumulatedAmount;
@@ -8,6 +10,8 @@ class ForecastItem {
   ForecastItem(
       {required this.dateReference,
       required this.nominalCumulatedAmount,
+      required this.nominalValue,
+      required this.nominalNotLiquidValue,
       required this.nominalLiquidValue,
       required this.realCumulatedAmount,
       required this.realLiquidValue});
@@ -17,5 +21,7 @@ class ForecastItem {
         nominalCumulatedAmount = json['nominalCumulatedAmount'].toDouble(),
         nominalLiquidValue = json['nominalLiquidValue'].toDouble(),
         realLiquidValue = json['realLiquidValue'].toDouble(),
-        realCumulatedAmount = json['realCumulatedAmount'].toDouble();
+        realCumulatedAmount = json['realCumulatedAmount'].toDouble(),
+        nominalNotLiquidValue = json['nominalNotLiquidValue'].toDouble(),
+        nominalValue = json['nominalValue'].toDouble();
 }

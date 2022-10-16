@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FinanceApp.Core.Services.ForecastServices.Base;
 using FinanceApp.Core.Services.ForecastServices.Interfaces;
+using FinanceApp.FinanceData.Services;
 using FinanceApp.Shared;
 using FinanceApp.Shared.Dto;
 using FinanceApp.Shared.Dto.FGTS;
@@ -11,6 +12,13 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
     public class FGTSForecast : BaseForecast, IFGTSForecast
     {
         private readonly IMapper _mapper;
+        private readonly IIndexService _indexService;
+
+        public FGTSForecast(IMapper mapper, IIndexService indexService)
+        {
+            _indexService= indexService;
+            _mapper = mapper;
+        }
 
         private static readonly List<FGTSAnniversaryWithdraw> FgtsWithdrawValueList = new() { 
             //1
@@ -71,10 +79,6 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
             },
         };
 
-        public FGTSForecast(IMapper mapper)
-        {
-            _mapper = mapper;
-        }
 
         public EItemType Item => EItemType.FGTS;
         public ForecastList GetForecastAsync(FGTSDto fgtsDto, EForecastType forecastType, DateTime maxDate, DateTime? minDate = null)
@@ -95,7 +99,7 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
             var monthlyValues = FGTSsSpreadList.OrderBy(a => a.Date).GroupBy(a => new { a.Date.Year, a.Date.Month }, (key, group) =>
               new ForecastItem
               {
-                  NominalNotLiquidValue = group.Sum(a => a.MonthAddValue),
+                  NominalNotLiquidValue = group.Sum(a => a.AddValue),
                   NominalLiquidValue = group.Sum(a => a.WithdrawValue),
                   DateReference = new DateTime(key.Year, key.Month, 1).AddMonths(1).AddDays(-1),
                   NominalCumulatedAmount = group.Sum(a => a.CurrentBalance),
@@ -122,8 +126,7 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
                   NominalLiquidValue = group.Sum(a => a.WithdrawValue),
                   DateReference = key.Date,
                   NominalCumulatedAmount = group.Sum(a => a.CurrentBalance)
-              }
-            ).ToList();
+              }).ToList();            
 
             return new ForecastList()
             {
@@ -163,12 +166,31 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
 
                 if (fgtsDto.AnniversaryWithdraw && fgtsDto.MonthAniversaryWithdraw == date.Month)
                 {
-                    newItem = WithdrawValue(newItem);
+                    var withdraw = WithdrawValue(newItem);
+
+                    newItem.CurrentBalance -= withdraw;
+
+                    FGTSSpread withdrawObject = new()
+                    {
+                        Date = newItem.Date.GetFirstDayOfThisMonth(),
+                        AnniversaryWithdraw = newItem.AnniversaryWithdraw,
+                        CurrentBalance = 0,
+                        AddValue = 0,
+                        WithdrawValue = withdraw,
+                        MonthAniversaryWithdraw = newItem.MonthAniversaryWithdraw,
+                        MonthlyGrossIncome = newItem.MonthlyGrossIncome,
+                        Id = newItem.Id,
+                        ReferenceDate = newItem.ReferenceDate.GetFirstDayOfThisMonth(),
+                        UpdateDateTime = newItem.UpdateDateTime
+
+                    };
+
+                    fgtsSpreadList.Add(withdrawObject);
 
 
                 }
-                newItem.MonthAddValue = newItem.CurrentBalance * fgtsInterestRateMonthly + monthlyDeposit;
-                newItem.CurrentBalance += newItem.MonthAddValue;
+                newItem.AddValue = newItem.CurrentBalance * fgtsInterestRateMonthly + monthlyDeposit;
+                newItem.CurrentBalance += newItem.AddValue;
                 fgtsDto = newItem;
                 fgtsSpreadList.Add(newItem);
             }
@@ -178,15 +200,12 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
             return fgtsSpreadList;
         }
 
-        private FGTSSpread WithdrawValue(FGTSSpread newItem)
+        private static double WithdrawValue(FGTSSpread newItem)
         {
             var withdrawParameters = FgtsWithdrawValueList.FirstOrDefault(a => newItem.CurrentBalance >= a.MinValue && newItem.CurrentBalance <= a.MaxValue)!;
 
-            newItem.WithdrawValue += newItem.CurrentBalance * withdrawParameters.WithdrawPercentage + withdrawParameters.AdditionalAmount;
-
-            newItem.CurrentBalance -= newItem.WithdrawValue;
-
-            return newItem;
+            double withdrawValue = newItem.CurrentBalance * withdrawParameters.WithdrawPercentage + withdrawParameters.AdditionalAmount;
+            return withdrawValue;
         }
     }
 }

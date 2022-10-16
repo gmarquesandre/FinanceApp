@@ -1,12 +1,10 @@
 class CurrentBalance {
-  // String id;
   double? percentageCdi;
   bool updateValueWithCdiIndex;
   double value;
   DateTime updateDateTime;
 
   CurrentBalance({
-    // required this.id,
     required this.percentageCdi,
     required this.updateDateTime,
     required this.value,
@@ -24,9 +22,7 @@ class CurrentBalance {
   }
 
   CurrentBalance.fromJson(Map<String, dynamic> json)
-      :
-        // id = json['id'],
-        updateDateTime = DateTime.tryParse(json['updateDateTime'].toString())!,
+      : updateDateTime = DateTime.tryParse(json['updateDateTime'].toString())!,
         percentageCdi = json['percentageCdi']?.toDouble(),
         value = json['value'].toDouble(),
         updateValueWithCdiIndex = json['updateValueWithCdiIndex'];

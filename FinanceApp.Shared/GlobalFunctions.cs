@@ -12,6 +12,10 @@ namespace FinanceApp.Shared
         {
             return new DateTime(date.Year, date.Month, 1).AddMonths(1).AddDays(-1);
         }
+        public static DateTime GetFirstDayOfThisMonth(this DateTime date)
+        {
+            return new DateTime(date.Year, date.Month, 1);
+        }
         public static DateTime GetLastDayInTwelveMonths(this DateTime date)
         {
             return new DateTime(DateTime.Now.Date.Year, DateTime.Now.Date.Month, 1).AddMonths(13).AddDays(-1);

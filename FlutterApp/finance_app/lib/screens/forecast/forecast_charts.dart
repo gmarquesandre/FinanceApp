@@ -50,6 +50,9 @@ class _ForecastChartsState extends State<ForecastCharts> {
                         spending.firstWhere((a) => a.type == 0),
                         spending.firstWhere((a) => a.type == 1),
                         spending.firstWhere((a) => a.type == 9999),
+                      ),
+                      GetFGTSChart(
+                        spending.firstWhere((a) => a.type == 5),
                       )
                     ],
                   );
@@ -59,67 +62,6 @@ class _ForecastChartsState extends State<ForecastCharts> {
           ),
         ),
       ),
-    );
-  }
-}
-
-class GetPatrimony extends StatelessWidget {
-  GetPatrimony(this.spending, {Key? key}) : super(key: key);
-
-  final ForecastList spending;
-  final TooltipBehavior _tooltipBehavior = TooltipBehavior(
-    enable: true,
-    shared: true,
-    // duration: GlobalVariables.durationTooltip,
-  );
-
-  @override
-  Widget build(BuildContext context) {
-    return ExpansionTile(
-      initiallyExpanded: true,
-      title: const Text(
-        "Patrimônio Liquido",
-      ),
-      leading: const Icon(Icons.bar_chart_outlined, color: Colors.white),
-      children: [
-        SfCartesianChart(
-          legend: Legend(
-              // isVisible: true,
-              position: LegendPosition.bottom,
-              overflowMode: LegendItemOverflowMode.wrap),
-          tooltipBehavior: _tooltipBehavior,
-          series: <ChartSeries>[
-            StackedColumnSeries<ForecastItem, DateTime>(
-                name: 'Patrimônio Liquido',
-                dataSource: spending.items,
-                color: Colors.white,
-                xValueMapper: (ForecastItem value, _) => value.dateReference,
-                yValueMapper: (ForecastItem value, _) => value.realLiquidValue,
-                enableTooltip: true),
-          ],
-          primaryXAxis: DateTimeCategoryAxis(
-            title: AxisTitle(
-                text: 'Mês', textStyle: const TextStyle(fontSize: 12)),
-            edgeLabelPlacement: EdgeLabelPlacement.shift,
-            dateFormat: DateFormat("M/yy"),
-            intervalType: DateTimeIntervalType.months,
-          ),
-          primaryYAxis: NumericAxis(
-            decimalPlaces: 0,
-            numberFormat: NumberFormat.compactCurrency(
-                decimalDigits: 0, locale: 'pt-BR', symbol: 'R\$'),
-          ),
-          axes: <ChartAxis>[
-            NumericAxis(
-                name: 'um',
-                minimum: 0.00,
-                maximum: 110.00,
-                // labelFormat: '{value}%',
-                opposedPosition: true,
-                maximumLabels: 2)
-          ],
-        ),
-      ],
     );
   }
 }
@@ -232,6 +174,67 @@ class GetBalanceChart extends StatelessWidget {
               color: Colors.green,
               xValueMapper: (ForecastItem value, _) => value.dateReference,
               yValueMapper: (ForecastItem value, _) => value.nominalLiquidValue,
+              enableTooltip: true,
+            ),
+          ],
+          primaryXAxis: DateTimeCategoryAxis(
+            edgeLabelPlacement: EdgeLabelPlacement.shift,
+            dateFormat: DateFormat("d/M"),
+            intervalType: DateTimeIntervalType.days,
+          ),
+          primaryYAxis: NumericAxis(
+              numberFormat: NumberFormat.compact(),
+              decimalPlaces: 2,
+              maximumLabels: 4),
+        ),
+      ],
+    );
+  }
+}
+
+class GetFGTSChart extends StatelessWidget {
+  GetFGTSChart(this.fgts, {Key? key}) : super(key: key);
+
+  final ForecastList fgts;
+  final TooltipBehavior _tooltipBehavior = TooltipBehavior(
+    enable: true,
+    shared: true,
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    return ExpansionTile(
+      initiallyExpanded: true,
+      title: const Text(
+        "FGTS",
+      ),
+      leading: const Icon(Icons.bar_chart_outlined, color: Colors.white),
+      children: [
+        SfCartesianChart(
+          zoomPanBehavior: ZoomPanBehavior(
+            enablePanning: true,
+          ),
+          legend: Legend(
+              isVisible: true,
+              position: LegendPosition.bottom,
+              overflowMode: LegendItemOverflowMode.wrap),
+          tooltipBehavior: _tooltipBehavior,
+          series: <ChartSeries>[
+            StackedColumnSeries<ForecastItem, DateTime>(
+              name: "Saque ${fgts.typeDisplayValue}",
+              dataSource: fgts.items,
+              color: Colors.blueGrey,
+              xValueMapper: (ForecastItem value, _) => value.dateReference,
+              yValueMapper: (ForecastItem value, _) => value.nominalLiquidValue,
+              enableTooltip: true,
+            ),
+            StackedColumnSeries<ForecastItem, DateTime>(
+              name: "Saldo ${fgts.typeDisplayValue}",
+              dataSource: fgts.items,
+              color: Colors.white,
+              xValueMapper: (ForecastItem value, _) => value.dateReference,
+              yValueMapper: (ForecastItem value, _) =>
+                  value.nominalNotLiquidValue,
               enableTooltip: true,
             ),
           ],
