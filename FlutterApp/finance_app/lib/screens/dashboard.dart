@@ -104,7 +104,8 @@ class _HomeScreenState extends State<_HomeScreen> {
                         GetBalanceChart(
                           spending.firstWhere((a) => a.type == 0),
                           spending.firstWhere((a) => a.type == 1),
-                          spending.firstWhere((a) => a.type == 9999),
+                          spending.firstWhere((a) => a.type == 2),
+                          spending.firstWhere((a) => a.type == 5),
                         ),
                       ],
                     );

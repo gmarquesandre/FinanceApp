@@ -49,7 +49,8 @@ class _ForecastChartsState extends State<ForecastCharts> {
                       GetBalanceChart(
                         spending.firstWhere((a) => a.type == 0),
                         spending.firstWhere((a) => a.type == 1),
-                        spending.firstWhere((a) => a.type == 9999),
+                        spending.firstWhere((a) => a.type == 2),
+                        spending.firstWhere((a) => a.type == 5),
                       ),
                       GetFGTSChart(
                         spending.firstWhere((a) => a.type == 5),
@@ -129,12 +130,13 @@ class GetTest extends StatelessWidget {
 }
 
 class GetBalanceChart extends StatelessWidget {
-  GetBalanceChart(this.spending, this.income, this.result, {Key? key})
+  GetBalanceChart(this.spending, this.income, this.loan, this.fgts, {Key? key})
       : super(key: key);
 
   final ForecastList spending;
   final ForecastList income;
-  final ForecastList result;
+  final ForecastList loan;
+  final ForecastList fgts;
   final TooltipBehavior _tooltipBehavior = TooltipBehavior(
     enable: true,
     shared: true,
@@ -145,7 +147,7 @@ class GetBalanceChart extends StatelessWidget {
     return ExpansionTile(
       initiallyExpanded: true,
       title: const Text(
-        "Gastos vs Rendas",
+        "Entradas e saídas",
       ),
       leading: const Icon(Icons.bar_chart_outlined, color: Colors.white),
       children: [
@@ -172,6 +174,22 @@ class GetBalanceChart extends StatelessWidget {
               name: income.typeDisplayValue,
               dataSource: income.items,
               color: Colors.green,
+              xValueMapper: (ForecastItem value, _) => value.dateReference,
+              yValueMapper: (ForecastItem value, _) => value.nominalLiquidValue,
+              enableTooltip: true,
+            ),
+            StackedColumnSeries<ForecastItem, DateTime>(
+              name: loan.typeDisplayValue,
+              dataSource: loan.items,
+              color: Colors.redAccent,
+              xValueMapper: (ForecastItem value, _) => value.dateReference,
+              yValueMapper: (ForecastItem value, _) => value.nominalLiquidValue,
+              enableTooltip: true,
+            ),
+            StackedColumnSeries<ForecastItem, DateTime>(
+              name: "Saque ${fgts.typeDisplayValue}",
+              dataSource: fgts.items,
+              color: Colors.lightBlue,
               xValueMapper: (ForecastItem value, _) => value.dateReference,
               yValueMapper: (ForecastItem value, _) => value.nominalLiquidValue,
               enableTooltip: true,
