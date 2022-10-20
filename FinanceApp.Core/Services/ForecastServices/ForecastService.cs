@@ -4,6 +4,7 @@ using FinanceApp.FinanceData.Services;
 using FinanceApp.Shared;
 using FinanceApp.Shared.Dto;
 using FinanceApp.Shared.Dto.ForecastParameters;
+using FinanceApp.Shared.Dto.PrivateFixedInvestment;
 using FinanceApp.Shared.Enum;
 
 namespace FinanceApp.Core.Services.ForecastServices
@@ -17,6 +18,7 @@ namespace FinanceApp.Core.Services.ForecastServices
         public IIndexService _indexService;
         public IFGTSService _fgtsService;
         public ITitleService _titleService;
+        public IPrivateFixedIncomeService _privateFixedIncomeService;
         public IForecastParametersService _forecastParametersService;
 
         public ForecastService(ISpendingService spendingService,
@@ -26,6 +28,7 @@ namespace FinanceApp.Core.Services.ForecastServices
             IIndexService indexService,
             ITitleService titleService,
             IFGTSService fgtsService,
+            IPrivateFixedIncomeService privateFixedIncomeService,
             IForecastParametersService forecastParametersService
             )
         {
@@ -35,6 +38,7 @@ namespace FinanceApp.Core.Services.ForecastServices
             _loanService = loanService;
             _indexService = indexService;
             _titleService = titleService;
+            _privateFixedIncomeService = privateFixedIncomeService;
             _fgtsService = fgtsService;
             _forecastParametersService = forecastParametersService;
         }
@@ -53,37 +57,84 @@ namespace FinanceApp.Core.Services.ForecastServices
         private async Task<List<ForecastList>> GetForecastList(EForecastType forecastType, DateTime startDate, DateTime lastDate, bool forceUpdate)
         {
             
-            List<DefaultTitleInput> balanceTitlesList = await GetInitialBalanceAsync();
 
             var spendingsDaily = await _spendingService.GetForecast(EForecastType.Daily, lastDate, startDate);
             var incomesDaily = await _incomeService.GetForecast(EForecastType.Daily, lastDate, startDate);
             var loanDaily = await _loanService.GetForecast(EForecastType.Daily, lastDate, startDate);
             var fgtsDaily = await _fgtsService.GetForecast(EForecastType.Daily, lastDate, startDate);
+            var privateFixedIncome = await _privateFixedIncomeService.GetAsync();
 
-            var forecastTotalList = new List<ForecastItem>();
+            var liquidFixedIncomeList = privateFixedIncome.Where(title => title.LiquidityOnExpiration == false).ToList();
+            var notLliquidFixedIncomeList = privateFixedIncome.Where(title => title.LiquidityOnExpiration == true).ToList();
+
+            List<DefaultTitleInput> balanceTitlesList = await GetInitialBalanceAsync(liquidFixedIncomeList);
+
+            var forecastTotal = new List<ForecastItem>();
+            var privateFixedIncomeForecast = new List<ForecastItem>();
 
             for (DateTime date = startDate; date <= lastDate; date = date.AddDays(1))
             {
-                balanceTitlesList = await DayMovimentation(forceUpdate, spendingsDaily, incomesDaily, loanDaily, fgtsDaily, balanceTitlesList, date);
+                balanceTitlesList = await DayMovimentation(forceUpdate, spendingsDaily, incomesDaily, loanDaily, fgtsDaily, balanceTitlesList, date, notLliquidFixedIncomeList);
 
                 if (date.AddDays(1).Day == 1 || forecastType == EForecastType.Daily)
                 {
-                    forecastTotalList.Add(await AddDayForecast(fgtsDaily, balanceTitlesList, date));
+                    var forecast = await AddDayForecast(fgtsDaily, balanceTitlesList, date);
+                    forecastTotal.Add(forecast);
                 }
+
+                var notLliquidFixedIncomeListNotExpired = notLliquidFixedIncomeList.Where(title => title.ExpirationDate < date).ToList();
+
+                double totalNotLiquidIncome = 0.00;
+
+                foreach(var title in notLliquidFixedIncomeListNotExpired){
+
+                    var defaultTitle = new DefaultTitleInput()
+                    {
+                        AdditionalFixedInterest = title.AdditionalFixedInterest ?? 0,
+                        DateInvestment = title.InvestmentDate,
+                        Index = title.Index,
+                        IndexPercentage = title.IndexPercentage,
+                        TypePrivateFixedIncome = title.Type,
+                        InvestmentValue = title.Amount
+
+                    };
+
+                    var titleOutput = await _titleService.GetCurrentValueOfTitle(defaultTitle, date);
+
+                    totalNotLiquidIncome += titleOutput.LiquidValue;
+
+                }
+
+                privateFixedIncomeForecast.Add(new ForecastItem()
+                {
+                    DateReference = date,
+                    NominalLiquidValue = 0,
+                    NominalNotLiquidValue = totalNotLiquidIncome,
+                    RealNotLiquidValue = await _indexService.GetRealValue(date, totalNotLiquidIncome),
+                    RealLiquidValue = 0
+                });
             }
 
             var totalDaily = new ForecastList()
             {
-                Items = forecastTotalList,
+                Items = forecastTotal,
                 Type = EItemType.Total
             };
 
-            
+            var privateFixedIncomeDaily = new ForecastList()
+            {
+                Items = privateFixedIncomeForecast,
+                Type = EItemType.PrivateFixedIncomeInvestment
+            };
+
+
+
             if (forecastType == EForecastType.Daily)
             {
                 var output = new List<ForecastList>()
                 {
-                    totalDaily,
+                    totalDaily,                    
+                    AddMissingDates(privateFixedIncomeDaily, startDate,lastDate),
                     AddMissingDates(incomesDaily, startDate,lastDate),
                     AddMissingDates(spendingsDaily, startDate,lastDate),
                     AddMissingDates(loanDaily, startDate,lastDate),
@@ -97,6 +148,7 @@ namespace FinanceApp.Core.Services.ForecastServices
                 var output = new List<ForecastList>()
                 {
                     totalDaily,
+                    GroupMonthly(privateFixedIncomeDaily, startDate, lastDate),
                     GroupMonthly(incomesDaily, startDate, lastDate),
                     GroupMonthly(spendingsDaily, startDate, lastDate),
                     GroupMonthly(loanDaily, startDate, lastDate),
@@ -109,7 +161,7 @@ namespace FinanceApp.Core.Services.ForecastServices
             throw new Exception("Período inválido");
         }
 
-        private async Task<List<DefaultTitleInput>> GetInitialBalanceAsync()
+        private async Task<List<DefaultTitleInput>> GetInitialBalanceAsync(List<PrivateFixedIncomeDto> liquidFixedIncomeList)
         {
             var balance = await _currentBalanceService.GetAsync();
 
@@ -127,6 +179,23 @@ namespace FinanceApp.Core.Services.ForecastServices
                     TypePrivateFixedIncome = ETypePrivateFixedIncome.BalanceCDB
                 });
             }
+
+            liquidFixedIncomeList.ForEach(title =>
+            {
+               
+                var defaultTitle = new DefaultTitleInput()
+                {
+                    AdditionalFixedInterest = title.AdditionalFixedInterest ?? 0,
+                    DateInvestment = title.InvestmentDate,
+                    Index = title.Index,
+                    IndexPercentage = title.IndexPercentage,
+                    TypePrivateFixedIncome = title.Type,
+                    InvestmentValue = title.Amount
+
+                };                 
+
+                balanceTitlesList.Add(defaultTitle);
+            });
 
             return balanceTitlesList;
         }
@@ -155,11 +224,11 @@ namespace FinanceApp.Core.Services.ForecastServices
             };
         }
 
-        private async Task<List<DefaultTitleInput>> DayMovimentation(bool forceUpdate, ForecastList spendingsDaily, ForecastList incomesDaily, ForecastList loanDaily, ForecastList fgtsDaily, List<DefaultTitleInput> balanceTitlesList, DateTime date)
+        private async Task<List<DefaultTitleInput>> DayMovimentation(bool forceUpdate, ForecastList spendingsDaily, ForecastList incomesDaily, ForecastList loanDaily, ForecastList fgtsDaily, List<DefaultTitleInput> balanceTitlesList, DateTime date, List<PrivateFixedIncomeDto> privateFixedIncome)
         {
             var forecastParameters = await _forecastParametersService.GetAsync();
 
-            DayMovimentation dayMovimentation = CheckIfMustUpdateBalance(spendingsDaily, incomesDaily, loanDaily, fgtsDaily, date);
+            DayMovimentation dayMovimentation = await CheckIfMustUpdateBalance(spendingsDaily, incomesDaily, loanDaily, fgtsDaily, privateFixedIncome, date);
 
             if (dayMovimentation.UpdateBalance || forceUpdate)
             {
@@ -180,6 +249,18 @@ namespace FinanceApp.Core.Services.ForecastServices
                 }
                 else throw new Exception("Erro ao realizar cálculos");
 
+            }
+
+            
+            
+            if(dayMovimentation.ExpiredPrivateFixedIncome > 0)
+            {
+                var privateFixedIncomeForecast = new ForecastItem()
+                {
+                    DateReference = date,
+                    NominalLiquidValue = dayMovimentation.ExpiredPrivateFixedIncome,
+                    NominalNotLiquidValue = 0
+                };
             }
 
             return balanceTitlesList;
@@ -352,9 +433,10 @@ namespace FinanceApp.Core.Services.ForecastServices
             return dates;
         }
 
-        private static DayMovimentation CheckIfMustUpdateBalance(ForecastList spendingsDaily, ForecastList incomesDaily, ForecastList loanDaily, ForecastList fgtsDaily, DateTime date)
+        private async Task<DayMovimentation> CheckIfMustUpdateBalance(ForecastList spendingsDaily, ForecastList incomesDaily, ForecastList loanDaily, ForecastList fgtsDaily, List<PrivateFixedIncomeDto> privateFixedIncome, DateTime date)
         {
             DayMovimentation dayMovimentation = new();
+
             if (incomesDaily.Items.Any(a => a.DateReference == date))            
                 dayMovimentation.IncomesReceived = incomesDaily.Items.Where(a => a.DateReference == date).Sum(a => a.NominalLiquidValue);
             
@@ -366,7 +448,31 @@ namespace FinanceApp.Core.Services.ForecastServices
             
             if(fgtsDaily.Items.Any(a => a.DateReference == date && a.NominalLiquidValue > 0))            
                 dayMovimentation.FGTSWithdraw = fgtsDaily.Items.Where(a => a.DateReference == date).Sum(a => a.NominalLiquidValue);
-            
+
+            if (privateFixedIncome.Any(title => title.ExpirationDate == date))
+            {
+                var expiredTitles = privateFixedIncome.Where(title => title.ExpirationDate == date).ToList();
+
+                foreach(var title in expiredTitles)
+                {
+                    var defaultTitle = new DefaultTitleInput()
+                    {
+                        AdditionalFixedInterest = title.AdditionalFixedInterest ?? 0,
+                        DateInvestment = title.InvestmentDate,
+                        Index = title.Index,
+                        IndexPercentage = title.IndexPercentage,
+                        TypePrivateFixedIncome = title.Type,
+                        InvestmentValue = title.Amount
+
+                    };
+
+                    var outputTitle =  await _titleService.GetCurrentValueOfTitle(defaultTitle, date);
+
+                    dayMovimentation.ExpiredPrivateFixedIncome += outputTitle.LiquidValue;
+
+                };
+            }
+
 
             return dayMovimentation;
         }
