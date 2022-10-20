@@ -12,11 +12,9 @@ namespace FinanceApp.Core.Services.ForecastServices.Implementations
     public class FGTSForecast : BaseForecast, IFGTSForecast
     {
         private readonly IMapper _mapper;
-        private readonly IIndexService _indexService;
 
-        public FGTSForecast(IMapper mapper, IIndexService indexService)
+        public FGTSForecast(IMapper mapper)
         {
-            _indexService= indexService;
             _mapper = mapper;
         }
 
